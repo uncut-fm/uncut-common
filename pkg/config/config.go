@@ -3,9 +3,11 @@ package config
 import (
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
 	"context"
+	"errors"
 	"fmt"
 	secretmanagerpb "google.golang.org/genproto/googleapis/cloud/secretmanager/v1"
 	"gopkg.in/yaml.v3"
+	"os"
 )
 
 const (
@@ -38,17 +40,33 @@ type DBConfigs struct {
 	ConnectionMaxLifetime string `yaml:"conn_max_lifetime"`
 }
 
-func LoadConfigsFromSecretManager(ctx context.Context, client *secretmanager.Client, secretName string, dstStruct interface{}) error {
-	return loadConfigFromSecretManager(ctx, client, secretName, dstStruct)
+func LoadConfigsFromSecretManager(ctx context.Context, client *secretmanager.Client, configStruct interface{}) error {
+	secretName, err := getSecretNameByConfigStruct(configStruct)
+	if err != nil {
+		return err
+	}
+
+	return loadConfigFromSecretManager(ctx, client, secretName, configStruct)
 }
 
-func loadConfigFromSecretManager(ctx context.Context, client *secretmanager.Client, name string, dstStruct interface{}) error {
+func getSecretNameByConfigStruct(configStruct interface{}) (string, error) {
+	switch configStruct.(type) {
+	case *Common:
+		return os.Getenv(CommonSecretEnvVar), nil
+	case *ManagementConfigs:
+		return os.Getenv(ManagementSecretEnvVar), nil
+	default:
+		return "", errors.New("unsupported configStruct")
+	}
+}
+
+func loadConfigFromSecretManager(ctx context.Context, client *secretmanager.Client, name string, configStruct interface{}) error {
 	secretData, err := getSecretFromSecretManager(ctx, client, name)
 	if err != nil {
 		return err
 	}
 
-	return unmarshallYamlIntoStruct(secretData, dstStruct)
+	return unmarshallYamlIntoStruct(secretData, configStruct)
 }
 
 func getSecretFromSecretManager(ctx context.Context, client *secretmanager.Client, name string) ([]byte, error) {
