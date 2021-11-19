@@ -26,7 +26,12 @@ type Common struct {
 }
 
 type ManagementConfigs struct {
-	PlatformConfigs DBConfigs `yaml:"platform_configs"`
+	PlatformDB DBConfigs     `yaml:"platform_db"`
+	Server     ServerConfigs `yaml:"server"`
+}
+
+type ServerConfigs struct {
+	Port string `yaml:"port"`
 }
 
 type DBConfigs struct {
