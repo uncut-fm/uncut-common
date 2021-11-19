@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/go-pg/pg/v10"
 	"github.com/sirupsen/logrus"
+	"log"
 )
 
 type Logger struct {
@@ -31,4 +32,10 @@ func (l Logger) AfterQuery(ctx context.Context, q *pg.QueryEvent) error {
 func NewLogger() Logger {
 	logger := logrus.New()
 	return Logger{logger}
+}
+
+func CheckErrPanic(err error) {
+	if err != nil {
+		log.Panic(err)
+	}
 }

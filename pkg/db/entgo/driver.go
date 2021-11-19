@@ -4,9 +4,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"fmt"
 	"github.com/uncut-fm/uncut-common/pkg/config"
-	"log"
 	"time"
 
+	_ "github.com/jackc/pgx/v4/stdlib"
 	// Required import for Ent GraphQL Postgres connection.
 	_ "github.com/lib/pq"
 )
@@ -20,17 +20,13 @@ func InitPGDriver(dbConfigs config.DBConfigs) (*sql.Driver, error) {
 	}
 
 	maxConnLifetime, err := time.ParseDuration(dbConfigs.ConnectionMaxLifetime)
-	checkErr(err)
+	if err != nil {
+		return nil, err
+	}
 
 	dbDriver.DB().SetMaxOpenConns(dbConfigs.MaxOpenConnections)
 	dbDriver.DB().SetMaxIdleConns(dbConfigs.MaxIdleConnections)
 	dbDriver.DB().SetConnMaxLifetime(maxConnLifetime)
 
 	return dbDriver, nil
-}
-
-func checkErr(err error) {
-	if err != nil {
-		log.Panic(err)
-	}
 }
