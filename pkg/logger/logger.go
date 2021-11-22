@@ -24,7 +24,6 @@ type Logger interface {
 	Error(args ...interface{})
 	Panic(args ...interface{})
 	CheckError(err error, i interface{}) error
-	CheckErrPanic(err error)
 	BeforeQuery(context.Context, *pg.QueryEvent) (context.Context, error)
 	AfterQuery(context.Context, *pg.QueryEvent) error
 }
@@ -39,12 +38,6 @@ func (l log) CheckError(err error, i interface{}) error {
 
 func getFunctionName(i interface{}) string {
 	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
-}
-
-func (l log) CheckErrPanic(err error) {
-	if err != nil {
-		log.Panic(err)
-	}
 }
 
 func (l log) BeforeQuery(ctx context.Context, q *pg.QueryEvent) (context.Context, error) {
