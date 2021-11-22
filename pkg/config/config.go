@@ -13,11 +13,13 @@ import (
 const (
 	CommonSecretEnvVar     = "COMMON_SECRET_ID"
 	ManagementSecretEnvVar = "MANAGEMENT_SECRET_ID"
+	BackofficeSecretEnvVar = "BACKOFFICE_SECRET_ID"
 )
 
 type Configuration struct {
 	Common     Common            `yaml:"common"`
 	Management ManagementConfigs `yaml:"management"`
+	Backoffice BackofficeConfigs `yaml:"backoffice"`
 }
 
 type Common struct {
@@ -28,6 +30,12 @@ type Common struct {
 type ManagementConfigs struct {
 	PlatformDB DBConfigs     `yaml:"platform_db"`
 	Server     ServerConfigs `yaml:"server"`
+}
+
+type BackofficeConfigs struct {
+	PlatformDB   DBConfigs     `yaml:"platform_db"`
+	Server       ServerConfigs `yaml:"server"`
+	SearchAPIUrl string        `yaml:"search_api_url"`
 }
 
 type ServerConfigs struct {
@@ -60,6 +68,8 @@ func getSecretNameByConfigStruct(configStruct interface{}) (string, error) {
 		return os.Getenv(CommonSecretEnvVar), nil
 	case *ManagementConfigs:
 		return os.Getenv(ManagementSecretEnvVar), nil
+	case *BackofficeConfigs:
+		return os.Getenv(BackofficeSecretEnvVar), nil
 	default:
 		return "", errors.New("unsupported configStruct")
 	}

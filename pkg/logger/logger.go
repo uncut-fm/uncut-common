@@ -8,7 +8,7 @@ import (
 	"runtime"
 )
 
-func NewLogger() Logger {
+func New() Logger {
 	logger := logrus.New()
 
 	return log{logger}
