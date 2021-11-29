@@ -33,11 +33,12 @@ type ManagementConfigs struct {
 }
 
 type BackofficeConfigs struct {
-	PlatformDB       DBConfigs     `yaml:"platform_db"`
-	Server           ServerConfigs `yaml:"server"`
-	SearchAPIUrl     string        `yaml:"search_api_url"`
-	GcpStorageBucket string        `yaml:"gcp_storage_bucket"`
-	AdminToken       string        `yaml:"admin_token"`
+	PlatformDB       DBConfigs      `yaml:"platform_db"`
+	Server           ServerConfigs  `yaml:"server"`
+	Twitter          TwitterConfigs `yaml:"twitter"`
+	SearchAPIUrl     string         `yaml:"search_api_url"`
+	GcpStorageBucket string         `yaml:"gcp_storage_bucket"`
+	AdminToken       string         `yaml:"admin_token"`
 }
 
 type ServerConfigs struct {
@@ -53,6 +54,11 @@ type DBConfigs struct {
 	MaxOpenConnections    int    `yaml:"max_open_conns"`
 	MaxIdleConnections    int    `yaml:"max_idle_conns"`
 	ConnectionMaxLifetime string `yaml:"conn_max_lifetime"`
+}
+
+type TwitterConfigs struct {
+	ConsumerKey    string `yaml:"consumer_key"`
+	ConsumerSecret string `yaml:"consumer_secret"`
 }
 
 func LoadConfigsFromSecretManager(ctx context.Context, client *secretmanager.Client, configStruct interface{}) error {
