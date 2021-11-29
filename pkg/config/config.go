@@ -33,10 +33,11 @@ type ManagementConfigs struct {
 }
 
 type BackofficeConfigs struct {
-	PlatformDB   DBConfigs     `yaml:"platform_db"`
-	Server       ServerConfigs `yaml:"server"`
-	SearchAPIUrl string        `yaml:"search_api_url"`
-	AdminToken   string        `yaml:"admin_token"`
+	PlatformDB       DBConfigs     `yaml:"platform_db"`
+	Server           ServerConfigs `yaml:"server"`
+	SearchAPIUrl     string        `yaml:"search_api_url"`
+	GcpStorageBucket string        `yaml:"gcp_storage_bucket"`
+	AdminToken       string        `yaml:"admin_token"`
 }
 
 type ServerConfigs struct {

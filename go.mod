@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	cloud.google.com/go/secretmanager v1.0.0
+	cloud.google.com/go/storage v1.10.0
 	entgo.io/ent v0.9.1
 	github.com/go-pg/pg/v10 v10.10.6
 	github.com/jackc/pgx/v4 v4.13.0
