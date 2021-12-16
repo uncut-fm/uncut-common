@@ -44,13 +44,14 @@ type BackofficeConfigs struct {
 }
 
 type AuthConfigs struct {
-	AuthDB     DBConfigs      `yaml:"auth_db"`
-	Server     ServerConfigs  `yaml:"server"`
-	Twitter    TwitterConfigs `yaml:"twitter"`
-	Redis      RedisConfigs   `yaml:"redis"`
-	JWT        JWTConfigs     `yaml:"jwt"`
-	AdminToken string         `yaml:"admin_token"`
-	BaseURL    string         `yaml:"base_url"`
+	AuthDB     DBConfigs          `yaml:"auth_db"`
+	Server     ServerConfigs      `yaml:"server"`
+	Twitter    TwitterConfigs     `yaml:"twitter"`
+	Google     GoogleOauthConfigs `yaml:"google"`
+	Redis      RedisConfigs       `yaml:"redis"`
+	JWT        JWTConfigs         `yaml:"jwt"`
+	AdminToken string             `yaml:"admin_token"`
+	BaseURL    string             `yaml:"base_url"`
 }
 
 type ServerConfigs struct {
@@ -71,6 +72,11 @@ type DBConfigs struct {
 type TwitterConfigs struct {
 	ConsumerKey    string `yaml:"consumer_key"`
 	ConsumerSecret string `yaml:"consumer_secret"`
+}
+
+type GoogleOauthConfigs struct {
+	ClientKey string `yaml:"client_key"`
+	Secret    string `yaml:"secret"`
 }
 
 type RedisConfigs struct {
