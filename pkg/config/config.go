@@ -81,6 +81,7 @@ type RedisConfigs struct {
 }
 
 type JWTConfigs struct {
+	SigningMethod   string `yaml:"signing_method"`
 	AccessSecret    string `yaml:"access_secret"`
 	AccessDuration  int    `yaml:"access_duration"`
 	RefreshSecret   string `yaml:"refresh_secret"`
