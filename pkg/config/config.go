@@ -41,6 +41,14 @@ type BackofficeConfigs struct {
 	AdminToken       string         `yaml:"admin_token"`
 }
 
+type AuthConfigs struct {
+	AuthDB     DBConfigs      `yaml:"auth_db"`
+	Server     ServerConfigs  `yaml:"server"`
+	Twitter    TwitterConfigs `yaml:"twitter"`
+	Redis      RedisConfigs   `yaml:"redis"`
+	AdminToken string         `yaml:"admin_token"`
+}
+
 type ServerConfigs struct {
 	Port string `yaml:"port"`
 }
@@ -59,6 +67,13 @@ type DBConfigs struct {
 type TwitterConfigs struct {
 	ConsumerKey    string `yaml:"consumer_key"`
 	ConsumerSecret string `yaml:"consumer_secret"`
+}
+
+type RedisConfigs struct {
+	Address  string `yaml:"address"`
+	Port     string `yaml:"port"`
+	DB       int    `yaml:"db"`
+	Password string `yaml:"password"`
 }
 
 func LoadConfigsFromSecretManager(ctx context.Context, client *secretmanager.Client, configStruct interface{}) error {
