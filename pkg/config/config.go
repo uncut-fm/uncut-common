@@ -48,7 +48,9 @@ type AuthConfigs struct {
 	Server     ServerConfigs  `yaml:"server"`
 	Twitter    TwitterConfigs `yaml:"twitter"`
 	Redis      RedisConfigs   `yaml:"redis"`
+	JWT        JWTConfigs     `yaml:"jwt"`
 	AdminToken string         `yaml:"admin_token"`
+	BaseURL    string         `yaml:"base_url"`
 }
 
 type ServerConfigs struct {
@@ -76,6 +78,13 @@ type RedisConfigs struct {
 	Port     string `yaml:"port"`
 	DB       int    `yaml:"db"`
 	Password string `yaml:"password"`
+}
+
+type JWTConfigs struct {
+	AccessSecret    string `yaml:"access_secret"`
+	AccessDuration  int    `yaml:"access_duration"`
+	RefreshSecret   string `yaml:"refresh_secret"`
+	RefreshDuration int    `yaml:"refresh_duration"`
 }
 
 func LoadConfigsFromSecretManager(ctx context.Context, client *secretmanager.Client, configStruct interface{}) error {
