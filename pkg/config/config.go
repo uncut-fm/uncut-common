@@ -20,6 +20,7 @@ type Configuration struct {
 	Common     Common            `yaml:"common"`
 	Management ManagementConfigs `yaml:"management"`
 	Backoffice BackofficeConfigs `yaml:"backoffice"`
+	Auth       AuthConfigs       `yaml:"auth"`
 }
 
 type Common struct {
