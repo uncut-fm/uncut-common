@@ -14,6 +14,7 @@ const (
 	CommonSecretEnvVar     = "COMMON_SECRET_ID"
 	ManagementSecretEnvVar = "MANAGEMENT_SECRET_ID"
 	BackofficeSecretEnvVar = "BACKOFFICE_SECRET_ID"
+	AuthSecretEnvVar       = "AUTH_SECRET_ID"
 )
 
 type Configuration struct {
@@ -94,6 +95,8 @@ func getSecretNameByConfigStruct(configStruct interface{}) (string, error) {
 		return os.Getenv(ManagementSecretEnvVar), nil
 	case *BackofficeConfigs:
 		return os.Getenv(BackofficeSecretEnvVar), nil
+	case *AuthConfigs:
+		return os.Getenv(AuthSecretEnvVar), nil
 	default:
 		return "", errors.New("unsupported configStruct")
 	}
