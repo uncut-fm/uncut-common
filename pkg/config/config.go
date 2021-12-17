@@ -44,14 +44,12 @@ type BackofficeConfigs struct {
 }
 
 type AuthConfigs struct {
-	AuthDB     DBConfigs          `yaml:"auth_db"`
-	Server     ServerConfigs      `yaml:"server"`
-	Twitter    TwitterConfigs     `yaml:"twitter"`
-	Google     GoogleOauthConfigs `yaml:"google"`
-	Redis      RedisConfigs       `yaml:"redis"`
-	JWT        JWTConfigs         `yaml:"jwt"`
-	AdminToken string             `yaml:"admin_token"`
-	BaseURL    string             `yaml:"base_url"`
+	AuthDB         DBConfigs      `yaml:"auth_db"`
+	Server         ServerConfigs  `yaml:"server"`
+	JWT            JWTConfigs     `yaml:"jwt"`
+	OauthProviders OauthProviders `yaml:"oauth_providers"`
+	AdminToken     string         `yaml:"admin_token"`
+	BaseURL        string         `yaml:"base_url"`
 }
 
 type ServerConfigs struct {
@@ -92,6 +90,11 @@ type JWTConfigs struct {
 	AccessDuration  int    `yaml:"access_duration"`
 	RefreshSecret   string `yaml:"refresh_secret"`
 	RefreshDuration int    `yaml:"refresh_duration"`
+}
+
+type OauthProviders struct {
+	Twitter TwitterConfigs     `yaml:"twitter"`
+	Google  GoogleOauthConfigs `yaml:"google"`
 }
 
 func LoadConfigsFromSecretManager(ctx context.Context, client *secretmanager.Client, configStruct interface{}) error {
