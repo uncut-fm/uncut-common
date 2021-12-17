@@ -3,9 +3,9 @@ package jwt
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/uncut-fm/uncut-backoffice-api/pkg/errors"
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/config"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
@@ -81,12 +81,12 @@ func (s Service) MWFunc() gin.HandlerFunc {
 func (s Service) parseTokenFromHeader(c *gin.Context) (string, error) {
 	token := c.GetHeader(authorizationHeader)
 	if token == "" {
-		return "", errors.ErrGeneric
+		return "", errors.New("authorization header is missing")
 	}
 
 	parts := strings.SplitN(token, " ", 2)
 	if len(parts) < 2 {
-		return "", errors.ErrGeneric
+		return "", errors.New("token is missing")
 	}
 
 	return parts[1], nil
