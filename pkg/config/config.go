@@ -25,8 +25,9 @@ type Configuration struct {
 }
 
 type Common struct {
-	ProjectID   string `yaml:"project_id"`
-	Environment string `yaml:"environment"`
+	ProjectID   string     `yaml:"project_id"`
+	Environment string     `yaml:"environment"`
+	JWT         JWTConfigs `yaml:"jwt"`
 }
 
 type ManagementConfigs struct {
@@ -46,7 +47,6 @@ type BackofficeConfigs struct {
 type AuthConfigs struct {
 	AuthDB         DBConfigs      `yaml:"auth_db"`
 	Server         ServerConfigs  `yaml:"server"`
-	JWT            JWTConfigs     `yaml:"jwt"`
 	OauthProviders OauthProviders `yaml:"oauth_providers"`
 	AdminToken     string         `yaml:"admin_token"`
 	BaseURL        string         `yaml:"base_url"`
@@ -88,7 +88,6 @@ type JWTConfigs struct {
 	SigningMethod   string `yaml:"signing_method"`
 	AccessSecret    string `yaml:"access_secret"`
 	AccessDuration  int    `yaml:"access_duration"`
-	RefreshSecret   string `yaml:"refresh_secret"`
 	RefreshDuration int    `yaml:"refresh_duration"`
 }
 
