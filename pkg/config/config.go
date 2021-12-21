@@ -50,7 +50,7 @@ type AuthConfigs struct {
 	OauthProviders OauthProviders `yaml:"oauth_providers"`
 	AdminToken     string         `yaml:"admin_token"`
 	BaseURL        string         `yaml:"base_url"`
-	MagicLinkKey   string         `json:"magic_link_key"`
+	MagicLinkKey   string         `yaml:"magic_link_key"`
 }
 
 type ServerConfigs struct {
