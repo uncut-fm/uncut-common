@@ -66,7 +66,7 @@ func (s Service) MWFunc() gin.HandlerFunc {
 
 		user, err := s.getUserFromToken(token)
 		if err != nil {
-			restError(c, http.StatusInternalServerError, err.Error())
+			restError(c, http.StatusUnauthorized, err.Error())
 			c.Abort()
 			return
 		}
