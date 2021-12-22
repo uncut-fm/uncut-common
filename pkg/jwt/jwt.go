@@ -61,12 +61,14 @@ func (s Service) MWFunc() gin.HandlerFunc {
 		if err != nil {
 			restError(c, http.StatusUnauthorized, "Unauthorized")
 			c.Abort()
+			return
 		}
 
 		user, err := s.getUserFromToken(token)
 		if err != nil {
 			restError(c, http.StatusInternalServerError, err.Error())
 			c.Abort()
+			return
 		}
 
 		c.Set("email", user.Email)
