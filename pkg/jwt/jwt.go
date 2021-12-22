@@ -17,12 +17,13 @@ import (
 const authorizationHeader = "Authorization"
 
 // New generates new JWT service necessery for auth middleware
-func New(jwtConfigs config.JWTConfigs) *Service {
+func New(log logger.Logger, jwtConfigs config.JWTConfigs) *Service {
 	signingMethod := jwt.GetSigningMethod(jwtConfigs.SigningMethod)
 	if signingMethod == nil {
 		panic("invalid jwt signing method")
 	}
 	return &Service{
+		log:                 log,
 		accessKey:           []byte(jwtConfigs.AccessSecret),
 		algo:                signingMethod,
 		accessTokenDuration: time.Duration(jwtConfigs.AccessDuration) * time.Minute,
@@ -52,10 +53,6 @@ func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (stri
 		"profile_image_url":      user.ProfileImageUrl,
 		"has_admin_panel_access": user.HasAdminPanelAccess,
 	}).SignedString(s.accessKey)
-}
-
-func (s Service) GetUserInfo(ctx context.Context, token string) (*model.User, error) {
-	return s.getUserFromToken(token)
 }
 
 func (s Service) MWFunc() gin.HandlerFunc {
