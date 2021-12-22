@@ -54,6 +54,10 @@ func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (stri
 	}).SignedString(s.accessKey)
 }
 
+func (s Service) GetUserInfo(ctx context.Context, token string) (*model.User, error) {
+	return s.getUserFromToken(token)
+}
+
 func (s Service) MWFunc() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token, err := s.parseTokenFromHeader(c)
