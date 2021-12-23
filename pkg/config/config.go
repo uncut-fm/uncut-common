@@ -95,7 +95,7 @@ type JWTConfigs struct {
 
 type GraphqlSchemaUrls struct {
 	ManagementSchemaUrl string `yaml:"management_schema_url"`
-	AuthSchemaUrl       string `yaml:"auth_schema_url"`
+	BackofficeSchemaUrl string `yaml:"backoffice_schema_url"`
 }
 
 type OauthProviders struct {
