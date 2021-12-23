@@ -1,4 +1,4 @@
-package middleware
+package gincontext
 
 import (
 	"context"
@@ -9,15 +9,15 @@ import (
 type ContextKey = string
 
 const (
-	GinContextKey ContextKey = "GIN_CONTEXT_KEY"
+	ginContextKey ContextKey = "GIN_CONTEXT_KEY"
 )
 
 func CreateWithGinContext(ctx context.Context, gin *gin.Context) context.Context {
-	return context.WithValue(ctx, GinContextKey, gin)
+	return context.WithValue(ctx, ginContextKey, gin)
 }
 
 func GetGinContextFromContext(ctx context.Context) (*gin.Context, error) {
-	ginContext := ctx.Value(GinContextKey)
+	ginContext := ctx.Value(ginContextKey)
 
 	if ginContext == nil {
 		err := fmt.Errorf("could not retrieve gin.Context")
