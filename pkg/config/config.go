@@ -57,9 +57,9 @@ type AuthConfigs struct {
 }
 
 type TranscoderConfigs struct {
-	GcpStorageBucket     string            `yaml:"gcp_storage_bucket"`
-	BackofficeAdminToken string            `yaml:"backoffice_admin_token"`
-	Headers              map[string]string `yaml:"headers"`
+	GcpStorageBucket string            `yaml:"gcp_storage_bucket"`
+	Server           ServerConfigs     `yaml:"server"`
+	Headers          map[string]string `yaml:"headers"`
 }
 
 type ServerConfigs struct {
