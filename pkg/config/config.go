@@ -39,12 +39,13 @@ type ManagementConfigs struct {
 }
 
 type BackofficeConfigs struct {
-	PlatformDB       DBConfigs      `yaml:"platform_db"`
-	Server           ServerConfigs  `yaml:"server"`
-	Twitter          TwitterConfigs `yaml:"twitter"`
-	SearchAPIUrl     string         `yaml:"search_api_url"`
-	GcpStorageBucket string         `yaml:"gcp_storage_bucket"`
-	AdminToken       string         `yaml:"admin_token"`
+	PlatformDB             DBConfigs      `yaml:"platform_db"`
+	Server                 ServerConfigs  `yaml:"server"`
+	Twitter                TwitterConfigs `yaml:"twitter"`
+	SearchAPIUrl           string         `yaml:"search_api_url"`
+	GcpStorageBucket       string         `yaml:"gcp_storage_bucket"`
+	AdminToken             string         `yaml:"admin_token"`
+	AudioCutterPubsubTopic string         `yaml:"audio_cutter_pubsub_topic"`
 }
 
 type AuthConfigs struct {
