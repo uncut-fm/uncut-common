@@ -15,6 +15,7 @@ const (
 	ManagementSecretEnvVar = "MANAGEMENT_SECRET_ID"
 	BackofficeSecretEnvVar = "BACKOFFICE_SECRET_ID"
 	AuthSecretEnvVar       = "AUTH_SECRET_ID"
+	TranscoderSecretEnvVar = "TRANSCODER_SECRET_ID"
 )
 
 type Configuration struct {
@@ -22,6 +23,7 @@ type Configuration struct {
 	Management ManagementConfigs `yaml:"management"`
 	Backoffice BackofficeConfigs `yaml:"backoffice"`
 	Auth       AuthConfigs       `yaml:"auth"`
+	Transcoder TranscoderConfigs `yaml:"transcoder"`
 }
 
 type Common struct {
@@ -52,6 +54,12 @@ type AuthConfigs struct {
 	AdminToken     string         `yaml:"admin_token"`
 	BaseURL        string         `yaml:"base_url"`
 	MagicLinkKey   string         `yaml:"magic_link_key"`
+}
+
+type TranscoderConfigs struct {
+	GcpStorageBucket     string            `yaml:"gcp_storage_bucket"`
+	BackofficeAdminToken string            `yaml:"backoffice_admin_token"`
+	Headers              map[string]string `yaml:"headers"`
 }
 
 type ServerConfigs struct {
@@ -96,6 +104,7 @@ type JWTConfigs struct {
 type GraphqlSchemaUrls struct {
 	ManagementSchemaUrl string `yaml:"management_schema_url"`
 	BackofficeSchemaUrl string `yaml:"backoffice_schema_url"`
+	GatewaySchemaUrl    string `yaml:"gateway_schema_url"`
 }
 
 type OauthProviders struct {
@@ -122,6 +131,8 @@ func getSecretNameByConfigStruct(configStruct interface{}) (string, error) {
 		return os.Getenv(BackofficeSecretEnvVar), nil
 	case *AuthConfigs:
 		return os.Getenv(AuthSecretEnvVar), nil
+	case *TranscoderConfigs:
+		return os.Getenv(TranscoderSecretEnvVar), nil
 	default:
 		return "", errors.New("unsupported configStruct")
 	}
