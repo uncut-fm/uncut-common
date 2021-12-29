@@ -47,7 +47,7 @@ type Service struct {
 func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (string, error) {
 	return jwt.NewWithClaims(s.algo, jwt.MapClaims{
 		"exp":                    time.Now().Add(s.accessTokenDuration).Unix(),
-		"user_id":                user.Id,
+		"user_id":                user.UserId,
 		"name":                   user.Name,
 		"email":                  user.Email,
 		"profile_image_url":      user.ProfileImageUrl,
@@ -72,7 +72,7 @@ func (s Service) MWFunc() gin.HandlerFunc {
 		}
 
 		c.Set("email", user.Email)
-		c.Set("id", user.Id)
+		c.Set("id", user.UserId)
 		c.Set("name", user.Name)
 		c.Set("profile_image_url", user.ProfileImageUrl)
 		c.Set("has_admin_panel_access", user.HasAdminPanelAccess)
