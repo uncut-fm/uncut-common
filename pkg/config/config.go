@@ -42,7 +42,6 @@ type BackofficeConfigs struct {
 	PlatformDB             DBConfigs      `yaml:"platform_db"`
 	Server                 ServerConfigs  `yaml:"server"`
 	Twitter                TwitterConfigs `yaml:"twitter"`
-	SearchAPIUrl           string         `yaml:"search_api_url"`
 	GcpStorageBucket       string         `yaml:"gcp_storage_bucket"`
 	AdminToken             string         `yaml:"admin_token"`
 	AudioCutterPubsubTopic string         `yaml:"audio_cutter_pubsub_topic"`
@@ -106,7 +105,8 @@ type ServiceUrls struct {
 	ManagementSchemaUrl string `yaml:"management_schema_url"`
 	BackofficeSchemaUrl string `yaml:"backoffice_schema_url"`
 	GatewaySchemaUrl    string `yaml:"gateway_schema_url"`
-	AuthUrl             string `yaml:"auth_url"`
+	AuthAPIUrl          string `yaml:"auth_api_url"`
+	SearchAPIUrl        string `yaml:"search_api_url"`
 }
 
 type OauthProviders struct {
