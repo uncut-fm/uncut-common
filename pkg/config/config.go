@@ -27,10 +27,10 @@ type Configuration struct {
 }
 
 type Common struct {
-	ProjectID         string            `yaml:"project_id"`
-	Environment       string            `yaml:"environment"`
-	JWT               JWTConfigs        `yaml:"jwt"`
-	GraphqlSchemaUrls GraphqlSchemaUrls `yaml:"graphql_schema_urls"`
+	ProjectID   string      `yaml:"project_id"`
+	Environment string      `yaml:"environment"`
+	JWT         JWTConfigs  `yaml:"jwt"`
+	ServiceURLs ServiceUrls `yaml:"service_urls"`
 }
 
 type ManagementConfigs struct {
@@ -102,10 +102,11 @@ type JWTConfigs struct {
 	RefreshDuration int    `yaml:"refresh_duration"`
 }
 
-type GraphqlSchemaUrls struct {
+type ServiceUrls struct {
 	ManagementSchemaUrl string `yaml:"management_schema_url"`
 	BackofficeSchemaUrl string `yaml:"backoffice_schema_url"`
 	GatewaySchemaUrl    string `yaml:"gateway_schema_url"`
+	AuthUrl             string `yaml:"auth_url"`
 }
 
 type OauthProviders struct {
