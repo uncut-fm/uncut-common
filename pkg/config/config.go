@@ -44,6 +44,7 @@ type BackofficeConfigs struct {
 	Twitter                TwitterConfigs `yaml:"twitter"`
 	GcpStorageBucket       string         `yaml:"gcp_storage_bucket"`
 	AdminToken             string         `yaml:"admin_token"`
+	AuthAdminToken         string         `yaml:"auth_admin_token"`
 	AudioCutterPubsubTopic string         `yaml:"audio_cutter_pubsub_topic"`
 }
 
