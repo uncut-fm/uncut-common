@@ -49,12 +49,13 @@ type BackofficeConfigs struct {
 }
 
 type AuthConfigs struct {
-	AuthDB         DBConfigs      `yaml:"auth_db"`
-	Server         ServerConfigs  `yaml:"server"`
-	OauthProviders OauthProviders `yaml:"oauth_providers"`
-	AdminToken     string         `yaml:"admin_token"`
-	BaseURL        string         `yaml:"base_url"`
-	MagicLinkKey   string         `yaml:"magic_link_key"`
+	AuthDB               DBConfigs      `yaml:"auth_db"`
+	Server               ServerConfigs  `yaml:"server"`
+	OauthProviders       OauthProviders `yaml:"oauth_providers"`
+	AdminToken           string         `yaml:"admin_token"`
+	BackofficeAdminToken string         `yaml:"backoffice_admin_token"`
+	BaseURL              string         `yaml:"base_url"`
+	MagicLinkKey         string         `yaml:"magic_link_key"`
 }
 
 type TranscoderConfigs struct {
