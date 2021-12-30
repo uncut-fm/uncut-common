@@ -63,12 +63,14 @@ func (s Service) MWFunc() gin.HandlerFunc {
 		if s.log.CheckError(err, s.MWFunc) != nil {
 			c.Set(pkg_gin.AuthenticatedContextKey, false)
 			c.Next()
+			return
 		}
 
 		user, err := s.getUserFromToken(token)
 		if err != nil {
 			c.Set(pkg_gin.AuthenticatedContextKey, false)
 			c.Next()
+			return
 		}
 
 		c.Set(pkg_gin.AuthenticatedContextKey, true)
