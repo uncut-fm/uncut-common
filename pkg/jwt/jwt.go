@@ -8,13 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/config"
+	pkg_gin "github.com/uncut-fm/uncut-common/pkg/gin"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
-	"net/http"
 	"strings"
 	"time"
 )
 
-const authorizationHeader = "Authorization"
+const (
+	authorizationHeader = "Authorization"
+)
 
 // New generates new JWT service necessery for auth middleware
 func New(log logger.Logger, jwtConfigs config.JWTConfigs) *Service {
@@ -58,24 +60,20 @@ func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (stri
 func (s Service) MWFunc() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token, err := s.parseTokenFromHeader(c)
-		if err != nil {
-			restError(c, http.StatusUnauthorized, "Unauthorized")
-			c.Abort()
-			return
+		if s.log.CheckError(err, s.MWFunc) != nil {
+			c.Set(pkg_gin.AuthenticatedContextKey, false)
+			c.Next()
 		}
 
 		user, err := s.getUserFromToken(token)
 		if err != nil {
-			restError(c, http.StatusUnauthorized, err.Error())
-			c.Abort()
-			return
+			c.Set(pkg_gin.AuthenticatedContextKey, false)
+			c.Next()
 		}
 
-		c.Set("email", user.Email)
-		c.Set("id", user.UserId)
-		c.Set("name", user.Name)
-		c.Set("profile_image_url", user.ProfileImageUrl)
-		c.Set("has_admin_panel_access", user.HasAdminPanelAccess)
+		c.Set(pkg_gin.AuthenticatedContextKey, true)
+
+		pkg_gin.SetUserToGinContext(c, user)
 
 		c.Next()
 	}
