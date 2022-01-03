@@ -57,7 +57,7 @@ func (c ContextService) GetUserFromContext(ctx context.Context) (*model.User, er
 		return nil, err
 	}
 
-	if err := c.mustBeAuthenticatedAdminGin(ginContext); err != nil {
+	if err := c.mustBeAuthenticatedUserGin(ginContext); err != nil {
 		return nil, err
 	}
 
