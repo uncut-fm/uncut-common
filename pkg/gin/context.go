@@ -11,8 +11,9 @@ import (
 type ContextKey = string
 
 const (
-	ginContextKey           ContextKey = "GIN_CONTEXT_KEY"
-	AuthenticatedContextKey            = "authenticated"
+	ginContextKey                ContextKey = "GIN_CONTEXT_KEY"
+	AuthenticatedAdminContextKey            = "authenticated-token"
+	AuthenticatedUserContextKey             = "authenticated-user"
 )
 
 type ContextService struct{}
@@ -56,7 +57,7 @@ func (c ContextService) GetUserFromContext(ctx context.Context) (*model.User, er
 		return nil, err
 	}
 
-	if err := c.mustBeAuthenticatedGin(ginContext); err != nil {
+	if err := c.mustBeAuthenticatedAdminGin(ginContext); err != nil {
 		return nil, err
 	}
 
@@ -69,35 +70,36 @@ func (c ContextService) GetUserFromContext(ctx context.Context) (*model.User, er
 	}, nil
 }
 
-func (c ContextService) SetAuthenticatedKeyIfEmpty(ctx *gin.Context, authenticated bool) {
-	if _, ok := ctx.Get(AuthenticatedContextKey); ok {
-		return
-	}
-
-	ctx.Set(AuthenticatedContextKey, authenticated)
+func (c ContextService) SetAuthenticatedUserKey(ctx *gin.Context, authenticated bool) {
+	ctx.Set(AuthenticatedUserContextKey, authenticated)
 	return
 }
 
-func (c ContextService) IsAuthenticated(ctx context.Context) (bool, error) {
+func (c ContextService) SetAuthenticatedAdminKey(ctx *gin.Context, authenticated bool) {
+	ctx.Set(AuthenticatedAdminContextKey, authenticated)
+	return
+}
+
+func (c ContextService) IsAuthenticatedAdmin(ctx context.Context) (bool, error) {
 	ginContext, err := c.getGinContextFromContext(ctx)
 	if err != nil {
 		return false, err
 	}
 
-	return c.isAuthenticatedGin(ginContext), nil
+	return c.isAuthenticatedAdminGin(ginContext), nil
 }
 
-func (c ContextService) MustBeAuthenticated(ctx context.Context) error {
+func (c ContextService) MustBeAuthenticatedAdmin(ctx context.Context) error {
 	ginContext, err := c.getGinContextFromContext(ctx)
 	if err != nil {
 		return err
 	}
 
-	return c.mustBeAuthenticatedGin(ginContext)
+	return c.mustBeAuthenticatedAdminGin(ginContext)
 }
 
-func (c ContextService) mustBeAuthenticatedGin(ctx *gin.Context) error {
-	authenticated := c.isAuthenticatedGin(ctx)
+func (c ContextService) mustBeAuthenticatedAdminGin(ctx *gin.Context) error {
+	authenticated := c.isAuthenticatedAdminGin(ctx)
 	if authenticated {
 		return nil
 	}
@@ -105,6 +107,19 @@ func (c ContextService) mustBeAuthenticatedGin(ctx *gin.Context) error {
 	return errors.New("not authenticated")
 }
 
-func (c ContextService) isAuthenticatedGin(ctx *gin.Context) bool {
-	return ctx.GetBool(AuthenticatedContextKey)
+func (c ContextService) mustBeAuthenticatedUserGin(ctx *gin.Context) error {
+	authenticated := c.isAuthenticatedUserGin(ctx)
+	if authenticated {
+		return nil
+	}
+
+	return errors.New("not authenticated")
+}
+
+func (c ContextService) isAuthenticatedAdminGin(ctx *gin.Context) bool {
+	return ctx.GetBool(AuthenticatedAdminContextKey)
+}
+
+func (c ContextService) isAuthenticatedUserGin(ctx *gin.Context) bool {
+	return ctx.GetBool(AuthenticatedUserContextKey)
 }

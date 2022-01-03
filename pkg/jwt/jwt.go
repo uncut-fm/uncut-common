@@ -49,7 +49,7 @@ type Service struct {
 
 type Context interface {
 	SetUserToGinContext(ctx *gin.Context, user *model.User)
-	SetAuthenticatedKeyIfEmpty(ctx *gin.Context, authenticated bool)
+	SetAuthenticatedUserKey(ctx *gin.Context, authenticated bool)
 }
 
 // GenerateAccessToken generates new JWT token and populates it with user data
@@ -68,19 +68,19 @@ func (s Service) MWFunc() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token, err := s.parseTokenFromHeader(c)
 		if s.log.CheckError(err, s.MWFunc) != nil {
-			s.context.SetAuthenticatedKeyIfEmpty(c, false)
+			s.context.SetAuthenticatedUserKey(c, false)
 			c.Next()
 			return
 		}
 
 		user, err := s.getUserFromToken(token)
 		if err != nil {
-			s.context.SetAuthenticatedKeyIfEmpty(c, false)
+			s.context.SetAuthenticatedUserKey(c, false)
 			c.Next()
 			return
 		}
 
-		s.context.SetAuthenticatedKeyIfEmpty(c, true)
+		s.context.SetAuthenticatedUserKey(c, true)
 
 		s.context.SetUserToGinContext(c, user)
 
