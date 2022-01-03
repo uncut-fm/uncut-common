@@ -69,7 +69,11 @@ func (c ContextService) GetUserFromContext(ctx context.Context) (*model.User, er
 	}, nil
 }
 
-func (c ContextService) SetAuthenticatedFlag(ctx *gin.Context, authenticated bool) {
+func (c ContextService) SetAuthenticatedKeyIfEmpty(ctx *gin.Context, authenticated bool) {
+	if _, ok := ctx.Get(AuthenticatedContextKey); ok {
+		return
+	}
+
 	ctx.Set(AuthenticatedContextKey, authenticated)
 	return
 }

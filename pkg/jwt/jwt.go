@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/config"
-	pkg_gin "github.com/uncut-fm/uncut-common/pkg/gin"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
 	"strings"
 	"time"
@@ -50,6 +49,7 @@ type Service struct {
 
 type Context interface {
 	SetUserToGinContext(ctx *gin.Context, user *model.User)
+	SetAuthenticatedKeyIfEmpty(ctx *gin.Context, authenticated bool)
 }
 
 // GenerateAccessToken generates new JWT token and populates it with user data
@@ -68,19 +68,19 @@ func (s Service) MWFunc() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token, err := s.parseTokenFromHeader(c)
 		if s.log.CheckError(err, s.MWFunc) != nil {
-			c.Set(pkg_gin.AuthenticatedContextKey, false)
+			s.context.SetAuthenticatedKeyIfEmpty(c, false)
 			c.Next()
 			return
 		}
 
 		user, err := s.getUserFromToken(token)
 		if err != nil {
-			c.Set(pkg_gin.AuthenticatedContextKey, false)
+			s.context.SetAuthenticatedKeyIfEmpty(c, false)
 			c.Next()
 			return
 		}
 
-		c.Set(pkg_gin.AuthenticatedContextKey, true)
+		s.context.SetAuthenticatedKeyIfEmpty(c, true)
 
 		s.context.SetUserToGinContext(c, user)
 
