@@ -19,7 +19,7 @@ const (
 )
 
 // New generates new JWT service necessery for auth middleware
-func New(log logger.Logger, jwtConfigs config.JWTConfigs) *Service {
+func New(log logger.Logger, jwtConfigs config.JWTConfigs, ctx Context) *Service {
 	signingMethod := jwt.GetSigningMethod(jwtConfigs.SigningMethod)
 	if signingMethod == nil {
 		panic("invalid jwt signing method")
@@ -29,6 +29,7 @@ func New(log logger.Logger, jwtConfigs config.JWTConfigs) *Service {
 		accessKey:           []byte(jwtConfigs.AccessSecret),
 		algo:                signingMethod,
 		accessTokenDuration: time.Duration(jwtConfigs.AccessDuration) * time.Minute,
+		context:             ctx,
 	}
 }
 
@@ -43,9 +44,15 @@ type Service struct {
 
 	// Duration represents token expiration time
 	accessTokenDuration time.Duration
+
+	context Context
 }
 
-// GenerateToken generates new JWT token and populates it with user data
+type Context interface {
+	SetUserToGinContext(ctx *gin.Context, user *model.User)
+}
+
+// GenerateAccessToken generates new JWT token and populates it with user data
 func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (string, error) {
 	return jwt.NewWithClaims(s.algo, jwt.MapClaims{
 		"exp":                    time.Now().Add(s.accessTokenDuration).Unix(),
@@ -75,7 +82,7 @@ func (s Service) MWFunc() gin.HandlerFunc {
 
 		c.Set(pkg_gin.AuthenticatedContextKey, true)
 
-		pkg_gin.SetUserToGinContext(c, user)
+		s.context.SetUserToGinContext(c, user)
 
 		c.Next()
 	}
