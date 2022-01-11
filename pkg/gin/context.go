@@ -30,7 +30,7 @@ func (c ContextService) getGinContextFromContext(ctx context.Context) (*gin.Cont
 	ginContext := ctx.Value(ginContextKey)
 
 	if ginContext == nil {
-		err := fmt.Errorf("could not retrieve gin.Context")
+		err := fmt.Errorf("cannot retrieve gin.Context")
 		return nil, err
 	}
 
@@ -58,6 +58,10 @@ func (c ContextService) GetUserFromContext(ctx context.Context) (*model.User, er
 		return nil, err
 	}
 
+	return c.GetUserFromGinContext(ginContext)
+}
+
+func (c ContextService) GetUserFromGinContext(ginContext *gin.Context) (*model.User, error) {
 	if err := c.mustBeAuthenticatedUserGin(ginContext); err != nil {
 		return nil, err
 	}

@@ -7,15 +7,15 @@ import (
 
 func CommitOrRollback(tx *ent.Tx, err error) error {
 	if err != nil {
-		return rollback(tx, err)
+		return Rollback(tx, err)
 	}
 
 	return tx.Commit()
 }
 
-// rollback calls to tx.Rollback and wraps the given error
-// with the rollback error if occurred.
-func rollback(tx *ent.Tx, err error) error {
+// Rollback calls to tx.Rollback and wraps the given error
+// with the Rollback error if occurred.
+func Rollback(tx *ent.Tx, err error) error {
 	if rerr := tx.Rollback(); rerr != nil {
 		err = fmt.Errorf("%w: %v", err, rerr)
 	}
