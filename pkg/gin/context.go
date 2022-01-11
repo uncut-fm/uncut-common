@@ -49,6 +49,7 @@ func (c ContextService) SetUserToGinContext(ctx *gin.Context, user *model.User) 
 	ctx.Set("name", user.Name)
 	ctx.Set("profile_image_url", user.ProfileImageUrl)
 	ctx.Set("has_admin_panel_access", user.HasAdminPanelAccess)
+	ctx.Set("wallet_address", user.WalletAddress)
 }
 
 func (c ContextService) GetUserFromContext(ctx context.Context) (*model.User, error) {
@@ -67,6 +68,7 @@ func (c ContextService) GetUserFromContext(ctx context.Context) (*model.User, er
 		Email:               ginContext.GetString("email"),
 		ProfileImageUrl:     ginContext.GetString("profile_image_url"),
 		HasAdminPanelAccess: ginContext.GetBool("has_admin_panel_access"),
+		WalletAddress:       ginContext.GetString("wallet_address"),
 	}, nil
 }
 

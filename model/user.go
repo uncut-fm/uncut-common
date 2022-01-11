@@ -7,4 +7,5 @@ type User struct {
 	Email               string `json:"email"`
 	ProfileImageUrl     string `json:"profile_image_url,omitempty"`
 	HasAdminPanelAccess bool   `json:"has_admin_panel_access"`
+	WalletAddress       string `json:"wallet_address"`
 }
