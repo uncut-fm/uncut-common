@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/config"
-	"github.com/uncut-fm/uncut-common/pkg/logger"
 	"strings"
 	"time"
 )
@@ -18,13 +17,12 @@ const (
 )
 
 // New generates new JWT service necessery for auth middleware
-func New(log logger.Logger, jwtConfigs config.JWTConfigs, ctx Context) *Service {
+func New(jwtConfigs config.JWTConfigs, ctx Context) *Service {
 	signingMethod := jwt.GetSigningMethod(jwtConfigs.SigningMethod)
 	if signingMethod == nil {
 		panic("invalid jwt signing method")
 	}
 	return &Service{
-		log:                 log,
 		accessKey:           []byte(jwtConfigs.AccessSecret),
 		algo:                signingMethod,
 		accessTokenDuration: time.Duration(jwtConfigs.AccessDuration) * time.Minute,
@@ -34,7 +32,6 @@ func New(log logger.Logger, jwtConfigs config.JWTConfigs, ctx Context) *Service 
 
 // Service provides a Json-Web-Token authentication implementation
 type Service struct {
-	log logger.Logger
 	// Secret accessKey used for signing.
 	accessKey []byte
 
@@ -61,13 +58,14 @@ func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (stri
 		"email":                  user.Email,
 		"profile_image_url":      user.ProfileImageUrl,
 		"has_admin_panel_access": user.HasAdminPanelAccess,
+		"wallet_address":         user.WalletAddress,
 	}).SignedString(s.accessKey)
 }
 
 func (s Service) MWFunc() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token, err := s.parseTokenFromHeader(c)
-		if s.log.CheckError(err, s.MWFunc) != nil {
+		if err != nil {
 			s.context.SetAuthenticatedUserKey(c, false)
 			c.Next()
 			return
@@ -109,19 +107,19 @@ func (s Service) getUserFromToken(token string) (*model.User, error) {
 		return s.accessKey, nil
 	})
 
-	if s.log.CheckError(err, s.getUserFromToken) != nil {
+	if err != nil {
 		return nil, err
 	}
 
 	claimsBytes, err := json.Marshal(claims)
-	if s.log.CheckError(err, s.getUserFromToken) != nil {
+	if err != nil {
 		return nil, err
 	}
 
 	user := new(model.User)
 
 	err = json.Unmarshal(claimsBytes, user)
-	if s.log.CheckError(err, s.getUserFromToken) != nil {
+	if err != nil {
 		return nil, err
 	}
 
