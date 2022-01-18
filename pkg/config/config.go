@@ -20,12 +20,12 @@ const (
 )
 
 type Configuration struct {
-	Common            Common            `yaml:"common"`
-	Management        ManagementConfigs `yaml:"management"`
-	Backoffice        BackofficeConfigs `yaml:"backoffice"`
-	Auth              AuthConfigs       `yaml:"auth"`
-	Transcoder        TranscoderConfigs `yaml:"transcoder"`
-	Web3EventsConfigs Web3EventsConfigs `yaml:"web3_events_configs"`
+	Common     Common            `yaml:"common"`
+	Management ManagementConfigs `yaml:"management"`
+	Backoffice BackofficeConfigs `yaml:"backoffice"`
+	Auth       AuthConfigs       `yaml:"auth"`
+	Transcoder TranscoderConfigs `yaml:"transcoder"`
+	Web3Events Web3EventsConfigs `yaml:"web3_events"`
 }
 
 type Common struct {
