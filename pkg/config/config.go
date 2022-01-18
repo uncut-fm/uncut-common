@@ -16,14 +16,16 @@ const (
 	BackofficeSecretEnvVar = "BACKOFFICE_SECRET_ID"
 	AuthSecretEnvVar       = "AUTH_SECRET_ID"
 	TranscoderSecretEnvVar = "TRANSCODER_SECRET_ID"
+	Web3EventsSecretEnvVar = "WEB3_EVENTS_SECRET_ID"
 )
 
 type Configuration struct {
-	Common     Common            `yaml:"common"`
-	Management ManagementConfigs `yaml:"management"`
-	Backoffice BackofficeConfigs `yaml:"backoffice"`
-	Auth       AuthConfigs       `yaml:"auth"`
-	Transcoder TranscoderConfigs `yaml:"transcoder"`
+	Common            Common            `yaml:"common"`
+	Management        ManagementConfigs `yaml:"management"`
+	Backoffice        BackofficeConfigs `yaml:"backoffice"`
+	Auth              AuthConfigs       `yaml:"auth"`
+	Transcoder        TranscoderConfigs `yaml:"transcoder"`
+	Web3EventsConfigs Web3EventsConfigs `yaml:"web3_events_configs"`
 }
 
 type Common struct {
@@ -62,6 +64,13 @@ type TranscoderConfigs struct {
 	GcpStorageBucket string            `yaml:"gcp_storage_bucket"`
 	Server           ServerConfigs     `yaml:"server"`
 	Headers          map[string]string `yaml:"headers"`
+}
+
+type Web3EventsConfigs struct {
+	BlockchainRpcUrl          string `yaml:"blockchain_rpc_url"`
+	StoreContractAddress      string `yaml:"store_contract_address"`
+	CollectionContractAddress string `yaml:"collection_contract_address"`
+	BackofficeAdminToken      string `yaml:"backoffice_admin_token"`
 }
 
 type ServerConfigs struct {
@@ -137,6 +146,8 @@ func getSecretNameByConfigStruct(configStruct interface{}) (string, error) {
 		return os.Getenv(AuthSecretEnvVar), nil
 	case *TranscoderConfigs:
 		return os.Getenv(TranscoderSecretEnvVar), nil
+	case *Web3EventsConfigs:
+		return os.Getenv(Web3EventsSecretEnvVar), nil
 	default:
 		return "", errors.New("unsupported configStruct")
 	}
