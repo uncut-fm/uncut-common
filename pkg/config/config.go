@@ -75,8 +75,15 @@ type Web3EventsConfigs struct {
 }
 
 type Web3Currencies struct {
-	WethContractAddress  string `yaml:"weth_contract_address"`
-	CdolsContractAddress string `yaml:"cdols_contract_address"`
+	Weth  Web3CurrencyDetails `yaml:"weth"`
+	Cdols Web3CurrencyDetails `yaml:"cdols"`
+}
+
+type Web3CurrencyDetails struct {
+	Label           string `yaml:"label"`
+	ContractAddress string `yaml:"contract_address"`
+	Symbol          string `yaml:"symbol"`
+	Image           string `yaml:"image"`
 }
 
 type ServerConfigs struct {
