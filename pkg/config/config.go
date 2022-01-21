@@ -67,11 +67,10 @@ type TranscoderConfigs struct {
 }
 
 type Web3EventsConfigs struct {
-	BlockchainRpcUrl          string         `yaml:"blockchain_rpc_url"`
-	StoreContractAddress      string         `yaml:"store_contract_address"`
-	CollectionContractAddress string         `yaml:"collection_contract_address"`
-	BackofficeAdminToken      string         `yaml:"backoffice_admin_token"`
-	Currencies                Web3Currencies `yaml:"currencies"`
+	BlockchainRpcUrl     string         `yaml:"blockchain_rpc_url"`
+	StoreContractAddress string         `yaml:"store_contract_address"`
+	BackofficeAdminToken string         `yaml:"backoffice_admin_token"`
+	Currencies           Web3Currencies `yaml:"currencies"`
 }
 
 type Web3Currencies struct {
