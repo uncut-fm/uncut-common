@@ -3,6 +3,9 @@ package sentry
 import "github.com/getsentry/sentry-go"
 
 func Init(dsn, environment string, sampleRate float32) error {
+	if sampleRate == 0 {
+		sampleRate = 1
+	}
 	return sentry.Init(sentry.ClientOptions{
 		Dsn:              dsn,
 		Debug:            true,

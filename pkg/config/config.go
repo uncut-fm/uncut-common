@@ -38,6 +38,7 @@ type Common struct {
 type ManagementConfigs struct {
 	PlatformDB DBConfigs     `yaml:"platform_db"`
 	Server     ServerConfigs `yaml:"server"`
+	Sentry     SentryConfigs `yaml:"sentry"`
 }
 
 type BackofficeConfigs struct {
@@ -48,6 +49,7 @@ type BackofficeConfigs struct {
 	AdminToken             string         `yaml:"admin_token"`
 	AuthAdminToken         string         `yaml:"auth_admin_token"`
 	AudioCutterPubsubTopic string         `yaml:"audio_cutter_pubsub_topic"`
+	Sentry                 SentryConfigs  `yaml:"sentry"`
 }
 
 type AuthConfigs struct {
@@ -58,12 +60,14 @@ type AuthConfigs struct {
 	BackofficeAdminToken string         `yaml:"backoffice_admin_token"`
 	BaseURL              string         `yaml:"base_url"`
 	MagicLinkKey         string         `yaml:"magic_link_key"`
+	Sentry               SentryConfigs  `yaml:"sentry"`
 }
 
 type TranscoderConfigs struct {
 	GcpStorageBucket string            `yaml:"gcp_storage_bucket"`
 	Server           ServerConfigs     `yaml:"server"`
 	Headers          map[string]string `yaml:"headers"`
+	Sentry           SentryConfigs     `yaml:"sentry"`
 }
 
 type Web3EventsConfigs struct {
@@ -71,6 +75,7 @@ type Web3EventsConfigs struct {
 	StoreContractAddress string         `yaml:"store_contract_address"`
 	BackofficeAdminToken string         `yaml:"backoffice_admin_token"`
 	Currencies           Web3Currencies `yaml:"currencies"`
+	Sentry               SentryConfigs  `yaml:"sentry"`
 }
 
 type Web3Currencies struct {
@@ -135,6 +140,11 @@ type ServiceUrls struct {
 type OauthProviders struct {
 	Twitter TwitterConfigs     `yaml:"twitter"`
 	Google  GoogleOauthConfigs `yaml:"google"`
+}
+
+type SentryConfigs struct {
+	DSN        string  `yaml:"dsn"`
+	SampleRate float32 `yaml:"sample_rate"`
 }
 
 func LoadConfigsFromSecretManager(ctx context.Context, client *secretmanager.Client, configStruct interface{}) error {
