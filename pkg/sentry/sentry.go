@@ -1,13 +1,16 @@
 package sentry
 
-import "github.com/getsentry/sentry-go"
+import (
+	"github.com/getsentry/sentry-go"
+	"github.com/uncut-fm/uncut-common/pkg/config"
+)
 
-func Init(dsn, environment string, sampleRate float32) error {
-	if sampleRate == 0 {
-		sampleRate = 1
+func Init(sentryConfigs config.SentryConfigs, environment string) error {
+	if sentryConfigs.SampleRate == 0 {
+		sentryConfigs.SampleRate = 1
 	}
 	return sentry.Init(sentry.ClientOptions{
-		Dsn:              dsn,
+		Dsn:              sentryConfigs.DSN,
 		Debug:            true,
 		AttachStacktrace: true,
 		Environment:      environment,
@@ -16,7 +19,7 @@ func Init(dsn, environment string, sampleRate float32) error {
 			if environment == "local" {
 				return sentry.SampledFalse
 			}
-			return sentry.UniformTracesSampler(sampleRate).Sample(ctx)
+			return sentry.UniformTracesSampler(sentryConfigs.SampleRate).Sample(ctx)
 		}),
 	})
 }
