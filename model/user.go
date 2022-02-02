@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type User struct {
 	ID                  int    `json:"id"`      // used to parse from ent model
 	UserId              int    `json:"user_id"` // used to parse from jwt token
@@ -8,4 +10,10 @@ type User struct {
 	ProfileImageUrl     string `json:"profile_image_url,omitempty"`
 	HasAdminPanelAccess bool   `json:"has_admin_panel_access"`
 	WalletAddress       string `json:"wallet_address"`
+	Faucet              Faucet `json:"faucet"`
+}
+
+type Faucet struct {
+	MaticAllowed bool      `json:"matic_allowed"`
+	LastUsed     time.Time `json:"last_used"`
 }
