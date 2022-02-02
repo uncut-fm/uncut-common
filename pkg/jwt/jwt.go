@@ -51,10 +51,6 @@ type Context interface {
 
 // GenerateAccessToken generates new JWT token and populates it with user data
 func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (string, error) {
-	faucetMap := map[string]interface{}{
-		"matic_allowed": user.Faucet.MaticAllowed,
-		"last_used":     user.Faucet.LastUsed,
-	}
 	return jwt.NewWithClaims(s.algo, jwt.MapClaims{
 		"exp":                    time.Now().Add(s.accessTokenDuration).Unix(),
 		"user_id":                user.UserId,
@@ -63,7 +59,6 @@ func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (stri
 		"profile_image_url":      user.ProfileImageUrl,
 		"has_admin_panel_access": user.HasAdminPanelAccess,
 		"wallet_address":         user.WalletAddress,
-		"faucet":                 faucetMap,
 	}).SignedString(s.accessKey)
 }
 
@@ -129,12 +124,4 @@ func (s Service) getUserFromToken(token string) (*model.User, error) {
 	}
 
 	return user, err
-}
-
-func restError(c *gin.Context, code int, message string) {
-	c.JSON(code, gin.H{
-		"code":    code,
-		"message": message,
-	})
-	c.Abort()
 }

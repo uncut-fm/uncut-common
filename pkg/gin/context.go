@@ -50,8 +50,6 @@ func (c ContextService) SetUserToGinContext(ctx *gin.Context, user *model.User) 
 	ctx.Set("profile_image_url", user.ProfileImageUrl)
 	ctx.Set("has_admin_panel_access", user.HasAdminPanelAccess)
 	ctx.Set("wallet_address", user.WalletAddress)
-	ctx.Set("faucet_matic_allowed", user.Faucet.MaticAllowed)
-	ctx.Set("faucet_last_used", user.Faucet.LastUsed)
 }
 
 func (c ContextService) GetUserFromContext(ctx context.Context) (*model.User, error) {
@@ -75,10 +73,6 @@ func (c ContextService) GetUserFromGinContext(ginContext *gin.Context) (*model.U
 		ProfileImageUrl:     ginContext.GetString("profile_image_url"),
 		HasAdminPanelAccess: ginContext.GetBool("has_admin_panel_access"),
 		WalletAddress:       ginContext.GetString("wallet_address"),
-		Faucet: model.Faucet{
-			MaticAllowed: ginContext.GetBool("faucet_matic_allowed"),
-			LastUsed:     ginContext.GetTime("faucet_last_used"),
-		},
 	}, nil
 }
 
