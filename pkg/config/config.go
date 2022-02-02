@@ -61,6 +61,12 @@ type AuthConfigs struct {
 	BaseURL              string         `yaml:"base_url"`
 	MagicLinkKey         string         `yaml:"magic_link_key"`
 	Sentry               SentryConfigs  `yaml:"sentry"`
+	MaticFaucetLimit     FaucetLimit    `yaml:"matic_faucet_limit"`
+}
+
+type FaucetLimit struct {
+	QuantityPerUser         float32 `yaml:"quantity_per_user"`
+	RateLimitPeriodDuration string  `yaml:"rate_limit_period_duration"`
 }
 
 type TranscoderConfigs struct {
