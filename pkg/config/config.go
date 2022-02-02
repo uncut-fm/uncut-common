@@ -65,6 +65,7 @@ type AuthConfigs struct {
 }
 
 type FaucetLimit struct {
+	LimitPerUser            float32 `yaml:"limit_per_user"`
 	QuantityPerUser         float32 `yaml:"quantity_per_user"`
 	RateLimitPeriodDuration string  `yaml:"rate_limit_period_duration"`
 }
