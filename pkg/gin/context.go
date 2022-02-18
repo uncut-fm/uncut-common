@@ -113,6 +113,15 @@ func (c ContextService) mustBeAuthenticatedAdminGin(ctx *gin.Context) error {
 	return errors.New("not authenticated")
 }
 
+func (c ContextService) MustBeAuthenticatedUser(ctx context.Context) error {
+	ginContext, err := c.getGinContextFromContext(ctx)
+	if err != nil {
+		return err
+	}
+
+	return c.mustBeAuthenticatedUserGin(ginContext)
+}
+
 func (c ContextService) mustBeAuthenticatedUserGin(ctx *gin.Context) error {
 	authenticated := c.isAuthenticatedUserGin(ctx)
 	if authenticated {
