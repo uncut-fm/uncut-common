@@ -140,6 +140,7 @@ type JWTConfigs struct {
 }
 
 type ServiceUrls struct {
+	ManagementURL       string `yaml:"management_url"`
 	ManagementSchemaUrl string `yaml:"management_schema_url"`
 	BackofficeSchemaUrl string `yaml:"backoffice_schema_url"`
 	GatewaySchemaUrl    string `yaml:"gateway_schema_url"`
