@@ -36,12 +36,14 @@ type Common struct {
 }
 
 type ManagementConfigs struct {
-	PlatformDB           DBConfigs     `yaml:"platform_db"`
-	Server               ServerConfigs `yaml:"server"`
-	Sentry               SentryConfigs `yaml:"sentry"`
-	PaperAPIKey          string        `yaml:"paper_api_key"`
-	BlockchainName       string        `yaml:"blockchain_name"`
-	StoreContractAddress string        `yaml:"store_contract_address"`
+	PlatformDB           DBConfigs      `yaml:"platform_db"`
+	Server               ServerConfigs  `yaml:"server"`
+	Sentry               SentryConfigs  `yaml:"sentry"`
+	PaperAPIKey          string         `yaml:"paper_api_key"`
+	BlockchainName       string         `yaml:"blockchain_name"`
+	StoreContractAddress string         `yaml:"store_contract_address"`
+	Currencies           Web3Currencies `yaml:"currencies"`
+	BlockchainRpcUrl     string         `yaml:"blockchain_rpc_url"`
 }
 
 type BackofficeConfigs struct {
