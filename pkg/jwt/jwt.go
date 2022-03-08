@@ -58,7 +58,7 @@ func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (stri
 		"email":                  user.Email,
 		"profile_image_url":      user.ProfileImageUrl,
 		"has_admin_panel_access": user.HasAdminPanelAccess,
-		"wallet_address":         user.WalletAddress,
+		"wallet_addresses":       user.WalletAddresses,
 	}).SignedString(s.accessKey)
 }
 
