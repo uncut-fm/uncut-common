@@ -44,6 +44,7 @@ type ManagementConfigs struct {
 	StoreContractAddress string         `yaml:"store_contract_address"`
 	Currencies           Web3Currencies `yaml:"currencies"`
 	BlockchainRpcUrl     string         `yaml:"blockchain_rpc_url"`
+	SegmentWriteKey      string         `yaml:"segment_write_key"`
 }
 
 type BackofficeConfigs struct {
