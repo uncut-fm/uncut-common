@@ -140,7 +140,7 @@ func (c ContextService) isAuthenticatedUserGin(ctx *gin.Context) bool {
 	return ctx.GetBool(AuthenticatedUserContextKey)
 }
 
-func (c ContextService) GetCtxIP(ctx context.Context) (string, error) {
+func (c ContextService) GetIpFromContext(ctx context.Context) (string, error) {
 	ginContext, err := c.getGinContextFromContext(ctx)
 	if err != nil {
 		log.Println("failed retrieving gin context, err: ", err.Error())
