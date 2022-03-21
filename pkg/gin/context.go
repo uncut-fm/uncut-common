@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/uncut-fm/uncut-common/model"
+	"log"
 )
 
 type ContextKey = string
@@ -137,4 +138,18 @@ func (c ContextService) isAuthenticatedAdminGin(ctx *gin.Context) bool {
 
 func (c ContextService) isAuthenticatedUserGin(ctx *gin.Context) bool {
 	return ctx.GetBool(AuthenticatedUserContextKey)
+}
+
+func (c ContextService) GetCtxIP(ctx context.Context) (string, error) {
+	ginContext, err := c.getGinContextFromContext(ctx)
+	if err != nil {
+		log.Println("failed retrieving gin context, err: ", err.Error())
+		return "", err
+	}
+
+	if ginContext.Request == nil {
+		return "", nil
+	}
+
+	return ginContext.ClientIP(), nil
 }
