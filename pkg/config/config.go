@@ -45,6 +45,7 @@ type ManagementConfigs struct {
 	Currencies           Web3Currencies `yaml:"currencies"`
 	BlockchainRpcUrl     string         `yaml:"blockchain_rpc_url"`
 	SegmentWriteKey      string         `yaml:"segment_write_key"`
+	AuthAdminToken       string         `yaml:"auth_admin_token"`
 }
 
 type BackofficeConfigs struct {
