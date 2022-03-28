@@ -46,7 +46,7 @@ func (c ContextService) getGinContextFromContext(ctx context.Context) (*gin.Cont
 
 func (c ContextService) SetUserToGinContext(ctx *gin.Context, user *model.User) {
 	ctx.Set("email", user.Email)
-	ctx.Set("id", user.UserId)
+	ctx.Set("id", user.ID)
 	ctx.Set("name", user.Name)
 	ctx.Set("profile_image_url", user.ProfileImageUrl)
 	ctx.Set("has_admin_panel_access", user.HasAdminPanelAccess)
