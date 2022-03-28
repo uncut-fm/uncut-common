@@ -53,7 +53,7 @@ type Context interface {
 func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (string, error) {
 	return jwt.NewWithClaims(s.algo, jwt.MapClaims{
 		"exp":                    time.Now().Add(s.accessTokenDuration).Unix(),
-		"user_id":                user.ID,
+		"user_id":                user.UserId,
 		"name":                   user.Name,
 		"email":                  user.Email,
 		"profile_image_url":      user.ProfileImageUrl,
