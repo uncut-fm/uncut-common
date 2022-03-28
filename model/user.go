@@ -11,6 +11,7 @@ type User struct {
 	HasAdminPanelAccess bool     `json:"has_admin_panel_access"`
 	WalletAddresses     []string `json:"wallet_addresses"`
 	Faucet              Faucet   `json:"faucet"`
+	TwitterHandle       string   `json:"twitter_handle"`
 }
 
 type Faucet struct {
