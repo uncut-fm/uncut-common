@@ -71,6 +71,7 @@ type AuthConfigs struct {
 	Sentry               SentryConfigs  `yaml:"sentry"`
 	MaticFaucetLimit     FaucetLimit    `yaml:"matic_faucet_limit"`
 	SegmentWriteKey      string         `yaml:"segment_write_key"`
+	Twitter              TwitterConfigs `yaml:"twitter"`
 }
 
 type FaucetLimit struct {
