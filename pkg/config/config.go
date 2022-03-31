@@ -46,6 +46,7 @@ type ManagementConfigs struct {
 	BlockchainRpcUrl     string         `yaml:"blockchain_rpc_url"`
 	SegmentWriteKey      string         `yaml:"segment_write_key"`
 	AuthAdminToken       string         `yaml:"auth_admin_token"`
+	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
 }
 
 type BackofficeConfigs struct {
@@ -152,6 +153,7 @@ type ServiceUrls struct {
 	GatewaySchemaUrl    string `yaml:"gateway_schema_url"`
 	AuthAPIUrl          string `yaml:"auth_api_url"`
 	SearchAPIUrl        string `yaml:"search_api_url"`
+	WebappUrl           string `yaml:"webapp_url"`
 }
 
 type OauthProviders struct {
