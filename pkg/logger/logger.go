@@ -19,6 +19,7 @@ type log struct {
 }
 
 type Logger interface {
+	Infof(format string, args ...interface{})
 	Info(args ...interface{})
 	Warn(args ...interface{})
 	Error(args ...interface{})
