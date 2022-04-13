@@ -52,6 +52,7 @@ func (c ContextService) SetUserToGinContext(ctx *gin.Context, user *model.User) 
 	ctx.Set("has_admin_panel_access", user.HasAdminPanelAccess)
 	ctx.Set("wallet_addresses", user.WalletAddresses)
 	ctx.Set("twitter_handle", user.TwitterHandle)
+	ctx.Set("is_nft_creator", user.IsNftCreator)
 }
 
 func (c ContextService) GetUserFromContext(ctx context.Context) (*model.User, error) {
@@ -76,6 +77,7 @@ func (c ContextService) GetUserFromGinContext(ginContext *gin.Context) (*model.U
 		HasAdminPanelAccess: ginContext.GetBool("has_admin_panel_access"),
 		WalletAddresses:     ginContext.GetStringSlice("wallet_addresses"),
 		TwitterHandle:       ginContext.GetString("twitter_handle"),
+		IsNftCreator:        ginContext.GetBool("is_nft_creator"),
 	}, nil
 }
 

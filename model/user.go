@@ -12,6 +12,7 @@ type User struct {
 	WalletAddresses     []string `json:"wallet_addresses"`
 	Faucet              Faucet   `json:"faucet"`
 	TwitterHandle       string   `json:"twitter_handle"`
+	IsNftCreator        bool     `json:"is_nft_creator"`
 }
 
 type Faucet struct {

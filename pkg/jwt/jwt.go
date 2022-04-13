@@ -60,6 +60,7 @@ func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (stri
 		"has_admin_panel_access": user.HasAdminPanelAccess,
 		"wallet_addresses":       user.WalletAddresses,
 		"twitter_handle":         user.TwitterHandle,
+		"is_nft_creator":         user.IsNftCreator,
 	}).SignedString(s.accessKey)
 }
 
