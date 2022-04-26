@@ -154,7 +154,7 @@ type ServiceUrls struct {
 	AuthAPIUrl          string `yaml:"auth_api_url"`
 	SearchAPIUrl        string `yaml:"search_api_url"`
 	WebappUrl           string `yaml:"webapp_url"`
-	Web3AdminUrl        string `yaml:"web_3_admin_url"`
+	Web3AdminUrl        string `yaml:"web3_admin_url"`
 }
 
 type OauthProviders struct {
