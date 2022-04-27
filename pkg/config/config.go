@@ -59,6 +59,7 @@ type BackofficeConfigs struct {
 	AudioCutterPubsubTopic string         `yaml:"audio_cutter_pubsub_topic"`
 	Sentry                 SentryConfigs  `yaml:"sentry"`
 	StoreContractAddress   string         `yaml:"store_contract_address"`
+	Web3AdminToken         string         `yaml:"web3_admin_token"`
 }
 
 type AuthConfigs struct {
