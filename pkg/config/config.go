@@ -47,6 +47,7 @@ type ManagementConfigs struct {
 	SegmentWriteKey      string         `yaml:"segment_write_key"`
 	AuthAdminToken       string         `yaml:"auth_admin_token"`
 	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
+	Web3AdminToken       string         `yaml:"web3_admin_token"`
 }
 
 type BackofficeConfigs struct {
