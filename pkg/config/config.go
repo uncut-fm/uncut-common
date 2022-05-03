@@ -61,6 +61,7 @@ type BackofficeConfigs struct {
 	Sentry                 SentryConfigs  `yaml:"sentry"`
 	StoreContractAddress   string         `yaml:"store_contract_address"`
 	Web3AdminToken         string         `yaml:"web3_admin_token"`
+	SegmentWriteKey        string         `yaml:"segment_write_key"`
 }
 
 type AuthConfigs struct {
