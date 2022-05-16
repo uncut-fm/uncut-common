@@ -4,9 +4,9 @@ import "fmt"
 
 const (
 	momentsLocationPath        = "%v/moments/%v/%v" // "{environment}/moments/{moment_id}/{file_name}"
-	spaceLocationPath          = "%v/space/%v/%v"   // "{environment}/space/{space_id}/{file_name}"
+	spaceLocationPath          = "%v/space/%v"      // "{environment}/space/{file_name}"
 	nftLocationPath            = "%v/nfts/%v"       // "{environment}/nfts/{file_name}"
-	userLocationPath           = "%v/users/%v/%v"   // "{environment}/users/{user_id}/{file_name}"
+	userLocationPath           = "%v/users/%v"      // "{environment}/users/{file_name}"
 	speakerProfileLocationPath = "%v/speakers/%v"   // "{environment}/speakers/{file_name}"
 
 	publicFileFormat = "https://storage.googleapis.com/%v/%v" // https://storage.googleapis.com/BUCKET_NAME/FILE_NAME
@@ -20,16 +20,16 @@ func GetMomentsLocationPath(env, fileName string, momentID int) string {
 	return fmt.Sprintf(momentsLocationPath, env, momentID, fileName)
 }
 
-func GetSpaceLocationPath(env, fileName string, spaceID int) string {
-	return fmt.Sprintf(spaceLocationPath, env, spaceID, fileName)
+func GetSpaceLocationPath(env, fileName string) string {
+	return fmt.Sprintf(spaceLocationPath, env, fileName)
 }
 
 func GetNftLocationPath(env, fileName string) string {
 	return fmt.Sprintf(nftLocationPath, env, fileName)
 }
 
-func GetUserLocationPath(env, fileName string, userID int) string {
-	return fmt.Sprintf(userLocationPath, env, userID, fileName)
+func GetUserLocationPath(env, fileName string) string {
+	return fmt.Sprintf(userLocationPath, env, fileName)
 }
 
 func GetSpeakerProfileLocationPath(env, fileName string) string {
