@@ -1,7 +1,6 @@
 package model
 
 import (
-	mngmt_model "github.com/uncut-fm/uncut-management-api-2/graph/model"
 	"github.com/vincent-petithory/dataurl"
 )
 
@@ -11,11 +10,6 @@ func IsIntFieldNew(newField *int, oldField int) bool {
 
 func IsStringFieldNew(newField *string, oldField string) bool {
 	return newField != nil && *newField != oldField
-}
-
-func IsFloatFieldNew(newField *float64, oldField float32) bool {
-	oldFieldFloat64, _ := mngmt_model.ParseFloat32ToFloat64(oldField)
-	return newField != nil && *newField != oldFieldFloat64
 }
 
 func IsStringNil(field *string) bool {
