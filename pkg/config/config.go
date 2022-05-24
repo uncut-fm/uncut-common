@@ -62,6 +62,7 @@ type BackofficeConfigs struct {
 	StoreContractAddress   string         `yaml:"store_contract_address"`
 	Web3AdminToken         string         `yaml:"web3_admin_token"`
 	SegmentWriteKey        string         `yaml:"segment_write_key"`
+	SendgridAPIKey         string         `yaml:"sendgrid_api_key"`
 }
 
 type AuthConfigs struct {
