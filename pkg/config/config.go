@@ -48,6 +48,7 @@ type ManagementConfigs struct {
 	AuthAdminToken       string         `yaml:"auth_admin_token"`
 	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
 	Web3AdminToken       string         `yaml:"web3_admin_token"`
+	GcpStorageBucket     string         `yaml:"gcp_storage_bucket"`
 }
 
 type BackofficeConfigs struct {
