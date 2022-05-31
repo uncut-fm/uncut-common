@@ -3,7 +3,7 @@ package model
 type Event struct {
 	EventType EventType
 	ObjectID  int
-	SubjectID *int
+	SubjectID *string
 }
 
 type EventType string
