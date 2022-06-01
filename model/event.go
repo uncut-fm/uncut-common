@@ -10,6 +10,7 @@ type EventType string
 
 var (
 	NewSpaceConversationEvent EventType = "NewSpaceConversation"
+	NewNFTConversationEvent   EventType = "NewNFTConversation"
 	FreeNftTransferEvent      EventType = "FreeNftTransfer"
 	PaidNftTransferEvent      EventType = "PaidNftTransfer"
 )

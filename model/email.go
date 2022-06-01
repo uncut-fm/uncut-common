@@ -10,7 +10,7 @@ type EmailReceiver struct {
 	Name  string
 }
 
-// ParseTemplate parses an email template, and retutns it as an HTML
+// ParseTemplate parses an email template, and returns it as an HTML
 func ParseTemplate(path string, data interface{}) (string, error) {
 	t, err := template.ParseFiles(path)
 	if err != nil {
