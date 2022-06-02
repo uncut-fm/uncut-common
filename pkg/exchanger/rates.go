@@ -8,7 +8,10 @@ import (
 	"time"
 )
 
-const APIUrlPattern = "https://min-api.cryptocompare.com/data/price?fsym=%s&tsyms=%s"
+const (
+	apiUrlPattern       = "https://min-api.cryptocompare.com/data/price?fsym=%s&tsyms=%s"
+	fallbackPricePerEth = 2000
+)
 
 type ExchangerAPI struct {
 	log            logger.Logger
@@ -51,34 +54,36 @@ func (c *ExchangerAPI) ETHEquivalentInUSD(ethPrice float64) (float64, error) {
 func (c *ExchangerAPI) getETHEquivalentInUSD(ethQuantity float64) (float64, error) {
 	var err error
 
-	ethPrice, hasEthPriceInCache := c.getETHPriceCache()
-	if !hasEthPriceInCache {
+	ethPrice, hasEthPriceInCache, isPriceRelevant := c.getETHPriceCache()
+	if !isPriceRelevant {
 		ethPrice, err = c.getETHToUSDFromAPI()
 		if c.log.CheckError(err, c.getETHEquivalentInUSD) != nil {
-			return 0, err
+			if !hasEthPriceInCache {
+				ethPrice = fallbackPricePerEth
+			}
 		}
 	}
 
 	usdEquivalent := calculateExchangeValue(ethPrice, ethQuantity)
 
-	if !hasEthPriceInCache {
+	if !isPriceRelevant {
 		c.setUSDEquivalentETHCache(ethPrice)
 	}
 
 	return usdEquivalent, nil
 }
 
-func (c *ExchangerAPI) getETHPriceCache() (float64, bool) {
+func (c *ExchangerAPI) getETHPriceCache() (float64, bool, bool) {
 	cachedPrice := c.cachedEthPrice
 	if cachedPrice == nil {
-		return 0, false
+		return 0, false, false
 	}
 
 	if cachedPrice.isOlderThan1min() {
-		return 0, false
+		return cachedPrice.price, true, false
 	}
 
-	return cachedPrice.price, true
+	return cachedPrice.price, true, true
 }
 
 func (c *ExchangerAPI) setUSDEquivalentETHCache(ethPrice float64) {
@@ -119,5 +124,5 @@ func (c ExchangerAPI) makeRequest(apiURL string, responseStruct interface{}) err
 }
 
 func getRequest(from, to string) string {
-	return fmt.Sprintf(APIUrlPattern, from, to)
+	return fmt.Sprintf(apiUrlPattern, from, to)
 }
