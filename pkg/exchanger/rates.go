@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
-	"math"
 	"time"
 )
 
@@ -91,8 +90,6 @@ func (c *ExchangerAPI) setUSDEquivalentETHCache(ethPrice float64) {
 
 func calculateExchangeValue(pricePerItem, items float64) float64 {
 	usdEquivalent := pricePerItem * items
-
-	usdEquivalent = math.Round(usdEquivalent * 100 / 100)
 
 	return usdEquivalent
 }
