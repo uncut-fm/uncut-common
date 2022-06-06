@@ -64,6 +64,15 @@ type BackofficeConfigs struct {
 	Web3AdminToken         string         `yaml:"web3_admin_token"`
 	SegmentWriteKey        string         `yaml:"segment_write_key"`
 	SendgridAPIKey         string         `yaml:"sendgrid_api_key"`
+	Currencies             Web3Currencies `yaml:"currencies"`
+	BlockchainRpcUrl       string         `yaml:"blockchain_rpc_url"`
+	BlockchainName         string         `yaml:"blockchain_name"`
+	FaucetWallet           FaucetWallet   `yaml:"faucet_wallet"`
+}
+
+type FaucetWallet struct {
+	WalletAddress   string  `yaml:"wallet_address"`
+	MaticAlertPoint float64 `yaml:"matic_alert_point"`
 }
 
 type AuthConfigs struct {
