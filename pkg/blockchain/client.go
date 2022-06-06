@@ -6,9 +6,9 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/params"
+	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/config"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
-	"github.com/uncut-fm/uncut-management-api-2/graph/model"
 	"math/big"
 	"time"
 )
