@@ -5,6 +5,10 @@ import (
 	"html/template"
 )
 
+var (
+	SpaceLinkPattern = "%s/user/my-shows/%s/space/%s" // {web-app}/my-shows/{show-slug}/space/{space_slug}
+)
+
 type EmailReceiver struct {
 	Email string
 	Name  string
