@@ -24,9 +24,10 @@ type API struct {
 	authAdminToken string
 }
 
-func NewAPI(l logger.Logger, authApiUrl, authAdminToken string) *API {
+func NewAPI(l logger.Logger, cache Cache, authApiUrl, authAdminToken string) *API {
 	return &API{
 		log:            l,
+		cache:          cache,
 		authApiUrl:     authApiUrl,
 		authAdminToken: authAdminToken,
 		restyClient:    createRestyClient(),
