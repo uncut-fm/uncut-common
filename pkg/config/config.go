@@ -49,6 +49,7 @@ type ManagementConfigs struct {
 	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
 	Web3AdminToken       string         `yaml:"web3_admin_token"`
 	GcpStorageBucket     string         `yaml:"gcp_storage_bucket"`
+	Twitter              TwitterConfigs `yaml:"twitter"`
 }
 
 type BackofficeConfigs struct {
