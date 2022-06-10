@@ -1,15 +1,10 @@
 package twitter
 
 import (
-	"errors"
 	"github.com/dghubble/go-twitter/twitter"
+	"github.com/uncut-fm/uncut-common/pkg/errors"
 	"net/http"
 	"strings"
-)
-
-var (
-	UsernameMissingErr = errors.New("username is missing")
-	UserinfoErr        = errors.New("failed retrieving usersInfo")
 )
 
 type Users struct {
@@ -32,7 +27,7 @@ type UserInfo struct {
 
 func (c *Users) GetUserInfo(username string) (*UserInfo, error) {
 	if len(username) == 0 {
-		return nil, UsernameMissingErr
+		return nil, errors.UsernameMissingErr
 	}
 
 	params := &twitter.UserLookupParams{ScreenName: []string{username}}
@@ -43,7 +38,7 @@ func (c *Users) GetUserInfo(username string) (*UserInfo, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, UserinfoErr
+		return nil, errors.UserinfoErr
 	}
 
 	originalProfileImage := getTwitterOriginalProfileImage(users[0].ProfileImageURL)

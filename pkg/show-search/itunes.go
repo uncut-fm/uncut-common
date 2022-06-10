@@ -2,7 +2,8 @@ package show_search
 
 import (
 	"encoding/json"
-	"github.com/go-resty/resty"
+	"github.com/go-resty/resty/v2"
+	"github.com/uncut-fm/uncut-common/pkg/errors"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
 	"strconv"
 	"time"
@@ -32,7 +33,30 @@ func createRestyClient() *resty.Client {
 	return client
 }
 
-func (c ItunesClient) SearchShowByName(showName string) ([]AppleStoreShow, error) {
+func (c ItunesClient) GetShowByName(showName string) (*SearchShow, error) {
+	searchResult, err := c.searchShowByName(showName)
+	if c.log.CheckError(err, c.GetShowByName) != nil {
+		return nil, err
+	}
+
+	if len(searchResult) == 0 {
+		return nil, errors.NoSearchShowsFoundErr
+	}
+
+	show, err := c.getShowFromSearchShowsByName(searchResult, showName), nil
+	if c.log.CheckError(err, c.GetShowByName) != nil {
+		return nil, err
+	}
+
+	if show == nil {
+		showNames := c.getShowNamesFromSearchShows(searchResult)
+		return nil, c.log.CheckError(errors.NoSearchShowsExactFoundErr(showNames), c.GetShowByName)
+	}
+
+	return show, nil
+}
+
+func (c ItunesClient) searchShowByName(showName string) ([]AppleStoreShow, error) {
 	resp, err := c.restyClient.R().EnableTrace().
 		SetQueryParams(map[string]string{
 			"term":    showName,
@@ -48,32 +72,19 @@ func (c ItunesClient) SearchShowByName(showName string) ([]AppleStoreShow, error
 	return c.parseAppleStoreResult(resp)
 }
 
-type AppleStoreResult struct {
-	ResultCount int              `json:"resultCount"`
-	Results     []AppleStoreShow `json:"results"`
-}
-
-type AppleStoreShow struct {
-	WrapperType            string `json:"wrapperType"`
-	CollectionId           int64  `json:"collectionId"`
-	TrackId                int64  `json:"trackId"`
-	ArtistId               int64  `json:"artistId"`
-	ArtistName             string `json:"artistName"`
-	CollectionName         string `json:"collectionName"`
-	TrackName              string `json:"trackName"`
-	CollectionCensoredName string `json:"collectionCensoredName"`
-	TrackCensoredName      string `json:"trackCensoredName"`
-	CollectionViewUrl      string `json:"collectionViewUrl"`
-	FeedUrl                string `json:"feedUrl"`
-	TrackViewUrl           string `json:"trackViewUrl"`
-	ArtworkUrl30           string `json:"artworkUrl30"`
-	ArtworkUrl60           string `json:"artworkUrl60"`
-	ArtworkUrl100          string `json:"artworkUrl100"`
-	ArtworkUrl600          string `json:"artworkUrl600"`
-	ReleaseDate            string `json:"releaseDate"`
-	CollectionExplicitness string `json:"collectionExplicitness"`
-	ContentAdvisoryRating  string `json:"contentAdvisoryRating"`
-	PrimaryGenreName       string `json:"primaryGenreName"`
+func (c ItunesClient) getShowFromSearchShowsByName(searchShows []AppleStoreShow, showName string) *SearchShow {
+	for _, show := range searchShows {
+		if show.CollectionName == showName {
+			return &SearchShow{
+				ID:            strconv.FormatInt(show.CollectionId, 10),
+				Name:          show.CollectionName,
+				FeedURL:       show.FeedUrl,
+				ArtworkURL600: show.ArtworkUrl600,
+				AppStoreURL:   show.CollectionViewUrl,
+			}
+		}
+	}
+	return nil
 }
 
 func (c ItunesClient) parseAppleStoreResult(resp *resty.Response) ([]AppleStoreShow, error) {
@@ -84,4 +95,12 @@ func (c ItunesClient) parseAppleStoreResult(resp *resty.Response) ([]AppleStoreS
 	}
 
 	return result.Results, nil
+}
+
+func (c ItunesClient) getShowNamesFromSearchShows(searchShows []AppleStoreShow) (names []string) {
+	for _, show := range searchShows {
+		names = append(names, show.CollectionName)
+	}
+
+	return names
 }
