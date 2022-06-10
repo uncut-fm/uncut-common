@@ -33,7 +33,7 @@ func (c *Users) GetUserInfo(username string) (*UserInfo, error) {
 	params := &twitter.UserLookupParams{ScreenName: []string{username}}
 	users, resp, err := c.client.Lookup(params)
 	if err != nil {
-		return nil, err
+		return nil, errors.UserHandleNotFoundErr
 	}
 	defer resp.Body.Close()
 

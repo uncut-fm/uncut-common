@@ -7,8 +7,9 @@ import (
 
 // twitter errors
 var (
-	UsernameMissingErr = errors.New("username is missing")
-	UserinfoErr        = errors.New("failed retrieving usersInfo")
+	UsernameMissingErr    = errors.New("username is missing")
+	UserinfoErr           = errors.New("failed retrieving usersInfo")
+	UserHandleNotFoundErr = errors.New("no user matches for specified twitter handle")
 )
 
 // show errors
