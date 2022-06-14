@@ -8,6 +8,7 @@ const (
 	nftLocationPath            = "%v/nfts/%v"       // "{environment}/nfts/{file_name}"
 	userLocationPath           = "%v/users/%v"      // "{environment}/users/{file_name}"
 	speakerProfileLocationPath = "%v/speakers/%v"   // "{environment}/speakers/{file_name}"
+	showLocationPath           = "%v/shows/%v"      // "{environment}/shows/{file_name}"
 
 	publicFileFormat = "https://storage.googleapis.com/%v/%v" // https://storage.googleapis.com/BUCKET_NAME/FILE_NAME
 )
@@ -34,4 +35,8 @@ func GetUserLocationPath(env, fileName string) string {
 
 func GetSpeakerProfileLocationPath(env, fileName string) string {
 	return fmt.Sprintf(speakerProfileLocationPath, env, fileName)
+}
+
+func GetShowLocationPath(env, fileName string) string {
+	return fmt.Sprintf(showLocationPath, env, fileName)
 }
