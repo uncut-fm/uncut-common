@@ -69,6 +69,7 @@ type BackofficeConfigs struct {
 	BlockchainRpcUrl       string         `yaml:"blockchain_rpc_url"`
 	BlockchainName         string         `yaml:"blockchain_name"`
 	FaucetWallet           FaucetWallet   `yaml:"faucet_wallet"`
+	PIRTokenIDs            []int          `yaml:"pir_token_ids"`
 }
 
 type FaucetWallet struct {
