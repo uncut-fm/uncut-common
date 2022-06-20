@@ -50,7 +50,7 @@ func (c ItunesClient) GetShowByName(showName string) (*SearchShow, error) {
 
 	if show == nil {
 		showNames := c.getShowNamesFromSearchShows(searchResult)
-		return nil, c.log.CheckError(errors.NoSearchShowsExactFoundErr(showNames), c.GetShowByName)
+		return getNewSearchShowFromAppleShow(searchResult[0]), c.log.CheckError(errors.NoSearchShowsExactFoundErr(showNames), c.GetShowByName)
 	}
 
 	return show, nil
@@ -74,17 +74,22 @@ func (c ItunesClient) searchShowByName(showName string) ([]AppleStoreShow, error
 
 func (c ItunesClient) getShowFromSearchShowsByName(searchShows []AppleStoreShow, showName string) *SearchShow {
 	for _, show := range searchShows {
-		if show.CollectionName == showName {
-			return &SearchShow{
-				ID:            strconv.FormatInt(show.CollectionId, 10),
-				Name:          show.CollectionName,
-				FeedURL:       show.FeedUrl,
-				ArtworkURL600: show.ArtworkUrl600,
-				AppStoreURL:   show.CollectionViewUrl,
-			}
+		if show.CollectionName == showName || len(searchShows) == 1 {
+			return getNewSearchShowFromAppleShow(show)
 		}
 	}
+
 	return nil
+}
+
+func getNewSearchShowFromAppleShow(appleShow AppleStoreShow) *SearchShow {
+	return &SearchShow{
+		ID:            strconv.FormatInt(appleShow.CollectionId, 10),
+		Name:          appleShow.CollectionName,
+		FeedURL:       appleShow.FeedUrl,
+		ArtworkURL600: appleShow.ArtworkUrl600,
+		AppStoreURL:   appleShow.CollectionViewUrl,
+	}
 }
 
 func (c ItunesClient) parseAppleStoreResult(resp *resty.Response) ([]AppleStoreShow, error) {
