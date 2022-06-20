@@ -55,3 +55,12 @@ func (c *Users) GetUserInfo(username string) (*UserInfo, error) {
 func getTwitterOriginalProfileImage(profileImageURL string) string {
 	return strings.ReplaceAll(profileImageURL, "_normal", "")
 }
+
+func GetUsernameFromTwitterURL(twitterURL string) string {
+	i := strings.LastIndexByte(twitterURL, '/')
+	if i == -1 {
+		return ""
+	}
+
+	return twitterURL[i+1:]
+}
