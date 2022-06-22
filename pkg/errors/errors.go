@@ -14,8 +14,25 @@ var (
 
 // show errors
 var (
+	ShowDoesntExistErr         = errors.New("requested show doesn't exist")
 	NoSearchShowsFoundErr      = errors.New("showSearcher didn't found shows found with requested name")
 	noSearchShowsExactFoundErr = "showSearcher didn't found shows with exactly requested name, found shows: %v"
+)
+
+// nft errors
+var (
+	NftRelationTypeErr     = errors.New("requested relationType is not supported")
+	NftRelationEntityIDErr = errors.New("entityID with requested relationType must be provided")
+)
+
+// episode errors
+var (
+	EpisodeDoesntExistErr = errors.New("requested episode doesn't exist")
+)
+
+// moment errors
+var (
+	MomentDoesntExistErr = errors.New("requested moment doesn't exist")
 )
 
 func NoSearchShowsExactFoundErr(showNames []string) error {
