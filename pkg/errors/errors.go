@@ -35,6 +35,13 @@ var (
 	MomentDoesntExistErr = errors.New("requested moment doesn't exist")
 )
 
+// collection errors
+var (
+	CollectionEpisodeDoesntExistsErr = errors.New("nftCollection doesn't exist in requested episode")
+	CollectionMomentDoesntExistsErr  = errors.New("nftCollection doesn't exist in requested moment")
+	CollectionShowDoesntExistsErr    = errors.New("nftCollection doesn't exist in requested show")
+)
+
 func NoSearchShowsExactFoundErr(showNames []string) error {
 	return fmt.Errorf(noSearchShowsExactFoundErr, showNames)
 }
