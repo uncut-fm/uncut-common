@@ -41,6 +41,7 @@ type ManagementConfigs struct {
 	GcpStorageBucket     string         `yaml:"gcp_storage_bucket"`
 	Twitter              TwitterConfigs `yaml:"twitter"`
 	ReservedSlugs        []string       `yaml:"reserved_slugs"`
+	BackofficeAdminToken string         `yaml:"backoffice_admin_token"`
 }
 
 type BackofficeConfigs struct {
