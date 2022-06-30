@@ -17,6 +17,8 @@ var (
 	ShowDoesntExistErr         = errors.New("requested show doesn't exist")
 	NoSearchShowsFoundErr      = errors.New("showSearcher didn't found shows found with requested name")
 	noSearchShowsExactFoundErr = "showSearcher didn't found shows with exactly requested name, found shows: %v"
+	ShowEpisodeDoesntExistsErr = errors.New("episode is not linked to any show")
+	ShowMomentDoesntExistsErr  = errors.New("moment is not linked to any show")
 )
 
 // nft errors
