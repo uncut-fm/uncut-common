@@ -12,7 +12,7 @@ const (
 	RequestTimeout = 5 * time.Second
 )
 
-type WebappHtmlConvertor struct {
+type WebappClient struct {
 	log                    logger.Logger
 	restyClient            *resty.Client
 	markdownToHtmlEndpoint string
@@ -26,21 +26,21 @@ func createRestyClient() *resty.Client {
 	return client
 }
 
-func NewWebappHtmlConvertor(log logger.Logger, webappURL string) *WebappHtmlConvertor {
-	return &WebappHtmlConvertor{
+func NewWebappClient(log logger.Logger, webappURL string) *WebappClient {
+	return &WebappClient{
 		log:                    log,
 		restyClient:            createRestyClient(),
 		markdownToHtmlEndpoint: fmt.Sprintf("%s/api/markdown-to-html", webappURL),
 	}
 }
 
-func (w WebappHtmlConvertor) GetHTMLFromMarkdown(markdown string) (string, error) {
+func (w WebappClient) GetHTMLFromMarkdown(markdown string) (string, error) {
 	html, err := w.makeMarkdownToHtmlRequest(markdown)
 
 	return html, w.log.CheckError(err, w.GetHTMLFromMarkdown)
 }
 
-func (w WebappHtmlConvertor) makeMarkdownToHtmlRequest(markdown string) (string, error) {
+func (w WebappClient) makeMarkdownToHtmlRequest(markdown string) (string, error) {
 	resp, err := w.restyClient.R().EnableTrace().
 		SetBody(map[string]string{"markdown": markdown}).
 		Post(w.markdownToHtmlEndpoint)
