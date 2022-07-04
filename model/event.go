@@ -14,4 +14,5 @@ var (
 	FreeNftTransferEvent          EventType = "FreeNftTransfer"
 	PaidNftTransferEvent          EventType = "PaidNftTransfer"
 	FaucetWalletBalanceAlertEvent EventType = "FaucetWalletBalanceAlert"
+	WelcomingEmailEvent           EventType = "WelcomingEmail"
 )
