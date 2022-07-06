@@ -80,10 +80,7 @@ func (c Client) getTokenBalances(ctx context.Context, walletAddress string) ([]m
 			currency = model.CurrencyTypeCdols
 		}
 
-		balanceBigInt := new(big.Int)
-		balanceBigInt.SetString(tokenBalance.TokenBalance, 16)
-
-		balance := wei2Eth(balanceBigInt)
+		balance := hexWeiStringToFloat(tokenBalance.TokenBalance)
 
 		balances = append(balances, model.Balance{
 			Currency: currency,
@@ -143,4 +140,11 @@ func wei2Eth(wei *big.Int) float64 {
 
 	eth, _ := f.Quo(fWei.SetInt(wei), big.NewFloat(params.Ether)).Float64()
 	return eth
+}
+
+func hexWeiStringToFloat(hexString string) float64 {
+	balanceBigInt := new(big.Int)
+	balanceBigInt.SetString(hexString, 0)
+
+	return wei2Eth(balanceBigInt)
 }
