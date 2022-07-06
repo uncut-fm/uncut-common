@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+const requestTimeout = 5 * time.Second
+
 type Client struct {
 	log            logger.Logger
 	alchemyRpcURL  string
@@ -34,9 +36,17 @@ func NewClient(log logger.Logger, currencies config.Web3Currencies, alchemyRpcUr
 		alchemyRpcURL:  alchemyRpcUrl,
 		currencies:     currencies,
 		cachedBalances: make(map[string]cachedBalancesStruct),
+		restyClient:    createRestyClient(),
 	}
 
 	return client, nil
+}
+
+func createRestyClient() *resty.Client {
+	client := resty.New()
+	client.SetTimeout(requestTimeout)
+
+	return client
 }
 
 func (c *Client) GetBalanceByWalletHexAddress(ctx context.Context, walletHexAddress string) ([]model.Balance, error) {
