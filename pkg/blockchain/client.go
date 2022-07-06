@@ -2,10 +2,8 @@ package blockchain
 
 import (
 	"context"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/params"
+	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/config"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
@@ -15,16 +13,14 @@ import (
 
 type Client struct {
 	log            logger.Logger
-	ethClient      *ethclient.Client
+	alchemyRpcURL  string
+	restyClient    *resty.Client
 	currencies     config.Web3Currencies
-	mainCurrency   model.CurrencyType
-	wethClient     *Token
-	cdolsClient    *Token
 	cachedBalances map[string]cachedBalancesStruct
 }
 
 type cachedBalancesStruct struct {
-	balances      []*model.Balance
+	balances      []model.Balance
 	retrievedTime time.Time
 }
 
@@ -32,115 +28,81 @@ func (c cachedBalancesStruct) isOlderThan5min() bool {
 	return c.retrievedTime.Add(5 * time.Minute).Before(time.Now())
 }
 
-func NewClient(log logger.Logger, ethClient *ethclient.Client, currencies config.Web3Currencies, blockchainName string) (*Client, error) {
+func NewClient(log logger.Logger, currencies config.Web3Currencies, alchemyRpcUrl string) (*Client, error) {
 	client := &Client{
 		log:            log,
-		ethClient:      ethClient,
+		alchemyRpcURL:  alchemyRpcUrl,
 		currencies:     currencies,
 		cachedBalances: make(map[string]cachedBalancesStruct),
-	}
-
-	err := client.newTokenClients()
-	if err != nil {
-		return nil, err
-	}
-
-	switch blockchainName {
-	case "Polygon", "Mumbai":
-		client.mainCurrency = model.CurrencyTypeMatic
 	}
 
 	return client, nil
 }
 
-func (c *Client) newTokenClients() error {
-	wethAddress := common.HexToAddress(c.currencies.Weth.ContractAddress)
-	cdolsAddress := common.HexToAddress(c.currencies.Cdols.ContractAddress)
-
-	wethClient, err := NewToken(wethAddress, c.ethClient)
-	if c.log.CheckError(err, c.newTokenClients) != nil {
-		return err
-	}
-
-	cdolsClient, err := NewToken(cdolsAddress, c.ethClient)
-	if c.log.CheckError(err, c.newTokenClients) != nil {
-		return err
-	}
-
-	c.wethClient = wethClient
-	c.cdolsClient = cdolsClient
-	return nil
-}
-
-func (c *Client) GetBalanceByWalletHexAddress(ctx context.Context, walletHexAddress string) ([]*model.Balance, error) {
+func (c *Client) GetBalanceByWalletHexAddress(ctx context.Context, walletHexAddress string) ([]model.Balance, error) {
 	if cachedBalance, ok := c.getCachedBalancePerWallet(walletHexAddress); ok {
 		return cachedBalance, nil
 	}
 
-	walletAddress := common.HexToAddress(walletHexAddress)
-
-	mainBalance, err := c.getMainCurrencyBalance(ctx, walletAddress)
+	balances, err := c.getTokenBalances(ctx, walletHexAddress)
 	if c.log.CheckError(err, c.GetBalanceByWalletHexAddress) != nil {
 		return nil, err
 	}
-
-	balances := []*model.Balance{mainBalance}
-
-	otherTokenBalances, err := c.getOtherCurrenciesBalance(walletAddress)
-	if c.log.CheckError(err, c.GetBalanceByWalletHexAddress) != nil {
-		return nil, err
-	}
-
-	balances = append(balances, otherTokenBalances...)
 
 	c.setCachedBalancePerWallet(balances, walletHexAddress)
 
 	return balances, nil
 }
 
-func (c Client) getMainCurrencyBalance(ctx context.Context, walletAddress common.Address) (*model.Balance, error) {
-	balanceWei, err := c.ethClient.BalanceAt(context.Background(), walletAddress, nil)
-	if c.log.CheckError(err, c.getMainCurrencyBalance) != nil {
+func (c Client) getTokenBalances(ctx context.Context, walletAddress string) ([]model.Balance, error) {
+	alchemyBalances, err := c.makeGetTokenBalancesRequest(ctx, walletAddress)
+	if c.log.CheckError(err, c.getTokenBalances) != nil {
 		return nil, err
 	}
 
-	balanceEth := wei2Eth(balanceWei)
+	var balances []model.Balance
+	for _, tokenBalance := range alchemyBalances.Result.TokenBalances {
+		var currency model.CurrencyType
+		switch tokenBalance.ContractAddress {
+		case c.currencies.Weth.ContractAddress:
+			currency = model.CurrencyTypeWeth
+		case c.currencies.Cdols.ContractAddress:
+			currency = model.CurrencyTypeCdols
+		}
 
-	return &model.Balance{
-		Currency: c.mainCurrency,
-		Balance:  balanceEth,
-	}, err
+		balanceBigInt := new(big.Int)
+		balanceBigInt.SetString(tokenBalance.TokenBalance, 16)
+
+		balance := wei2Eth(balanceBigInt)
+
+		balances = append(balances, model.Balance{
+			Currency: currency,
+			Balance:  balance,
+		})
+	}
+
+	return balances, nil
 }
 
-func (c Client) getOtherCurrenciesBalance(walletAddress common.Address) ([]*model.Balance, error) {
-	wethBalance, err := c.getTokenBalance(c.wethClient, walletAddress, model.CurrencyTypeWeth)
-	if err != nil {
-		return nil, err
+func (c Client) makeGetTokenBalancesRequest(ctx context.Context, walletAddress string) (*getTokenBalancesResponse, error) {
+	request := &getTokenBalancesRequest{
+		Jsonrpc: "2.0",
+		Method:  "alchemy_getTokenBalances",
+		Params:  []interface{}{walletAddress, []string{c.currencies.Weth.ContractAddress, c.currencies.Cdols.ContractAddress}},
+		Id:      42,
 	}
 
-	cdolsBalance, err := c.getTokenBalance(c.cdolsClient, walletAddress, model.CurrencyTypeCdols)
-	if err != nil {
-		return nil, err
-	}
+	response := new(getTokenBalancesResponse)
 
-	return []*model.Balance{wethBalance, cdolsBalance}, nil
+	_, err := c.restyClient.R().EnableTrace().
+		SetBody(request).
+		SetResult(response).
+		Post(c.alchemyRpcURL)
+
+	return response, c.log.CheckError(err, c.makeGetTokenBalancesRequest)
 }
 
-func (c Client) getTokenBalance(tokenClient *Token, walletAddress common.Address, currency model.CurrencyType) (*model.Balance, error) {
-	balanceWei, err := tokenClient.BalanceOf(&bind.CallOpts{}, walletAddress)
-	if c.log.CheckError(err, c.getTokenBalance) != nil {
-		return nil, err
-	}
-
-	balanceEth := wei2Eth(balanceWei)
-
-	return &model.Balance{
-		Currency: currency,
-		Balance:  balanceEth,
-	}, nil
-}
-
-func (c *Client) getCachedBalancePerWallet(walletHexAddress string) ([]*model.Balance, bool) {
+func (c *Client) getCachedBalancePerWallet(walletHexAddress string) ([]model.Balance, bool) {
 	cachedBalance, ok := c.cachedBalances[walletHexAddress]
 	if !ok {
 		return nil, false
@@ -154,7 +116,7 @@ func (c *Client) getCachedBalancePerWallet(walletHexAddress string) ([]*model.Ba
 	return cachedBalance.balances, true
 }
 
-func (c *Client) setCachedBalancePerWallet(balances []*model.Balance, walletHexAddress string) {
+func (c *Client) setCachedBalancePerWallet(balances []model.Balance, walletHexAddress string) {
 	c.cachedBalances[walletHexAddress] = cachedBalancesStruct{
 		balances:      balances,
 		retrievedTime: time.Now(),
