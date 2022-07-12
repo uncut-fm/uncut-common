@@ -1,14 +1,15 @@
 package model
 
 type Balance struct {
-	Currency CurrencyType `json:"currency"`
-	Balance  float64      `json:"balance"`
+	Currency CurrencySymbol `json:"currency"`
+	Balance  float64        `json:"balance"`
 }
 
-type CurrencyType string
+type CurrencySymbol string
 
 const (
-	CurrencyTypeMatic CurrencyType = "MATIC"
-	CurrencyTypeWeth  CurrencyType = "WETH"
-	CurrencyTypeCdols CurrencyType = "CDOLS"
+	CurrencySymbolMatic CurrencySymbol = "MATIC"
+	CurrencySymbolWEth  CurrencySymbol = "wETH"
+	CurrencySymbolCdol  CurrencySymbol = "CDOL"
+	CurrencySymbolUsdc  CurrencySymbol = "USDC"
 )

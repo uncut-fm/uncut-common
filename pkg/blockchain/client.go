@@ -72,12 +72,12 @@ func (c Client) getTokenBalances(ctx context.Context, walletAddress string) ([]m
 
 	var balances []model.Balance
 	for _, tokenBalance := range alchemyBalances.Result.TokenBalances {
-		var currency model.CurrencyType
+		var currency model.CurrencySymbol
 		switch tokenBalance.ContractAddress {
 		case c.currencies.Weth.ContractAddress:
-			currency = model.CurrencyTypeWeth
+			currency = model.CurrencySymbolWEth
 		case c.currencies.Cdols.ContractAddress:
-			currency = model.CurrencyTypeCdols
+			currency = model.CurrencySymbolCdol
 		}
 
 		balance := hexWeiStringToFloat(tokenBalance.TokenBalance)
