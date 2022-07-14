@@ -108,6 +108,7 @@ type Web3Currencies struct {
 	Weth  Web3CurrencyDetails `yaml:"weth"`
 	Cdols Web3CurrencyDetails `yaml:"cdols"`
 	Usdc  Web3CurrencyDetails `yaml:"usdc"`
+	Matic Web3CurrencyDetails `yaml:"matic"`
 }
 
 func (w Web3Currencies) GetContractAddressBySymbol(symbol string) string {
