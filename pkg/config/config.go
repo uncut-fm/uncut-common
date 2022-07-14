@@ -119,9 +119,29 @@ func (w Web3Currencies) GetContractAddressBySymbol(symbol string) string {
 		return w.Cdols.ContractAddress
 	case w.Usdc.Symbol:
 		return w.Cdols.ContractAddress
+	case w.Matic.Symbol:
+		return w.Matic.ContractAddress
 	default:
 		return ""
 	}
+}
+
+func (w Web3Currencies) GetAddresses() []string {
+	var addresses []string
+	if len(w.Weth.ContractAddress) > 0 {
+		addresses = append(addresses, w.Weth.ContractAddress)
+	}
+	if len(w.Cdols.ContractAddress) > 0 {
+		addresses = append(addresses, w.Cdols.ContractAddress)
+	}
+	if len(w.Usdc.ContractAddress) > 0 {
+		addresses = append(addresses, w.Usdc.ContractAddress)
+	}
+	if len(w.Matic.ContractAddress) > 0 {
+		addresses = append(addresses, w.Matic.ContractAddress)
+	}
+
+	return addresses
 }
 
 type Web3CurrencyDetails struct {

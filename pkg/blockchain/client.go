@@ -80,9 +80,11 @@ func (c Client) getTokenBalances(ctx context.Context, walletAddress string) ([]m
 			currency = model.CurrencySymbolCdol
 		case c.currencies.Matic.ContractAddress:
 			currency = model.CurrencySymbolMatic
+		case c.currencies.Usdc.ContractAddress:
+			currency = model.CurrencySymbolUsdc
 		}
 
-		balance := hexWeiStringToFloat(tokenBalance.TokenBalance)
+		balance := hexWeiStringToFloatEth(tokenBalance.TokenBalance)
 
 		balances = append(balances, model.Balance{
 			Currency: currency,
@@ -94,10 +96,11 @@ func (c Client) getTokenBalances(ctx context.Context, walletAddress string) ([]m
 }
 
 func (c Client) makeGetTokenBalancesRequest(ctx context.Context, walletAddress string) (*getTokenBalancesResponse, error) {
+	tokenAddresses := c.currencies.GetAddresses()
 	request := &getTokenBalancesRequest{
 		Jsonrpc: "2.0",
 		Method:  "alchemy_getTokenBalances",
-		Params:  []interface{}{walletAddress, []string{c.currencies.Weth.ContractAddress, c.currencies.Cdols.ContractAddress, c.currencies.Matic.ContractAddress}},
+		Params:  []interface{}{walletAddress, tokenAddresses},
 		Id:      42,
 	}
 
@@ -144,7 +147,7 @@ func wei2Eth(wei *big.Int) float64 {
 	return eth
 }
 
-func hexWeiStringToFloat(hexString string) float64 {
+func hexWeiStringToFloatEth(hexString string) float64 {
 	balanceBigInt := new(big.Int)
 	balanceBigInt.SetString(hexString, 0)
 
