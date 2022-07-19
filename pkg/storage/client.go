@@ -37,6 +37,26 @@ type Client struct {
 	bucket, environment string
 }
 
+func (s Client) UploadEntityFileByFileBytes(ctx context.Context, entityType EntityType, entityID *int, file []byte, extension string) (string, error) {
+	var (
+		fileURL string
+		err     error
+	)
+
+	switch entityType {
+	case EntityTypeSpace:
+		fileURL, err = s.uploadSpaceAttachmentFile(ctx, *entityID, file, extension, "image")
+	case EntityTypeShow:
+		fileURL, err = s.storeShowImage(ctx, entityID, file, extension)
+	case EntityTypeSpeakerProfile:
+		fileURL, err = s.storeSpeakerProfileImage(ctx, entityID, file, extension)
+	case EntityTypeUser:
+		fileURL, err = s.storeUserImage(ctx, entityID, file, extension)
+	}
+
+	return fileURL, s.log.CheckError(err, s.UploadEntityFileByFileBytes)
+}
+
 func (s Client) UploadEntityFileByDataURI(ctx context.Context, fileDataURLString string, entityType EntityType, entityID *int) (string, error) {
 	fileDataURLStruct, err := getDataURLInfo(fileDataURLString)
 	if s.log.CheckError(err, s.UploadEntityFileByDataURI) != nil {
