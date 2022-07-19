@@ -37,6 +37,15 @@ type Client struct {
 	bucket, environment string
 }
 
+func NewClient(log logger.Logger, bucketHandler *storage.BucketHandle, bucket, env string) *Client {
+	return &Client{
+		log:          log,
+		bucketHandle: bucketHandler,
+		bucket:       bucket,
+		environment:  env,
+	}
+}
+
 func (s Client) UploadEntityFileByFileBytes(ctx context.Context, entityType EntityType, entityID *int, file []byte, extension string) (string, error) {
 	var (
 		fileURL string
