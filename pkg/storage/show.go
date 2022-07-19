@@ -19,7 +19,7 @@ func (s Client) storeShowImage(c context.Context, showID *int, file []byte, exte
 		return "", err
 	}
 
-	err = s.makeFilePublic(c, fileName)
+	err = s.MakeFilePublic(c, fileName)
 	if err != nil {
 		return "", err
 	}

@@ -21,7 +21,7 @@ func (s Client) storeSpaceAttachment(c context.Context, spaceID int, file []byte
 		return "", err
 	}
 
-	err = s.makeFilePublic(c, fileName)
+	err = s.MakeFilePublic(c, fileName)
 	if err != nil {
 		return "", err
 	}

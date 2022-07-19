@@ -15,7 +15,7 @@ func (s Client) storeNftFile(c context.Context, nftID *int, file []byte, extensi
 		return "", err
 	}
 
-	err = s.makeFilePublic(c, fileName)
+	err = s.MakeFilePublic(c, fileName)
 	if err != nil {
 		return "", err
 	}

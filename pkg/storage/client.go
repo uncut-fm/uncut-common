@@ -193,7 +193,7 @@ func (s Client) deleteFileByFullFilename(c context.Context, filename string) err
 	return s.log.CheckError(err, s.deleteFileByFullFilename)
 }
 
-func (s Client) makeFilePublic(ctx context.Context, fileName string) error {
+func (s Client) MakeFilePublic(ctx context.Context, fileName string) error {
 	acl := s.bucketHandle.Object(fileName).ACL()
 	err := acl.Set(ctx, storage.AllUsers, storage.RoleReader)
 	if err != nil {

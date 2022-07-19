@@ -19,7 +19,7 @@ func (s Client) storeSpeakerProfileImage(c context.Context, speakerID *int, file
 		return "", err
 	}
 
-	err = s.makeFilePublic(c, fileName)
+	err = s.MakeFilePublic(c, fileName)
 	if err != nil {
 		return "", err
 	}

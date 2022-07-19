@@ -19,7 +19,7 @@ func (s Client) storeUserImage(c context.Context, userID *int, file []byte, exte
 		return "", err
 	}
 
-	err = s.makeFilePublic(c, fileName)
+	err = s.MakeFilePublic(c, fileName)
 	if err != nil {
 		return "", err
 	}
