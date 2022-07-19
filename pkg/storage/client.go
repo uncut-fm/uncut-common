@@ -108,7 +108,7 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID int, mimeType strin
 		return "", err
 	}
 
-	fileType := getFileTypeByMimeType(mimeType)
+	fileType := GetFileTypeByMimeType(mimeType)
 
 	var filename string
 	switch entityType {
