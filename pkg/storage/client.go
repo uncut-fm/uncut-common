@@ -102,7 +102,7 @@ func (s Client) UploadEntityFileByDataURI(ctx context.Context, fileDataURLString
 	return fileURL, s.log.CheckError(err, s.UploadEntityFileByDataURI)
 }
 
-func (s Client) GetSignedUrl(entityType EntityType, entityID int, mimeType string) (string, error) {
+func (s Client) GetSignedUrl(entityType EntityType, entityID int, mimeType string, expirationInMinutes int) (string, error) {
 	extension, err := getExtensionByMimeType(mimeType)
 	if s.log.CheckError(err, s.GetSignedUrl) != nil {
 		return "", err
@@ -133,7 +133,7 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID int, mimeType strin
 		}
 	}
 
-	expires := time.Now().Add(time.Second * 60)
+	expires := time.Now().Add(time.Minute * time.Duration(expirationInMinutes))
 
 	signedUrl, err := s.bucketHandle.SignedURL(filename, &storage.SignedURLOptions{
 		ContentType: mimeType,
