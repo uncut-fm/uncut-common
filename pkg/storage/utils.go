@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"github.com/vincent-petithory/dataurl"
 	"mime"
+	"strconv"
 	"strings"
 )
 
 const (
 	momentsLocationPath        = "%v/moments/%v/%v" // "{environment}/moments/{moment_id}/{file_name}"
-	spaceLocationPath          = "%v/space/%v"      // "{environment}/space/{file_name}"
+	spaceLocationPath          = "%v/spaces/%v"     // "{environment}/spaces/{file_name}"
 	nftLocationPath            = "%v/nfts/%v"       // "{environment}/nfts/{file_name}"
 	userLocationPath           = "%v/users/%v"      // "{environment}/users/{file_name}"
 	speakerProfileLocationPath = "%v/speakers/%v"   // "{environment}/speakers/{file_name}"
@@ -84,7 +85,32 @@ func getExtensionByDataURL(data *dataurl.DataURL) (string, error) {
 	return getExtensionByMimeType(mimeType)
 }
 
-func getFileTypeByMimeType(mimeType string) string {
+func GetFileTypeByMimeType(mimeType string) string {
 	parts := strings.SplitN(mimeType, "/", 2)
 	return parts[0]
+}
+
+func GetEntityTypeAndEntityIDByObjectName(objectName string) (EntityType, int, error) {
+	parts := strings.Split(objectName, "/")
+	entityID, err := strconv.Atoi(parts[2])
+	if err != nil {
+		return EntityTypeShow, 0, err
+	}
+
+	var entityType EntityType
+
+	switch parts[1] {
+	case "nfts":
+		entityType = EntityTypeNft
+	case "shows":
+		entityType = EntityTypeShow
+	case "spaces":
+		entityType = EntityTypeSpace
+	case "users":
+		entityType = EntityTypeUser
+	case "speakers":
+		entityType = EntityTypeSpeakerProfile
+	}
+
+	return entityType, entityID, nil
 }
