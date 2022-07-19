@@ -5,6 +5,11 @@ import (
 	"fmt"
 )
 
+// storage errors
+var (
+	FileAccessErr = errors.New("requested file cannot be deleted")
+)
+
 // twitter errors
 var (
 	UsernameMissingErr    = errors.New("username is missing")

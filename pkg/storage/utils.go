@@ -1,6 +1,11 @@
 package storage
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/vincent-petithory/dataurl"
+	"mime"
+	"strings"
+)
 
 const (
 	momentsLocationPath        = "%v/moments/%v/%v" // "{environment}/moments/{moment_id}/{file_name}"
@@ -39,4 +44,47 @@ func GetSpeakerProfileLocationPath(env, fileName string) string {
 
 func GetShowLocationPath(env, fileName string) string {
 	return fmt.Sprintf(showLocationPath, env, fileName)
+}
+
+var mimeTypesToExt = map[string]string{
+	"audio/mpeg":         "mp3",
+	"image/png":          "png",
+	"image/jpeg":         "jpeg",
+	"image/gif":          "gif",
+	"video/mp4":          "mp4",
+	"video/x-flv":        "flv",
+	"video/octet-stream": "mkv",
+	"video/3gpp":         "3gp",
+	"video/webm":         "webm",
+	"video/quicktime":    "mov",
+}
+
+func getExtensionByMimeType(mimeType string) (string, error) {
+	if ext, ok := mimeTypesToExt[mimeType]; ok {
+		return ext, nil
+	}
+
+	extensions, err := mime.ExtensionsByType(mimeType)
+	if err != nil {
+		return "", err
+	}
+
+	// return without leading dot
+	return extensions[0][1:], nil
+}
+
+// getDataURLInfo parses dataURL string and retrieves bytes
+func getDataURLInfo(dataURLString string) (*dataurl.DataURL, error) {
+	return dataurl.DecodeString(dataURLString)
+}
+
+func getExtensionByDataURL(data *dataurl.DataURL) (string, error) {
+	mimeType := fmt.Sprintf("%s/%s", data.Type, data.Subtype)
+
+	return getExtensionByMimeType(mimeType)
+}
+
+func getFileTypeByMimeType(mimeType string) string {
+	parts := strings.SplitN(mimeType, "/", 2)
+	return parts[0]
 }
