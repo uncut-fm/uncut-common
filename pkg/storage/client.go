@@ -46,6 +46,10 @@ func NewClient(log logger.Logger, bucketHandler *storage.BucketHandle, bucket, e
 	}
 }
 
+func (s Client) GetBucket() string {
+	return s.bucket
+}
+
 func (s Client) UploadEntityFileByFileBytes(ctx context.Context, entityType EntityType, entityID *int, file []byte, extension string) (string, error) {
 	var (
 		fileURL string
