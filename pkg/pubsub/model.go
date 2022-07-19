@@ -7,3 +7,11 @@ type CutAudioRequest struct {
 	From            int    `json:"from,required"`
 	To              int    `json:"to,required"`
 }
+
+type PubSubMessage struct {
+	Message struct {
+		Data []byte `json:"data,omitempty"`
+		ID   string `json:"id"`
+	} `json:"message"`
+	Subscription string `json:"subscription"`
+}
