@@ -3,6 +3,7 @@ package webapp
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/cenkalti/backoff"
 	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
 	"time"
@@ -35,7 +36,25 @@ func NewWebappClient(log logger.Logger, webappURL string) *WebappClient {
 }
 
 func (w WebappClient) GetHTMLFromMarkdown(markdown string) (string, error) {
-	html, err := w.makeMarkdownToHtmlRequest(markdown)
+	var (
+		html string
+		err  error
+	)
+
+	operation := func() error {
+		html, err = w.makeMarkdownToHtmlRequest(markdown)
+		if err != nil {
+			w.log.Warn(err)
+			return err
+		}
+
+		return nil
+	}
+
+	b := backoff.NewExponentialBackOff()
+	b.MaxElapsedTime = 30 * time.Second
+
+	err = backoff.Retry(operation, b)
 
 	return html, w.log.CheckError(err, w.GetHTMLFromMarkdown)
 }
