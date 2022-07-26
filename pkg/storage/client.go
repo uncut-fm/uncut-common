@@ -106,7 +106,7 @@ func (s Client) UploadEntityFileByDataURI(ctx context.Context, fileDataURLString
 	return fileURL, s.log.CheckError(err, s.UploadEntityFileByDataURI)
 }
 
-func (s Client) GetSignedUrl(entityType EntityType, entityID int, mimeType string, expirationInMinutes int) (string, error) {
+func (s Client) GetSignedUrl(entityType EntityType, entityID *int, mimeType string, expirationInMinutes int) (string, error) {
 	extension, err := getExtensionByMimeType(mimeType)
 	if s.log.CheckError(err, s.GetSignedUrl) != nil {
 		return "", err
@@ -117,22 +117,22 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID int, mimeType strin
 	var filename string
 	switch entityType {
 	case EntityTypeSpace:
-		filename = s.getSpaceAttachmentFilepath(entityID, fileType, extension)
+		filename = s.getSpaceAttachmentFilepath(*entityID, fileType, extension)
 	case EntityTypeShow:
-		filename = s.getShowImageFilepath(&entityID, extension)
+		filename = s.getShowImageFilepath(entityID, extension)
 	case EntityTypeSpeakerProfile:
-		filename = s.getSpeakerProfilePath(&entityID, extension)
+		filename = s.getSpeakerProfilePath(entityID, extension)
 	case EntityTypeUser:
-		filename = s.getUserImageFilepath(&entityID, extension)
+		filename = s.getUserImageFilepath(entityID, extension)
 	case EntityTypeNft:
 		{
 			switch fileType {
 			case "image":
-				filename = s.getNftImageFilepath(&entityID, &extension)
+				filename = s.getNftImageFilepath(entityID, &extension)
 			case "audio":
-				filename = s.getNftAudioFilepath(&entityID, &extension)
+				filename = s.getNftAudioFilepath(entityID, &extension)
 			case "video":
-				filename = s.getNftVideoFilepath(&entityID, &extension)
+				filename = s.getNftVideoFilepath(entityID, &extension)
 			}
 		}
 	}
