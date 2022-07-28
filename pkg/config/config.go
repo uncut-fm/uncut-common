@@ -94,6 +94,7 @@ type TranscoderConfigs struct {
 	Server           ServerConfigs     `yaml:"server"`
 	Headers          map[string]string `yaml:"headers"`
 	Sentry           SentryConfigs     `yaml:"sentry"`
+	AdminToken       string            `yaml:"admin_token"`
 }
 
 type Web3EventsConfigs struct {
