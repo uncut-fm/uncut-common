@@ -173,7 +173,7 @@ func (s Client) GetStorageFilePathFromPublicURL(fileURL string) (string, error) 
 	i := strings.LastIndex(path, s.environment)
 
 	if i == -1 {
-		return errors.
+		return "", errors.FileIsNotFoundInEnvironmentFolderErr
 	}
 	return path[i:], nil
 }
