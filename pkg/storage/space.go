@@ -16,7 +16,7 @@ func (s Client) uploadSpaceAttachmentFile(c context.Context, spaceID int, file [
 func (s Client) storeSpaceAttachment(c context.Context, spaceID int, file []byte, mediaType string, extension string) (string, error) {
 	fileName := s.getSpaceAttachmentFilepath(spaceID, mediaType, extension)
 
-	err := s.uploadFile(c, fileName, file)
+	err := s.UploadFile(c, fileName, file)
 	if err != nil {
 		return "", err
 	}

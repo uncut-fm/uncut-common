@@ -8,4 +8,5 @@ const (
 	EntityTypeUser           EntityType = "User"
 	EntityTypeSpace          EntityType = "Space"
 	EntityTypeShow           EntityType = "Show"
+	EntityTypeMoment         EntityType = "Moment"
 )

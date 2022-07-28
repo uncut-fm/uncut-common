@@ -14,7 +14,7 @@ func (s Client) StoreShowImage(c context.Context, showID *int, file []byte, exte
 func (s Client) storeShowImage(c context.Context, showID *int, file []byte, extension string) (string, error) {
 	fileName := s.getShowImageFilepath(showID, extension)
 
-	err := s.uploadFile(c, fileName, file)
+	err := s.UploadFile(c, fileName, file)
 	if err != nil {
 		return "", err
 	}

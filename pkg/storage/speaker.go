@@ -14,7 +14,7 @@ func (s Client) StoreSpeakerProfileImage(c context.Context, speakerID *int, file
 func (s Client) storeSpeakerProfileImage(c context.Context, speakerID *int, file []byte, extension string) (string, error) {
 	fileName := s.getSpeakerProfilePath(speakerID, extension)
 
-	err := s.uploadFile(c, fileName, file)
+	err := s.UploadFile(c, fileName, file)
 	if err != nil {
 		return "", err
 	}

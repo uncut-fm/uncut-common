@@ -29,6 +29,8 @@ var (
 
 	userImageIDFileFormat = "%v/user_%v.%s" // {user_id}/user_{time_now}.{ext}
 	userImageFileFormat   = "user_%v.%s"    // user_{time_now}.{ext}
+
+	audioMomentIDFileFormat = "%v/audio_%v.%s" // "{moment_id}/audio_{time_now}.{ext}"
 )
 
 type Client struct {
@@ -65,6 +67,8 @@ func (s Client) UploadEntityFileByFileBytes(ctx context.Context, entityType Enti
 		fileURL, err = s.storeSpeakerProfileImage(ctx, entityID, file, extension)
 	case EntityTypeUser:
 		fileURL, err = s.storeUserImage(ctx, entityID, file, extension)
+	case EntityTypeMoment:
+		fileURL, err = s.storeMomentAudio(ctx, entityID, file, extension)
 	}
 
 	return fileURL, s.log.CheckError(err, s.UploadEntityFileByFileBytes)
@@ -101,6 +105,8 @@ func (s Client) UploadEntityFileByDataURI(ctx context.Context, fileDataURLString
 		}
 	case EntityTypeUser:
 		fileURL, err = s.storeUserImage(ctx, entityID, fileDataURLStruct.Data, extension)
+	case EntityTypeMoment:
+		fileURL, err = s.storeMomentAudio(ctx, entityID, fileDataURLStruct.Data, extension)
 	}
 
 	return fileURL, s.log.CheckError(err, s.UploadEntityFileByDataURI)
@@ -149,7 +155,7 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID *int, mimeType stri
 }
 
 func (s Client) DeleteFileByStoragePublicURL(ctx context.Context, fileURL string) error {
-	filePath, err := s.getStorageFilePathFromPublicURL(fileURL)
+	filePath, err := s.GetStorageFilePathFromPublicURL(fileURL)
 	if s.log.CheckError(err, s.DeleteFileByStoragePublicURL) != nil {
 		return err
 	}
@@ -158,7 +164,7 @@ func (s Client) DeleteFileByStoragePublicURL(ctx context.Context, fileURL string
 	return s.log.CheckError(err, s.DeleteFileByStoragePublicURL)
 }
 
-func (s Client) getStorageFilePathFromPublicURL(fileURL string) (string, error) {
+func (s Client) GetStorageFilePathFromPublicURL(fileURL string) (string, error) {
 	urlParts, err := url.Parse(fileURL)
 	if s.log.CheckError(err, s.DeleteFileByStoragePublicURL) != nil {
 		return "", err
@@ -172,7 +178,7 @@ func (s Client) getStorageFilePathFromPublicURL(fileURL string) (string, error) 
 	return path[i:], nil
 }
 
-func (s Client) uploadFile(c context.Context, fileName string, file []byte) error {
+func (s Client) UploadFile(c context.Context, fileName string, file []byte) error {
 	obj := s.bucketHandle.Object(fileName)
 
 	wr := obj.NewWriter(c)

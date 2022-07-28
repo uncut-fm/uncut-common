@@ -10,7 +10,7 @@ import (
 func (s Client) storeNftFile(c context.Context, nftID *int, file []byte, extension string, nftFilePath func(nftID *int, extension *string) string) (string, error) {
 	fileName := nftFilePath(nftID, &extension)
 
-	err := s.uploadFile(c, fileName, file)
+	err := s.UploadFile(c, fileName, file)
 	if err != nil {
 		return "", err
 	}

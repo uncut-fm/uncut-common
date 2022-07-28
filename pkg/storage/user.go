@@ -14,7 +14,7 @@ func (s Client) StoreUserImage(c context.Context, userID *int, file []byte, exte
 func (s Client) storeUserImage(c context.Context, userID *int, file []byte, extension string) (string, error) {
 	fileName := s.getUserImageFilepath(userID, extension)
 
-	err := s.uploadFile(c, fileName, file)
+	err := s.UploadFile(c, fileName, file)
 	if err != nil {
 		return "", err
 	}
