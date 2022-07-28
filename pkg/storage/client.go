@@ -157,7 +157,7 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID *int, mimeType stri
 func (s Client) DeleteFileByStoragePublicURL(ctx context.Context, fileURL string) error {
 	filePath, err := s.GetStorageFilePathFromPublicURL(fileURL)
 	if s.log.CheckError(err, s.DeleteFileByStoragePublicURL) != nil {
-		return err
+		return errors.FileAccessErr
 	}
 
 	err = s.deleteFileByFullFilename(ctx, filePath)
@@ -170,10 +170,10 @@ func (s Client) GetStorageFilePathFromPublicURL(fileURL string) (string, error) 
 		return "", err
 	}
 	path := urlParts.Path
-	i := strings.Index(path, s.environment)
+	i := strings.LastIndex(path, s.environment)
 
 	if i == -1 {
-		return "", errors.FileAccessErr
+		return errors.
 	}
 	return path[i:], nil
 }

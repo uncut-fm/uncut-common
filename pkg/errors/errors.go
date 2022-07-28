@@ -7,7 +7,8 @@ import (
 
 // storage errors
 var (
-	FileAccessErr = errors.New("requested file cannot be deleted")
+	FileAccessErr                        = errors.New("requested file cannot be deleted")
+	FileIsNotFoundInEnvironmentFolderErr = errors.New("file is not found in environment folder")
 )
 
 // twitter errors
