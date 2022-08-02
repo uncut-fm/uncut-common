@@ -9,10 +9,11 @@ type Event struct {
 type EventType string
 
 var (
-	NewSpaceConversationEvent     EventType = "NewSpaceConversation"
-	NewNFTConversationEvent       EventType = "NewNFTConversation"
-	FreeNftTransferEvent          EventType = "FreeNftTransfer"
-	PaidNftTransferEvent          EventType = "PaidNftTransfer"
-	FaucetWalletBalanceAlertEvent EventType = "FaucetWalletBalanceAlert"
-	WelcomingEmailEvent           EventType = "WelcomingEmail"
+	NewSpaceConversationEvent        EventType = "NewSpaceConversation"
+	NewNFTConversationEvent          EventType = "NewNFTConversation"
+	FreeNftTransferEvent             EventType = "FreeNftTransfer"
+	PaidNftTransferEvent             EventType = "PaidNftTransfer"
+	FaucetWalletBalanceAlertEvent    EventType = "FaucetWalletBalanceAlert"
+	WelcomingEmailEvent              EventType = "WelcomingEmail"
+	NewSpaceConversationCommentEvent EventType = "NewSpaceConversationComment"
 )
