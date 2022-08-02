@@ -16,4 +16,5 @@ var (
 	FaucetWalletBalanceAlertEvent    EventType = "FaucetWalletBalanceAlert"
 	WelcomingEmailEvent              EventType = "WelcomingEmail"
 	NewSpaceConversationCommentEvent EventType = "NewSpaceConversationComment"
+	NewSpaceConversationReplyEvent   EventType = "NewSpaceConversationReply"
 )
