@@ -26,22 +26,23 @@ type Common struct {
 }
 
 type ManagementConfigs struct {
-	PlatformDB           DBConfigs      `yaml:"platform_db"`
-	Server               ServerConfigs  `yaml:"server"`
-	Sentry               SentryConfigs  `yaml:"sentry"`
-	PaperAPIKey          string         `yaml:"paper_api_key"`
-	BlockchainName       string         `yaml:"blockchain_name"`
-	StoreContractAddress string         `yaml:"store_contract_address"`
-	Currencies           Web3Currencies `yaml:"currencies"`
-	BlockchainRpcUrl     string         `yaml:"blockchain_rpc_url"`
-	SegmentWriteKey      string         `yaml:"segment_write_key"`
-	AuthAdminToken       string         `yaml:"auth_admin_token"`
-	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
-	Web3AdminToken       string         `yaml:"web3_admin_token"`
-	GcpStorageBucket     string         `yaml:"gcp_storage_bucket"`
-	Twitter              TwitterConfigs `yaml:"twitter"`
-	ReservedSlugs        []string       `yaml:"reserved_slugs"`
-	BackofficeAdminToken string         `yaml:"backoffice_admin_token"`
+	PlatformDB             DBConfigs      `yaml:"platform_db"`
+	Server                 ServerConfigs  `yaml:"server"`
+	Sentry                 SentryConfigs  `yaml:"sentry"`
+	PaperAPIKey            string         `yaml:"paper_api_key"`
+	BlockchainName         string         `yaml:"blockchain_name"`
+	StoreContractAddress   string         `yaml:"store_contract_address"`
+	Currencies             Web3Currencies `yaml:"currencies"`
+	BlockchainRpcUrl       string         `yaml:"blockchain_rpc_url"`
+	SegmentWriteKey        string         `yaml:"segment_write_key"`
+	AuthAdminToken         string         `yaml:"auth_admin_token"`
+	SendgridAPIKey         string         `yaml:"sendgrid_api_key"`
+	Web3AdminToken         string         `yaml:"web3_admin_token"`
+	GcpStorageBucket       string         `yaml:"gcp_storage_bucket"`
+	Twitter                TwitterConfigs `yaml:"twitter"`
+	ReservedSlugs          []string       `yaml:"reserved_slugs"`
+	BackofficeAdminToken   string         `yaml:"backoffice_admin_token"`
+	PirFivePercentTokenIDs []int          `yaml:"pir_five_percent_token_ids"`
 }
 
 type BackofficeConfigs struct {
