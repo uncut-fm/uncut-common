@@ -244,3 +244,24 @@ func (a API) getListUsersResponse(resp *resty.Response) (*ListUsersResponse, err
 
 	return responseStruct, a.log.CheckError(err, a.getGetUserResponse)
 }
+
+func (a API) ListWalletsByUserID(userID int) ([]*model.Wallet, error) {
+	commonWallets, err := a.makeListWalletsByUserIDsRequest(userID)
+	if a.log.CheckError(err, a.ListUsersByWalletAddresses) != nil {
+		return nil, err
+	}
+
+	return commonWallets, a.log.CheckError(err, a.ListUsersByWalletAddresses)
+}
+
+func (a API) makeListWalletsByUserIDsRequest(userID int) ([]*model.Wallet, error) {
+	var wallets []*model.Wallet
+
+	_, err := a.restyClient.R().EnableTrace().
+		SetQueryParam("id", strconv.Itoa(userID)).
+		SetHeader("admin-token", a.authAdminToken).
+		SetResult(&wallets).
+		Get(fmt.Sprintf(getWalletsEndpoint, a.authApiUrl))
+
+	return wallets, a.log.CheckError(err, a.makeGetUserByIDRequest)
+}
