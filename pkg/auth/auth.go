@@ -12,7 +12,7 @@ var (
 	getCreatorsEndpoint     = "%s/user/creators"
 	updateUserEndpoint      = "%s/user/admin"
 	getUserEndpoint         = "%s/user/"
-	getWalletsEndpoint      = "%s/user/wallet/"
+	getWalletsEndpoint      = "%s/user/wallets/"
 )
 
 const requestTimeout = 5 * time.Second
