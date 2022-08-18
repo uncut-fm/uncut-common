@@ -49,7 +49,6 @@ func (c ContextService) SetUserToGinContext(ctx *gin.Context, user *model.User) 
 	ctx.Set("id", user.UserId)
 	ctx.Set("name", user.Name)
 	ctx.Set("profile_image_url", user.ProfileImageUrl)
-	ctx.Set("has_admin_panel_access", user.HasAdminPanelAccess)
 	ctx.Set("wallet_addresses", user.WalletAddresses)
 	ctx.Set("twitter_handle", user.TwitterHandle)
 	ctx.Set("is_nft_creator", user.IsNftCreator)
@@ -70,14 +69,13 @@ func (c ContextService) GetUserFromGinContext(ginContext *gin.Context) (*model.U
 	}
 
 	return &model.User{
-		ID:                  ginContext.GetInt("id"),
-		Name:                ginContext.GetString("name"),
-		Email:               ginContext.GetString("email"),
-		ProfileImageUrl:     ginContext.GetString("profile_image_url"),
-		HasAdminPanelAccess: ginContext.GetBool("has_admin_panel_access"),
-		WalletAddresses:     ginContext.GetStringSlice("wallet_addresses"),
-		TwitterHandle:       ginContext.GetString("twitter_handle"),
-		IsNftCreator:        ginContext.GetBool("is_nft_creator"),
+		ID:              ginContext.GetInt("id"),
+		Name:            ginContext.GetString("name"),
+		Email:           ginContext.GetString("email"),
+		ProfileImageUrl: ginContext.GetString("profile_image_url"),
+		WalletAddresses: ginContext.GetStringSlice("wallet_addresses"),
+		TwitterHandle:   ginContext.GetString("twitter_handle"),
+		IsNftCreator:    ginContext.GetBool("is_nft_creator"),
 	}, nil
 }
 

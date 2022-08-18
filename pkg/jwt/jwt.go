@@ -52,15 +52,14 @@ type Context interface {
 // GenerateAccessToken generates new JWT token and populates it with user data
 func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (string, error) {
 	return jwt.NewWithClaims(s.algo, jwt.MapClaims{
-		"exp":                    time.Now().Add(s.accessTokenDuration).Unix(),
-		"user_id":                user.UserId,
-		"name":                   user.Name,
-		"email":                  user.Email,
-		"profile_image_url":      user.ProfileImageUrl,
-		"has_admin_panel_access": user.HasAdminPanelAccess,
-		"wallet_addresses":       user.WalletAddresses,
-		"twitter_handle":         user.TwitterHandle,
-		"is_nft_creator":         user.IsNftCreator,
+		"exp":               time.Now().Add(s.accessTokenDuration).Unix(),
+		"user_id":           user.UserId,
+		"name":              user.Name,
+		"email":             user.Email,
+		"profile_image_url": user.ProfileImageUrl,
+		"wallet_addresses":  user.WalletAddresses,
+		"twitter_handle":    user.TwitterHandle,
+		"is_nft_creator":    user.IsNftCreator,
 	}).SignedString(s.accessKey)
 }
 
