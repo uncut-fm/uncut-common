@@ -227,7 +227,13 @@ func (a API) makeListUserByWalletsRequest(walletAddresses []string) (*resty.Resp
 
 func (a API) getGetUserResponse(resp *resty.Response) (*GetUserResponse, error) {
 	responseStruct := new(GetUserResponse)
+
 	err := json.Unmarshal(resp.Body(), responseStruct)
+	if a.log.CheckError(err, a.getGetUserResponse) != nil {
+		return nil, err
+	}
+
+	responseStruct.User.SetWalletAddressesStringListFromEdges()
 
 	return responseStruct, a.log.CheckError(err, a.getGetUserResponse)
 }
