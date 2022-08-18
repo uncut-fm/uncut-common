@@ -258,10 +258,9 @@ func (a API) makeListWalletsByUserIDsRequest(userID int) ([]*model.Wallet, error
 	var wallets []*model.Wallet
 
 	_, err := a.restyClient.R().EnableTrace().
-		SetQueryParam("id", strconv.Itoa(userID)).
 		SetHeader("admin-token", a.authAdminToken).
 		SetResult(&wallets).
-		Get(fmt.Sprintf(getWalletsEndpoint, a.authApiUrl))
+		Get(fmt.Sprintf(getWalletsEndpoint, a.authApiUrl, userID))
 
 	return wallets, a.log.CheckError(err, a.makeGetUserByIDRequest)
 }
