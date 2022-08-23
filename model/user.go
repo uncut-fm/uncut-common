@@ -37,6 +37,7 @@ type Faucet struct {
 }
 
 func (u *User) SetWalletAddressesStringListFromEdges() {
+
 	u.WalletAddresses = make([]string, len(u.Edges.Wallets))
 
 	for i := range u.Edges.Wallets {

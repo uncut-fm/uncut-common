@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/go-resty/resty/v2"
-	"github.com/uncut-fm/uncut-common/model"
 	"net/url"
 	"strconv"
+
+	"github.com/go-resty/resty/v2"
+	"github.com/uncut-fm/uncut-common/model"
 )
 
 func (a API) GetOrCreateUser(email string) (*GetOrCreateUserResponse, error) {
@@ -233,7 +234,9 @@ func (a API) getGetUserResponse(resp *resty.Response) (*GetUserResponse, error) 
 		return nil, err
 	}
 
-	responseStruct.User.SetWalletAddressesStringListFromEdges()
+	if responseStruct.User != nil {
+		responseStruct.User.SetWalletAddressesStringListFromEdges()
+	}
 
 	return responseStruct, a.log.CheckError(err, a.getGetUserResponse)
 }
