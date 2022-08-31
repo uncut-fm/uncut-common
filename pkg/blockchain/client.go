@@ -2,23 +2,26 @@ package blockchain
 
 import (
 	"context"
+	"math/big"
+	"sync"
+	"time"
+
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/config"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
-	"math/big"
-	"time"
 )
 
 const requestTimeout = 5 * time.Second
 
 type Client struct {
-	log            logger.Logger
-	alchemyRpcURL  string
-	restyClient    *resty.Client
-	currencies     config.Web3Currencies
-	cachedBalances map[string]cachedBalancesStruct
+	log                 logger.Logger
+	alchemyRpcURL       string
+	restyClient         *resty.Client
+	currencies          config.Web3Currencies
+	cachedBalances      map[string]cachedBalancesStruct
+	cachedBalancesMutex *sync.RWMutex
 }
 
 type cachedBalancesStruct struct {
@@ -32,11 +35,12 @@ func (c cachedBalancesStruct) isOlderThan5min() bool {
 
 func NewClient(log logger.Logger, currencies config.Web3Currencies, alchemyRpcUrl string) (*Client, error) {
 	client := &Client{
-		log:            log,
-		alchemyRpcURL:  alchemyRpcUrl,
-		currencies:     currencies,
-		cachedBalances: make(map[string]cachedBalancesStruct),
-		restyClient:    createRestyClient(),
+		log:                 log,
+		alchemyRpcURL:       alchemyRpcUrl,
+		currencies:          currencies,
+		cachedBalances:      make(map[string]cachedBalancesStruct),
+		cachedBalancesMutex: new(sync.RWMutex),
+		restyClient:         createRestyClient(),
 	}
 
 	return client, nil
@@ -115,6 +119,9 @@ func (c Client) makeGetTokenBalancesRequest(ctx context.Context, walletAddress s
 }
 
 func (c *Client) getCachedBalancePerWallet(walletHexAddress string) ([]model.Balance, bool) {
+	c.cachedBalancesMutex.RLock()
+	defer c.cachedBalancesMutex.RUnlock()
+
 	cachedBalance, ok := c.cachedBalances[walletHexAddress]
 	if !ok {
 		return nil, false
@@ -129,10 +136,12 @@ func (c *Client) getCachedBalancePerWallet(walletHexAddress string) ([]model.Bal
 }
 
 func (c *Client) setCachedBalancePerWallet(balances []model.Balance, walletHexAddress string) {
+	c.cachedBalancesMutex.Lock()
 	c.cachedBalances[walletHexAddress] = cachedBalancesStruct{
 		balances:      balances,
 		retrievedTime: time.Now(),
 	}
+	c.cachedBalancesMutex.Unlock()
 }
 
 func wei2Eth(wei *big.Int) float64 {
