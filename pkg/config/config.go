@@ -23,6 +23,7 @@ type Common struct {
 	Environment string      `yaml:"environment"`
 	JWT         JWTConfigs  `yaml:"jwt"`
 	ServiceURLs ServiceUrls `yaml:"service_urls"`
+	PubSub      PubSub      `yaml:"pubsub"`
 }
 
 type ManagementConfigs struct {
@@ -46,24 +47,29 @@ type ManagementConfigs struct {
 }
 
 type BackofficeConfigs struct {
-	PlatformDB             DBConfigs      `yaml:"platform_db"`
-	Server                 ServerConfigs  `yaml:"server"`
-	Twitter                TwitterConfigs `yaml:"twitter"`
-	GcpStorageBucket       string         `yaml:"gcp_storage_bucket"`
-	AdminToken             string         `yaml:"admin_token"`
-	AuthAdminToken         string         `yaml:"auth_admin_token"`
-	AudioCutterPubsubTopic string         `yaml:"audio_cutter_pubsub_topic"`
-	Sentry                 SentryConfigs  `yaml:"sentry"`
-	StoreContractAddress   string         `yaml:"store_contract_address"`
-	Web3AdminToken         string         `yaml:"web3_admin_token"`
-	SegmentWriteKey        string         `yaml:"segment_write_key"`
-	SendgridAPIKey         string         `yaml:"sendgrid_api_key"`
-	Currencies             Web3Currencies `yaml:"currencies"`
-	BlockchainRpcUrl       string         `yaml:"blockchain_rpc_url"`
-	BlockchainWsRpcUrl     string         `yaml:"blockchain_ws_rpc_url"`
-	BlockchainName         string         `yaml:"blockchain_name"`
-	FaucetWallet           FaucetWallet   `yaml:"faucet_wallet"`
-	PIRTokenIDs            []int          `yaml:"pir_token_ids"`
+	PlatformDB           DBConfigs      `yaml:"platform_db"`
+	Server               ServerConfigs  `yaml:"server"`
+	Twitter              TwitterConfigs `yaml:"twitter"`
+	GcpStorageBucket     string         `yaml:"gcp_storage_bucket"`
+	AdminToken           string         `yaml:"admin_token"`
+	AuthAdminToken       string         `yaml:"auth_admin_token"`
+	Sentry               SentryConfigs  `yaml:"sentry"`
+	StoreContractAddress string         `yaml:"store_contract_address"`
+	Web3AdminToken       string         `yaml:"web3_admin_token"`
+	SegmentWriteKey      string         `yaml:"segment_write_key"`
+	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
+	Currencies           Web3Currencies `yaml:"currencies"`
+	BlockchainRpcUrl     string         `yaml:"blockchain_rpc_url"`
+	BlockchainWsRpcUrl   string         `yaml:"blockchain_ws_rpc_url"`
+	BlockchainName       string         `yaml:"blockchain_name"`
+	FaucetWallet         FaucetWallet   `yaml:"faucet_wallet"`
+	PIRTokenIDs          []int          `yaml:"pir_token_ids"`
+}
+
+type PubSub struct {
+	AudioCutterPubsubTopicName string `yaml:"audio_cutter_pubsub_topic_name"`
+	BlockchainEventsTopicName  string `yaml:"blockchain_events_topic_name"`
+	BlockchainEventsSubName    string `yaml:"blockchain_events_topic_name"`
 }
 
 type FaucetWallet struct {
