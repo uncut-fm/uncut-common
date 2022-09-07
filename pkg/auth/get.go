@@ -55,8 +55,15 @@ func (a API) getNftCreators() ([]*model.User, error) {
 	var users []*model.User
 
 	err = json.Unmarshal(response.Body(), &users)
+	if a.log.CheckError(err, a.getNftCreators) != nil {
+		return nil, err
+	}
 
-	return users, a.log.CheckError(err, a.getNftCreators)
+	for _, u := range users {
+		u.SetWalletAddressesStringListFromEdges()
+	}
+
+	return users, nil
 }
 
 func (a API) makeGetCreatorsRequest() (*resty.Response, error) {
