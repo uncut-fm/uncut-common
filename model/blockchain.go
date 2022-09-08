@@ -1,8 +1,9 @@
 package model
 
 type BlockchainEvent struct {
-	EventType BlockchainEventType
-	EventInfo interface{}
+	EventType       BlockchainEventType
+	ParsedEventInfo interface{}
+	BlockchainEvent interface{}
 }
 
 type BlockchainEventType string
