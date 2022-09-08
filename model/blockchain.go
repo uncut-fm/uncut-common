@@ -4,6 +4,7 @@ type BlockchainEvent struct {
 	EventType       BlockchainEventType
 	ParsedEventInfo interface{}
 	BlockchainEvent interface{}
+	PickedLive      bool
 }
 
 type BlockchainEventType string
