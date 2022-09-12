@@ -1,6 +1,7 @@
 package rss
 
 import (
+	"context"
 	"errors"
 	"github.com/mmcdole/gofeed"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
@@ -28,7 +29,10 @@ func NewClient(log logger.Logger) *Client {
 func (c Client) GetFeedByFeedURL(feedURL string) (*gofeed.Feed, error) {
 	fp := gofeed.NewParser()
 
-	feed, err := fp.ParseURL(feedURL)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	feed, err := fp.ParseURLWithContext(feedURL, ctx)
 	if err != nil {
 		return nil, err
 	}
