@@ -30,7 +30,7 @@ type ManagementConfigs struct {
 	PlatformDB             DBConfigs      `yaml:"platform_db"`
 	Server                 ServerConfigs  `yaml:"server"`
 	Sentry                 SentryConfigs  `yaml:"sentry"`
-	PaperAPIKey            string         `yaml:"paper_api_key"`
+	Paper                  PaperConfigs   `yaml:"paper"`
 	BlockchainName         string         `yaml:"blockchain_name"`
 	StoreContractAddress   string         `yaml:"store_contract_address"`
 	Currencies             Web3Currencies `yaml:"currencies"`
@@ -44,6 +44,11 @@ type ManagementConfigs struct {
 	ReservedSlugs          []string       `yaml:"reserved_slugs"`
 	BackofficeAdminToken   string         `yaml:"backoffice_admin_token"`
 	PirFivePercentTokenIDs []int          `yaml:"pir_five_percent_token_ids"`
+}
+
+type PaperConfigs struct {
+	PaperAPIKey     string `yaml:"paper_api_key"`
+	PaperContractID string `yaml:"paper_contract_id"`
 }
 
 type BackofficeConfigs struct {
