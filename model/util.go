@@ -6,6 +6,7 @@ import (
 	"github.com/vincent-petithory/dataurl"
 	"math/big"
 	"strings"
+	"time"
 )
 
 func IsIntFieldNew(newField *int, oldField int) bool {
@@ -14,6 +15,10 @@ func IsIntFieldNew(newField *int, oldField int) bool {
 
 func IsStringFieldNew(newField *string, oldField string) bool {
 	return newField != nil && *newField != oldField
+}
+
+func IsTimeFieldNew(newField *time.Time, oldField time.Time) bool {
+	return newField != nil && !(*newField).Equal(oldField)
 }
 
 func IsStringNil(field *string) bool {
