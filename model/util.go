@@ -61,3 +61,13 @@ func EtherToWei(eth *big.Float) *big.Int {
 	wei := new(big.Int).Add(truncInt, fracInt)
 	return wei
 }
+
+func IsStringInList(item string, list []string) bool {
+	for _, i := range list {
+		if item == i {
+			return true
+		}
+	}
+
+	return false
+}
