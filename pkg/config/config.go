@@ -73,8 +73,12 @@ type BackofficeConfigs struct {
 
 type PubSub struct {
 	AudioCutterPubsubTopicName string `yaml:"audio_cutter_pubsub_topic_name"`
-	BlockchainEventsTopicName  string `yaml:"blockchain_events_topic_name"`
-	BlockchainEventsSubName    string `yaml:"blockchain_events_sub_name"`
+
+	BlockchainEventsTopicName string `yaml:"blockchain_events_topic_name"`
+	BlockchainEventsSubName   string `yaml:"blockchain_events_sub_name"`
+
+	EventsTopicName string `json:"events_topic_name"`
+	EventsSubName   string `json:"events_sub_name"`
 }
 
 type FaucetWallet struct {
