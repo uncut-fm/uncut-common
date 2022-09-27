@@ -17,4 +17,5 @@ var (
 	WelcomingEmailEvent              EventType = "WelcomingEmail"
 	NewSpaceConversationCommentEvent EventType = "NewSpaceConversationComment"
 	NewSpaceConversationReplyEvent   EventType = "NewSpaceConversationReply"
+	NewCreatorEvent                  EventType = "NewCreator"
 )
