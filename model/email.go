@@ -7,7 +7,7 @@ import (
 
 var (
 	SpaceLinkPattern = "%s/user/my-shows/%s/space/%s" // {web-app}/my-shows/{show-slug}/space/{space_slug}
-	ShowLinkPattern  = "%s/shows/%s"                  // {web-app}/shows/{show-slug}
+	ShowLinkPattern  = "%s/show/%s"                   // {web-app}/shows/{show-slug}
 )
 
 type EmailReceiver struct {
