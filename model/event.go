@@ -15,6 +15,7 @@ var (
 	PaidNftTransferEvent             EventType = "PaidNftTransfer"
 	FaucetWalletBalanceAlertEvent    EventType = "FaucetWalletBalanceAlert"
 	WelcomingEmailEvent              EventType = "WelcomingEmail"
+	NftAirdropEmailEvent             EventType = "AirdropEmail"
 	NewSpaceConversationCommentEvent EventType = "NewSpaceConversationComment"
 	NewSpaceConversationReplyEvent   EventType = "NewSpaceConversationReply"
 	NewCreatorEvent                  EventType = "NewCreator"
