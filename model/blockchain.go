@@ -56,3 +56,14 @@ type TransferEventInfo struct {
 	Quantity          int    `json:"quantity"`
 	Transaction       string `json:"transaction"`
 }
+
+type BlockchainRequest struct {
+	RequestType BlockchainRequestType
+	ObjectID    int
+}
+
+type BlockchainRequestType string
+
+var (
+	BlockchainRequestMintNft BlockchainRequestType = "MintNFT"
+)
