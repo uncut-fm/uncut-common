@@ -77,6 +77,9 @@ type PubSub struct {
 	BlockchainEventsTopicName string `yaml:"blockchain_events_topic_name"`
 	BlockchainEventsSubName   string `yaml:"blockchain_events_sub_name"`
 
+	BlockchainRequestsTopicName string `yaml:"blockchain_requests_topic_name"`
+	BlockchainRequestsSubName   string `yaml:"blockchain_requests_sub_name"`
+
 	EventsTopicName  string `yaml:"events_topic_name"`
 	NftEventsSubName string `yaml:"nft_events_sub_name"`
 }
