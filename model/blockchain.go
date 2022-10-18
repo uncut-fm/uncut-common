@@ -60,10 +60,12 @@ type TransferEventInfo struct {
 type BlockchainRequest struct {
 	RequestType BlockchainRequestType
 	ObjectID    int
+	SubjectID   *string
 }
 
 type BlockchainRequestType string
 
 var (
-	BlockchainRequestMintNft BlockchainRequestType = "MintNFT"
+	BlockchainRequestMintNft  BlockchainRequestType = "MintNFT"
+	BlockchainRequestMBurnNft BlockchainRequestType = "BurnNFT"
 )
