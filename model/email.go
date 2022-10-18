@@ -2,6 +2,7 @@ package model
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 )
 
@@ -10,6 +11,18 @@ var (
 	ShowLinkPattern  = "%s/show/%s"                   // {web-app}/shows/{show-slug}
 	NftLinkPattern   = "%s/show/%s/nft/%d"            // {web-app}/shows/{show-slug}/nft/{nft_id}
 )
+
+func GetShowLink(webAppURL, showSlug string) string {
+	return fmt.Sprintf(ShowLinkPattern, webAppURL, showSlug)
+}
+
+func GetSpaceLink(webAppURL, showSlug, spaceSlug string) string {
+	return fmt.Sprintf(SpaceLinkPattern, webAppURL, showSlug, spaceSlug)
+}
+
+func GetNftLink(webAppURL, showSlug string, nftID int) string {
+	return fmt.Sprintf(NftLinkPattern, webAppURL, showSlug, nftID)
+}
 
 type EmailReceiver struct {
 	Email string
