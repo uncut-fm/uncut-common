@@ -20,5 +20,6 @@ var (
 	NewSpaceConversationReplyEvent   EventType = "NewSpaceConversationReply"
 	NewCreatorEvent                  EventType = "NewCreator"
 	NewNFTMintedEvent                EventType = "NewNFTMinted"
+	NFTSoldEvent                     EventType = "NftSold"
 	MintedNftUpdateEvent             EventType = "MintedNftUpdate"
 )
