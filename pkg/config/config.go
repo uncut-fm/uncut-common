@@ -80,8 +80,9 @@ type PubSub struct {
 	BlockchainRequestsTopicName string `yaml:"blockchain_requests_topic_name"`
 	BlockchainRequestsSubName   string `yaml:"blockchain_requests_sub_name"`
 
-	EventsTopicName  string `yaml:"events_topic_name"`
-	NftEventsSubName string `yaml:"nft_events_sub_name"`
+	EventsTopicName   string `yaml:"events_topic_name"`
+	NftEventsSubName  string `yaml:"nft_events_sub_name"`
+	UserEventsSubName string `yaml:"user_events_sub_name"`
 }
 
 type FaucetWallet struct {
