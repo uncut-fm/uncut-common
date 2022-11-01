@@ -9,9 +9,13 @@ import (
 )
 
 func New() Logger {
-	logger := logrus.New()
+	baseLogger := logrus.New()
 
-	return log{logger}
+	logger := log{baseLogger}
+
+	logger.Formatter = &logrus.JSONFormatter{}
+
+	return logger
 }
 
 type log struct {
@@ -25,6 +29,7 @@ type Logger interface {
 	Error(args ...interface{})
 	Panic(args ...interface{})
 	CheckError(err error, i interface{}) error
+	CheckInfoError(err error, i interface{}) error
 	BeforeQuery(context.Context, *pg.QueryEvent) (context.Context, error)
 	AfterQuery(context.Context, *pg.QueryEvent) error
 }
@@ -32,6 +37,14 @@ type Logger interface {
 func (l log) CheckError(err error, i interface{}) error {
 	if err != nil {
 		l.Warn("Function name: "+getFunctionName(i)+" | Error: ", err)
+	}
+
+	return err
+}
+
+func (l log) CheckInfoError(err error, i interface{}) error {
+	if err != nil {
+		l.Info("Function name: "+getFunctionName(i)+" | Error: ", err)
 	}
 
 	return err
