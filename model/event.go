@@ -22,4 +22,5 @@ var (
 	NewNFTMintedEvent                EventType = "NewNFTMinted"
 	NFTSoldEvent                     EventType = "NftSold"
 	MintedNftUpdateEvent             EventType = "MintedNftUpdate"
+	ScheduledEmailEvent              EventType = "NewScheduledEmail"
 )

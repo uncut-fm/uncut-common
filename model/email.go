@@ -35,8 +35,8 @@ type EmailReceiver struct {
 }
 
 // ParseTemplate parses an email template, and returns it as an HTML
-func ParseTemplate(path string, data interface{}) (string, error) {
-	t, err := template.ParseFiles(path)
+func ParseTemplate(data interface{}, paths ...string) (string, error) {
+	t, err := template.ParseFiles(paths...)
 	if err != nil {
 		return "", err
 	}
