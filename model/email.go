@@ -42,8 +42,14 @@ func ParseTemplate(data interface{}, paths ...string) (string, error) {
 	}
 
 	buf := new(bytes.Buffer)
-	if err = t.Execute(buf, data); err != nil {
-		return "", err
+	if len(paths) > 1 {
+		if err = t.ExecuteTemplate(buf, "layout", data); err != nil {
+			return "", err
+		}
+	} else {
+		if err = t.Execute(buf, data); err != nil {
+			return "", err
+		}
 	}
 
 	return buf.String(), nil
