@@ -66,6 +66,7 @@ type BlockchainRequest struct {
 type BlockchainRequestType string
 
 var (
-	BlockchainRequestMintNft BlockchainRequestType = "MintNFT"
-	BlockchainRequestBurnNft BlockchainRequestType = "BurnNFT"
+	BlockchainRequestMintNft        BlockchainRequestType = "MintNFT"
+	BlockchainRequestBurnNft        BlockchainRequestType = "BurnNFT"
+	BlockchainRequestMintCollection BlockchainRequestType = "MintCollection"
 )
