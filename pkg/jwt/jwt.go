@@ -50,9 +50,8 @@ type Context interface {
 }
 
 // GenerateAccessToken generates new JWT token and populates it with user data
-func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (string, error) {
-	return jwt.NewWithClaims(s.algo, jwt.MapClaims{
-		"exp":               time.Now().Add(s.accessTokenDuration).Unix(),
+func (s Service) GenerateAccessToken(ctx context.Context, user model.User, expirable bool) (string, error) {
+	claims := jwt.MapClaims{
 		"user_id":           user.UserId,
 		"name":              user.Name,
 		"email":             user.Email,
@@ -60,7 +59,13 @@ func (s Service) GenerateAccessToken(ctx context.Context, user model.User) (stri
 		"wallet_addresses":  user.WalletAddresses,
 		"twitter_handle":    user.TwitterHandle,
 		"is_nft_creator":    user.IsNftCreator,
-	}).SignedString(s.accessKey)
+	}
+
+	if expirable {
+		claims["exp"] = time.Now().Add(s.accessTokenDuration).Unix()
+	}
+
+	return jwt.NewWithClaims(s.algo, claims).SignedString(s.accessKey)
 }
 
 func (s Service) MWFunc() gin.HandlerFunc {

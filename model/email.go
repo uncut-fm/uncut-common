@@ -32,6 +32,7 @@ func GetConversationLink(webAppURL, showSlug, spaceSlug string, conversationID i
 type EmailReceiver struct {
 	Email string
 	Name  string
+	ID    int
 }
 
 // ParseTemplate parses an email template, and returns it as an HTML

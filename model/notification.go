@@ -1,11 +1,24 @@
 package model
 
 import (
+	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"time"
 )
 
-var UnsubscribeEndpointPattern = "%s/unsubscribe/?req=%s"
+var unsubscribeEndpointPattern = "%s/unsubscribe/?req=%s"
+
+func GenerateUnsubscribeEndpointURL(managementBaseURL string, request UnsubscribeHTTPRequest) (string, error) {
+	requestBytes, err := json.Marshal(&request)
+	if err != nil {
+		return "", err
+	}
+
+	requestEncrypted := base64.StdEncoding.EncodeToString(requestBytes)
+
+	return fmt.Sprintf(unsubscribeEndpointPattern, managementBaseURL, requestEncrypted), nil
+}
 
 type NewNotification struct {
 	ReceiverEmail string
