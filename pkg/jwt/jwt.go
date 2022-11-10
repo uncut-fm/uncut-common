@@ -72,7 +72,7 @@ func (s Service) MWFunc() gin.HandlerFunc {
 			return
 		}
 
-		user, err := s.getUserFromToken(token)
+		user, err := s.GetUserFromToken(token)
 		if err != nil {
 			s.context.SetAuthenticatedUserKey(c, false)
 			c.Next()
@@ -102,7 +102,7 @@ func (s Service) parseTokenFromHeader(c *gin.Context) (string, error) {
 	return parts[1], nil
 }
 
-func (s Service) getUserFromToken(token string) (*model.User, error) {
+func (s Service) GetUserFromToken(token string) (*model.User, error) {
 	claims := jwt.MapClaims{}
 	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
 		return s.accessKey, nil
