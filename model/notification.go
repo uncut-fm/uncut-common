@@ -40,13 +40,25 @@ type NewSubscriptionNotification struct {
 type NotificationTemplateType string
 
 const (
+	NftTransferCompletedNotification         NotificationTemplateType = "NFT_TRANSFER_COMPLETED"
+	NftSoldNotification                      NotificationTemplateType = "NFT_SOLD"
+	NftWelcomeNotification                   NotificationTemplateType = "NFT_WELCOME"
+	NftAirdropNotification                   NotificationTemplateType = "NFT_AIRDROP"
+	OnboardingDay0Notification               NotificationTemplateType = "DAY_0"
+	OnboardingDay1Notification               NotificationTemplateType = "DAY_1"
+	OnboardingDay2Notification               NotificationTemplateType = "DAY_2"
+	OnboardingDay5Notification               NotificationTemplateType = "DAY_5"
+	OnboardingDay10Notification              NotificationTemplateType = "DAY_10"
 	ConversationSpaceNotification            NotificationTemplateType = "SPACE_CONVERSATION"
 	ConversationCommentNotification          NotificationTemplateType = "CONVERSATION_COMMENT"
 	ConversationReplyCommentatorNotification NotificationTemplateType = "CONVERSATION_REPLY_TO_COMMENTATOR"
 	ConversationReplyHostNotification        NotificationTemplateType = "CONVERSATION_REPLY_TO_HOST"
 )
 
-var ConversationNotificationTemplates = []NotificationTemplateType{ConversationSpaceNotification, ConversationCommentNotification, ConversationReplyCommentatorNotification, ConversationReplyHostNotification}
+var (
+	ConversationNotificationTemplates = []NotificationTemplateType{ConversationSpaceNotification, ConversationCommentNotification, ConversationReplyCommentatorNotification, ConversationReplyHostNotification}
+	OnboardingSequenceTemplates       = []NotificationTemplateType{OnboardingDay1Notification, OnboardingDay2Notification, OnboardingDay5Notification, OnboardingDay10Notification}
+)
 
 func (n NotificationTemplateType) String() string {
 	return string(n)
@@ -59,6 +71,24 @@ func (n *NewNotification) SetMetadataFromTemplateVariables(templateVariables int
 	}
 
 	err = json.Unmarshal(templateBytes, &n.Metadata)
+
+	return err
+}
+
+type UpdateNotification struct {
+	ID       int
+	Status   string
+	SentAt   *time.Time
+	Metadata map[string]interface{}
+}
+
+func (u *UpdateNotification) SetMetadataFromTemplateVariables(templateVariables interface{}) error {
+	templateBytes, err := json.Marshal(templateVariables)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(templateBytes, &u.Metadata)
 
 	return err
 }
