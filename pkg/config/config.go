@@ -7,6 +7,12 @@ const (
 	AuthSecretEnvVar       = "AUTH_SECRET_ID"
 	TranscoderSecretEnvVar = "TRANSCODER_SECRET_ID"
 	Web3EventsSecretEnvVar = "WEB3_EVENTS_SECRET_ID"
+
+	LocalEnvironment = "local"
+	DevEnvironment   = "dev"
+	TestEnvironment  = "test"
+	StageEnvironment = "stage"
+	ProdEnvironment  = "production"
 )
 
 type Configuration struct {
