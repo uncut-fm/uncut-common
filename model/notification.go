@@ -7,9 +7,9 @@ import (
 	"time"
 )
 
-var unsubscribeEndpointPattern = "%s/unsubscribe/?req=%s"
+var unsubscribeEndpointPattern = "%s/user/unsubscribe/?req=%s"
 
-func GenerateUnsubscribeEndpointURL(managementBaseURL string, request UnsubscribeHTTPRequest) (string, error) {
+func GenerateUnsubscribeURL(appBaseUrl string, request UnsubscribeHTTPRequest) (string, error) {
 	requestBytes, err := json.Marshal(&request)
 	if err != nil {
 		return "", err
@@ -17,7 +17,7 @@ func GenerateUnsubscribeEndpointURL(managementBaseURL string, request Unsubscrib
 
 	requestEncrypted := base64.StdEncoding.EncodeToString(requestBytes)
 
-	return fmt.Sprintf(unsubscribeEndpointPattern, managementBaseURL, requestEncrypted), nil
+	return fmt.Sprintf(unsubscribeEndpointPattern, appBaseUrl, requestEncrypted), nil
 }
 
 type NewNotification struct {

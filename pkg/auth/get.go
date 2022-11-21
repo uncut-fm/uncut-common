@@ -1,9 +1,11 @@
 package auth
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
 	"net/url"
 	"strconv"
 
@@ -40,10 +42,10 @@ func (a API) getGetOrCreateUserResponse(resp *resty.Response) (*GetOrCreateUserR
 	return responseStruct, a.log.CheckError(err, a.getGetOrCreateUserResponse)
 }
 
-func (a API) GetNftCreators() ([]*model.User, error) {
-	commonUsers, err := a.getNftCreators()
+func (a API) GetNftCreators(ctx context.Context) ([]*model.User, error) {
+	protoUsers, err := a.drpcClient.GetNftCreators(ctx, &user.Empty{})
 
-	return commonUsers, a.log.CheckError(err, a.GetNftCreators)
+	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), a.log.CheckError(err, a.GetNftCreators)
 }
 
 func (a API) getNftCreators() ([]*model.User, error) {

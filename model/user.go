@@ -1,6 +1,7 @@
 package model
 
 import (
+	proto_user "github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
 	"time"
 )
 
@@ -42,5 +43,49 @@ func (u *User) SetWalletAddressesStringListFromEdges() {
 
 	for i := range u.Edges.Wallets {
 		u.WalletAddresses[i] = u.Edges.Wallets[i].WalletAddress
+	}
+}
+
+func ParseProtoUsersResponseToCommonUsers(protoResponse *proto_user.UsersResponse) []*User {
+	protoUsers := protoResponse.GetUsers()
+	users := make([]*User, len(protoUsers))
+
+	for i, protoUser := range protoUsers {
+		users[i] = parseProtoUserToUser(protoUser)
+	}
+
+	return users
+}
+
+func parseProtoUserToUser(protoUser *proto_user.User) *User {
+	return &User{
+		ID:              int(protoUser.Id),
+		UserId:          int(protoUser.Id),
+		Name:            protoUser.Name,
+		Email:           protoUser.Email,
+		ProfileImageUrl: protoUser.ProfileImageUrl,
+		TwitterHandle:   protoUser.TwitterHandle,
+		IsNftCreator:    protoUser.IsNftCreator,
+		Edges:           UserEdges{Wallets: parseProtoWalletsToWallets(protoUser.Edges.Wallets)},
+	}
+}
+
+func parseProtoWalletsToWallets(protoWallets []*proto_user.Wallet) []*Wallet {
+	wallets := make([]*Wallet, len(protoWallets))
+
+	for i, protoWallet := range protoWallets {
+		wallets[i] = parseProtoWalletToWallet(protoWallet)
+	}
+
+	return wallets
+}
+
+func parseProtoWalletToWallet(protoWallet *proto_user.Wallet) *Wallet {
+	return &Wallet{
+		ID:          int(protoWallet.Id),
+		Name:        protoWallet.Name,
+		Description: protoWallet.Description,
+		CreatedAt:   protoWallet.CreatedAt.AsTime(),
+		UpdatedAt:   protoWallet.UpdatedAt.AsTime(),
 	}
 }
