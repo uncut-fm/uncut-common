@@ -45,6 +45,7 @@ type DRPCUsersClient interface {
 	ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest) (*UsersResponse, error)
 	ListWalletsByUserID(ctx context.Context, in *IDRequest) (*WalletsResponse, error)
 	GetOrCreateUserAsCreator(ctx context.Context, in *EmailRequest) (*GetOrCreateUserResponse, error)
+	UpdateUser(ctx context.Context, in *UpdateUserRequest) (*User, error)
 }
 
 type drpcUsersClient struct {
@@ -120,6 +121,15 @@ func (c *drpcUsersClient) GetOrCreateUserAsCreator(ctx context.Context, in *Emai
 	return out, nil
 }
 
+func (c *drpcUsersClient) UpdateUser(ctx context.Context, in *UpdateUserRequest) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/user.Users/UpdateUser", drpcEncoding_File_user_proto{}, in, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 type DRPCUsersServer interface {
 	ListNftCreators(context.Context, *Empty) (*UsersResponse, error)
 	GetUserByEmail(context.Context, *EmailRequest) (*User, error)
@@ -128,6 +138,7 @@ type DRPCUsersServer interface {
 	ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error)
 	ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error)
 	GetOrCreateUserAsCreator(context.Context, *EmailRequest) (*GetOrCreateUserResponse, error)
+	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 }
 
 type DRPCUsersUnimplementedServer struct{}
@@ -160,9 +171,13 @@ func (s *DRPCUsersUnimplementedServer) GetOrCreateUserAsCreator(context.Context,
 	return nil, drpcerr.WithCode(errors.New("Unimplemented"), drpcerr.Unimplemented)
 }
 
+func (s *DRPCUsersUnimplementedServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error) {
+	return nil, drpcerr.WithCode(errors.New("Unimplemented"), drpcerr.Unimplemented)
+}
+
 type DRPCUsersDescription struct{}
 
-func (DRPCUsersDescription) NumMethods() int { return 7 }
+func (DRPCUsersDescription) NumMethods() int { return 8 }
 
 func (DRPCUsersDescription) Method(n int) (string, drpc.Encoding, drpc.Receiver, interface{}, bool) {
 	switch n {
@@ -229,6 +244,15 @@ func (DRPCUsersDescription) Method(n int) (string, drpc.Encoding, drpc.Receiver,
 						in1.(*EmailRequest),
 					)
 			}, DRPCUsersServer.GetOrCreateUserAsCreator, true
+	case 7:
+		return "/user.Users/UpdateUser", drpcEncoding_File_user_proto{},
+			func(srv interface{}, ctx context.Context, in1, in2 interface{}) (drpc.Message, error) {
+				return srv.(DRPCUsersServer).
+					UpdateUser(
+						ctx,
+						in1.(*UpdateUserRequest),
+					)
+			}, DRPCUsersServer.UpdateUser, true
 	default:
 		return "", nil, nil, nil, false
 	}
@@ -344,6 +368,22 @@ type drpcUsers_GetOrCreateUserAsCreatorStream struct {
 }
 
 func (x *drpcUsers_GetOrCreateUserAsCreatorStream) SendAndClose(m *GetOrCreateUserResponse) error {
+	if err := x.MsgSend(m, drpcEncoding_File_user_proto{}); err != nil {
+		return err
+	}
+	return x.CloseSend()
+}
+
+type DRPCUsers_UpdateUserStream interface {
+	drpc.Stream
+	SendAndClose(*User) error
+}
+
+type drpcUsers_UpdateUserStream struct {
+	drpc.Stream
+}
+
+func (x *drpcUsers_UpdateUserStream) SendAndClose(m *User) error {
 	if err := x.MsgSend(m, drpcEncoding_File_user_proto{}); err != nil {
 		return err
 	}

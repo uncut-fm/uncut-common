@@ -1,39 +1,25 @@
 package auth
 
 import (
-	"encoding/json"
-	"fmt"
-	"github.com/go-resty/resty/v2"
+	"context"
 	"github.com/uncut-fm/uncut-common/model"
+	"github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
 )
 
-func (a API) UpdateUser(input *UpdateUserAuthRequest) (*model.User, error) {
-	commonUser, err := a.updateUser(input)
+func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*model.User, error) {
+	protoUser, err := a.drpcClient.UpdateUser(ctx, &user.UpdateUserRequest{
+		Id:              uint64(input.ID),
+		Name:            input.Name,
+		Email:           input.Email,
+		ProfileImageUrl: input.ProfileImageURL,
+		WalletAddress:   input.WalletAddress,
+		TwitterHandle:   input.TwitterHandle,
+		IsNftCreator:    input.IsNftCreator,
+	})
+
 	if a.log.CheckError(err, a.UpdateUser) != nil {
 		return nil, err
 	}
 
-	return commonUser, nil
-}
-
-func (a API) updateUser(input *UpdateUserAuthRequest) (*model.User, error) {
-	response, err := a.makeUpdateUserRequest(input)
-	if a.log.CheckError(err, a.updateUser) != nil {
-		return nil, err
-	}
-
-	user := new(model.User)
-
-	err = json.Unmarshal(response.Body(), user)
-
-	return user, a.log.CheckError(err, a.updateUser)
-}
-
-func (a API) makeUpdateUserRequest(input *UpdateUserAuthRequest) (*resty.Response, error) {
-	resp, err := a.restyClient.R().EnableTrace().
-		SetBody(input).
-		SetHeader("admin-token", a.authAdminToken).
-		Patch(fmt.Sprintf(updateUserEndpoint, a.authApiUrl))
-
-	return resp, a.log.CheckError(err, a.makeGetOrCreateUserRequest)
+	return model.ParseProtoUserToUser(protoUser), err
 }

@@ -8,8 +8,11 @@ import (
 
 func (a API) GetOrCreateUser(ctx context.Context, email string) (*GetOrCreateUserResponse, error) {
 	response, err := a.drpcClient.GetOrCreateUserAsCreator(ctx, &proto_user.EmailRequest{Email: email})
+	if a.log.CheckError(err, a.GetOrCreateUser) != nil {
+		return nil, err
+	}
 
-	return getGetOrCreateUserResponse(response), a.log.CheckError(err, a.GetOrCreateUser)
+	return getGetOrCreateUserResponse(response), nil
 }
 
 func getGetOrCreateUserResponse(resp *proto_user.GetOrCreateUserResponse) *GetOrCreateUserResponse {
@@ -22,13 +25,20 @@ func getGetOrCreateUserResponse(resp *proto_user.GetOrCreateUserResponse) *GetOr
 func (a API) GetNftCreators(ctx context.Context) ([]*model.User, error) {
 	protoUsers, err := a.drpcClient.ListNftCreators(ctx, &proto_user.Empty{})
 
-	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), a.log.CheckError(err, a.GetNftCreators)
+	if a.log.CheckError(err, a.GetNftCreators) != nil {
+		return nil, err
+	}
+
+	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), nil
 }
 
 func (a API) GetUserByEmail(ctx context.Context, email string) (*model.User, error) {
 	protoUser, err := a.drpcClient.GetUserByEmail(ctx, &proto_user.EmailRequest{Email: email})
+	if a.log.CheckError(err, a.GetUserByEmail) != nil {
+		return nil, err
+	}
 
-	return model.ParseProtoUserToUser(protoUser), a.log.CheckError(err, a.GetUserByEmail)
+	return model.ParseProtoUserToUser(protoUser), nil
 }
 
 func (a API) GetUserByWalletAddress(ctx context.Context, walletAddress string) (*model.User, error) {
@@ -37,14 +47,20 @@ func (a API) GetUserByWalletAddress(ctx context.Context, walletAddress string) (
 
 func (a API) getUserByWalletAddress(ctx context.Context, walletAddress string) (*model.User, error) {
 	protoUser, err := a.drpcClient.GetUserByWalletAddress(ctx, &proto_user.WalletAddressRequest{WalletAddress: walletAddress})
+	if a.log.CheckError(err, a.getUserByWalletAddress) != nil {
+		return nil, err
+	}
 
-	return model.ParseProtoUserToUser(protoUser), a.log.CheckError(err, a.getUserByWalletAddress)
+	return model.ParseProtoUserToUser(protoUser), nil
 }
 
 func (a API) GetUserByID(ctx context.Context, userID int) (*model.User, error) {
 	protoUser, err := a.drpcClient.GetUserByID(ctx, &proto_user.IDRequest{Id: uint64(userID)})
+	if a.log.CheckError(err, a.GetUserByID) != nil {
+		return nil, err
+	}
 
-	return model.ParseProtoUserToUser(protoUser), a.log.CheckError(err, a.GetUserByID)
+	return model.ParseProtoUserToUser(protoUser), nil
 }
 
 func (a API) GetUserEmailByWalletAddress(ctx context.Context, walletAddress string) (string, error) {
@@ -63,12 +79,18 @@ func (a API) GetUserEmailByWalletAddress(ctx context.Context, walletAddress stri
 
 func (a API) ListUsersByWalletAddresses(ctx context.Context, walletAddresses []string) ([]*model.User, error) {
 	protoUsers, err := a.drpcClient.ListUsersByWalletAddresses(ctx, &proto_user.WalletAddressesRequest{WalletAddresses: walletAddresses})
+	if a.log.CheckError(err, a.ListUsersByWalletAddresses) != nil {
+		return nil, err
+	}
 
-	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), a.log.CheckError(err, a.ListUsersByWalletAddresses)
+	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), nil
 }
 
 func (a API) ListWalletsByUserID(ctx context.Context, userID int) ([]*model.Wallet, error) {
 	protoWalletsResponse, err := a.drpcClient.ListWalletsByUserID(ctx, &proto_user.IDRequest{Id: uint64(userID)})
+	if a.log.CheckError(err, a.ListWalletsByUserID) != nil {
+		return nil, err
+	}
 
-	return model.ParseProtoWalletsToWallets(protoWalletsResponse.Wallets), a.log.CheckError(err, a.ListWalletsByUserID)
+	return model.ParseProtoWalletsToWallets(protoWalletsResponse.Wallets), nil
 }
