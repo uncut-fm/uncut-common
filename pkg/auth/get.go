@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	pkg_errors "github.com/uncut-fm/uncut-common/pkg/errors"
 	"net/url"
 	"strconv"
 
@@ -86,7 +87,7 @@ func (a API) GetUserByEmail(email string) (*model.User, error) {
 	}
 
 	if getUserResponse.User == nil {
-		return nil, errors.New("user not found")
+		return nil, pkg_errors.UserNotFoundErr
 	}
 
 	return getUserResponse.User, a.log.CheckError(err, a.GetUserByEmail)
@@ -122,7 +123,7 @@ func (a API) getUserByWalletAddress(walletAddress string) (*model.User, error) {
 	}
 
 	if getUserResponse.User == nil {
-		return nil, errors.New("user not found")
+		return nil, pkg_errors.UserNotFoundErr
 	}
 
 	return getUserResponse.User, nil
@@ -158,7 +159,7 @@ func (a API) getUserByID(userID int) (*model.User, error) {
 	}
 
 	if getUserResponse.User == nil {
-		return nil, errors.New("user not found")
+		return nil, pkg_errors.UserNotFoundErr
 	}
 
 	go a.cache.SetUserEmailToCache(getUserResponse.User)

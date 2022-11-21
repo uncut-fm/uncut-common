@@ -49,6 +49,11 @@ var (
 	CollectionShowDoesntExistsErr    = errors.New("nftCollection doesn't exist in requested show")
 )
 
+// user errors
+var (
+	UserNotFoundErr = errors.New("user not found")
+)
+
 func NoSearchShowsExactFoundErr(showNames []string) error {
 	return fmt.Errorf(noSearchShowsExactFoundErr, showNames)
 }
