@@ -51,13 +51,13 @@ func ParseProtoUsersResponseToCommonUsers(protoResponse *proto_user.UsersRespons
 	users := make([]*User, len(protoUsers))
 
 	for i, protoUser := range protoUsers {
-		users[i] = parseProtoUserToUser(protoUser)
+		users[i] = ParseProtoUserToUser(protoUser)
 	}
 
 	return users
 }
 
-func parseProtoUserToUser(protoUser *proto_user.User) *User {
+func ParseProtoUserToUser(protoUser *proto_user.User) *User {
 	return &User{
 		ID:              int(protoUser.Id),
 		UserId:          int(protoUser.Id),
@@ -66,11 +66,11 @@ func parseProtoUserToUser(protoUser *proto_user.User) *User {
 		ProfileImageUrl: protoUser.ProfileImageUrl,
 		TwitterHandle:   protoUser.TwitterHandle,
 		IsNftCreator:    protoUser.IsNftCreator,
-		Edges:           UserEdges{Wallets: parseProtoWalletsToWallets(protoUser.Edges.Wallets)},
+		Edges:           UserEdges{Wallets: ParseProtoWalletsToWallets(protoUser.Edges.Wallets)},
 	}
 }
 
-func parseProtoWalletsToWallets(protoWallets []*proto_user.Wallet) []*Wallet {
+func ParseProtoWalletsToWallets(protoWallets []*proto_user.Wallet) []*Wallet {
 	wallets := make([]*Wallet, len(protoWallets))
 
 	for i, protoWallet := range protoWallets {

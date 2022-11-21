@@ -38,7 +38,13 @@ func (drpcEncoding_File_user_proto) JSONUnmarshal(buf []byte, msg drpc.Message) 
 type DRPCUsersClient interface {
 	DRPCConn() drpc.Conn
 
-	GetNftCreators(ctx context.Context, in *Empty) (*UsersResponse, error)
+	ListNftCreators(ctx context.Context, in *Empty) (*UsersResponse, error)
+	GetUserByEmail(ctx context.Context, in *EmailRequest) (*User, error)
+	GetUserByWalletAddress(ctx context.Context, in *WalletAddressRequest) (*User, error)
+	GetUserByID(ctx context.Context, in *IDRequest) (*User, error)
+	ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest) (*UsersResponse, error)
+	ListWalletsByUserID(ctx context.Context, in *IDRequest) (*WalletsResponse, error)
+	GetOrCreateUserAsCreator(ctx context.Context, in *EmailRequest) (*GetOrCreateUserResponse, error)
 }
 
 type drpcUsersClient struct {
@@ -51,9 +57,63 @@ func NewDRPCUsersClient(cc drpc.Conn) DRPCUsersClient {
 
 func (c *drpcUsersClient) DRPCConn() drpc.Conn { return c.cc }
 
-func (c *drpcUsersClient) GetNftCreators(ctx context.Context, in *Empty) (*UsersResponse, error) {
+func (c *drpcUsersClient) ListNftCreators(ctx context.Context, in *Empty) (*UsersResponse, error) {
 	out := new(UsersResponse)
-	err := c.cc.Invoke(ctx, "/user.Users/GetNftCreators", drpcEncoding_File_user_proto{}, in, out)
+	err := c.cc.Invoke(ctx, "/user.Users/ListNftCreators", drpcEncoding_File_user_proto{}, in, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *drpcUsersClient) GetUserByEmail(ctx context.Context, in *EmailRequest) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/user.Users/GetUserByEmail", drpcEncoding_File_user_proto{}, in, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *drpcUsersClient) GetUserByWalletAddress(ctx context.Context, in *WalletAddressRequest) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/user.Users/GetUserByWalletAddress", drpcEncoding_File_user_proto{}, in, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *drpcUsersClient) GetUserByID(ctx context.Context, in *IDRequest) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/user.Users/GetUserByID", drpcEncoding_File_user_proto{}, in, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *drpcUsersClient) ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest) (*UsersResponse, error) {
+	out := new(UsersResponse)
+	err := c.cc.Invoke(ctx, "/user.Users/ListUsersByWalletAddresses", drpcEncoding_File_user_proto{}, in, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *drpcUsersClient) ListWalletsByUserID(ctx context.Context, in *IDRequest) (*WalletsResponse, error) {
+	out := new(WalletsResponse)
+	err := c.cc.Invoke(ctx, "/user.Users/ListWalletsByUserID", drpcEncoding_File_user_proto{}, in, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *drpcUsersClient) GetOrCreateUserAsCreator(ctx context.Context, in *EmailRequest) (*GetOrCreateUserResponse, error) {
+	out := new(GetOrCreateUserResponse)
+	err := c.cc.Invoke(ctx, "/user.Users/GetOrCreateUserAsCreator", drpcEncoding_File_user_proto{}, in, out)
 	if err != nil {
 		return nil, err
 	}
@@ -61,30 +121,114 @@ func (c *drpcUsersClient) GetNftCreators(ctx context.Context, in *Empty) (*Users
 }
 
 type DRPCUsersServer interface {
-	GetNftCreators(context.Context, *Empty) (*UsersResponse, error)
+	ListNftCreators(context.Context, *Empty) (*UsersResponse, error)
+	GetUserByEmail(context.Context, *EmailRequest) (*User, error)
+	GetUserByWalletAddress(context.Context, *WalletAddressRequest) (*User, error)
+	GetUserByID(context.Context, *IDRequest) (*User, error)
+	ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error)
+	ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error)
+	GetOrCreateUserAsCreator(context.Context, *EmailRequest) (*GetOrCreateUserResponse, error)
 }
 
 type DRPCUsersUnimplementedServer struct{}
 
-func (s *DRPCUsersUnimplementedServer) GetNftCreators(context.Context, *Empty) (*UsersResponse, error) {
+func (s *DRPCUsersUnimplementedServer) ListNftCreators(context.Context, *Empty) (*UsersResponse, error) {
+	return nil, drpcerr.WithCode(errors.New("Unimplemented"), drpcerr.Unimplemented)
+}
+
+func (s *DRPCUsersUnimplementedServer) GetUserByEmail(context.Context, *EmailRequest) (*User, error) {
+	return nil, drpcerr.WithCode(errors.New("Unimplemented"), drpcerr.Unimplemented)
+}
+
+func (s *DRPCUsersUnimplementedServer) GetUserByWalletAddress(context.Context, *WalletAddressRequest) (*User, error) {
+	return nil, drpcerr.WithCode(errors.New("Unimplemented"), drpcerr.Unimplemented)
+}
+
+func (s *DRPCUsersUnimplementedServer) GetUserByID(context.Context, *IDRequest) (*User, error) {
+	return nil, drpcerr.WithCode(errors.New("Unimplemented"), drpcerr.Unimplemented)
+}
+
+func (s *DRPCUsersUnimplementedServer) ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error) {
+	return nil, drpcerr.WithCode(errors.New("Unimplemented"), drpcerr.Unimplemented)
+}
+
+func (s *DRPCUsersUnimplementedServer) ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error) {
+	return nil, drpcerr.WithCode(errors.New("Unimplemented"), drpcerr.Unimplemented)
+}
+
+func (s *DRPCUsersUnimplementedServer) GetOrCreateUserAsCreator(context.Context, *EmailRequest) (*GetOrCreateUserResponse, error) {
 	return nil, drpcerr.WithCode(errors.New("Unimplemented"), drpcerr.Unimplemented)
 }
 
 type DRPCUsersDescription struct{}
 
-func (DRPCUsersDescription) NumMethods() int { return 1 }
+func (DRPCUsersDescription) NumMethods() int { return 7 }
 
 func (DRPCUsersDescription) Method(n int) (string, drpc.Encoding, drpc.Receiver, interface{}, bool) {
 	switch n {
 	case 0:
-		return "/user.Users/GetNftCreators", drpcEncoding_File_user_proto{},
+		return "/user.Users/ListNftCreators", drpcEncoding_File_user_proto{},
 			func(srv interface{}, ctx context.Context, in1, in2 interface{}) (drpc.Message, error) {
 				return srv.(DRPCUsersServer).
-					GetNftCreators(
+					ListNftCreators(
 						ctx,
 						in1.(*Empty),
 					)
-			}, DRPCUsersServer.GetNftCreators, true
+			}, DRPCUsersServer.ListNftCreators, true
+	case 1:
+		return "/user.Users/GetUserByEmail", drpcEncoding_File_user_proto{},
+			func(srv interface{}, ctx context.Context, in1, in2 interface{}) (drpc.Message, error) {
+				return srv.(DRPCUsersServer).
+					GetUserByEmail(
+						ctx,
+						in1.(*EmailRequest),
+					)
+			}, DRPCUsersServer.GetUserByEmail, true
+	case 2:
+		return "/user.Users/GetUserByWalletAddress", drpcEncoding_File_user_proto{},
+			func(srv interface{}, ctx context.Context, in1, in2 interface{}) (drpc.Message, error) {
+				return srv.(DRPCUsersServer).
+					GetUserByWalletAddress(
+						ctx,
+						in1.(*WalletAddressRequest),
+					)
+			}, DRPCUsersServer.GetUserByWalletAddress, true
+	case 3:
+		return "/user.Users/GetUserByID", drpcEncoding_File_user_proto{},
+			func(srv interface{}, ctx context.Context, in1, in2 interface{}) (drpc.Message, error) {
+				return srv.(DRPCUsersServer).
+					GetUserByID(
+						ctx,
+						in1.(*IDRequest),
+					)
+			}, DRPCUsersServer.GetUserByID, true
+	case 4:
+		return "/user.Users/ListUsersByWalletAddresses", drpcEncoding_File_user_proto{},
+			func(srv interface{}, ctx context.Context, in1, in2 interface{}) (drpc.Message, error) {
+				return srv.(DRPCUsersServer).
+					ListUsersByWalletAddresses(
+						ctx,
+						in1.(*WalletAddressesRequest),
+					)
+			}, DRPCUsersServer.ListUsersByWalletAddresses, true
+	case 5:
+		return "/user.Users/ListWalletsByUserID", drpcEncoding_File_user_proto{},
+			func(srv interface{}, ctx context.Context, in1, in2 interface{}) (drpc.Message, error) {
+				return srv.(DRPCUsersServer).
+					ListWalletsByUserID(
+						ctx,
+						in1.(*IDRequest),
+					)
+			}, DRPCUsersServer.ListWalletsByUserID, true
+	case 6:
+		return "/user.Users/GetOrCreateUserAsCreator", drpcEncoding_File_user_proto{},
+			func(srv interface{}, ctx context.Context, in1, in2 interface{}) (drpc.Message, error) {
+				return srv.(DRPCUsersServer).
+					GetOrCreateUserAsCreator(
+						ctx,
+						in1.(*EmailRequest),
+					)
+			}, DRPCUsersServer.GetOrCreateUserAsCreator, true
 	default:
 		return "", nil, nil, nil, false
 	}
@@ -94,16 +238,112 @@ func DRPCRegisterUsers(mux drpc.Mux, impl DRPCUsersServer) error {
 	return mux.Register(impl, DRPCUsersDescription{})
 }
 
-type DRPCUsers_GetNftCreatorsStream interface {
+type DRPCUsers_ListNftCreatorsStream interface {
 	drpc.Stream
 	SendAndClose(*UsersResponse) error
 }
 
-type drpcUsers_GetNftCreatorsStream struct {
+type drpcUsers_ListNftCreatorsStream struct {
 	drpc.Stream
 }
 
-func (x *drpcUsers_GetNftCreatorsStream) SendAndClose(m *UsersResponse) error {
+func (x *drpcUsers_ListNftCreatorsStream) SendAndClose(m *UsersResponse) error {
+	if err := x.MsgSend(m, drpcEncoding_File_user_proto{}); err != nil {
+		return err
+	}
+	return x.CloseSend()
+}
+
+type DRPCUsers_GetUserByEmailStream interface {
+	drpc.Stream
+	SendAndClose(*User) error
+}
+
+type drpcUsers_GetUserByEmailStream struct {
+	drpc.Stream
+}
+
+func (x *drpcUsers_GetUserByEmailStream) SendAndClose(m *User) error {
+	if err := x.MsgSend(m, drpcEncoding_File_user_proto{}); err != nil {
+		return err
+	}
+	return x.CloseSend()
+}
+
+type DRPCUsers_GetUserByWalletAddressStream interface {
+	drpc.Stream
+	SendAndClose(*User) error
+}
+
+type drpcUsers_GetUserByWalletAddressStream struct {
+	drpc.Stream
+}
+
+func (x *drpcUsers_GetUserByWalletAddressStream) SendAndClose(m *User) error {
+	if err := x.MsgSend(m, drpcEncoding_File_user_proto{}); err != nil {
+		return err
+	}
+	return x.CloseSend()
+}
+
+type DRPCUsers_GetUserByIDStream interface {
+	drpc.Stream
+	SendAndClose(*User) error
+}
+
+type drpcUsers_GetUserByIDStream struct {
+	drpc.Stream
+}
+
+func (x *drpcUsers_GetUserByIDStream) SendAndClose(m *User) error {
+	if err := x.MsgSend(m, drpcEncoding_File_user_proto{}); err != nil {
+		return err
+	}
+	return x.CloseSend()
+}
+
+type DRPCUsers_ListUsersByWalletAddressesStream interface {
+	drpc.Stream
+	SendAndClose(*UsersResponse) error
+}
+
+type drpcUsers_ListUsersByWalletAddressesStream struct {
+	drpc.Stream
+}
+
+func (x *drpcUsers_ListUsersByWalletAddressesStream) SendAndClose(m *UsersResponse) error {
+	if err := x.MsgSend(m, drpcEncoding_File_user_proto{}); err != nil {
+		return err
+	}
+	return x.CloseSend()
+}
+
+type DRPCUsers_ListWalletsByUserIDStream interface {
+	drpc.Stream
+	SendAndClose(*WalletsResponse) error
+}
+
+type drpcUsers_ListWalletsByUserIDStream struct {
+	drpc.Stream
+}
+
+func (x *drpcUsers_ListWalletsByUserIDStream) SendAndClose(m *WalletsResponse) error {
+	if err := x.MsgSend(m, drpcEncoding_File_user_proto{}); err != nil {
+		return err
+	}
+	return x.CloseSend()
+}
+
+type DRPCUsers_GetOrCreateUserAsCreatorStream interface {
+	drpc.Stream
+	SendAndClose(*GetOrCreateUserResponse) error
+}
+
+type drpcUsers_GetOrCreateUserAsCreatorStream struct {
+	drpc.Stream
+}
+
+func (x *drpcUsers_GetOrCreateUserAsCreatorStream) SendAndClose(m *GetOrCreateUserResponse) error {
 	if err := x.MsgSend(m, drpcEncoding_File_user_proto{}); err != nil {
 		return err
 	}

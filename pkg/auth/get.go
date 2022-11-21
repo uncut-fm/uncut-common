@@ -2,188 +2,58 @@ package auth
 
 import (
 	"context"
-	"encoding/json"
-	"errors"
-	"fmt"
-	"github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
-	"net/url"
-	"strconv"
-
-	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/model"
+	proto_user "github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
 )
 
-func (a API) GetOrCreateUser(email string) (*GetOrCreateUserResponse, error) {
-	response, err := a.makeGetOrCreateUserRequest(email)
-	if a.log.CheckError(err, a.GetOrCreateUser) != nil {
-		return nil, err
+func (a API) GetOrCreateUser(ctx context.Context, email string) (*GetOrCreateUserResponse, error) {
+	response, err := a.drpcClient.GetOrCreateUserAsCreator(ctx, &proto_user.EmailRequest{Email: email})
+
+	return getGetOrCreateUserResponse(response), a.log.CheckError(err, a.GetOrCreateUser)
+}
+
+func getGetOrCreateUserResponse(resp *proto_user.GetOrCreateUserResponse) *GetOrCreateUserResponse {
+	return &GetOrCreateUserResponse{
+		User:          model.ParseProtoUserToUser(resp.GetUser()),
+		ExistedBefore: resp.GetExistedBefore(),
 	}
-
-	getOrCreateUserResponse, err := a.getGetOrCreateUserResponse(response)
-	return getOrCreateUserResponse, a.log.CheckError(err, a.GetOrCreateUser)
-}
-
-func (a API) makeGetOrCreateUserRequest(email string) (*resty.Response, error) {
-	resp, err := a.restyClient.R().EnableTrace().
-		SetBody(map[string]string{
-			"email": email,
-		}).
-		SetHeader("admin-token", a.authAdminToken).
-		Post(fmt.Sprintf(getOrCreateUserEndpoint, a.authApiUrl))
-
-	return resp, a.log.CheckError(err, a.makeGetOrCreateUserRequest)
-
-}
-
-func (a API) getGetOrCreateUserResponse(resp *resty.Response) (*GetOrCreateUserResponse, error) {
-	responseStruct := new(GetOrCreateUserResponse)
-	err := json.Unmarshal(resp.Body(), responseStruct)
-
-	return responseStruct, a.log.CheckError(err, a.getGetOrCreateUserResponse)
 }
 
 func (a API) GetNftCreators(ctx context.Context) ([]*model.User, error) {
-	protoUsers, err := a.drpcClient.GetNftCreators(ctx, &user.Empty{})
+	protoUsers, err := a.drpcClient.ListNftCreators(ctx, &proto_user.Empty{})
 
 	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), a.log.CheckError(err, a.GetNftCreators)
 }
 
-func (a API) getNftCreators() ([]*model.User, error) {
-	response, err := a.makeGetCreatorsRequest()
-	if a.log.CheckError(err, a.getNftCreators) != nil {
-		return nil, err
-	}
+func (a API) GetUserByEmail(ctx context.Context, email string) (*model.User, error) {
+	protoUser, err := a.drpcClient.GetUserByEmail(ctx, &proto_user.EmailRequest{Email: email})
 
-	var users []*model.User
-
-	err = json.Unmarshal(response.Body(), &users)
-	if a.log.CheckError(err, a.getNftCreators) != nil {
-		return nil, err
-	}
-
-	for _, u := range users {
-		u.SetWalletAddressesStringListFromEdges()
-	}
-
-	return users, nil
+	return model.ParseProtoUserToUser(protoUser), a.log.CheckError(err, a.GetUserByEmail)
 }
 
-func (a API) makeGetCreatorsRequest() (*resty.Response, error) {
-	resp, err := a.restyClient.R().EnableTrace().
-		SetHeader("admin-token", a.authAdminToken).
-		Get(fmt.Sprintf(getCreatorsEndpoint, a.authApiUrl))
-
-	return resp, a.log.CheckError(err, a.makeGetCreatorsRequest)
+func (a API) GetUserByWalletAddress(ctx context.Context, walletAddress string) (*model.User, error) {
+	return a.getUserByWalletAddress(ctx, walletAddress)
 }
 
-func (a API) GetUserByEmail(email string) (*model.User, error) {
-	response, err := a.makeGetUserByEmailRequest(email)
-	if a.log.CheckError(err, a.GetUserByEmail) != nil {
-		return nil, err
-	}
+func (a API) getUserByWalletAddress(ctx context.Context, walletAddress string) (*model.User, error) {
+	protoUser, err := a.drpcClient.GetUserByWalletAddress(ctx, &proto_user.WalletAddressRequest{WalletAddress: walletAddress})
 
-	getUserResponse, err := a.getGetUserResponse(response)
-	if a.log.CheckError(err, a.GetUserByEmail) != nil {
-		return nil, err
-	}
-
-	if getUserResponse.User == nil {
-		return nil, errors.New("user not found")
-	}
-
-	return getUserResponse.User, a.log.CheckError(err, a.GetUserByEmail)
+	return model.ParseProtoUserToUser(protoUser), a.log.CheckError(err, a.getUserByWalletAddress)
 }
 
-func (a API) makeGetUserByEmailRequest(email string) (*resty.Response, error) {
-	resp, err := a.restyClient.R().EnableTrace().
-		SetQueryParam("email", email).
-		SetHeader("admin-token", a.authAdminToken).
-		Get(fmt.Sprintf(getUserEndpoint, a.authApiUrl))
+func (a API) GetUserByID(ctx context.Context, userID int) (*model.User, error) {
+	protoUser, err := a.drpcClient.GetUserByID(ctx, &proto_user.IDRequest{Id: uint64(userID)})
 
-	return resp, a.log.CheckError(err, a.makeGetUserByEmailRequest)
+	return model.ParseProtoUserToUser(protoUser), a.log.CheckError(err, a.GetUserByID)
 }
 
-func (a API) GetUserByWalletAddress(walletAddress string) (*model.User, error) {
-	commonUser, err := a.getUserByWalletAddress(walletAddress)
-	if a.log.CheckError(err, a.GetUserByWalletAddress) != nil {
-		return nil, err
-	}
-
-	return commonUser, a.log.CheckError(err, a.GetUserByWalletAddress)
-}
-
-func (a API) getUserByWalletAddress(walletAddress string) (*model.User, error) {
-	response, err := a.makeGetUserByWalletRequest(walletAddress)
-	if a.log.CheckError(err, a.getUserByWalletAddress) != nil {
-		return nil, err
-	}
-
-	getUserResponse, err := a.getGetUserResponse(response)
-	if a.log.CheckError(err, a.getUserByWalletAddress) != nil {
-		return nil, err
-	}
-
-	if getUserResponse.User == nil {
-		return nil, errors.New("user not found")
-	}
-
-	return getUserResponse.User, nil
-}
-
-func (a API) makeGetUserByWalletRequest(walletAddress string) (*resty.Response, error) {
-	resp, err := a.restyClient.R().EnableTrace().
-		SetQueryParam("wallet", walletAddress).
-		SetHeader("admin-token", a.authAdminToken).
-		Get(fmt.Sprintf(getUserEndpoint, a.authApiUrl))
-
-	return resp, a.log.CheckError(err, a.makeGetUserByWalletRequest)
-}
-
-func (a API) GetUserByID(userID int) (*model.User, error) {
-	commonUser, err := a.getUserByID(userID)
-	if a.log.CheckError(err, a.GetUserByID) != nil {
-		return nil, err
-	}
-
-	return commonUser, a.log.CheckError(err, a.GetUserByID)
-}
-
-func (a API) getUserByID(userID int) (*model.User, error) {
-	response, err := a.makeGetUserByIDRequest(userID)
-	if a.log.CheckError(err, a.GetUserByEmail) != nil {
-		return nil, err
-	}
-
-	getUserResponse, err := a.getGetUserResponse(response)
-	if a.log.CheckError(err, a.GetUserByEmail) != nil {
-		return nil, err
-	}
-
-	if getUserResponse.User == nil {
-		return nil, errors.New("user not found")
-	}
-
-	go a.cache.SetUserEmailToCache(getUserResponse.User)
-
-	return getUserResponse.User, nil
-}
-
-func (a API) makeGetUserByIDRequest(userID int) (*resty.Response, error) {
-	resp, err := a.restyClient.R().EnableTrace().
-		SetQueryParam("id", strconv.Itoa(userID)).
-		SetHeader("admin-token", a.authAdminToken).
-		Get(fmt.Sprintf(getUserEndpoint, a.authApiUrl))
-
-	return resp, a.log.CheckError(err, a.makeGetUserByIDRequest)
-}
-
-func (a API) GetUserEmailByWalletAddress(walletAddress string) (string, error) {
+func (a API) GetUserEmailByWalletAddress(ctx context.Context, walletAddress string) (string, error) {
 	email, exist := a.cache.GetEmailByWalletCache(walletAddress)
 	if exist {
 		return email, nil
 	}
 
-	user, err := a.getUserByWalletAddress(walletAddress)
+	user, err := a.getUserByWalletAddress(ctx, walletAddress)
 	if a.log.CheckError(err, a.GetUserEmailByWalletAddress) != nil {
 		return "", err
 	}
@@ -191,90 +61,14 @@ func (a API) GetUserEmailByWalletAddress(walletAddress string) (string, error) {
 	return user.Email, nil
 }
 
-func (a API) ListUsersByWalletAddresses(walletAddresses []string) ([]*model.User, error) {
-	if len(walletAddresses) == 0 {
-		return []*model.User{}, nil
-	}
+func (a API) ListUsersByWalletAddresses(ctx context.Context, walletAddresses []string) ([]*model.User, error) {
+	protoUsers, err := a.drpcClient.ListUsersByWalletAddresses(ctx, &proto_user.WalletAddressesRequest{WalletAddresses: walletAddresses})
 
-	commonUsers, err := a.listUsersByWalletAddresses(walletAddresses)
-	if a.log.CheckError(err, a.ListUsersByWalletAddresses) != nil {
-		return nil, err
-	}
-
-	return commonUsers, a.log.CheckError(err, a.ListUsersByWalletAddresses)
+	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), a.log.CheckError(err, a.ListUsersByWalletAddresses)
 }
 
-func (a API) listUsersByWalletAddresses(walletAddresses []string) ([]*model.User, error) {
-	response, err := a.makeListUserByWalletsRequest(walletAddresses)
-	if a.log.CheckError(err, a.listUsersByWalletAddresses) != nil {
-		return nil, err
-	}
+func (a API) ListWalletsByUserID(ctx context.Context, userID int) ([]*model.Wallet, error) {
+	protoWalletsResponse, err := a.drpcClient.ListWalletsByUserID(ctx, &proto_user.IDRequest{Id: uint64(userID)})
 
-	listUsersResponse, err := a.getListUsersResponse(response)
-	if a.log.CheckError(err, a.listUsersByWalletAddresses) != nil {
-		return nil, err
-	}
-
-	if listUsersResponse.Users == nil {
-		return nil, errors.New("users not found")
-	}
-
-	for _, user := range listUsersResponse.Users {
-		go func(user *model.User) { a.cache.SetUserEmailToCache(user) }(user)
-	}
-
-	return listUsersResponse.Users, nil
-}
-
-func (a API) makeListUserByWalletsRequest(walletAddresses []string) (*resty.Response, error) {
-	resp, err := a.restyClient.R().EnableTrace().
-		SetQueryParamsFromValues(url.Values{"wallets[]": walletAddresses}).
-		SetHeader("admin-token", a.authAdminToken).
-		Get(fmt.Sprintf(getUserEndpoint, a.authApiUrl))
-
-	return resp, a.log.CheckError(err, a.makeListUserByWalletsRequest)
-}
-
-func (a API) getGetUserResponse(resp *resty.Response) (*GetUserResponse, error) {
-	responseStruct := new(GetUserResponse)
-
-	err := json.Unmarshal(resp.Body(), responseStruct)
-	if a.log.CheckError(err, a.getGetUserResponse) != nil {
-		return nil, err
-	}
-
-	if responseStruct.User != nil {
-		responseStruct.User.SetWalletAddressesStringListFromEdges()
-	}
-
-	return responseStruct, a.log.CheckError(err, a.getGetUserResponse)
-}
-
-func (a API) getListUsersResponse(resp *resty.Response) (*ListUsersResponse, error) {
-	responseStruct := new(ListUsersResponse)
-	err := json.Unmarshal(resp.Body(), responseStruct)
-
-	return responseStruct, a.log.CheckError(err, a.getGetUserResponse)
-}
-
-func (a API) ListWalletsByUserID(userID int) ([]*model.Wallet, error) {
-	commonWallets, err := a.makeListWalletsByUserIDsRequest(userID)
-	if a.log.CheckError(err, a.ListUsersByWalletAddresses) != nil {
-		return nil, err
-	}
-
-	return commonWallets, a.log.CheckError(err, a.ListUsersByWalletAddresses)
-}
-
-func (a API) makeListWalletsByUserIDsRequest(userID int) ([]*model.Wallet, error) {
-	walletsResponse := struct {
-		Wallets []*model.Wallet
-	}{}
-
-	_, err := a.restyClient.R().EnableTrace().
-		SetHeader("admin-token", a.authAdminToken).
-		SetResult(&walletsResponse).
-		Get(fmt.Sprintf(getWalletsEndpoint, a.authApiUrl, userID))
-
-	return walletsResponse.Wallets, a.log.CheckError(err, a.makeGetUserByIDRequest)
+	return model.ParseProtoWalletsToWallets(protoWalletsResponse.Wallets), a.log.CheckError(err, a.ListWalletsByUserID)
 }

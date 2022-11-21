@@ -6,8 +6,13 @@ option go_package = "pkg/proto/user";
 import "google/protobuf/timestamp.proto";
 
 service Users {
-  rpc GetNftCreators (Empty) returns (UsersResponse) {
-  }
+  rpc ListNftCreators (Empty) returns (UsersResponse) {}
+  rpc GetUserByEmail (EmailRequest) returns (User){}
+  rpc GetUserByWalletAddress(WalletAddressRequest) returns (User){}
+  rpc GetUserByID(IDRequest) returns (User){}
+  rpc ListUsersByWalletAddresses(WalletAddressesRequest) returns (UsersResponse){}
+  rpc ListWalletsByUserID(IDRequest) returns(WalletsResponse){}
+  rpc GetOrCreateUserAsCreator(EmailRequest) returns(GetOrCreateUserResponse) {}
 }
 
 message Wallet {
@@ -36,5 +41,30 @@ message UsersResponse {
   repeated User users = 1;
 }
 
+message WalletsResponse {
+  repeated Wallet wallets = 1;
+}
+
+message GetOrCreateUserResponse {
+  User user = 1;
+  bool existed_before = 2;
+}
+
 message Empty {
+}
+
+message EmailRequest {
+  string email = 1;
+}
+
+message WalletAddressRequest {
+  string wallet_address = 1;
+}
+
+message WalletAddressesRequest {
+  repeated string wallet_addresses = 1;
+}
+
+message IDRequest {
+  uint64 id = 1;
 }
