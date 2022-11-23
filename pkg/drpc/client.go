@@ -11,13 +11,16 @@ import (
 	"time"
 )
 
-const defaultTimeoutInSeconds = 10
+const (
+	defaultTimeoutInSeconds = 10
+	rpcPort                 = 443
+)
 
 func NewClient(ctx context.Context, address string) (*drpcconn.Conn, error) {
 	if strings.Contains(address, "http://") {
 		address = strings.Replace(address, "http://", "", 1)
 	} else {
-		address = fmt.Sprintf("%s:433", strings.Replace(address, "https://", "", 1))
+		address = fmt.Sprintf("%s:%s", strings.Replace(address, "https://", "", 1), rpcPort)
 	}
 
 	var conn *drpcconn.Conn
