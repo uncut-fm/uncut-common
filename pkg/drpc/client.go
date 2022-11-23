@@ -20,7 +20,7 @@ func NewClient(ctx context.Context, address string) (*drpcconn.Conn, error) {
 	if strings.Contains(address, "http://") {
 		address = strings.Replace(address, "http://", "", 1)
 	} else {
-		address = fmt.Sprintf("%s:%s", strings.Replace(address, "https://", "", 1), rpcPort)
+		address = fmt.Sprintf("%s:%d", strings.Replace(address, "https://", "", 1), rpcPort)
 	}
 
 	var conn *drpcconn.Conn
