@@ -55,6 +55,7 @@ type TransferEventInfo struct {
 	BlockNumber       int    `json:"blockNumber"`
 	Quantity          int    `json:"quantity"`
 	Transaction       string `json:"transaction"`
+	IsBuyEvent        bool   `json:"isBuyEvent"`
 }
 
 type BlockchainRequest struct {
