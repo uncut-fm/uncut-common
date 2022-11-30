@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type BlockchainEvent struct {
 	EventType       BlockchainEventType
 	ParsedEventInfo interface{}
@@ -48,13 +50,15 @@ type NftPriceChangedEventInfo struct {
 }
 
 type TransferEventInfo struct {
-	TokenID           int    `json:"tokenId"`
-	CollectionAddress string `json:"collectionAddress"`
-	OldOwnerAddress   string `json:"oldOwnerAddress"`
-	NewOwnerAddress   string `json:"newOwnerAddress"`
-	BlockNumber       int    `json:"blockNumber"`
-	Quantity          int    `json:"quantity"`
-	Transaction       string `json:"transaction"`
+	TokenID           int       `json:"tokenId"`
+	CollectionAddress string    `json:"collectionAddress"`
+	OldOwnerAddress   string    `json:"oldOwnerAddress"`
+	NewOwnerAddress   string    `json:"newOwnerAddress"`
+	BlockNumber       int       `json:"blockNumber"`
+	Quantity          int       `json:"quantity"`
+	Transaction       string    `json:"transaction"`
+	IsBuyEvent        bool      `json:"isBuyEvent"`
+	TransferredAt     time.Time `json:"transferredAt"`
 }
 
 type BlockchainRequest struct {
