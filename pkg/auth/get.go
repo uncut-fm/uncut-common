@@ -7,7 +7,7 @@ import (
 )
 
 func (a API) GetOrCreateUser(ctx context.Context, email string) (*GetOrCreateUserResponse, error) {
-	response, err := a.drpcClient.GetOrCreateUserAsCreator(ctx, &proto_user.EmailRequest{Email: email})
+	response, err := a.grpcClient.GetOrCreateUserAsCreator(ctx, &proto_user.EmailRequest{Email: email})
 	if a.log.CheckError(err, a.GetOrCreateUser) != nil {
 		return nil, err
 	}
@@ -23,7 +23,7 @@ func getGetOrCreateUserResponse(resp *proto_user.GetOrCreateUserResponse) *GetOr
 }
 
 func (a API) GetNftCreators(ctx context.Context) ([]*model.User, error) {
-	protoUsers, err := a.drpcClient.ListNftCreators(ctx, &proto_user.Empty{})
+	protoUsers, err := a.grpcClient.ListNftCreators(ctx, &proto_user.Empty{})
 
 	if a.log.CheckError(err, a.GetNftCreators) != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func (a API) GetNftCreators(ctx context.Context) ([]*model.User, error) {
 }
 
 func (a API) GetUserByEmail(ctx context.Context, email string) (*model.User, error) {
-	protoUser, err := a.drpcClient.GetUserByEmail(ctx, &proto_user.EmailRequest{Email: email})
+	protoUser, err := a.grpcClient.GetUserByEmail(ctx, &proto_user.EmailRequest{Email: email})
 	if a.log.CheckError(err, a.GetUserByEmail) != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (a API) GetUserByWalletAddress(ctx context.Context, walletAddress string) (
 }
 
 func (a API) getUserByWalletAddress(ctx context.Context, walletAddress string) (*model.User, error) {
-	protoUser, err := a.drpcClient.GetUserByWalletAddress(ctx, &proto_user.WalletAddressRequest{WalletAddress: walletAddress})
+	protoUser, err := a.grpcClient.GetUserByWalletAddress(ctx, &proto_user.WalletAddressRequest{WalletAddress: walletAddress})
 	if a.log.CheckError(err, a.getUserByWalletAddress) != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (a API) getUserByWalletAddress(ctx context.Context, walletAddress string) (
 }
 
 func (a API) GetUserByID(ctx context.Context, userID int) (*model.User, error) {
-	protoUser, err := a.drpcClient.GetUserByID(ctx, &proto_user.IDRequest{Id: uint64(userID)})
+	protoUser, err := a.grpcClient.GetUserByID(ctx, &proto_user.IDRequest{Id: uint64(userID)})
 	if a.log.CheckError(err, a.GetUserByID) != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func (a API) GetUserEmailByWalletAddress(ctx context.Context, walletAddress stri
 }
 
 func (a API) ListUsersByWalletAddresses(ctx context.Context, walletAddresses []string) ([]*model.User, error) {
-	protoUsers, err := a.drpcClient.ListUsersByWalletAddresses(ctx, &proto_user.WalletAddressesRequest{WalletAddresses: walletAddresses})
+	protoUsers, err := a.grpcClient.ListUsersByWalletAddresses(ctx, &proto_user.WalletAddressesRequest{WalletAddresses: walletAddresses})
 	if a.log.CheckError(err, a.ListUsersByWalletAddresses) != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func (a API) ListUsersByWalletAddresses(ctx context.Context, walletAddresses []s
 }
 
 func (a API) ListWalletsByUserID(ctx context.Context, userID int) ([]*model.Wallet, error) {
-	protoWalletsResponse, err := a.drpcClient.ListWalletsByUserID(ctx, &proto_user.IDRequest{Id: uint64(userID)})
+	protoWalletsResponse, err := a.grpcClient.ListWalletsByUserID(ctx, &proto_user.IDRequest{Id: uint64(userID)})
 	if a.log.CheckError(err, a.ListWalletsByUserID) != nil {
 		return nil, err
 	}

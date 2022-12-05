@@ -7,7 +7,7 @@ import (
 )
 
 func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*model.User, error) {
-	protoUser, err := a.drpcClient.UpdateUser(ctx, &user.UpdateUserRequest{
+	protoUser, err := a.grpcClient.UpdateUser(ctx, &user.UpdateUserRequest{
 		Id:              uint64(input.ID),
 		Name:            input.Name,
 		Email:           input.Email,

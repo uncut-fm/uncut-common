@@ -5,7 +5,7 @@ import (
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
 	proto_user "github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
-	"storj.io/drpc"
+	"google.golang.org/grpc"
 	"time"
 )
 
@@ -22,20 +22,20 @@ const requestTimeout = 5 * time.Second
 type API struct {
 	log            logger.Logger
 	restyClient    *resty.Client
-	drpcClient     proto_user.DRPCUsersClient
+	grpcClient     proto_user.UsersClient
 	cache          Cache
 	authApiUrl     string
 	authAdminToken string
 }
 
-func NewAPI(l logger.Logger, cache Cache, authApiUrl, authAdminToken string, drpcConn drpc.Conn) *API {
+func NewAPI(l logger.Logger, cache Cache, authApiUrl, authAdminToken string, grpcConn *grpc.ClientConn) *API {
 	return &API{
 		log:            l,
 		cache:          cache,
 		authApiUrl:     authApiUrl,
 		authAdminToken: authAdminToken,
 		restyClient:    createRestyClient(),
-		drpcClient:     proto_user.NewDRPCUsersClient(drpcConn),
+		grpcClient:     proto_user.NewUsersClient(grpcConn),
 	}
 }
 
