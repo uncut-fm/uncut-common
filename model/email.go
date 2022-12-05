@@ -3,30 +3,46 @@ package model
 import (
 	"bytes"
 	"fmt"
+	"github.com/uncut-fm/uncut-common/pkg/config"
 	"html/template"
 )
 
 var (
-	SpaceLinkPattern        = "%s/user/my-shows/%s/space/%s"                 // {web-app}/my-shows/{show-slug}/space/{space_slug}
-	ShowLinkPattern         = "%s/show/%s"                                   // {web-app}/shows/{show-slug}
-	NftLinkPattern          = "%s/show/%s/nft/%d"                            // {web-app}/shows/{show-slug}/nft/{nft_id}
-	ConversationLinkPattern = "%s/user/my-shows/%s/space/%s/conversation/%d" // {base_url}/user/my-shows/{show_slug}/space/{space_slug}/conversation/{conversation_id}
+	showLinkPattern         = "https://%s.uncut.fm" // https://{show_slug}.uncut.fm
+	feedLinkPattern         = "%s/feed"             // {show_link}/feed
+	collectiveLinkPattern   = "%s/collective"       // {show_link}/collective
+	conversationLinkPattern = "%s/%d"               // {feed_link}/feed/{conversation_id}
+	nftLinkPattern          = "%s/nft/%d"           // {show_link}/nft/{nft_id}
 )
 
-func GetShowLink(webAppURL, showSlug string) string {
-	return fmt.Sprintf(ShowLinkPattern, webAppURL, showSlug)
+func GetShowLink(environment, showSlug string) string {
+	switch environment {
+	case config.DevEnvironment, config.StageEnvironment:
+		return fmt.Sprintf(showLinkPattern, fmt.Sprintf("%s.%s", showSlug, environment))
+	case config.TestEnvironment:
+		return fmt.Sprintf(showLinkPattern, fmt.Sprintf("%s.%s", showSlug, "qa"))
+	default:
+		return fmt.Sprintf(showLinkPattern, showSlug)
+	}
 }
 
-func GetSpaceLink(webAppURL, showSlug, spaceSlug string) string {
-	return fmt.Sprintf(SpaceLinkPattern, webAppURL, showSlug, spaceSlug)
+func GetFeedLink(environment, showSlug string) string {
+	showLink := GetShowLink(environment, showSlug)
+	return fmt.Sprintf(feedLinkPattern, showLink)
 }
 
-func GetNftLink(webAppURL, showSlug string, nftID int) string {
-	return fmt.Sprintf(NftLinkPattern, webAppURL, showSlug, nftID)
+func GetConversationLink(environment, showSlug string, conversationID int) string {
+	feedLink := GetFeedLink(environment, showSlug)
+	return fmt.Sprintf(conversationLinkPattern, feedLink, conversationID)
 }
 
-func GetConversationLink(webAppURL, showSlug, spaceSlug string, conversationID int) string {
-	return fmt.Sprintf(ConversationLinkPattern, webAppURL, showSlug, spaceSlug, conversationID)
+func GetCollectiveLink(environment, showSlug string) string {
+	showLink := GetShowLink(environment, showSlug)
+	return fmt.Sprintf(collectiveLinkPattern, showLink)
+}
+func GetNftLink(environment, showSlug string, nftID int) string {
+	showLink := GetShowLink(environment, showSlug)
+	return fmt.Sprintf(nftLinkPattern, showLink, nftID)
 }
 
 type EmailReceiver struct {
