@@ -82,10 +82,11 @@ func ParseProtoWalletsToWallets(protoWallets []*proto_user.Wallet) []*Wallet {
 
 func parseProtoWalletToWallet(protoWallet *proto_user.Wallet) *Wallet {
 	return &Wallet{
-		ID:          int(protoWallet.Id),
-		Name:        protoWallet.Name,
-		Description: protoWallet.Description,
-		CreatedAt:   protoWallet.CreatedAt.AsTime(),
-		UpdatedAt:   protoWallet.UpdatedAt.AsTime(),
+		ID:            int(protoWallet.Id),
+		Name:          protoWallet.Name,
+		Description:   protoWallet.Description,
+		CreatedAt:     protoWallet.CreatedAt.AsTime(),
+		UpdatedAt:     protoWallet.UpdatedAt.AsTime(),
+		WalletAddress: protoWallet.WalletAddress,
 	}
 }

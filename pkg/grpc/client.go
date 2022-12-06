@@ -6,7 +6,6 @@ import (
 	"crypto/x509"
 	"fmt"
 	"github.com/cenkalti/backoff"
-	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
@@ -20,7 +19,9 @@ const (
 )
 
 func NewClient(ctx context.Context, address string) (*grpc.ClientConn, error) {
+	var isInsecure bool
 	if strings.Contains(address, "http://") {
+		isInsecure = true
 		address = strings.Replace(address, "http://", "", 1)
 	} else {
 		address = fmt.Sprintf("%s:%d", strings.Replace(address, "https://", "", 1), rpcPort)
@@ -31,15 +32,22 @@ func NewClient(ctx context.Context, address string) (*grpc.ClientConn, error) {
 	operation := func() error {
 		var err error
 
-		systemRoots, err := x509.SystemCertPool()
-		if err != nil {
-			return errors.Wrap(err, "cannot load root CA certs")
-		}
-		creds := credentials.NewTLS(&tls.Config{
-			RootCAs: systemRoots,
-		})
+		opts := []grpc.DialOption{grpc.WithAuthority(address)}
 
-		conn, err = grpc.Dial(address, grpc.WithAuthority(address), grpc.WithTransportCredentials(creds))
+		if isInsecure {
+			opts = append(opts, grpc.WithInsecure())
+		} else {
+			systemRoots, err := x509.SystemCertPool()
+			if err != nil {
+				return err
+			}
+			cred := credentials.NewTLS(&tls.Config{
+				RootCAs: systemRoots,
+			})
+			opts = append(opts, grpc.WithTransportCredentials(cred))
+		}
+
+		conn, err = grpc.Dial(address, opts...)
 		return err
 	}
 
