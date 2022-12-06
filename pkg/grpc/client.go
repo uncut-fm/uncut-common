@@ -2,9 +2,13 @@ package grpc
 
 import (
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"github.com/cenkalti/backoff"
+	"github.com/pkg/errors"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"log"
 	"strings"
 	"time"
@@ -26,7 +30,16 @@ func NewClient(ctx context.Context, address string) (*grpc.ClientConn, error) {
 
 	operation := func() error {
 		var err error
-		conn, err = grpc.Dial(address, grpc.WithAuthority(address), grpc.WithInsecure())
+
+		systemRoots, err := x509.SystemCertPool()
+		if err != nil {
+			return errors.Wrap(err, "cannot load root CA certs")
+		}
+		creds := credentials.NewTLS(&tls.Config{
+			RootCAs: systemRoots,
+		})
+
+		conn, err = grpc.Dial(address, grpc.WithAuthority(address), grpc.WithTransportCredentials(creds))
 		return err
 	}
 
