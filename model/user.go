@@ -58,7 +58,7 @@ func ParseProtoUsersResponseToCommonUsers(protoResponse *proto_user.UsersRespons
 }
 
 func ParseProtoUserToUser(protoUser *proto_user.User) *User {
-	return &User{
+	user := &User{
 		ID:              int(protoUser.Id),
 		UserId:          int(protoUser.Id),
 		Name:            protoUser.Name,
@@ -68,6 +68,9 @@ func ParseProtoUserToUser(protoUser *proto_user.User) *User {
 		IsNftCreator:    protoUser.IsNftCreator,
 		Edges:           UserEdges{Wallets: ParseProtoWalletsToWallets(protoUser.Edges.Wallets)},
 	}
+
+	user.SetWalletAddressesStringListFromEdges()
+	return user
 }
 
 func ParseProtoWalletsToWallets(protoWallets []*proto_user.Wallet) []*Wallet {
