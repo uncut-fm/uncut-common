@@ -24,6 +24,7 @@ type NewNotification struct {
 	ReceiverEmail string
 	CategoryType  string
 	TemplateType  NotificationTemplateType
+	Channel       string
 	Status        string
 	ScheduledFor  *time.Time
 	SentAt        *time.Time
