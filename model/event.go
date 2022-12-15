@@ -8,6 +8,10 @@ type Event struct {
 
 type EventType string
 
+func (e EventType) String() string {
+	return string(e)
+}
+
 var (
 	NewSpaceConversationEvent        EventType = "NewSpaceConversation"
 	NewNFTConversationEvent          EventType = "NewNFTConversation"

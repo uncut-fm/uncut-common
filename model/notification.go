@@ -53,6 +53,7 @@ const (
 	ConversationCommentNotification          NotificationTemplateType = "CONVERSATION_COMMENT"
 	ConversationReplyCommentatorNotification NotificationTemplateType = "CONVERSATION_REPLY_TO_COMMENTATOR"
 	ConversationReplyHostNotification        NotificationTemplateType = "CONVERSATION_REPLY_TO_HOST"
+	WelcomeEmailSetupNotification            NotificationTemplateType = "WELCOME_EMAIL_SETUP"
 )
 
 var (
@@ -63,6 +64,10 @@ var (
 
 func (n NotificationTemplateType) String() string {
 	return string(n)
+}
+
+func (n NotificationTemplateType) GetPointer() *NotificationTemplateType {
+	return &n
 }
 
 func (n *NewNotification) SetMetadataFromTemplateVariables(templateVariables interface{}) error {

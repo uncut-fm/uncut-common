@@ -54,6 +54,11 @@ var (
 	UserNotFoundErr = errors.New("user not found")
 )
 
+// email errors
+var (
+	OnboardingEmailAlreadySent = errors.New("this onboarding email was already sent")
+)
+
 func NoSearchShowsExactFoundErr(showNames []string) error {
 	return fmt.Errorf(noSearchShowsExactFoundErr, showNames)
 }
