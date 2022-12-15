@@ -26,5 +26,6 @@ var (
 	ScheduledNftDeleteEvent          EventType = "ScheduledNftDelete"
 	NFTSoldEvent                     EventType = "NftSold"
 	ScheduledEmailEvent              EventType = "NewScheduledEmail"
-	ShowCreatedEvent                 EventType = "NewShowCreatedEvent"
+	ShowCreatedEvent                 EventType = "NewShowCreated"
+	ShowPublicEvent                  EventType = "ShowBecomePublic"
 )
