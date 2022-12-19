@@ -3,6 +3,7 @@ package errors
 import (
 	"errors"
 	"fmt"
+	"google.golang.org/grpc/status"
 )
 
 // storage errors
@@ -53,6 +54,11 @@ var (
 var (
 	UserNotFoundErr = errors.New("user not found")
 )
+
+func IsUserNotFoundGrpcErr(err error) bool {
+	errStatus := status.Convert(err)
+	return errStatus != nil && errStatus.Message() == UserNotFoundErr.Error()
+}
 
 // email errors
 var (
