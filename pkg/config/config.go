@@ -67,6 +67,7 @@ type BackofficeConfigs struct {
 	Sentry               SentryConfigs  `yaml:"sentry"`
 	StoreContractAddress string         `yaml:"store_contract_address"`
 	Web3AdminToken       string         `yaml:"web3_admin_token"`
+	TranscoderAdminToken string         `yaml:"transcoder_admin_token"`
 	SegmentWriteKey      string         `yaml:"segment_write_key"`
 	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
 	Currencies           Web3Currencies `yaml:"currencies"`
@@ -227,6 +228,7 @@ type ServiceUrls struct {
 	SearchAPIUrl        string `yaml:"search_api_url"`
 	WebappUrl           string `yaml:"webapp_url"`
 	Web3AdminUrl        string `yaml:"web3_admin_url"`
+	TranscoderUrl       string `yaml:"transcoder_url"`
 }
 
 type OauthProviders struct {
