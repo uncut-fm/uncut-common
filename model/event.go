@@ -4,6 +4,7 @@ type Event struct {
 	EventType EventType
 	ObjectID  int
 	SubjectID *string
+	Metadata  interface{}
 }
 
 type EventType string
@@ -22,14 +23,19 @@ var (
 	NftAirdropEmailEvent             EventType = "AirdropEmail"
 	NewSpaceConversationCommentEvent EventType = "NewSpaceConversationComment"
 	NewSpaceConversationReplyEvent   EventType = "NewSpaceConversationReply"
-	NewCreatorEvent                  EventType = "NewCreator"
-	NewNFTMintedEvent                EventType = "NewNFTMinted"
-	MintedNftUpdateEvent             EventType = "MintedNftUpdate"
-	NewScheduledNftMintEvent         EventType = "NewScheduledNftMint"
-	ScheduledNftUpdateEvent          EventType = "ScheduledNftUpdate"
-	ScheduledNftDeleteEvent          EventType = "ScheduledNftDelete"
-	NFTSoldEvent                     EventType = "NftSold"
-	ScheduledEmailEvent              EventType = "NewScheduledEmail"
-	ShowCreatedEvent                 EventType = "NewShowCreated"
-	ShowPublicEvent                  EventType = "ShowBecomePublic"
+
+	NewCreatorEvent    EventType = "NewCreator"
+	WalletDeletedEvent EventType = "WalletDeleted"
+
+	NewNFTMintedEvent        EventType = "NewNFTMinted"
+	MintedNftUpdateEvent     EventType = "MintedNftUpdate"
+	NewScheduledNftMintEvent EventType = "NewScheduledNftMint"
+	ScheduledNftUpdateEvent  EventType = "ScheduledNftUpdate"
+	ScheduledNftDeleteEvent  EventType = "ScheduledNftDelete"
+	NFTSoldEvent             EventType = "NftSold"
+	NftDeletedEvent          EventType = "NftDeleted"
+
+	ScheduledEmailEvent EventType = "NewScheduledEmail"
+	ShowCreatedEvent    EventType = "NewShowCreated"
+	ShowPublicEvent     EventType = "ShowBecomePublic"
 )
