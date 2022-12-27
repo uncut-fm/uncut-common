@@ -14,12 +14,12 @@ func Init(sentryConfigs config.SentryConfigs, environment string) error {
 		Debug:            true,
 		AttachStacktrace: true,
 		Environment:      environment,
-		TracesSampler: sentry.TracesSamplerFunc(func(ctx sentry.SamplingContext) sentry.Sampled {
+		TracesSampler: sentry.TracesSampler(func(ctx sentry.SamplingContext) float64 {
 			// do not send events on local environment
 			if environment == "local" {
-				return sentry.SampledFalse
+				return 0
 			}
-			return sentry.UniformTracesSampler(sentryConfigs.SampleRate).Sample(ctx)
+			return float64(sentryConfigs.SampleRate)
 		}),
 	})
 }
