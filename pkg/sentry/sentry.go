@@ -11,9 +11,9 @@ func Init(sentryConfigs config.SentryConfigs, environment string) error {
 	}
 	return sentry.Init(sentry.ClientOptions{
 		Dsn:              sentryConfigs.DSN,
-		Debug:            true,
 		AttachStacktrace: true,
 		Environment:      environment,
+		EnableTracing:    true,
 		TracesSampler: sentry.TracesSampler(func(ctx sentry.SamplingContext) float64 {
 			// do not send events on local environment
 			if environment == "local" {
