@@ -76,6 +76,7 @@ type BackofficeConfigs struct {
 	BlockchainName       string         `yaml:"blockchain_name"`
 	FaucetWallet         FaucetWallet   `yaml:"faucet_wallet"`
 	PIRTokenIDs          []int          `yaml:"pir_token_ids"`
+	Redis                RedisConfigs   `yaml:"redis"`
 }
 
 type PubSub struct {
