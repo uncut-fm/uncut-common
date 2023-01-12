@@ -1,8 +1,9 @@
 package model
 
 import (
-	proto_user "github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
 	"time"
+
+	proto_user "github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
 )
 
 type User struct {
@@ -93,5 +94,6 @@ func parseProtoWalletToWallet(protoWallet *proto_user.Wallet) *Wallet {
 		CreatedAt:     protoWallet.CreatedAt.AsTime(),
 		UpdatedAt:     protoWallet.UpdatedAt.AsTime(),
 		WalletAddress: protoWallet.WalletAddress,
+		Provider:      protoWallet.Provider,
 	}
 }
