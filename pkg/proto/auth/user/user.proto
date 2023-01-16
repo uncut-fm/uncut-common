@@ -15,6 +15,7 @@ service Users {
   rpc GetOrCreateUserAsCreator(EmailRequest) returns(GetOrCreateUserResponse) {}
 
   rpc UpdateUser(UpdateUserRequest) returns (User) {}
+  rpc UpdateWallet(UpdateWalletRequest) returns (Wallet) {}
 }
 
 message Wallet {
@@ -25,6 +26,7 @@ message Wallet {
   google.protobuf.Timestamp updated_at = 5;
   string wallet_address = 6;
   string provider = 7;
+  google.protobuf.Timestamp became_primary_at = 8;
 }
 
 message UserEdges {
@@ -81,4 +83,12 @@ message UpdateUserRequest {
   optional string wallet_address = 5;
   optional string twitter_handle = 6;
   optional bool is_nft_creator = 7;
+}
+
+message UpdateWalletRequest {
+  uint64 user_id = 1;
+  uint64 wallet_id = 2;
+  optional string name = 3;
+  optional string description = 4;
+  optional bool primary = 5;
 }

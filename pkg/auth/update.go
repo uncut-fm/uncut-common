@@ -23,3 +23,19 @@ func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*mod
 
 	return model.ParseProtoUserToUser(protoUser), err
 }
+
+func (a API) UpdateWallet(ctx context.Context, input *UpdateWalletRequest) (*model.Wallet, error) {
+	protoWallet, err := a.grpcClient.UpdateWallet(a.addAdminTokenToGrpcCtx(ctx), &user.UpdateWalletRequest{
+		UserId:      uint64(input.UserID),
+		WalletId:    uint64(input.WalletID),
+		Name:        input.Name,
+		Description: input.Description,
+		Primary:     input.Primary,
+	})
+
+	if a.log.CheckError(err, a.UpdateWallet) != nil {
+		return nil, err
+	}
+
+	return model.ParseProtoWalletToWallet(protoWallet), err
+}

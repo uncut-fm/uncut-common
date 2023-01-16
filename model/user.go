@@ -33,6 +33,7 @@ type Wallet struct {
 	UpdatedAt     time.Time `json:"updated_at,omitempty"`
 	DeletedAt     time.Time `json:"deleted_at,omitempty"`
 	UserID        int       `json:"userID"`
+	Primary       bool      `json:"primary"`
 }
 
 type Faucet struct {
@@ -80,13 +81,14 @@ func ParseProtoWalletsToWallets(protoWallets []*proto_user.Wallet) []*Wallet {
 	wallets := make([]*Wallet, len(protoWallets))
 
 	for i, protoWallet := range protoWallets {
-		wallets[i] = parseProtoWalletToWallet(protoWallet)
+		wallets[i] = ParseProtoWalletToWallet(protoWallet)
 	}
 
 	return wallets
 }
 
-func parseProtoWalletToWallet(protoWallet *proto_user.Wallet) *Wallet {
+func ParseProtoWalletToWallet(protoWallet *proto_user.Wallet) *Wallet {
+	primary := protoWallet.BecamePrimaryAt != nil
 	return &Wallet{
 		ID:            int(protoWallet.Id),
 		Name:          protoWallet.Name,
@@ -95,5 +97,6 @@ func parseProtoWalletToWallet(protoWallet *proto_user.Wallet) *Wallet {
 		UpdatedAt:     protoWallet.UpdatedAt.AsTime(),
 		WalletAddress: protoWallet.WalletAddress,
 		Provider:      protoWallet.Provider,
+		Primary:       primary,
 	}
 }

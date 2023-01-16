@@ -9,3 +9,11 @@ type UpdateUserAuthRequest struct {
 	TwitterHandle   *string `json:"twitter_handle"`
 	IsNftCreator    *bool   `json:"is_nft_creator"`
 }
+
+type UpdateWalletRequest struct {
+	UserID      int
+	WalletID    int     `json:"wallet_id"`
+	Name        *string `json:"name"`
+	Description *string `json:"description"`
+	Primary     *bool   `json:"primary"`
+}
