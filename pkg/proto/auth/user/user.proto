@@ -15,7 +15,10 @@ service Users {
   rpc GetOrCreateUserAsCreator(EmailRequest) returns(GetOrCreateUserResponse) {}
 
   rpc UpdateUser(UpdateUserRequest) returns (User) {}
+
   rpc UpdateWallet(UpdateWalletRequest) returns (Wallet) {}
+  rpc AddWallet(AddWalletRequest) returns (Wallet) {}
+  rpc DeleteWallet(DeleteWalletRequest) returns (Empty) {}
 }
 
 message Wallet {
@@ -91,4 +94,17 @@ message UpdateWalletRequest {
   optional string name = 3;
   optional string description = 4;
   optional bool primary = 5;
+}
+
+message AddWalletRequest {
+  uint64 user_id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  string wallet_address = 4;
+  string provider = 5;
+}
+
+message DeleteWalletRequest {
+  uint64 user_id = 1;
+  uint64 wallet_id = 2;
 }

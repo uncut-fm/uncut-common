@@ -17,3 +17,16 @@ type UpdateWalletRequest struct {
 	Description *string `json:"description"`
 	Primary     *bool   `json:"primary"`
 }
+
+type AddWalletRequest struct {
+	UserID        int
+	WalletAddress string
+	Name          *string
+	Description   *string
+	Provider      string
+}
+
+type DeleteWalletRequest struct {
+	UserID   int
+	WalletID int
+}

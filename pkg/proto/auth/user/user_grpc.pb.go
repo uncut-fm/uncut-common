@@ -31,6 +31,8 @@ type UsersClient interface {
 	GetOrCreateUserAsCreator(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*GetOrCreateUserResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
 	UpdateWallet(ctx context.Context, in *UpdateWalletRequest, opts ...grpc.CallOption) (*Wallet, error)
+	AddWallet(ctx context.Context, in *AddWalletRequest, opts ...grpc.CallOption) (*Wallet, error)
+	DeleteWallet(ctx context.Context, in *DeleteWalletRequest, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type usersClient struct {
@@ -122,6 +124,24 @@ func (c *usersClient) UpdateWallet(ctx context.Context, in *UpdateWalletRequest,
 	return out, nil
 }
 
+func (c *usersClient) AddWallet(ctx context.Context, in *AddWalletRequest, opts ...grpc.CallOption) (*Wallet, error) {
+	out := new(Wallet)
+	err := c.cc.Invoke(ctx, "/user.Users/AddWallet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) DeleteWallet(ctx context.Context, in *DeleteWalletRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/user.Users/DeleteWallet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UsersServer is the server API for Users service.
 // All implementations must embed UnimplementedUsersServer
 // for forward compatibility
@@ -135,6 +155,8 @@ type UsersServer interface {
 	GetOrCreateUserAsCreator(context.Context, *EmailRequest) (*GetOrCreateUserResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 	UpdateWallet(context.Context, *UpdateWalletRequest) (*Wallet, error)
+	AddWallet(context.Context, *AddWalletRequest) (*Wallet, error)
+	DeleteWallet(context.Context, *DeleteWalletRequest) (*Empty, error)
 	mustEmbedUnimplementedUsersServer()
 }
 
@@ -168,6 +190,12 @@ func (UnimplementedUsersServer) UpdateUser(context.Context, *UpdateUserRequest) 
 }
 func (UnimplementedUsersServer) UpdateWallet(context.Context, *UpdateWalletRequest) (*Wallet, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWallet not implemented")
+}
+func (UnimplementedUsersServer) AddWallet(context.Context, *AddWalletRequest) (*Wallet, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddWallet not implemented")
+}
+func (UnimplementedUsersServer) DeleteWallet(context.Context, *DeleteWalletRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteWallet not implemented")
 }
 func (UnimplementedUsersServer) mustEmbedUnimplementedUsersServer() {}
 
@@ -344,6 +372,42 @@ func _Users_UpdateWallet_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Users_AddWallet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddWalletRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).AddWallet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.Users/AddWallet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).AddWallet(ctx, req.(*AddWalletRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_DeleteWallet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteWalletRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).DeleteWallet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.Users/DeleteWallet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).DeleteWallet(ctx, req.(*DeleteWalletRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Users_ServiceDesc is the grpc.ServiceDesc for Users service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -386,6 +450,14 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateWallet",
 			Handler:    _Users_UpdateWallet_Handler,
+		},
+		{
+			MethodName: "AddWallet",
+			Handler:    _Users_AddWallet_Handler,
+		},
+		{
+			MethodName: "DeleteWallet",
+			Handler:    _Users_DeleteWallet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
