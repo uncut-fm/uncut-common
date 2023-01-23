@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/uncut-fm/uncut-common/model"
+	"strings"
 	"time"
 )
 
@@ -38,6 +39,30 @@ func (s Client) getNftVideoFilepath(nftId *int, extension *string) string {
 	}
 
 	return GetNftLocationPath(s.environment, fileName)
+}
+
+func (s Client) getNftWithNameFilepath(nftId *int, extension, fileName string) string {
+	var filePath string
+
+	fileName = prepareFileNameFromRequest(fileName)
+
+	if !model.IsIntNil(nftId) {
+		filePath = fmt.Sprintf(nftWithFilenameIDFileFormat, *nftId, fileName, extension)
+	}
+
+	return GetNftLocationPath(s.environment, filePath)
+}
+
+func prepareFileNameFromRequest(filename string) string {
+	filename = strings.Replace(filename, " ", "_", -1)
+	fileParts := strings.Split(filename, ".")
+
+	switch len(fileParts) {
+	case 1:
+		return filename
+	default:
+		return fileParts[0]
+	}
 }
 
 func (s Client) getNftImageFilepath(nftId *int, extension *string) string {

@@ -4,6 +4,7 @@ import (
 	"cloud.google.com/go/storage"
 	"context"
 	"fmt"
+	"github.com/uncut-fm/uncut-backoffice-api/graph/model"
 	"github.com/uncut-fm/uncut-common/pkg/errors"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
 	"net/url"
@@ -12,12 +13,13 @@ import (
 )
 
 var (
-	nftImageFileFormat   = "nft_image_%v"    // nft_image_{time_now}.{ext}
-	nftAudioFileFormat   = "nft_audio_%v"    // nft_audio_{time_now}.{ext}
-	nftVideoFileFormat   = "nft_video_%v"    // nft_video_{time_now}.{ext}
-	nftImageIDFileFormat = "%v/nft_image_%v" // {nft_id}/nft_image_{time_now}.{ext}
-	nftAudioIDFileFormat = "%v/nft_audio_%v" // {nft_id}/nft_audio_{time_now}.{ext}
-	nftVideoIDFileFormat = "%v/nft_video_%v" // {nft_id}/nft_video_{time_now}.{ext}
+	nftImageFileFormat          = "nft_image_%v"    // nft_image_{time_now}.{ext}
+	nftAudioFileFormat          = "nft_audio_%v"    // nft_audio_{time_now}.{ext}
+	nftVideoFileFormat          = "nft_video_%v"    // nft_video_{time_now}.{ext}
+	nftImageIDFileFormat        = "%v/nft_image_%v" // {nft_id}/nft_image_{time_now}.{ext}
+	nftWithFilenameIDFileFormat = "%v/%v.%v"        // {nft_id}/{filename}.{ext}
+	nftAudioIDFileFormat        = "%v/nft_audio_%v" // {nft_id}/nft_audio_{time_now}.{ext}
+	nftVideoIDFileFormat        = "%v/nft_video_%v" // {nft_id}/nft_video_{time_now}.{ext}
 
 	speakerProfileIDPath = "%v/avatar_%v.%s" // "{speaker_id}/avatar_{time_now}.{ext}"
 	speakerProfilePath   = "avatar_%v.%s"    // /avatar_{time_now}.{ext}"
@@ -106,7 +108,7 @@ func (s Client) UploadEntityFileByDataURI(ctx context.Context, fileDataURLString
 	return fileURL, s.log.CheckError(err, s.UploadEntityFileByDataURI)
 }
 
-func (s Client) GetSignedUrl(entityType EntityType, entityID *int, mimeType string, expirationInMinutes int) (string, error) {
+func (s Client) GetSignedUrl(entityType EntityType, entityID *int, mimeType string, requestedFilename *string, expirationInMinutes int) (string, error) {
 	extension, err := getExtensionByMimeType(mimeType)
 	if s.log.CheckError(err, s.GetSignedUrl) != nil {
 		return "", err
@@ -125,15 +127,18 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID *int, mimeType stri
 	case EntityTypeUser:
 		filename = s.getUserImageFilepath(entityID, extension)
 	case EntityTypeNft:
-		{
-			switch fileType {
-			case "image":
-				filename = s.getNftImageFilepath(entityID, &extension)
-			case "audio":
-				filename = s.getNftAudioFilepath(entityID, &extension)
-			case "video":
-				filename = s.getNftVideoFilepath(entityID, &extension)
-			}
+		if !model.IsStringNil(requestedFilename) {
+			filename = s.getNftWithNameFilepath(entityID, extension, *requestedFilename)
+			break
+		}
+
+		switch fileType {
+		case "image":
+			filename = s.getNftImageFilepath(entityID, &extension)
+		case "audio":
+			filename = s.getNftAudioFilepath(entityID, &extension)
+		case "video":
+			filename = s.getNftVideoFilepath(entityID, &extension)
 		}
 	}
 
