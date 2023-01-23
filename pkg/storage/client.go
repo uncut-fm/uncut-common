@@ -4,7 +4,7 @@ import (
 	"cloud.google.com/go/storage"
 	"context"
 	"fmt"
-	"github.com/uncut-fm/uncut-backoffice-api/graph/model"
+	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/errors"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
 	"net/url"
