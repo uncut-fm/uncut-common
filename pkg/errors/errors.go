@@ -65,6 +65,15 @@ var (
 	OnboardingEmailAlreadySent = errors.New("this onboarding email was already sent")
 )
 
+var (
+	WalletAlreadyExistsErr = errors.New("wallet already exists")
+)
+
+func IsWalletAlreadyExistsGrpcErr(err error) bool {
+	errStatus := status.Convert(err)
+	return errStatus != nil && errStatus.Message() == WalletAlreadyExistsErr.Error()
+}
+
 func NoSearchShowsExactFoundErr(showNames []string) error {
 	return fmt.Errorf(noSearchShowsExactFoundErr, showNames)
 }
