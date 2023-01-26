@@ -25,6 +25,7 @@ var (
 	NewSpaceConversationReplyEvent   EventType = "NewSpaceConversationReply"
 
 	NewCreatorEvent    EventType = "NewCreator"
+	NewUserEvent       EventType = "NewUser"
 	WalletDeletedEvent EventType = "WalletDeleted"
 
 	NewNFTMintedEvent        EventType = "NewNFTMinted"
