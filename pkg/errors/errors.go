@@ -9,6 +9,7 @@ import (
 // storage errors
 var (
 	FileAccessErr = errors.New("requested file cannot be deleted")
+	MimetypeErr   = errors.New("mimeType is not provided")
 )
 
 // twitter errors

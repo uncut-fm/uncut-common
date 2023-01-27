@@ -108,13 +108,38 @@ func (s Client) UploadEntityFileByDataURI(ctx context.Context, fileDataURLString
 	return fileURL, s.log.CheckError(err, s.UploadEntityFileByDataURI)
 }
 
-func (s Client) GetSignedUrl(entityType EntityType, entityID *int, mimeType string, requestedFilename *string, expirationInMinutes int) (string, error) {
-	extension, err := getExtensionByMimeType(mimeType)
+func getExtensionAndFileType(requestedMimeType, fileName *string) (ext, fileType, mimeType string, err error) {
+	if fileName == nil && requestedMimeType == nil {
+		return "", "", "", errors.MimetypeErr
+	}
+
+	if model.IsStringNil(requestedMimeType) {
+		ext = getExtensionFromFilename(*fileName)
+
+		mimeType = getMimeTypeByExtension(ext)
+
+		fileType = GetFileTypeByMimeType(mimeType)
+
+		return
+	}
+
+	mimeType = *requestedMimeType
+
+	ext, err = getExtensionByMimeType(mimeType)
+	if err != nil {
+		return
+	}
+
+	fileType = GetFileTypeByMimeType(mimeType)
+
+	return
+}
+
+func (s Client) GetSignedUrl(entityType EntityType, entityID *int, requestedMimeType, requestedFilename *string, expirationInMinutes int) (string, error) {
+	extension, fileType, mimeType, err := getExtensionAndFileType(requestedMimeType, requestedFilename)
 	if s.log.CheckError(err, s.GetSignedUrl) != nil {
 		return "", err
 	}
-
-	fileType := GetFileTypeByMimeType(mimeType)
 
 	var filename string
 	switch entityType {

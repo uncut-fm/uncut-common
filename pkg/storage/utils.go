@@ -70,8 +70,18 @@ func getExtensionByMimeType(mimeType string) (string, error) {
 		return "", err
 	}
 
+	if len(extensions) == 0 {
+		mimetypeParts := strings.SplitN(mimeType, "/", 2)
+		return mimetypeParts[1], nil
+	}
+
 	// return without leading dot
 	return extensions[0][1:], nil
+}
+
+// accepts extension without leading dot
+func getMimeTypeByExtension(extension string) string {
+	return mime.TypeByExtension("." + extension)
 }
 
 // getDataURLInfo parses dataURL string and retrieves bytes
@@ -88,6 +98,28 @@ func getExtensionByDataURL(data *dataurl.DataURL) (string, error) {
 func GetFileTypeByMimeType(mimeType string) string {
 	parts := strings.SplitN(mimeType, "/", 2)
 	return parts[0]
+}
+
+func prepareFileNameFromRequest(filename string) string {
+	filename = strings.Replace(filename, " ", "_", -1)
+	fileParts := strings.Split(filename, ".")
+
+	switch len(fileParts) {
+	case 1:
+		return filename
+	default:
+		return fileParts[0]
+	}
+}
+
+func getExtensionFromFilename(filename string) string {
+	fileParts := strings.Split(filename, ".")
+	switch len(fileParts) {
+	case 2:
+		return fileParts[1]
+	default:
+		return ""
+	}
 }
 
 func GetEntityTypeAndEntityIDByObjectName(objectName string) (EntityType, int, error) {

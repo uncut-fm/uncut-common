@@ -71,3 +71,7 @@ func IsStringInList(item string, list []string) bool {
 
 	return false
 }
+
+func ValPointer[K bool | string | time.Time | int](val K) *K {
+	return &val
+}
