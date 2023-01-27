@@ -135,10 +135,10 @@ func getExtensionAndFileType(requestedMimeType, fileName *string) (ext, fileType
 	return
 }
 
-func (s Client) GetSignedUrl(entityType EntityType, entityID *int, requestedMimeType, requestedFilename *string, expirationInMinutes int) (string, error) {
+func (s Client) GetSignedUrl(entityType EntityType, entityID *int, requestedMimeType, requestedFilename *string, expirationInMinutes int) (signedURL string, mimeType string, err error) {
 	extension, fileType, mimeType, err := getExtensionAndFileType(requestedMimeType, requestedFilename)
 	if s.log.CheckError(err, s.GetSignedUrl) != nil {
-		return "", err
+		return "", "", err
 	}
 
 	var filename string
@@ -175,7 +175,7 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID *int, requestedMime
 		Expires:     expires,
 	})
 
-	return signedUrl, s.log.CheckError(err, s.GetSignedUrl)
+	return signedUrl, mimeType, s.log.CheckError(err, s.GetSignedUrl)
 }
 
 func (s Client) DeleteFileByStoragePublicURL(ctx context.Context, fileURL string) error {
