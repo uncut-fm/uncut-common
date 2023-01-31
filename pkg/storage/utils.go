@@ -124,6 +124,10 @@ func getExtensionFromFilename(filename string) string {
 
 func GetEntityTypeAndEntityIDByObjectName(objectName string) (EntityType, int, error) {
 	parts := strings.Split(objectName, "/")
+	if len(parts) < 3 {
+		return "", 0, nil
+	}
+
 	entityID, err := strconv.Atoi(parts[2])
 	if err != nil {
 		return EntityTypeShow, 0, err
