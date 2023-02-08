@@ -8,11 +8,11 @@ import (
 )
 
 var (
-	showLinkPattern         = "https://%s.uncut.fm" // https://{show_slug}.uncut.fm
-	feedLinkPattern         = "%s/feed"             // {show_link}/feed
-	collectiveLinkPattern   = "%s/collective"       // {show_link}/collective
-	conversationLinkPattern = "%s/%d"               // {feed_link}/feed/{conversation_id}
-	nftLinkPattern          = "%s/nft/%d"           // {show_link}/nft/{nft_id}
+	showLinkPattern         = "https://%s.uncut.network" // https://{show_slug}.uncut.network
+	feedLinkPattern         = "%s/feed"                  // {show_link}/feed
+	collectiveLinkPattern   = "%s/collective"            // {show_link}/collective
+	conversationLinkPattern = "%s/%d"                    // {feed_link}/feed/{conversation_id}
+	nftLinkPattern          = "%s/nft/%d"                // {show_link}/nft/{nft_id}
 )
 
 func GetShowLink(environment, showSlug string) string {
