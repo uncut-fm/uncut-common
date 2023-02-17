@@ -136,6 +136,7 @@ type Web3EventsConfigs struct {
 	BackofficeAdminToken string         `yaml:"backoffice_admin_token"`
 	Currencies           Web3Currencies `yaml:"currencies"`
 	Sentry               SentryConfigs  `yaml:"sentry"`
+	Redis                RedisConfigs   `yaml:"redis"`
 }
 
 type Web3Currencies struct {
