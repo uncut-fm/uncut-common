@@ -2,9 +2,12 @@ package auth
 
 import (
 	"context"
+	"github.com/cenkalti/backoff"
 	"github.com/uncut-fm/uncut-common/model"
 	proto_user "github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
 	"google.golang.org/grpc/metadata"
+	"net"
+	"time"
 )
 
 func (a API) GetOrCreateUser(ctx context.Context, email string) (*GetOrCreateUserResponse, error) {
@@ -56,12 +59,34 @@ func (a API) getUserByWalletAddress(ctx context.Context, walletAddress string) (
 }
 
 func (a API) GetUserByID(ctx context.Context, userID int) (*model.User, error) {
-	protoUser, err := a.grpcClient.GetUserByID(a.addAdminTokenToGrpcCtx(ctx), &proto_user.IDRequest{Id: uint64(userID)})
+	var (
+		err       error
+		protoUser *proto_user.User
+	)
+
+	operation := func() error {
+		protoUser, err = a.grpcClient.GetUserByID(a.addAdminTokenToGrpcCtx(ctx), &proto_user.IDRequest{Id: uint64(userID)})
+		if opErr, ok := err.(*net.OpError); ok {
+			if opErr.Err.Error() == "connection reset by peer" {
+				// Connection closed by server
+				// Wait for a short period before attempting to reconnect
+				return err
+			}
+		}
+
+		return nil
+	}
+
+	b := backoff.NewExponentialBackOff()
+	b.MaxElapsedTime = 2 * time.Second
+
+	_ = backoff.Retry(operation, b)
+
 	if a.log.CheckError(err, a.GetUserByID) != nil {
 		return nil, err
 	}
 
-	return model.ParseProtoUserToUser(protoUser), nil
+	return model.ParseProtoUserToUser(protoUser), err
 }
 
 func (a API) GetUserEmailByWalletAddress(ctx context.Context, walletAddress string) (string, error) {
@@ -88,7 +113,29 @@ func (a API) ListUsersByWalletAddresses(ctx context.Context, walletAddresses []s
 }
 
 func (a API) ListWalletsByUserID(ctx context.Context, userID int) ([]*model.Wallet, error) {
-	protoWalletsResponse, err := a.grpcClient.ListWalletsByUserID(a.addAdminTokenToGrpcCtx(ctx), &proto_user.IDRequest{Id: uint64(userID)})
+	var (
+		err                  error
+		protoWalletsResponse *proto_user.WalletsResponse
+	)
+
+	operation := func() error {
+		protoWalletsResponse, err = a.grpcClient.ListWalletsByUserID(a.addAdminTokenToGrpcCtx(ctx), &proto_user.IDRequest{Id: uint64(userID)})
+		if opErr, ok := err.(*net.OpError); ok {
+			if opErr.Err.Error() == "connection reset by peer" {
+				// Connection closed by server
+				// Wait for a short period before attempting to reconnect
+				return err
+			}
+		}
+
+		return nil
+	}
+
+	b := backoff.NewExponentialBackOff()
+	b.MaxElapsedTime = 2 * time.Second
+
+	_ = backoff.Retry(operation, b)
+
 	if a.log.CheckError(err, a.ListWalletsByUserID) != nil {
 		return nil, err
 	}
