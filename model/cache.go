@@ -15,7 +15,7 @@ func GetTransactionStatusKey(txHash string) string {
 }
 
 func GetTransferTransactionStatusKey(txHash, toAddress string) string {
-	return fmt.Sprintf(transactionTransferStatusKeyPattern, strings.ToLower(txHash), toAddress)
+	return fmt.Sprintf(transactionTransferStatusKeyPattern, strings.ToLower(txHash), strings.ToLower(toAddress))
 }
 
 type TransactionStatus int
