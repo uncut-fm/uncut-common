@@ -56,6 +56,8 @@ const (
 	ConversationReplyCommentatorNotification NotificationTemplateType = "CONVERSATION_REPLY_TO_COMMENTATOR"
 	ConversationReplyHostNotification        NotificationTemplateType = "CONVERSATION_REPLY_TO_HOST"
 	WelcomeEmailSetupNotification            NotificationTemplateType = "WELCOME_EMAIL_SETUP"
+	WelcomeOwnerUncutNotification            NotificationTemplateType = "WELCOME_OWNER_UNCUT"
+	MintFirstTokenTipNotification            NotificationTemplateType = "MINT_FIRST_TOKEN"
 )
 
 var (
