@@ -114,12 +114,12 @@ func prepareFileNameFromRequest(filename string) string {
 
 func getExtensionFromFilename(filename string) string {
 	fileParts := strings.Split(filename, ".")
-	switch len(fileParts) {
-	case 2:
-		return fileParts[1]
-	default:
+
+	if len(fileParts) == 1 {
 		return ""
 	}
+
+	return fileParts[len(fileParts)-1]
 }
 
 func GetEntityTypeAndEntityIDByObjectName(objectName string) (EntityType, int, error) {
