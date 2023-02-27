@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/vincent-petithory/dataurl"
 	"mime"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -81,7 +82,7 @@ func getExtensionByMimeType(mimeType string) (string, error) {
 
 // accepts extension without leading dot
 func getMimeTypeByExtension(extension string) string {
-	return mime.TypeByExtension("." + extension)
+	return mime.TypeByExtension(extension)
 }
 
 // getDataURLInfo parses dataURL string and retrieves bytes
@@ -102,24 +103,11 @@ func GetFileTypeByMimeType(mimeType string) string {
 
 func prepareFileNameFromRequest(filename string) string {
 	filename = strings.Replace(filename, " ", "_", -1)
-	fileParts := strings.Split(filename, ".")
-
-	switch len(fileParts) {
-	case 1:
-		return filename
-	default:
-		return fileParts[0]
-	}
+	return filepath.Base(filename)
 }
 
 func getExtensionFromFilename(filename string) string {
-	fileParts := strings.Split(filename, ".")
-
-	if len(fileParts) == 1 {
-		return ""
-	}
-
-	return fileParts[len(fileParts)-1]
+	return filepath.Ext(filename)
 }
 
 func GetEntityTypeAndEntityIDByObjectName(objectName string) (EntityType, int, error) {
