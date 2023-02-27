@@ -7,16 +7,23 @@ import (
 )
 
 type User struct {
-	ID              int       `json:"id"`      // used to parse from ent model
-	UserId          int       `json:"user_id"` // used to parse from jwt token
-	Name            string    `json:"name,omitempty"`
-	Email           string    `json:"email"`
-	ProfileImageUrl string    `json:"profile_image_url,omitempty"`
-	WalletAddresses []string  `json:"wallet_addresses"`
-	Faucet          Faucet    `json:"faucet"`
-	TwitterHandle   string    `json:"twitter_handle"`
-	IsNftCreator    bool      `json:"is_nft_creator"`
-	Edges           UserEdges `json:"edges"`
+	ID              int          `json:"id"`      // used to parse from ent model
+	UserId          int          `json:"user_id"` // used to parse from jwt token
+	Name            string       `json:"name,omitempty"`
+	Title           string       `json:"title,omitempty"`
+	Email           string       `json:"email"`
+	ProfileImageUrl string       `json:"profile_image_url,omitempty"`
+	WalletAddresses []string     `json:"wallet_addresses"`
+	Faucet          Faucet       `json:"faucet"`
+	TwitterHandle   string       `json:"twitter_handle"`
+	IsNftCreator    bool         `json:"is_nft_creator"`
+	ThemeColors     *ThemeColors `json:"theme_colors"`
+	Edges           UserEdges    `json:"edges"`
+}
+
+type ThemeColors struct {
+	Accent     string `json:"accent"`
+	Background string `json:"background"`
 }
 
 type UserEdges struct {
@@ -66,10 +73,12 @@ func ParseProtoUserToUser(protoUser *proto_user.User) *User {
 		ID:              int(protoUser.Id),
 		UserId:          int(protoUser.Id),
 		Name:            protoUser.Name,
+		Title:           protoUser.Title,
 		Email:           protoUser.Email,
 		ProfileImageUrl: protoUser.ProfileImageUrl,
 		TwitterHandle:   protoUser.TwitterHandle,
 		IsNftCreator:    protoUser.IsNftCreator,
+		ThemeColors:     parseProtoThemeColors(protoUser.ThemeColors),
 		Edges:           UserEdges{Wallets: ParseProtoWalletsToWallets(protoUser.Edges.Wallets)},
 	}
 
@@ -98,5 +107,16 @@ func ParseProtoWalletToWallet(protoWallet *proto_user.Wallet) *Wallet {
 		WalletAddress: protoWallet.WalletAddress,
 		Provider:      protoWallet.Provider,
 		Primary:       primary,
+	}
+}
+
+func parseProtoThemeColors(protoThemeColors *proto_user.ThemeColors) *ThemeColors {
+	if protoThemeColors == nil {
+		return nil
+	}
+
+	return &ThemeColors{
+		Accent:     protoThemeColors.Accent,
+		Background: protoThemeColors.Background,
 	}
 }

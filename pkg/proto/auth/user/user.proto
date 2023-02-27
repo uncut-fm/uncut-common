@@ -36,6 +36,11 @@ message UserEdges {
   repeated Wallet wallets = 1;
 }
 
+message ThemeColors {
+  string accent = 1;
+  string background = 2;
+}
+
 message User {
   uint64 id = 1;
   string name = 2;
@@ -44,6 +49,8 @@ message User {
   string twitter_handle = 5;
   bool is_nft_creator = 6;
   UserEdges edges = 7;
+  string title = 8;
+  ThemeColors theme_colors = 9;
 }
 
 message UsersResponse {
