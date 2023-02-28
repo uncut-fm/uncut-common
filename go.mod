@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/pubsub v1.28.0
 	cloud.google.com/go/secretmanager v1.9.0
 	cloud.google.com/go/storage v1.29.0
-	entgo.io/ent v0.11.5
+	entgo.io/ent v0.11.6
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/dghubble/go-twitter v0.0.0-20220428155120-ee736133298b
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible

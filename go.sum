@@ -15,8 +15,8 @@ cloud.google.com/go/secretmanager v1.9.0 h1:xE6uXljAC1kCR8iadt9+/blg1fvSbmenlsDN
 cloud.google.com/go/secretmanager v1.9.0/go.mod h1:b71qH2l1yHmWQHt9LC80akm86mX8AL6X1MA01dW8ht4=
 cloud.google.com/go/storage v1.29.0 h1:6weCgzRvMg7lzuUurI4697AqIRPU1SvzHhynwpW31jI=
 cloud.google.com/go/storage v1.29.0/go.mod h1:4puEjyTKnku6gfKoTfNOU/W+a9JyuVNxjpS5GBrB8h4=
-entgo.io/ent v0.11.5 h1:V2qhG91C4PMQTa82Q4StoESMQ4dzkMNeStCzszxi0jQ=
-entgo.io/ent v0.11.5/go.mod h1:u7eKwNWAo/VlHIKxgwbmsFy3J7cKDxwi3jyF5TW/okY=
+entgo.io/ent v0.11.6 h1:fMQwhuzbPv12AXdrAGyHoOcgh9r0D9F8WEsCRoUWxVc=
+entgo.io/ent v0.11.6/go.mod h1:d4yUWiwY3NQtjGvINzAhUyypopfeEKOxcxLN7D5yM7o=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/DATA-DOG/go-sqlmock v1.5.0 h1:Shsta01QNfFxHCfpW6YH2STWB0MudeXXEWMr20OEh60=
 github.com/Masterminds/semver/v3 v3.1.1 h1:hLg3sBzpNErnxhQtUy/mmLR2I9foDujNK030IGemrRc=

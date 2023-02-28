@@ -3,6 +3,7 @@ package auth
 type UpdateUserAuthRequest struct {
 	ID              int
 	Name            *string `json:"name"`
+	Title           *string `json:"title"`
 	Email           *string `json:"email"`
 	ProfileImageURL *string `json:"profile_image_url"`
 	WalletAddress   *string `json:"wallet_address"`

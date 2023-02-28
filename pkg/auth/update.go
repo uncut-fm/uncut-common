@@ -10,6 +10,7 @@ func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*mod
 	protoUser, err := a.grpcClient.UpdateUser(a.addAdminTokenToGrpcCtx(ctx), &user.UpdateUserRequest{
 		Id:              uint64(input.ID),
 		Name:            input.Name,
+		Title:           input.Title,
 		Email:           input.Email,
 		ProfileImageUrl: input.ProfileImageURL,
 		WalletAddress:   input.WalletAddress,
