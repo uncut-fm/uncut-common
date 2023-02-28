@@ -1,14 +1,17 @@
 package auth
 
+import "github.com/uncut-fm/uncut-common/model"
+
 type UpdateUserAuthRequest struct {
 	ID              int
-	Name            *string `json:"name"`
-	Title           *string `json:"title"`
-	Email           *string `json:"email"`
-	ProfileImageURL *string `json:"profile_image_url"`
-	WalletAddress   *string `json:"wallet_address"`
-	TwitterHandle   *string `json:"twitter_handle"`
-	IsNftCreator    *bool   `json:"is_nft_creator"`
+	Name            *string            `json:"name"`
+	Title           *string            `json:"title"`
+	Email           *string            `json:"email"`
+	ProfileImageURL *string            `json:"profile_image_url"`
+	WalletAddress   *string            `json:"wallet_address"`
+	TwitterHandle   *string            `json:"twitter_handle"`
+	IsNftCreator    *bool              `json:"is_nft_creator"`
+	ThemeColors     *model.ThemeColors `json:"theme_colors"`
 }
 
 type UpdateWalletRequest struct {

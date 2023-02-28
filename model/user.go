@@ -78,7 +78,7 @@ func ParseProtoUserToUser(protoUser *proto_user.User) *User {
 		ProfileImageUrl: protoUser.ProfileImageUrl,
 		TwitterHandle:   protoUser.TwitterHandle,
 		IsNftCreator:    protoUser.IsNftCreator,
-		ThemeColors:     parseProtoThemeColors(protoUser.ThemeColors),
+		ThemeColors:     ParseProtoThemeColors(protoUser.ThemeColors),
 		Edges:           UserEdges{Wallets: ParseProtoWalletsToWallets(protoUser.Edges.Wallets)},
 	}
 
@@ -110,12 +110,23 @@ func ParseProtoWalletToWallet(protoWallet *proto_user.Wallet) *Wallet {
 	}
 }
 
-func parseProtoThemeColors(protoThemeColors *proto_user.ThemeColors) *ThemeColors {
+func ParseProtoThemeColors(protoThemeColors *proto_user.ThemeColors) *ThemeColors {
 	if protoThemeColors == nil {
 		return nil
 	}
 
 	return &ThemeColors{
+		Accent:     protoThemeColors.Accent,
+		Background: protoThemeColors.Background,
+	}
+}
+
+func ParseThemeColorsToProto(protoThemeColors *ThemeColors) *proto_user.ThemeColors {
+	if protoThemeColors == nil {
+		return nil
+	}
+
+	return &proto_user.ThemeColors{
 		Accent:     protoThemeColors.Accent,
 		Background: protoThemeColors.Background,
 	}

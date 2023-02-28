@@ -16,6 +16,7 @@ func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*mod
 		WalletAddress:   input.WalletAddress,
 		TwitterHandle:   input.TwitterHandle,
 		IsNftCreator:    input.IsNftCreator,
+		ThemeColors:     model.ParseThemeColorsToProto(input.ThemeColors),
 	})
 
 	if a.log.CheckError(err, a.UpdateUser) != nil {

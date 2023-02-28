@@ -94,6 +94,7 @@ message UpdateUserRequest {
   optional string twitter_handle = 6;
   optional bool is_nft_creator = 7;
   optional string title = 8;
+  optional ThemeColors theme_colors = 9;
 }
 
 message UpdateWalletRequest {
