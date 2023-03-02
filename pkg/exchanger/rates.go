@@ -3,6 +3,7 @@ package exchanger
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/cenkalti/backoff"
 	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
 	"time"
@@ -41,8 +42,8 @@ type cachedPriceStruct struct {
 	retrievedTime time.Time
 }
 
-func (c cachedPriceStruct) isOlderThan1min() bool {
-	return c.retrievedTime.Add(time.Minute).Before(time.Now())
+func (c cachedPriceStruct) isOlderThan10min() bool {
+	return c.retrievedTime.Add(10 * time.Minute).Before(time.Now())
 }
 
 func (c *ExchangerAPI) ETHEquivalentInUSD(ethPrice float64) (float64, error) {
@@ -79,7 +80,7 @@ func (c *ExchangerAPI) getETHPriceCache() (float64, bool, bool) {
 		return 0, false, false
 	}
 
-	if cachedPrice.isOlderThan1min() {
+	if cachedPrice.isOlderThan10min() {
 		return cachedPrice.price, true, false
 	}
 
@@ -112,13 +113,24 @@ func (c ExchangerAPI) getETHToUSDFromAPI() (float64, error) {
 }
 
 func (c ExchangerAPI) makeRequest(apiURL string, responseStruct interface{}) error {
-	resp, err := c.restyClient.R().EnableTrace().
-		Get(apiURL)
-	if err != nil {
-		return c.log.CheckError(err, c.makeRequest)
+	var err error
+
+	operation := func() error {
+		var resp *resty.Response
+
+		resp, err = c.restyClient.R().EnableTrace().
+			Get(apiURL)
+		if err != nil {
+			return c.log.CheckError(err, c.makeRequest)
+		}
+
+		return json.Unmarshal(resp.Body(), responseStruct)
 	}
 
-	err = json.Unmarshal(resp.Body(), responseStruct)
+	b := backoff.NewExponentialBackOff()
+	b.MaxElapsedTime = 2 * time.Second
+
+	err = backoff.Retry(operation, b)
 
 	return c.log.CheckError(err, c.makeRequest)
 }

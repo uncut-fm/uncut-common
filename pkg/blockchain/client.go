@@ -122,7 +122,7 @@ func (c Client) makeGetTokenBalancesRequest(ctx context.Context, walletAddress s
 	}
 
 	b := backoff.NewExponentialBackOff()
-	b.MaxElapsedTime = 10 * time.Second
+	b.MaxElapsedTime = 1 * time.Second
 
 	err = backoff.Retry(operation, b)
 
