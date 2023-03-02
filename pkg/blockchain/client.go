@@ -2,6 +2,7 @@ package blockchain
 
 import (
 	"context"
+	"github.com/cenkalti/backoff"
 	"math/big"
 	"sync"
 	"time"
@@ -108,12 +109,22 @@ func (c Client) makeGetTokenBalancesRequest(ctx context.Context, walletAddress s
 		Id:      42,
 	}
 
-	response := new(getTokenBalancesResponse)
+	var err error
 
-	_, err := c.restyClient.R().EnableTrace().
-		SetBody(request).
-		SetResult(response).
-		Post(c.alchemyRpcURL)
+	response := new(getTokenBalancesResponse)
+	operation := func() error {
+		_, err = c.restyClient.R().EnableTrace().
+			SetBody(request).
+			SetResult(response).
+			Post(c.alchemyRpcURL)
+
+		return c.log.CheckError(err, c.makeGetTokenBalancesRequest)
+	}
+
+	b := backoff.NewExponentialBackOff()
+	b.MaxElapsedTime = 10 * time.Second
+
+	err = backoff.Retry(operation, b)
 
 	return response, c.log.CheckError(err, c.makeGetTokenBalancesRequest)
 }
