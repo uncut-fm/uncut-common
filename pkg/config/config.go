@@ -50,6 +50,7 @@ type ManagementConfigs struct {
 	ReservedSlugs          []string       `yaml:"reserved_slugs"`
 	BackofficeAdminToken   string         `yaml:"backoffice_admin_token"`
 	PirFivePercentTokenIDs []int          `yaml:"pir_five_percent_token_ids"`
+	Redis                  RedisConfigs   `yaml:"redis"`
 }
 
 type PaperConfigs struct {
