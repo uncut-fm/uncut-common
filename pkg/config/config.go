@@ -117,6 +117,7 @@ type AuthConfigs struct {
 	SegmentWriteKey      string         `yaml:"segment_write_key"`
 	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
 	Twitter              TwitterConfigs `yaml:"twitter"`
+	Redis                RedisConfigs   `yaml:"redis"`
 }
 
 type FaucetLimit struct {

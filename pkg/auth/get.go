@@ -90,11 +90,6 @@ func (a API) GetUserByID(ctx context.Context, userID int) (*model.User, error) {
 }
 
 func (a API) GetUserEmailByWalletAddress(ctx context.Context, walletAddress string) (string, error) {
-	email, exist := a.cache.GetEmailByWalletCache(walletAddress)
-	if exist {
-		return email, nil
-	}
-
 	user, err := a.getUserByWalletAddress(a.addAdminTokenToGrpcCtx(ctx), walletAddress)
 	if a.log.CheckError(err, a.GetUserEmailByWalletAddress) != nil {
 		return "", err
