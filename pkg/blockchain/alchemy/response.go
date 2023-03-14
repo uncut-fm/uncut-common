@@ -1,4 +1,4 @@
-package blockchain
+package alchemy
 
 type getTokenBalancesResponse struct {
 	Result struct {
@@ -9,4 +9,8 @@ type getTokenBalancesResponse struct {
 			Error           interface{} `json:"error"`
 		} `json:"tokenBalances"`
 	} `json:"result"`
+}
+
+type getOwnedNftsResponse struct {
+	OwnedNfts []AlchemyNFT `json:"ownedNfts"`
 }

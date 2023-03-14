@@ -1,58 +1,14 @@
-package blockchain
+package alchemy
 
 import (
 	"context"
+	"fmt"
 	"github.com/cenkalti/backoff"
-	"math/big"
-	"sync"
-	"time"
-
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/model"
-	"github.com/uncut-fm/uncut-common/pkg/config"
-	"github.com/uncut-fm/uncut-common/pkg/logger"
+	"math/big"
+	"time"
 )
-
-const requestTimeout = 5 * time.Second
-
-type Client struct {
-	log                 logger.Logger
-	alchemyRpcURL       string
-	restyClient         *resty.Client
-	currencies          config.Web3Currencies
-	cachedBalances      map[string]cachedBalancesStruct
-	cachedBalancesMutex *sync.RWMutex
-}
-
-type cachedBalancesStruct struct {
-	balances      []model.Balance
-	retrievedTime time.Time
-}
-
-func (c cachedBalancesStruct) isOlderThan5min() bool {
-	return c.retrievedTime.Add(5 * time.Minute).Before(time.Now())
-}
-
-func NewClient(log logger.Logger, currencies config.Web3Currencies, alchemyRpcUrl string) (*Client, error) {
-	client := &Client{
-		log:                 log,
-		alchemyRpcURL:       alchemyRpcUrl,
-		currencies:          currencies,
-		cachedBalances:      make(map[string]cachedBalancesStruct),
-		cachedBalancesMutex: new(sync.RWMutex),
-		restyClient:         createRestyClient(),
-	}
-
-	return client, nil
-}
-
-func createRestyClient() *resty.Client {
-	client := resty.New()
-	client.SetTimeout(requestTimeout)
-
-	return client
-}
 
 func (c *Client) GetBalanceByWalletHexAddress(ctx context.Context, walletHexAddress string) ([]model.Balance, error) {
 	if cachedBalance, ok := c.getCachedBalancePerWallet(walletHexAddress); ok {
@@ -116,7 +72,7 @@ func (c Client) makeGetTokenBalancesRequest(ctx context.Context, walletAddress s
 		_, err = c.restyClient.R().EnableTrace().
 			SetBody(request).
 			SetResult(response).
-			Post(c.alchemyRpcURL)
+			Post(c.getTokenBalancesReqURL())
 
 		return c.log.CheckError(err, c.makeGetTokenBalancesRequest)
 	}
@@ -155,6 +111,10 @@ func (c *Client) setCachedBalancePerWallet(balances []model.Balance, walletHexAd
 	c.cachedBalancesMutex.Unlock()
 }
 
+func (c Client) getTokenBalancesReqURL() string {
+	return fmt.Sprintf(getTokenBalancesURLPattern, c.polygonNetwork, c.alchemyAPIKey)
+}
+
 func wei2Eth(wei *big.Int) float64 {
 	f := new(big.Float)
 	f.SetPrec(236) //  IEEE 754 octuple-precision binary floating-point format: binary256
@@ -168,8 +128,14 @@ func wei2Eth(wei *big.Int) float64 {
 }
 
 func hexWeiStringToFloatEth(hexString string) float64 {
-	balanceBigInt := new(big.Int)
-	balanceBigInt.SetString(hexString, 0)
+	balanceBigInt := hexToBigInt(hexString)
 
 	return wei2Eth(balanceBigInt)
+}
+
+func hexToBigInt(hexString string) *big.Int {
+	bigInt := new(big.Int)
+	bigInt.SetString(hexString, 0)
+
+	return bigInt
 }

@@ -1,6 +1,28 @@
 package model
 
-import "time"
+import (
+	"github.com/uncut-fm/uncut-common/pkg/config"
+	"time"
+)
+
+type BlockchainNetwork string
+
+var (
+	PolygonMumbaiBlockchainNetwork   BlockchainNetwork = "polygon-mumbai"
+	PolygonMainnetBlockchainNetwork  BlockchainNetwork = "polygon-mainnet"
+	EthereumMainnetBlockchainNetwork BlockchainNetwork = "eth-mainnet"
+)
+
+func GetBlockchainNetworksByEnvironment(env string) (polygon BlockchainNetwork, ethereum BlockchainNetwork) {
+	switch env {
+	case config.LocalEnvironment, config.DevEnvironment, config.TestEnvironment:
+		return PolygonMumbaiBlockchainNetwork, EthereumMainnetBlockchainNetwork
+	case config.StageEnvironment, config.ProdEnvironment:
+		return PolygonMainnetBlockchainNetwork, EthereumMainnetBlockchainNetwork
+	default:
+		return PolygonMainnetBlockchainNetwork, EthereumMainnetBlockchainNetwork
+	}
+}
 
 type BlockchainEvent struct {
 	EventType       BlockchainEventType

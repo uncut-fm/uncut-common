@@ -1,4 +1,4 @@
-package blockchain
+package alchemy
 
 type getTokenBalancesRequest struct {
 	Jsonrpc string        `json:"jsonrpc"`
