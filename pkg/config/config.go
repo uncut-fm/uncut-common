@@ -72,8 +72,7 @@ type BackofficeConfigs struct {
 	SegmentWriteKey      string         `yaml:"segment_write_key"`
 	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
 	Currencies           Web3Currencies `yaml:"currencies"`
-	BlockchainRpcUrl     string         `yaml:"blockchain_rpc_url"`
-	BlockchainWsRpcUrl   string         `yaml:"blockchain_ws_rpc_url"`
+	AlchemyApiKey        string         `yaml:"alchemy_api_key"`
 	BlockchainName       string         `yaml:"blockchain_name"`
 	FaucetWallet         FaucetWallet   `yaml:"faucet_wallet"`
 	PIRTokenIDs          []int          `yaml:"pir_token_ids"`
