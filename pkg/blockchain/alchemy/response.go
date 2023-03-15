@@ -12,5 +12,5 @@ type getTokenBalancesResponse struct {
 }
 
 type getOwnedNftsResponse struct {
-	OwnedNfts []AlchemyNFT `json:"ownedNfts"`
+	OwnedNfts []Nft `json:"ownedNfts"`
 }

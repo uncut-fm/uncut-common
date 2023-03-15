@@ -9,18 +9,25 @@ import (
 )
 
 type OwnedNfts struct {
-	PolygonNFTs  []AlchemyNFT
-	EthereumNFTs []AlchemyNFT
+	PolygonNFTs  []Nft
+	EthereumNFTs []Nft
 }
 
-type AlchemyNFT struct {
+type TokenType string
+
+var (
+	TokenTypeErc1155 TokenType = "ERC1155"
+	TokenTypeErc721  TokenType = "ERC721"
+)
+
+type Nft struct {
 	Contract struct {
 		Address string `json:"address"`
 	} `json:"contract"`
 	ID struct {
 		TokenID       string `json:"tokenId"`
 		TokenMetadata struct {
-			TokenType string `json:"tokenType"`
+			TokenType TokenType `json:"tokenType"`
 		} `json:"tokenMetadata"`
 	} `json:"id"`
 	Balance     string `json:"balance"`
@@ -31,10 +38,22 @@ type AlchemyNFT struct {
 		Raw     string `json:"raw"`
 	} `json:"tokenUri"`
 	Media []struct {
-		Gateway string `json:"gateway"`
-		Raw     string `json:"raw"`
+		Gateway   string `json:"gateway"`
+		Thumbnail string `json:"thumbnail"`
+		Raw       string `json:"raw"`
+		Format    string `json:"format"`
+		Bytes     int    `json:"bytes"`
 	} `json:"media"`
 	Metadata struct {
+		Image        string `json:"image"`
+		ExternalURL  string `json:"external_url"`
+		AnimationURL string `json:"animation_url"`
+		Name         string `json:"name"`
+		Description  string `json:"description"`
+		Attributes   []struct {
+			Value     interface{} `json:"value"`
+			TraitType string      `json:"trait_type"`
+		} `json:"attributes"`
 	} `json:"metadata"`
 	TimeLastUpdated  time.Time `json:"timeLastUpdated"`
 	ContractMetadata struct {
@@ -58,7 +77,7 @@ type AlchemyNFT struct {
 	} `json:"spamInfo"`
 }
 
-func (a AlchemyNFT) GetTokenID() int {
+func (a Nft) GetTokenID() int {
 	return int(hexToBigInt(a.ID.TokenID).Int64())
 }
 
@@ -79,7 +98,7 @@ func (c Client) ListNftsOwnedByWalletAddress(ctx context.Context, walletAddress 
 	}, nil
 }
 
-func (c Client) makeGetOwnedNftsRequest(ctx context.Context, walletAddress string, network model.BlockchainNetwork) ([]AlchemyNFT, error) {
+func (c Client) makeGetOwnedNftsRequest(ctx context.Context, walletAddress string, network model.BlockchainNetwork) ([]Nft, error) {
 	var err error
 
 	response := new(getOwnedNftsResponse)

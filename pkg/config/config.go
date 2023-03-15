@@ -40,7 +40,7 @@ type ManagementConfigs struct {
 	BlockchainName         string         `yaml:"blockchain_name"`
 	StoreContractAddress   string         `yaml:"store_contract_address"`
 	Currencies             Web3Currencies `yaml:"currencies"`
-	BlockchainRpcUrl       string         `yaml:"blockchain_rpc_url"`
+	AlchemyApiKey          string         `yaml:"alchemy_api_key"`
 	SegmentWriteKey        string         `yaml:"segment_write_key"`
 	AuthAdminToken         string         `yaml:"auth_admin_token"`
 	SendgridAPIKey         string         `yaml:"sendgrid_api_key"`
