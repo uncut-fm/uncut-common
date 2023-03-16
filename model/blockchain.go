@@ -68,6 +68,7 @@ type NftMintedEventInfo struct {
 	Description        string  `json:"description"`
 	ImageURL           string  `json:"imageUrl"`
 	AudioURL           string  `json:"audioUrl"`
+	MetadataURL        string  `json:"metadataUrl"`
 }
 
 type NftPriceChangedEventInfo struct {
