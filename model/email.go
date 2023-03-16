@@ -8,20 +8,33 @@ import (
 )
 
 var (
+	baseURL                 = "https://uncut.network"
 	showLinkPattern         = "https://%s.uncut.network" // https://{show_slug}.uncut.network
 	feedLinkPattern         = "%s/feed"                  // {show_link}/feed
 	collectiveLinkPattern   = "%s/collective"            // {show_link}/collective
 	conversationLinkPattern = "%s/%d"                    // {feed_link}/feed/{conversation_id}
 	nftLinkPattern          = "%s/nft/%d"                // {show_link}/nft/{nft_id}
+	personalNftLinkPattern  = "%s/unft/%d"               // {show_link}/unft/{nft_id}
+
+	userLinkPattern = "%s/user/%d" // {base_url}/user/{user_id}
 )
 
 func GetShowLink(environment, showSlug string) string {
 	switch environment {
 	case config.DevEnvironment, config.StageEnvironment:
+		if len(showSlug) == 0 {
+			return fmt.Sprintf(showLinkPattern, environment)
+		}
 		return fmt.Sprintf(showLinkPattern, fmt.Sprintf("%s.%s", showSlug, environment))
 	case config.TestEnvironment:
+		if len(showSlug) == 0 {
+			return fmt.Sprintf(showLinkPattern, "qa")
+		}
 		return fmt.Sprintf(showLinkPattern, fmt.Sprintf("%s.%s", showSlug, "qa"))
 	default:
+		if len(showSlug) == 0 {
+			return baseURL
+		}
 		return fmt.Sprintf(showLinkPattern, showSlug)
 	}
 }
@@ -40,9 +53,24 @@ func GetCollectiveLink(environment, showSlug string) string {
 	showLink := GetShowLink(environment, showSlug)
 	return fmt.Sprintf(collectiveLinkPattern, showLink)
 }
+
 func GetNftLink(environment, showSlug string, nftID int) string {
 	showLink := GetShowLink(environment, showSlug)
+	if len(showSlug) == 0 {
+		return fmt.Sprintf(personalNftLinkPattern, showLink, nftID)
+	}
+
 	return fmt.Sprintf(nftLinkPattern, showLink, nftID)
+}
+
+func GetUserNetworkLink(environment string, userID int) string {
+	return fmt.Sprintf("%s/network", GetUserLink(environment, userID))
+}
+
+func GetUserLink(environment string, userID int) string {
+	baseLink := GetShowLink(environment, "")
+
+	return fmt.Sprintf(userLinkPattern, baseLink, userID)
 }
 
 type EmailReceiver struct {
