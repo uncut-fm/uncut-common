@@ -58,7 +58,7 @@ func (c Client) getTokenBalances(ctx context.Context, walletAddress string) ([]m
 
 func (c Client) makeGetTokenBalancesRequest(ctx context.Context, walletAddress string) (*getTokenBalancesResponse, error) {
 	tokenAddresses := c.currencies.GetAddresses()
-	request := &getTokenBalancesRequest{
+	request := &rpcRequest{
 		Jsonrpc: "2.0",
 		Method:  "alchemy_getTokenBalances",
 		Params:  []interface{}{walletAddress, tokenAddresses},
@@ -72,7 +72,7 @@ func (c Client) makeGetTokenBalancesRequest(ctx context.Context, walletAddress s
 		_, err = c.restyClient.R().EnableTrace().
 			SetBody(request).
 			SetResult(response).
-			Post(c.getTokenBalancesReqURL())
+			Post(c.getRpcUrl(c.polygonNetwork))
 
 		return c.log.CheckError(err, c.makeGetTokenBalancesRequest)
 	}
@@ -111,8 +111,8 @@ func (c *Client) setCachedBalancePerWallet(balances []model.Balance, walletHexAd
 	c.cachedBalancesMutex.Unlock()
 }
 
-func (c Client) getTokenBalancesReqURL() string {
-	return fmt.Sprintf(getTokenBalancesURLPattern, c.polygonNetwork, c.alchemyAPIKey)
+func (c Client) getRpcUrl(network model.BlockchainNetwork) string {
+	return fmt.Sprintf(rpcURLPattern, network, c.alchemyAPIKey)
 }
 
 func wei2Eth(wei *big.Int) float64 {
@@ -133,6 +133,11 @@ func hexWeiStringToFloatEth(hexString string) float64 {
 	return wei2Eth(balanceBigInt)
 }
 
+func hexToInt(hexString string) int {
+	bigInt := hexToBigInt(hexString)
+
+	return int(bigInt.Int64())
+}
 func hexToBigInt(hexString string) *big.Int {
 	bigInt := new(big.Int)
 	bigInt.SetString(hexString, 0)

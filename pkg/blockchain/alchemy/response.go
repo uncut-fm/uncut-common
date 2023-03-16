@@ -11,6 +11,12 @@ type getTokenBalancesResponse struct {
 	} `json:"result"`
 }
 
+type getBlockResponse struct {
+	Result struct {
+		Timestamp string `json:"timestamp"`
+	} `json:"result"`
+}
+
 type getOwnedNftsResponse struct {
 	OwnedNfts []Nft `json:"ownedNfts"`
 }

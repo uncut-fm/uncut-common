@@ -7,6 +7,10 @@ import (
 
 type BlockchainNetwork string
 
+func (b BlockchainNetwork) String() string {
+	return string(b)
+}
+
 var (
 	PolygonMumbaiBlockchainNetwork   BlockchainNetwork = "polygon-mumbai"
 	PolygonMainnetBlockchainNetwork  BlockchainNetwork = "polygon-mainnet"

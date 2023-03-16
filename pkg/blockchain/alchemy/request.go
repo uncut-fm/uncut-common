@@ -1,6 +1,6 @@
 package alchemy
 
-type getTokenBalancesRequest struct {
+type rpcRequest struct {
 	Jsonrpc string        `json:"jsonrpc"`
 	Method  string        `json:"method"`
 	Params  []interface{} `json:"params"`

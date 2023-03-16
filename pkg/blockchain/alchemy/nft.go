@@ -78,7 +78,7 @@ type Nft struct {
 }
 
 func (a Nft) GetTokenID() int {
-	return int(hexToBigInt(a.ID.TokenID).Int64())
+	return hexToInt(a.ID.TokenID)
 }
 
 func (c Client) ListNftsOwnedByWalletAddress(ctx context.Context, walletAddress string) (*OwnedNfts, error) {
