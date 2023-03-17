@@ -7,6 +7,7 @@ import "google/protobuf/timestamp.proto";
 
 service Users {
   rpc ListNftCreators (Empty) returns (UsersResponse) {}
+  rpc ListAll (Empty) returns (UsersResponse) {}
   rpc GetUserByEmail (EmailRequest) returns (User){}
   rpc GetUserByWalletAddress(WalletAddressRequest) returns (User){}
   rpc GetUserByID(IDRequest) returns (User){}
