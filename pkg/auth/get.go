@@ -36,6 +36,16 @@ func (a API) GetNftCreators(ctx context.Context) ([]*model.User, error) {
 	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), nil
 }
 
+func (a API) ListAll(ctx context.Context) ([]*model.User, error) {
+	protoUsers, err := a.grpcClient.ListAll(a.addAdminTokenToGrpcCtx(ctx), &proto_user.Empty{})
+
+	if a.log.CheckError(err, a.ListAll) != nil {
+		return nil, err
+	}
+
+	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), nil
+}
+
 func (a API) GetUserByEmail(ctx context.Context, email string) (*model.User, error) {
 	protoUser, err := a.grpcClient.GetUserByEmail(a.addAdminTokenToGrpcCtx(ctx), &proto_user.EmailRequest{Email: email})
 	if a.log.CheckError(err, a.GetUserByEmail) != nil {
