@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/uncut-fm/uncut-common/pkg/config"
+	"strings"
 	"time"
 )
 
@@ -12,20 +13,44 @@ func (b BlockchainNetwork) String() string {
 }
 
 var (
-	PolygonMumbaiBlockchainNetwork   BlockchainNetwork = "polygon-mumbai"
-	PolygonMainnetBlockchainNetwork  BlockchainNetwork = "polygon-mainnet"
+	PolygonNetwork                  BlockchainNetwork = "polygon"
+	PolygonMainnetBlockchainNetwork BlockchainNetwork = "polygon-mainnet"
+	PolygonMumbaiBlockchainNetwork  BlockchainNetwork = "polygon-mumbai"
+
+	EthereumNetwork                  BlockchainNetwork = "eth"
 	EthereumMainnetBlockchainNetwork BlockchainNetwork = "eth-mainnet"
+	EthereumGoerliBlockchainNetwork  BlockchainNetwork = "eth-goerli"
+
+	ArbitrumNetwork                  BlockchainNetwork = "arb"
+	ArbitrumMainnetBlockchainNetwork BlockchainNetwork = "arb-mainnet"
+	ArbitrumGoerliBlockchainNetwork  BlockchainNetwork = "arb-goerli"
+
+	OptimismNetwork                  BlockchainNetwork = "opt"
+	OptimismMainnetBlockchainNetwork BlockchainNetwork = "opt-mainnet"
+	OptimismGoerliBlockchainNetwork  BlockchainNetwork = "opt-goerli"
+
+	AllCommonNetworks = []BlockchainNetwork{PolygonNetwork, EthereumNetwork, ArbitrumNetwork, OptimismNetwork}
 )
 
-func GetBlockchainNetworksByEnvironment(env string) (polygon BlockchainNetwork, ethereum BlockchainNetwork) {
+func GetBlockchainNetworksByEnvironment(env string) []BlockchainNetwork {
 	switch env {
 	case config.LocalEnvironment, config.DevEnvironment, config.TestEnvironment:
-		return PolygonMumbaiBlockchainNetwork, EthereumMainnetBlockchainNetwork
+		return []BlockchainNetwork{PolygonMumbaiBlockchainNetwork, EthereumGoerliBlockchainNetwork, ArbitrumGoerliBlockchainNetwork, OptimismGoerliBlockchainNetwork}
 	case config.StageEnvironment, config.ProdEnvironment:
-		return PolygonMainnetBlockchainNetwork, EthereumMainnetBlockchainNetwork
+		return []BlockchainNetwork{PolygonMainnetBlockchainNetwork, EthereumMainnetBlockchainNetwork, ArbitrumMainnetBlockchainNetwork, OptimismMainnetBlockchainNetwork}
 	default:
-		return PolygonMainnetBlockchainNetwork, EthereumMainnetBlockchainNetwork
+		return []BlockchainNetwork{PolygonMainnetBlockchainNetwork, EthereumMainnetBlockchainNetwork, ArbitrumMainnetBlockchainNetwork, OptimismMainnetBlockchainNetwork}
 	}
+}
+
+func (b BlockchainNetwork) GetCommonNetworkName() BlockchainNetwork {
+	for _, commonNetwork := range AllCommonNetworks {
+		if strings.Contains(b.String(), commonNetwork.String()) {
+			return commonNetwork
+		}
+	}
+
+	return PolygonNetwork
 }
 
 type BlockchainEvent struct {

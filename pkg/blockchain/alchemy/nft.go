@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"github.com/cenkalti/backoff"
 	"github.com/uncut-fm/uncut-common/model"
+	"sync"
 	"time"
 )
 
 type OwnedNfts struct {
-	PolygonNFTs  []Nft
-	EthereumNFTs []Nft
+	Network model.BlockchainNetwork
+	NFTs    []Nft
 }
 
 type TokenType string
@@ -75,27 +76,33 @@ type Nft struct {
 		IsSpam          string   `json:"isSpam"`
 		Classifications []string `json:"classifications"`
 	} `json:"spamInfo"`
+	Error string `json:"error"`
 }
 
 func (a Nft) GetTokenID() int {
 	return hexToInt(a.ID.TokenID)
 }
 
-func (c Client) ListNftsOwnedByWalletAddress(ctx context.Context, walletAddress string) (*OwnedNfts, error) {
-	polygonNFTs, err := c.makeGetOwnedNftsRequest(ctx, walletAddress, c.polygonNetwork)
-	if c.log.CheckError(err, c.ListNftsOwnedByWalletAddress) != nil {
-		return nil, err
+func (c Client) ListNftsOwnedByWalletAddress(ctx context.Context, walletAddress string) ([]OwnedNfts, error) {
+	ownedNFTs := []OwnedNfts{}
+
+	wg := new(sync.WaitGroup)
+
+	for _, network := range c.networks {
+		wg.Add(1)
+		go func(n model.BlockchainNetwork) {
+			defer wg.Done()
+
+			nfts, err := c.makeGetOwnedNftsRequest(ctx, walletAddress, n)
+			_ = c.log.CheckError(err, c.ListNftsOwnedByWalletAddress)
+
+			ownedNFTs = append(ownedNFTs, OwnedNfts{Network: n, NFTs: nfts})
+		}(network)
 	}
 
-	ethereumNFTs, err := c.makeGetOwnedNftsRequest(ctx, walletAddress, c.ethereumNetwork)
-	if c.log.CheckError(err, c.ListNftsOwnedByWalletAddress) != nil {
-		return nil, err
-	}
+	wg.Wait()
 
-	return &OwnedNfts{
-		PolygonNFTs:  polygonNFTs,
-		EthereumNFTs: ethereumNFTs,
-	}, nil
+	return ownedNFTs, nil
 }
 
 func (c Client) makeGetOwnedNftsRequest(ctx context.Context, walletAddress string, network model.BlockchainNetwork) ([]Nft, error) {
@@ -115,7 +122,7 @@ func (c Client) makeGetOwnedNftsRequest(ctx context.Context, walletAddress strin
 	}
 
 	b := backoff.NewExponentialBackOff()
-	b.MaxElapsedTime = 1 * time.Second
+	b.MaxElapsedTime = 5 * time.Second
 
 	err = backoff.Retry(operation, b)
 

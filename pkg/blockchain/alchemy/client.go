@@ -1,6 +1,7 @@
 package alchemy
 
 import (
+	"strings"
 	"sync"
 	"time"
 
@@ -20,8 +21,7 @@ var (
 type Client struct {
 	log                 logger.Logger
 	alchemyAPIKey       string
-	polygonNetwork      model.BlockchainNetwork
-	ethereumNetwork     model.BlockchainNetwork
+	networks            []model.BlockchainNetwork
 	restyClient         *resty.Client
 	currencies          config.Web3Currencies
 	cachedBalances      map[string]cachedBalancesStruct
@@ -38,12 +38,10 @@ func (c cachedBalancesStruct) isOlderThan5min() bool {
 }
 
 func NewClient(log logger.Logger, currencies config.Web3Currencies, alchemyAPIKey, env string) *Client {
-	polygonNetwork, ethNetwork := model.GetBlockchainNetworksByEnvironment(env)
 	client := &Client{
 		log:                 log,
 		alchemyAPIKey:       alchemyAPIKey,
-		polygonNetwork:      polygonNetwork,
-		ethereumNetwork:     ethNetwork,
+		networks:            model.GetBlockchainNetworksByEnvironment(env),
 		currencies:          currencies,
 		cachedBalances:      make(map[string]cachedBalancesStruct),
 		cachedBalancesMutex: new(sync.RWMutex),
@@ -58,4 +56,14 @@ func createRestyClient() *resty.Client {
 	client.SetTimeout(requestTimeout)
 
 	return client
+}
+
+func (c Client) getBlockchainNetworkByCommonName(networkToFind model.BlockchainNetwork) model.BlockchainNetwork {
+	for _, n := range c.networks {
+		if strings.Contains(n.String(), networkToFind.String()) {
+			return n
+		}
+	}
+
+	return c.networks[0]
 }

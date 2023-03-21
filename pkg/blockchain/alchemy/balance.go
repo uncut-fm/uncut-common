@@ -72,7 +72,7 @@ func (c Client) makeGetTokenBalancesRequest(ctx context.Context, walletAddress s
 		_, err = c.restyClient.R().EnableTrace().
 			SetBody(request).
 			SetResult(response).
-			Post(c.getRpcUrl(c.polygonNetwork))
+			Post(c.getRpcUrl(c.getBlockchainNetworkByCommonName(model.PolygonNetwork)))
 
 		return c.log.CheckError(err, c.makeGetTokenBalancesRequest)
 	}

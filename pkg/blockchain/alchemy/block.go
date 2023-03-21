@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"github.com/cenkalti/backoff"
 	"github.com/uncut-fm/uncut-common/model"
-	"strings"
 	"time"
 )
 
-func (c *Client) GetTimestampByBlockNumberAndNetwork(ctx context.Context, blockNumber int, network string) (*time.Time, error) {
-	block, err := c.makeGetBlockByNumberRequest(ctx, blockNumber, c.getBlockchainNetworkByString(network))
+func (c *Client) GetTimestampByBlockNumberAndNetwork(ctx context.Context, blockNumber int, network model.BlockchainNetwork) (*time.Time, error) {
+	block, err := c.makeGetBlockByNumberRequest(ctx, blockNumber, c.getBlockchainNetworkByCommonName(network))
 	if c.log.CheckError(err, c.GetTimestampByBlockNumberAndNetwork) != nil {
 		return nil, err
 	}
@@ -20,14 +19,6 @@ func (c *Client) GetTimestampByBlockNumberAndNetwork(ctx context.Context, blockN
 	blockTimestamp := time.Unix(blockTimestampBigInt.Int64(), 0)
 
 	return &blockTimestamp, nil
-}
-
-func (c Client) getBlockchainNetworkByString(network string) model.BlockchainNetwork {
-	if strings.Contains(c.ethereumNetwork.String(), network) {
-		return c.ethereumNetwork
-	}
-
-	return c.polygonNetwork
 }
 
 func (c Client) makeGetBlockByNumberRequest(ctx context.Context, blockNumber int, network model.BlockchainNetwork) (*getBlockResponse, error) {
