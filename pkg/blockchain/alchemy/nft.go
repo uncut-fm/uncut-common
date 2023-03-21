@@ -63,14 +63,15 @@ type Nft struct {
 		TokenType           string `json:"tokenType"`
 		ContractDeployer    string `json:"contractDeployer"`
 		DeployedBlockNumber int    `json:"deployedBlockNumber"`
-		OpenSea             struct {
+		OpenSea             *struct {
 			CollectionName        string    `json:"collectionName"`
 			SafelistRequestStatus string    `json:"safelistRequestStatus"`
-			ImageURL              string    `json:"imageUrl"`
-			Description           string    `json:"description"`
+			ImageURL              *string   `json:"imageUrl,omitempty"`
+			Description           *string   `json:"description,omitempty"`
 			ExternalURL           string    `json:"externalUrl"`
 			LastIngestedAt        time.Time `json:"lastIngestedAt"`
-		} `json:"openSea"`
+			FloorPrice            *float64  `json:"floorPrice,omitempty"`
+		} `json:"openSea,omitempty"`
 	} `json:"contractMetadata"`
 	SpamInfo struct {
 		IsSpam          string   `json:"isSpam"`
