@@ -1,6 +1,9 @@
 package auth
 
-import "github.com/uncut-fm/uncut-common/model"
+import (
+	"github.com/uncut-fm/uncut-common/model"
+	"time"
+)
 
 type UpdateUserAuthRequest struct {
 	ID              int
@@ -15,11 +18,12 @@ type UpdateUserAuthRequest struct {
 }
 
 type UpdateWalletRequest struct {
-	UserID      int
-	WalletID    int     `json:"wallet_id"`
-	Name        *string `json:"name"`
-	Description *string `json:"description"`
-	Primary     *bool   `json:"primary"`
+	UserID       int
+	WalletID     int        `json:"wallet_id"`
+	Name         *string    `json:"name"`
+	Description  *string    `json:"description"`
+	Primary      *bool      `json:"primary"`
+	LastSyncedAt *time.Time `json:"last_synced_at"`
 }
 
 type AddWalletRequest struct {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*model.User, error) {
@@ -27,13 +28,19 @@ func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*mod
 }
 
 func (a API) UpdateWallet(ctx context.Context, input *UpdateWalletRequest) (*model.Wallet, error) {
-	protoWallet, err := a.grpcClient.UpdateWallet(a.addAdminTokenToGrpcCtx(ctx), &user.UpdateWalletRequest{
+	request := &user.UpdateWalletRequest{
 		UserId:      uint64(input.UserID),
 		WalletId:    uint64(input.WalletID),
 		Name:        input.Name,
 		Description: input.Description,
 		Primary:     input.Primary,
-	})
+	}
+
+	if input.LastSyncedAt != nil {
+		request.LastSyncedAt = timestamppb.New(*input.LastSyncedAt)
+	}
+
+	protoWallet, err := a.grpcClient.UpdateWallet(a.addAdminTokenToGrpcCtx(ctx), request)
 
 	if a.log.CheckError(err, a.UpdateWallet) != nil {
 		return nil, err

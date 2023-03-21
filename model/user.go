@@ -41,6 +41,7 @@ type Wallet struct {
 	DeletedAt     time.Time `json:"deleted_at,omitempty"`
 	UserID        int       `json:"userID"`
 	Primary       bool      `json:"primary"`
+	LastSyncedAt  time.Time `json:"last_synced_at"`
 }
 
 type Faucet struct {
@@ -107,6 +108,7 @@ func ParseProtoWalletToWallet(protoWallet *proto_user.Wallet) *Wallet {
 		WalletAddress: protoWallet.WalletAddress,
 		Provider:      protoWallet.Provider,
 		Primary:       primary,
+		LastSyncedAt:  protoWallet.LastSyncedAt.AsTime(),
 	}
 }
 
