@@ -51,8 +51,8 @@ const (
 	OnboardingDay5Notification               NotificationTemplateType = "DAY_5"
 	OnboardingDay7Notification               NotificationTemplateType = "DAY_7"
 	OnboardingDay10Notification              NotificationTemplateType = "DAY_10"
-	OnboardingUserHour1                      NotificationTemplateType = "HOUR_1"
-	OnboardingUserHour2                      NotificationTemplateType = "HOUR_2"
+	OnboardingUserHour1Notification          NotificationTemplateType = "HOUR_1"
+	OnboardingUserHour2Notification          NotificationTemplateType = "HOUR_2"
 	ConversationSpaceNotification            NotificationTemplateType = "SPACE_CONVERSATION"
 	ConversationCommentNotification          NotificationTemplateType = "CONVERSATION_COMMENT"
 	ConversationReplyCommentatorNotification NotificationTemplateType = "CONVERSATION_REPLY_TO_COMMENTATOR"
@@ -65,7 +65,7 @@ const (
 var (
 	ConversationNotificationTemplates = []NotificationTemplateType{ConversationSpaceNotification, ConversationCommentNotification, ConversationReplyCommentatorNotification, ConversationReplyHostNotification}
 	OnboardingSequenceTemplates       = []NotificationTemplateType{OnboardingDay1Notification, OnboardingDay2Notification, OnboardingDay5Notification, OnboardingDay7Notification, OnboardingDay10Notification}
-	OnboardingUserSequenceTemplates   = []NotificationTemplateType{OnboardingUserHour1, OnboardingUserHour2}
+	OnboardingUserSequenceTemplates   = []NotificationTemplateType{OnboardingUserHour1Notification, OnboardingUserHour2Notification}
 	TransactionNotificationTemplates  = []NotificationTemplateType{NftTransferCompletedNotification, NftSoldNotification, NftWelcomeNotification, NftAirdropNotification}
 )
 
