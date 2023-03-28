@@ -64,7 +64,7 @@ type Nft struct {
 		ContractDeployer    string `json:"contractDeployer"`
 		DeployedBlockNumber int    `json:"deployedBlockNumber"`
 		OpenSea             *struct {
-			CollectionName        string    `json:"collectionName"`
+			CollectionName        *string   `json:"collectionName,omitempty"`
 			SafelistRequestStatus string    `json:"safelistRequestStatus"`
 			ImageURL              *string   `json:"imageUrl,omitempty"`
 			Description           *string   `json:"description,omitempty"`

@@ -9,6 +9,10 @@ import (
 	"time"
 )
 
+func IsFieldNew[K int | float64 | string](newField *K, oldField K) bool {
+	return newField != nil && *newField != oldField
+}
+
 func IsIntFieldNew(newField *int, oldField int) bool {
 	return newField != nil && *newField != oldField
 }
