@@ -51,6 +51,7 @@ type ManagementConfigs struct {
 	BackofficeAdminToken   string         `yaml:"backoffice_admin_token"`
 	PirFivePercentTokenIDs []int          `yaml:"pir_five_percent_token_ids"`
 	Redis                  RedisConfigs   `yaml:"redis"`
+	TranscoderAdminToken   string         `yaml:"transcoder_admin_token"`
 }
 
 type PaperConfigs struct {
