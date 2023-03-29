@@ -9,6 +9,8 @@ import (
 const (
 	requestTimeout = 1 * time.Minute
 	gifFirstFrame  = "%s/gif/first-frame"
+
+	videoFirstFrame = "%s/video/first-frame"
 )
 
 type API struct {
