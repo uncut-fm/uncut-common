@@ -9,14 +9,14 @@ func TestGetTokenID(t *testing.T) {
 	type testCase struct {
 		name            string
 		tokenIDInHex    string
-		expectedTokenID uint
+		expectedTokenID string
 	}
 
 	cases := []testCase{
 		{
 			name:            "big num",
 			tokenIDInHex:    "0x0f1ddb5a3c504a40e653379cf1ca8d48de13f0c5000000000000010000000001",
-			expectedTokenID: 6837445208824483060242003533008093947305993890357970191003308304382715494401,
+			expectedTokenID: "6837445208824483060242003533008093947305993890357970191003308304382715494401",
 		},
 	}
 
@@ -34,7 +34,7 @@ func TestGetTokenID(t *testing.T) {
 				}
 			}{TokenID: c.tokenIDInHex})}
 
-			tokenID := nft.GetTokenID()
+			tokenID := nft.GetTokenIDString()
 			assert.Equal(t, c.expectedTokenID, tokenID)
 		})
 	}

@@ -138,6 +138,13 @@ func hexToInt(hexString string) int {
 
 	return int(bigInt.Int64())
 }
+
+func hexToNumString(hexString string) string {
+	bigInt := hexToBigInt(hexString)
+
+	return bigInt.String()
+}
+
 func hexToBigInt(hexString string) *big.Int {
 	bigInt := new(big.Int)
 	bigInt.SetString(hexString, 0)

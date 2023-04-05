@@ -84,6 +84,10 @@ func (a Nft) GetTokenID() int {
 	return hexToInt(a.ID.TokenID)
 }
 
+func (a Nft) GetTokenIDString() string {
+	return hexToNumString(a.ID.TokenID)
+}
+
 func (c Client) ListNftsOwnedByWalletAddress(ctx context.Context, walletAddress string) ([]OwnedNfts, error) {
 	ownedNFTs := []OwnedNfts{}
 
