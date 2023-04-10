@@ -46,15 +46,12 @@ type Nft struct {
 		Bytes     int    `json:"bytes"`
 	} `json:"media"`
 	Metadata struct {
-		Image        string `json:"image"`
-		ExternalURL  string `json:"external_url"`
-		AnimationURL string `json:"animation_url"`
-		Name         string `json:"name"`
-		Description  string `json:"description"`
-		Attributes   []struct {
-			Value     interface{} `json:"value"`
-			TraitType string      `json:"trait_type"`
-		} `json:"attributes"`
+		Image        string      `json:"image"`
+		ExternalURL  string      `json:"external_url"`
+		AnimationURL string      `json:"animation_url"`
+		Name         interface{} `json:"name"`
+		Description  string      `json:"description"`
+		Attributes   interface{} `json:"attributes"`
 	} `json:"metadata"`
 	TimeLastUpdated  time.Time `json:"timeLastUpdated"`
 	ContractMetadata struct {
@@ -142,8 +139,11 @@ func (c Client) makeGetOwnedNftsRequest(ctx context.Context, walletAddress strin
 		}
 
 		_, err = req.Get(c.getNftOwnersReqURL(network))
+		if err != nil {
+			return c.log.CheckError(err, c.makeGetOwnedNftsRequest)
+		}
 
-		return c.log.CheckError(err, c.makeGetOwnedNftsRequest)
+		return nil
 	}
 
 	b := backoff.NewExponentialBackOff()
