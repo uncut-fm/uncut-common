@@ -98,10 +98,25 @@ func (c Client) ListNftsOwnedByWalletAddress(ctx context.Context, walletAddress 
 		go func(n model.BlockchainNetwork) {
 			defer wg.Done()
 
-			nfts, err := c.makeGetOwnedNftsRequest(ctx, walletAddress, n)
-			_ = c.log.CheckError(err, c.ListNftsOwnedByWalletAddress)
+			ownedNetworkNfts := OwnedNfts{Network: n}
 
-			ownedNFTs = append(ownedNFTs, OwnedNfts{Network: n, NFTs: nfts})
+			var (
+				pageKey *string
+				nfts    []Nft
+				err     error
+			)
+
+			for {
+				nfts, pageKey, err = c.makeGetOwnedNftsRequest(ctx, walletAddress, n, pageKey)
+				_ = c.log.CheckError(err, c.ListNftsOwnedByWalletAddress)
+
+				ownedNetworkNfts.NFTs = append(ownedNetworkNfts.NFTs, nfts...)
+				if pageKey == nil {
+					break
+				}
+			}
+
+			ownedNFTs = append(ownedNFTs, ownedNetworkNfts)
 		}(network)
 	}
 
@@ -110,18 +125,23 @@ func (c Client) ListNftsOwnedByWalletAddress(ctx context.Context, walletAddress 
 	return ownedNFTs, nil
 }
 
-func (c Client) makeGetOwnedNftsRequest(ctx context.Context, walletAddress string, network model.BlockchainNetwork) ([]Nft, error) {
+func (c Client) makeGetOwnedNftsRequest(ctx context.Context, walletAddress string, network model.BlockchainNetwork, pageKey *string) ([]Nft, *string, error) {
 	var err error
 
 	response := new(getOwnedNftsResponse)
 	operation := func() error {
-		_, err = c.restyClient.R().EnableTrace().
+		req := c.restyClient.R().EnableTrace().
 			SetResult(response).
 			SetQueryParams(map[string]string{
 				"owner":        walletAddress,
 				"withMetadata": "true",
-			}).
-			Get(c.getNftOwnersReqURL(network))
+			})
+
+		if pageKey != nil {
+			req.SetQueryParam("pageKey", *pageKey)
+		}
+
+		_, err = req.Get(c.getNftOwnersReqURL(network))
 
 		return c.log.CheckError(err, c.makeGetOwnedNftsRequest)
 	}
@@ -131,7 +151,7 @@ func (c Client) makeGetOwnedNftsRequest(ctx context.Context, walletAddress strin
 
 	err = backoff.Retry(operation, b)
 
-	return response.OwnedNfts, c.log.CheckError(err, c.makeGetOwnedNftsRequest)
+	return response.OwnedNfts, response.PageKey, c.log.CheckError(err, c.makeGetOwnedNftsRequest)
 }
 
 func (c Client) getNftOwnersReqURL(network model.BlockchainNetwork) string {

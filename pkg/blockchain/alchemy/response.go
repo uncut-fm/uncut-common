@@ -18,5 +18,7 @@ type getBlockResponse struct {
 }
 
 type getOwnedNftsResponse struct {
-	OwnedNfts []Nft `json:"ownedNfts"`
+	OwnedNfts  []Nft   `json:"ownedNfts"`
+	PageKey    *string `json:"pageKey,omitempty"`
+	TotalCount int     `json:"totalCount"`
 }
