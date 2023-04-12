@@ -21,8 +21,8 @@ var (
 	nftAudioIDFileFormat        = "%v/nft_audio_%v" // {nft_id}/nft_audio_{time_now}.{ext}
 	nftVideoIDFileFormat        = "%v/nft_video_%v" // {nft_id}/nft_video_{time_now}.{ext}
 
-	speakerProfileIDPath = "%v/avatar_%v.%s" // "{speaker_id}/avatar_{time_now}.{ext}"
-	speakerProfilePath   = "avatar_%v.%s"    // /avatar_{time_now}.{ext}"
+	conversationAttachmentIDFileFormat = "%d/attachment_%v.%s" // {conversation_id}/attachment_{time_now}.{ext}"
+	conversationAttachmentFileFormat   = "attachment_%v.%s"    // attachment_{time_now}.{ext}"
 
 	spaceAttachmentFileFormat = "%v/space_attachment_%s_%v.%s" // {space_id}/space_attachment_{attachment_type}_{time_now}.{ext}
 
@@ -63,8 +63,8 @@ func (s Client) UploadEntityFileByFileBytes(ctx context.Context, entityType Enti
 		fileURL, err = s.uploadSpaceAttachmentFile(ctx, *entityID, file, extension, "image")
 	case EntityTypeShow:
 		fileURL, err = s.storeShowImage(ctx, entityID, file, extension)
-	case EntityTypeSpeakerProfile:
-		fileURL, err = s.storeSpeakerProfileImage(ctx, entityID, file, extension)
+	case EntityTypeConversation:
+		fileURL, err = s.storeConversationImage(ctx, entityID, file, extension)
 	case EntityTypeUser:
 		fileURL, err = s.storeUserImage(ctx, entityID, file, extension)
 	}
@@ -90,8 +90,8 @@ func (s Client) UploadEntityFileByDataURI(ctx context.Context, fileDataURLString
 		fileURL, err = s.uploadSpaceAttachmentFile(ctx, *entityID, fileDataURLStruct.Data, extension, fileDataURLStruct.Type)
 	case EntityTypeShow:
 		fileURL, err = s.storeShowImage(ctx, entityID, fileDataURLStruct.Data, extension)
-	case EntityTypeSpeakerProfile:
-		fileURL, err = s.storeSpeakerProfileImage(ctx, entityID, fileDataURLStruct.Data, extension)
+	case EntityTypeConversation:
+		fileURL, err = s.storeConversationImage(ctx, entityID, fileDataURLStruct.Data, extension)
 	case EntityTypeNft:
 		switch fileDataURLStruct.Type {
 		case "image":
@@ -147,8 +147,8 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID *int, requestedMime
 		filename = s.getSpaceAttachmentFilepath(*entityID, fileType, extension)
 	case EntityTypeShow:
 		filename = s.getShowImageFilepath(entityID, extension)
-	case EntityTypeSpeakerProfile:
-		filename = s.getSpeakerProfilePath(entityID, extension)
+	case EntityTypeConversation:
+		filename = s.getConversationAttachmentFilepath(entityID, extension)
 	case EntityTypeUser:
 		filename = s.getUserImageFilepath(entityID, extension)
 	case EntityTypeNft:
