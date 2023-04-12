@@ -66,7 +66,7 @@ func EtherToWei(eth *big.Float) *big.Int {
 	return wei
 }
 
-func IsStringInList(item string, list []string) bool {
+func IsItemInList[K string | int](item K, list []K) bool {
 	for _, i := range list {
 		if item == i {
 			return true
