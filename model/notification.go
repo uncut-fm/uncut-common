@@ -48,9 +48,12 @@ const (
 	OnboardingDay0Notification               NotificationTemplateType = "DAY_0"
 	OnboardingDay1Notification               NotificationTemplateType = "DAY_1"
 	OnboardingDay2Notification               NotificationTemplateType = "DAY_2"
-	OnboardingDay5Notification               NotificationTemplateType = "DAY_5"
+	OnboardingDay4Notification               NotificationTemplateType = "DAY_4"
 	OnboardingDay7Notification               NotificationTemplateType = "DAY_7"
 	OnboardingDay10Notification              NotificationTemplateType = "DAY_10"
+	OnboardingDay15Notification              NotificationTemplateType = "DAY_15"
+	OnboardingDay20Notification              NotificationTemplateType = "DAY_20"
+	OnboardingDay30Notification              NotificationTemplateType = "DAY_30"
 	OnboardingUserHour1Notification          NotificationTemplateType = "HOUR_1"
 	OnboardingUserHour2Notification          NotificationTemplateType = "HOUR_2"
 	ConversationSpaceNotification            NotificationTemplateType = "SPACE_CONVERSATION"
@@ -64,8 +67,7 @@ const (
 
 var (
 	ConversationNotificationTemplates = []NotificationTemplateType{ConversationSpaceNotification, ConversationCommentNotification, ConversationReplyCommentatorNotification, ConversationReplyHostNotification}
-	OnboardingSequenceTemplates       = []NotificationTemplateType{OnboardingDay1Notification, OnboardingDay2Notification, OnboardingDay5Notification, OnboardingDay7Notification, OnboardingDay10Notification}
-	OnboardingUserSequenceTemplates   = []NotificationTemplateType{OnboardingUserHour1Notification, OnboardingUserHour2Notification}
+	OnboardingUserSequenceTemplates   = []NotificationTemplateType{OnboardingUserHour1Notification, OnboardingUserHour2Notification, OnboardingDay1Notification, OnboardingDay2Notification, OnboardingDay4Notification, OnboardingDay7Notification, OnboardingDay10Notification, OnboardingDay15Notification, OnboardingDay20Notification, OnboardingDay30Notification}
 	TransactionNotificationTemplates  = []NotificationTemplateType{NftTransferCompletedNotification, NftSoldNotification, NftWelcomeNotification, NftAirdropNotification}
 )
 
