@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/uncut-fm/uncut-common/pkg/config"
 	"html/template"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -65,12 +66,24 @@ func GetNftLink(environment, showSlug string, nftID int) string {
 	return fmt.Sprintf(nftLinkPattern, showLink, nftID)
 }
 
-func GetIDFromNftLink(nftLink string) int {
-	parts := strings.Split(nftLink, "/")
-	id := parts[len(parts)-1]
-	idInt, _ := strconv.Atoi(id)
+func GetIDFromNftLink(nftLink string) (int, error) {
+	var pattern *regexp.Regexp
+	if strings.Contains(nftLink, "/nft/") {
+		pattern = regexp.MustCompile(`/nft/(\d+)$`)
+	} else if strings.Contains(nftLink, "/unft/") {
+		pattern = regexp.MustCompile(`/unft/(\d+)$`)
+	} else {
+		return 0, fmt.Errorf("unsupported URL pattern: %s", nftLink)
+	}
 
-	return idInt
+	match := pattern.FindStringSubmatch(nftLink)
+	if len(match) != 2 {
+		return 0, fmt.Errorf("invalid URL format: %s", nftLink)
+	}
+
+	idString := match[1]
+
+	return strconv.Atoi(idString)
 }
 
 func GetUserNetworkLink(environment string, userID int) string {
