@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"github.com/uncut-fm/uncut-common/pkg/config"
 	"html/template"
+	"strconv"
+	"strings"
 )
 
 var (
@@ -61,6 +63,14 @@ func GetNftLink(environment, showSlug string, nftID int) string {
 	}
 
 	return fmt.Sprintf(nftLinkPattern, showLink, nftID)
+}
+
+func GetIDFromNftLink(nftLink string) int {
+	parts := strings.Split(nftLink, "/")
+	id := parts[len(parts)-1]
+	idInt, _ := strconv.Atoi(id)
+
+	return idInt
 }
 
 func GetUserNetworkLink(environment string, userID int) string {
