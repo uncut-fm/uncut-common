@@ -17,12 +17,15 @@ var (
 	nftAudioFileFormat          = "nft_audio_%v"    // nft_audio_{time_now}.{ext}
 	nftVideoFileFormat          = "nft_video_%v"    // nft_video_{time_now}.{ext}
 	nftImageIDFileFormat        = "%v/nft_image_%v" // {nft_id}/nft_image_{time_now}.{ext}
+	nftWithFilenameFileFormat   = "%v.%v"           // {filename}.{ext}
 	nftWithFilenameIDFileFormat = "%v/%v.%v"        // {nft_id}/{filename}.{ext}
 	nftAudioIDFileFormat        = "%v/nft_audio_%v" // {nft_id}/nft_audio_{time_now}.{ext}
 	nftVideoIDFileFormat        = "%v/nft_video_%v" // {nft_id}/nft_video_{time_now}.{ext}
 
-	conversationAttachmentIDFileFormat = "%d/attachment_%v.%s" // {conversation_id}/attachment_{time_now}.{ext}"
-	conversationAttachmentFileFormat   = "attachment_%v.%s"    // attachment_{time_now}.{ext}"
+	conversationAttachmentWithFilenameFileFormat   = "%s.%s"               // {filename}.{ext}
+	conversationAttachmentIDWithFilenameFileFormat = "%d/%s.%s"            // {conversation_id}/{filename}.{ext}
+	conversationAttachmentIDFileFormat             = "%d/attachment_%v.%s" // {conversation_id}/attachment_{time_now}.{ext}"
+	conversationAttachmentFileFormat               = "attachment_%v.%s"    // attachment_{time_now}.{ext}"
 
 	spaceAttachmentFileFormat = "%v/space_attachment_%s_%v.%s" // {space_id}/space_attachment_{attachment_type}_{time_now}.{ext}
 

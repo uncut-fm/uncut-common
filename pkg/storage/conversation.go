@@ -32,8 +32,10 @@ func (s Client) getConversationWithNameFilepath(conversationID *int, extension, 
 
 	fileName = prepareFileNameFromRequest(fileName)
 
-	if !model.IsIntNil(conversationID) {
-		filePath = fmt.Sprintf(nftWithFilenameIDFileFormat, *conversationID, fileName, extension)
+	if model.IsIntNil(conversationID) {
+		filePath = fmt.Sprintf(conversationAttachmentWithFilenameFileFormat, fileName, extension)
+	} else {
+		filePath = fmt.Sprintf(conversationAttachmentIDWithFilenameFileFormat, *conversationID, fileName, extension)
 	}
 
 	return GetConversationLocationPath(s.environment, filePath)

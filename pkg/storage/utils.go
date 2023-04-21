@@ -103,7 +103,13 @@ func GetFileTypeByMimeType(mimeType string) string {
 
 func prepareFileNameFromRequest(filename string) string {
 	filename = strings.Replace(filename, " ", "_", -1)
-	return filepath.Base(filename)
+
+	ext := getExtensionFromFilename(filename)
+	if len(ext) == 0 {
+		return filepath.Base(filename)
+	}
+	filenameWithoutExtension := filepath.Base(filename[:len(filename)-len(ext)])
+	return filenameWithoutExtension
 }
 
 func getExtensionFromFilename(filename string) string {

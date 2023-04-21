@@ -45,7 +45,9 @@ func (s Client) getNftWithNameFilepath(nftId *int, extension, fileName string) s
 
 	fileName = prepareFileNameFromRequest(fileName)
 
-	if !model.IsIntNil(nftId) {
+	if model.IsIntNil(nftId) {
+		filePath = fmt.Sprintf(nftWithFilenameFileFormat, fileName, extension)
+	} else {
 		filePath = fmt.Sprintf(nftWithFilenameIDFileFormat, *nftId, fileName, extension)
 	}
 
