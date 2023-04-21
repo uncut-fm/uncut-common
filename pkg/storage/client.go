@@ -148,6 +148,11 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID *int, requestedMime
 	case EntityTypeShow:
 		filename = s.getShowImageFilepath(entityID, extension)
 	case EntityTypeConversation:
+		if !model.IsStringNil(requestedFilename) {
+			filename = s.getConversationWithNameFilepath(entityID, extension, *requestedFilename)
+			break
+		}
+
 		filename = s.getConversationAttachmentFilepath(entityID, extension)
 	case EntityTypeUser:
 		filename = s.getUserImageFilepath(entityID, extension)

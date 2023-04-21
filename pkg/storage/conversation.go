@@ -27,6 +27,18 @@ func (s Client) storeConversationImage(c context.Context, conversationID *int, f
 	return GetPublicFilePath(s.bucket, fileName), nil
 }
 
+func (s Client) getConversationWithNameFilepath(conversationID *int, extension, fileName string) string {
+	var filePath string
+
+	fileName = prepareFileNameFromRequest(fileName)
+
+	if !model.IsIntNil(conversationID) {
+		filePath = fmt.Sprintf(nftWithFilenameIDFileFormat, *conversationID, fileName, extension)
+	}
+
+	return GetConversationLocationPath(s.environment, filePath)
+}
+
 func (s Client) getConversationAttachmentFilepath(conversationID *int, extension string) string {
 	now := time.Now()
 
