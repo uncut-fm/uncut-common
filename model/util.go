@@ -79,3 +79,7 @@ func IsItemInList[K string | int](item K, list []K) bool {
 func ValPointer[K bool | string | time.Time | int | uint64](val K) *K {
 	return &val
 }
+
+func IsStringLooksLikeAddress(str string) bool {
+	return len(str) > 2 && strings.ToLower(str[:2]) == "0x"
+}
