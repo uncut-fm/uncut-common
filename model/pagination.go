@@ -38,7 +38,18 @@ func ParseOffsetPaginationToProto(offsetPagination *OffsetPaginationInput) *prot
 
 	PrepareOffsetPagination(offsetPagination)
 	return &proto_user.OffsetPaginationRequest{
-		Limit:  ValPointer(uint64(*offsetPagination.Limit)),
-		Offset: ValPointer(uint64(*offsetPagination.Offset)),
+		Limit:  uint64(*offsetPagination.Limit),
+		Offset: uint64(*offsetPagination.Offset),
+	}
+}
+
+func ParseProtoOffsetPagination(protoOffsetPagination *proto_user.OffsetPaginationRequest) *OffsetPaginationInput {
+	if protoOffsetPagination == nil {
+		return nil
+	}
+
+	return &OffsetPaginationInput{
+		Limit:  ValPointer(int(protoOffsetPagination.Limit)),
+		Offset: ValPointer(int(protoOffsetPagination.Offset)),
 	}
 }
