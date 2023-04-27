@@ -14,6 +14,7 @@ service Users {
   rpc ListUsersByWalletAddresses(WalletAddressesRequest) returns (UsersResponse){}
   rpc ListWalletsByUserID(IDRequest) returns(WalletsResponse){}
   rpc GetOrCreateUserAsCreator(EmailRequest) returns(GetOrCreateUserResponse) {}
+  rpc SearchByKeyword(SearchRequest) returns (UsersInfoResponse) {}
 
   rpc UpdateUser(UpdateUserRequest) returns (User) {}
 
@@ -59,6 +60,11 @@ message UsersResponse {
   repeated User users = 1;
 }
 
+message UsersInfoResponse {
+  uint64 total_count = 1;
+  repeated User users = 2;
+}
+
 message WalletsResponse {
   repeated Wallet wallets = 1;
 }
@@ -85,6 +91,16 @@ message WalletAddressesRequest {
 
 message IDRequest {
   uint64 id = 1;
+}
+
+message SearchRequest {
+  string keyword = 1;
+  OffsetPaginationRequest pagination = 2;
+}
+
+message OffsetPaginationRequest {
+  optional uint64 limit = 1;
+  optional uint64 offset = 2;
 }
 
 message UpdateUserRequest {

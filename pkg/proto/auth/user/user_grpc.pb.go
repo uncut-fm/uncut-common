@@ -30,6 +30,7 @@ type UsersClient interface {
 	ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest, opts ...grpc.CallOption) (*UsersResponse, error)
 	ListWalletsByUserID(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*WalletsResponse, error)
 	GetOrCreateUserAsCreator(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*GetOrCreateUserResponse, error)
+	SearchByKeyword(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*UsersInfoResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
 	UpdateWallet(ctx context.Context, in *UpdateWalletRequest, opts ...grpc.CallOption) (*Wallet, error)
 	AddWallet(ctx context.Context, in *AddWalletRequest, opts ...grpc.CallOption) (*Wallet, error)
@@ -116,6 +117,15 @@ func (c *usersClient) GetOrCreateUserAsCreator(ctx context.Context, in *EmailReq
 	return out, nil
 }
 
+func (c *usersClient) SearchByKeyword(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*UsersInfoResponse, error) {
+	out := new(UsersInfoResponse)
+	err := c.cc.Invoke(ctx, "/user.Users/SearchByKeyword", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *usersClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
 	err := c.cc.Invoke(ctx, "/user.Users/UpdateUser", in, out, opts...)
@@ -164,6 +174,7 @@ type UsersServer interface {
 	ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error)
 	ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error)
 	GetOrCreateUserAsCreator(context.Context, *EmailRequest) (*GetOrCreateUserResponse, error)
+	SearchByKeyword(context.Context, *SearchRequest) (*UsersInfoResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 	UpdateWallet(context.Context, *UpdateWalletRequest) (*Wallet, error)
 	AddWallet(context.Context, *AddWalletRequest) (*Wallet, error)
@@ -198,6 +209,9 @@ func (UnimplementedUsersServer) ListWalletsByUserID(context.Context, *IDRequest)
 }
 func (UnimplementedUsersServer) GetOrCreateUserAsCreator(context.Context, *EmailRequest) (*GetOrCreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrCreateUserAsCreator not implemented")
+}
+func (UnimplementedUsersServer) SearchByKeyword(context.Context, *SearchRequest) (*UsersInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchByKeyword not implemented")
 }
 func (UnimplementedUsersServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
@@ -368,6 +382,24 @@ func _Users_GetOrCreateUserAsCreator_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Users_SearchByKeyword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).SearchByKeyword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.Users/SearchByKeyword",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).SearchByKeyword(ctx, req.(*SearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Users_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateUserRequest)
 	if err := dec(in); err != nil {
@@ -478,6 +510,10 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetOrCreateUserAsCreator",
 			Handler:    _Users_GetOrCreateUserAsCreator_Handler,
+		},
+		{
+			MethodName: "SearchByKeyword",
+			Handler:    _Users_SearchByKeyword_Handler,
 		},
 		{
 			MethodName: "UpdateUser",

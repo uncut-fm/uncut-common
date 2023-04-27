@@ -60,6 +60,11 @@ func (u *User) SetWalletAddressesStringListFromEdges() {
 
 func ParseProtoUsersResponseToCommonUsers(protoResponse *proto_user.UsersResponse) []*User {
 	protoUsers := protoResponse.GetUsers()
+
+	return ParseProtoUsersToCommonUsers(protoUsers)
+}
+
+func ParseProtoUsersToCommonUsers(protoUsers []*proto_user.User) []*User {
 	users := make([]*User, len(protoUsers))
 
 	for i, protoUser := range protoUsers {

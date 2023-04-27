@@ -108,6 +108,23 @@ func (a API) GetUserEmailByWalletAddress(ctx context.Context, walletAddress stri
 	return user.Email, nil
 }
 
+func (a API) SearchUsers(ctx context.Context, keyword string, pagination *model.OffsetPaginationInput) (*UsersInfoResponse, error) {
+	protoUsersInfo, err := a.grpcClient.SearchByKeyword(a.addAdminTokenToGrpcCtx(ctx), &proto_user.SearchRequest{
+		Keyword:    keyword,
+		Pagination: model.ParseOffsetPaginationToProto(pagination)})
+
+	if a.log.CheckError(err, a.SearchUsers) != nil {
+		return nil, err
+	}
+
+	response := &UsersInfoResponse{
+		TotalCount: int(protoUsersInfo.TotalCount),
+		Users:      model.ParseProtoUsersToCommonUsers(protoUsersInfo.Users),
+	}
+
+	return response, nil
+}
+
 func (a API) ListUsersByWalletAddresses(ctx context.Context, walletAddresses []string) ([]*model.User, error) {
 	protoUsers, err := a.grpcClient.ListUsersByWalletAddresses(a.addAdminTokenToGrpcCtx(ctx), &proto_user.WalletAddressesRequest{WalletAddresses: walletAddresses})
 	if a.log.CheckError(err, a.ListUsersByWalletAddresses) != nil {
