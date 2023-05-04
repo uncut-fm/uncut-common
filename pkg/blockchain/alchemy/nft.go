@@ -85,17 +85,14 @@ func (a Nft) GetTokenIDString() string {
 	return hexToNumString(a.ID.TokenID)
 }
 
-func (c Client) ListNftsOwnedByWalletAddress(ctx context.Context, walletAddress string) ([]OwnedNfts, error) {
-	ownedNFTs := []OwnedNfts{}
-
+// ListNftsOwnedByWalletAddress fetches nfts owned by a wallet address in parallel, and sends them to the ownedNftsChan channel
+func (c Client) ListNftsOwnedByWalletAddress(ctx context.Context, walletAddress string, ownedNftsChan chan<- OwnedNfts) error {
 	wg := new(sync.WaitGroup)
 
 	for _, network := range c.networks {
 		wg.Add(1)
 		go func(n model.BlockchainNetwork) {
 			defer wg.Done()
-
-			ownedNetworkNfts := OwnedNfts{Network: n}
 
 			var (
 				pageKey *string
@@ -107,19 +104,24 @@ func (c Client) ListNftsOwnedByWalletAddress(ctx context.Context, walletAddress 
 				nfts, pageKey, err = c.makeGetOwnedNftsRequest(ctx, walletAddress, n, pageKey)
 				_ = c.log.CheckError(err, c.ListNftsOwnedByWalletAddress)
 
-				ownedNetworkNfts.NFTs = append(ownedNetworkNfts.NFTs, nfts...)
+				// send nfts to channel
+				ownedNftsChan <- OwnedNfts{
+					Network: n,
+					NFTs:    nfts,
+				}
+
 				if pageKey == nil {
 					break
 				}
+
 			}
 
-			ownedNFTs = append(ownedNFTs, ownedNetworkNfts)
 		}(network)
 	}
 
 	wg.Wait()
 
-	return ownedNFTs, nil
+	return nil
 }
 
 func (c Client) makeGetOwnedNftsRequest(ctx context.Context, walletAddress string, network model.BlockchainNetwork, pageKey *string) ([]Nft, *string, error) {
