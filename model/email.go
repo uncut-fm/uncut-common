@@ -13,9 +13,9 @@ import (
 var (
 	baseURL                 = "https://uncut.network"
 	showLinkPattern         = "https://%s.uncut.network" // https://{show_slug}.uncut.network
-	feedLinkPattern         = "%s/feed"                  // {show_link}/feed
+	feedLinkPattern         = "%s/blog"                  // {show_link}/blog
 	collectiveLinkPattern   = "%s/collective"            // {show_link}/collective
-	conversationLinkPattern = "%s/%d"                    // {feed_link}/feed/{conversation_id}
+	conversationLinkPattern = "%s/%d"                    // {feed_link}/blog/{conversation_id}
 	nftLinkPattern          = "%s/nft/%d"                // {show_link}/nft/{nft_id}
 	personalNftLinkPattern  = "%s/unft/%d"               // {show_link}/unft/{nft_id}
 
