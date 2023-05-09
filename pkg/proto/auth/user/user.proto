@@ -54,6 +54,7 @@ message User {
   UserEdges edges = 7;
   string title = 8;
   ThemeColors theme_colors = 9;
+  bool is_admin = 10;
 }
 
 message UsersResponse {

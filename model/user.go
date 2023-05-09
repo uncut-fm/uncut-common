@@ -14,10 +14,10 @@ type User struct {
 	Email           string       `json:"email"`
 	ProfileImageUrl string       `json:"profile_image_url,omitempty"`
 	WalletAddresses []string     `json:"wallet_addresses"`
-	Faucet          Faucet       `json:"faucet"`
 	TwitterHandle   string       `json:"twitter_handle"`
 	IsNftCreator    bool         `json:"is_nft_creator"`
 	ThemeColors     *ThemeColors `json:"theme_colors"`
+	IsAdmin         bool         `json:"is_admin"`
 	Edges           UserEdges    `json:"edges"`
 }
 
@@ -85,6 +85,7 @@ func ParseProtoUserToUser(protoUser *proto_user.User) *User {
 		TwitterHandle:   protoUser.TwitterHandle,
 		IsNftCreator:    protoUser.IsNftCreator,
 		ThemeColors:     ParseProtoThemeColors(protoUser.ThemeColors),
+		IsAdmin:         protoUser.IsAdmin,
 		Edges:           UserEdges{Wallets: ParseProtoWalletsToWallets(protoUser.Edges.Wallets)},
 	}
 
