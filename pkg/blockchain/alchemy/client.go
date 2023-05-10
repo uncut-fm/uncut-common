@@ -14,8 +14,8 @@ import (
 const requestTimeout = 5 * time.Second
 
 var (
-	getOwnedNftsURLPattern = "https://%s.g.alchemy.com/nft/v2/%s/getNFTs" // https://{blockchain_network}.g.alchemy.com/nft/v2/{apiKey}/getNFTs
-	rpcURLPattern          = "https://%s.g.alchemy.com/v2/%s"             // https://{blockchain_network}.g.alchemy.com/v2/{apiKey}
+	getOwnedNftsURLPattern = "https://%s.g.alchemy.com/nft/v3/%s/getNFTsForOwner" // https://{blockchain_network}.g.alchemy.com/nft/v2/{apiKey}/getNFTs
+	rpcURLPattern          = "https://%s.g.alchemy.com/v2/%s"                     // https://{blockchain_network}.g.alchemy.com/v2/{apiKey}
 )
 
 type Client struct {

@@ -22,54 +22,44 @@ var (
 )
 
 type Nft struct {
+	TokenID     string    `json:"tokenId"`
+	TokenType   TokenType `json:"tokenType"`
+	Balance     string    `json:"balance"`
+	Name        string    `json:"name"`
+	Description *string   `json:"description"`
+	TokenUri    string    `json:"tokenUri"`
+	Image       struct {
+		CachedUrl    string `json:"cachedUrl"`
+		OriginalUrl  string `json:"originalUrl"`
+		ThumbnailUrl string `json:"thumbnailUrl"`
+		ContentType  string `json:"contentType"`
+		Size         int    `json:"size"`
+	} `json:"image"`
+	TimeLastUpdated time.Time `json:"timeLastUpdated"`
+	Raw             struct {
+		TokenUri string `json:"tokenUri"`
+		Metadata struct {
+			AnimationURL *string `json:"animation_url,omitempty"`
+		} `json:"metadata,omitempty"`
+	} `json:"raw"`
 	Contract struct {
-		Address string `json:"address"`
-	} `json:"contract"`
-	ID struct {
-		TokenID       string `json:"tokenId"`
-		TokenMetadata struct {
-			TokenType TokenType `json:"tokenType"`
-		} `json:"tokenMetadata"`
-	} `json:"id"`
-	Balance     string `json:"balance"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	TokenURI    struct {
-		Gateway string `json:"gateway"`
-		Raw     string `json:"raw"`
-	} `json:"tokenUri"`
-	Media []struct {
-		Gateway   string `json:"gateway"`
-		Thumbnail string `json:"thumbnail"`
-		Raw       string `json:"raw"`
-		Format    string `json:"format"`
-		Bytes     int    `json:"bytes"`
-	} `json:"media"`
-	Metadata struct {
-		Image        string      `json:"image"`
-		ExternalURL  string      `json:"external_url"`
-		AnimationURL string      `json:"animation_url"`
-		Name         interface{} `json:"name"`
-		Description  string      `json:"description"`
-		Attributes   interface{} `json:"attributes"`
-	} `json:"metadata"`
-	TimeLastUpdated  time.Time `json:"timeLastUpdated"`
-	ContractMetadata struct {
+		Address             string `json:"address"`
 		Name                string `json:"name"`
 		Symbol              string `json:"symbol"`
+		TotalSupply         string `json:"totalSupply"`
 		TokenType           string `json:"tokenType"`
 		ContractDeployer    string `json:"contractDeployer"`
 		DeployedBlockNumber int    `json:"deployedBlockNumber"`
-		OpenSea             *struct {
-			CollectionName        *string   `json:"collectionName,omitempty"`
-			SafelistRequestStatus string    `json:"safelistRequestStatus"`
-			ImageURL              *string   `json:"imageUrl,omitempty"`
-			Description           *string   `json:"description,omitempty"`
+		OpenSeaMetadata     struct {
+			CollectionName        *string   `json:"collectionName"`
+			SafelistRequestStatus *string   `json:"safelistRequestStatus"`
+			ImageURL              *string   `json:"imageUrl"`
+			Description           *string   `json:"description"`
 			ExternalURL           string    `json:"externalUrl"`
 			LastIngestedAt        time.Time `json:"lastIngestedAt"`
-			FloorPrice            *float64  `json:"floorPrice,omitempty"`
-		} `json:"openSea,omitempty"`
-	} `json:"contractMetadata"`
+			FloorPrice            *float64  `json:"floorPrice"`
+		} `json:"openSeaMetadata,omitempty"`
+	} `json:"contract"`
 	SpamInfo struct {
 		IsSpam          string   `json:"isSpam"`
 		Classifications []string `json:"classifications"`
@@ -78,11 +68,11 @@ type Nft struct {
 }
 
 func (a Nft) GetTokenID() int {
-	return hexToInt(a.ID.TokenID)
+	return hexToInt(a.TokenID)
 }
 
 func (a Nft) GetTokenIDString() string {
-	return hexToNumString(a.ID.TokenID)
+	return hexToNumString(a.TokenID)
 }
 
 // ListNftsOwnedByWalletAddress fetches nfts owned by a wallet address in parallel, and sends them to the ownedNftsChan channel
