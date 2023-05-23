@@ -45,10 +45,11 @@ func (s Client) getNftWithNameFilepath(nftId *int, extension, fileName string) s
 
 	fileName = prepareFileNameFromRequest(fileName)
 
+	now := time.Now()
 	if model.IsIntNil(nftId) {
-		filePath = fmt.Sprintf(nftWithFilenameFileFormat, fileName, extension)
+		filePath = fmt.Sprintf(nftWithFilenameFileFormat, now.Unix(), fileName, extension)
 	} else {
-		filePath = fmt.Sprintf(nftWithFilenameIDFileFormat, *nftId, fileName, extension)
+		filePath = fmt.Sprintf(nftWithFilenameIDFileFormat, *nftId, now.Unix(), fileName, extension)
 	}
 
 	return GetNftLocationPath(s.environment, filePath)
