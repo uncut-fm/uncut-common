@@ -1,48 +1,81 @@
 package model
 
 import (
-	"github.com/mindstand/gogm/v2"
 	"time"
 )
 
 type NFT struct {
-	gogm.BaseNode
+	ID                     int
+	ContractAddress        string
+	Price                  float64
+	MintedOn               time.Time
+	Status                 string
+	CreatedAt              time.Time
+	UpdatedAt              time.Time
+	UpdatedOnBlock         int
+	Currency               string
+	TokenID                string
+	StoreID                int
+	Fee                    float64
+	CreatorAddress         string
+	Supply                 int
+	Balance                int
+	Name                   string
+	Description            string
+	BlockchainDescription  string
+	Perks                  string
+	ImageURL               string
+	BlockchainImageURL     string
+	AnimationURL           string
+	BlockchainAnimationURL string
+	Type                   string
+	Royalties              int
+	ShowOnWebsite          bool
+	Password               string
+	DropAt                 string
+	DropAtTime             time.Time
+	DropType               string
+	MintTransaction        string
+	TemplateType           string
+	FeaturedByCreator      bool
+	NFTOwners              []*NFTOwner
+	NFTCollection          *NFTCollection
+	CreatedBy              *User
+	Transactions           []*Transaction
+}
 
-	ID                int            `gogm:"name=id,pk"`
-	ContractAddress   string         `gogm:"name=contract_address"`
-	Price             float64        `gogm:"name=price"`
-	MintedOn          time.Time      `gogm:"name=minted_on"`
-	Status            string         `gogm:"name=status"`
-	CreatedAt         time.Time      `gogm:"name=created_at"`
-	UpdatedAt         time.Time      `gogm:"name=updated_at"`
-	UpdatedOnBlock    int            `gogm:"name=updated_on_block"`
-	Currency          string         `gogm:"name=currency"`
-	TokenID           string         `gogm:"name=token_id"`
-	StoreID           int            `gogm:"name=store_id"`
-	Fee               float64        `gogm:"name=fee"`
-	CreatorAddress    string         `gogm:"name=creator_address"`
-	Supply            int            `gogm:"name=supply"`
-	Balance           int            `gogm:"name=balance"`
-	Name              string         `gogm:"name=name"`
-	Description       string         `gogm:"name=description"`
-	BlockchainDesc    string         `gogm:"name=blockchain_description"`
-	Perks             string         `gogm:"name=perks"`
-	ImageURL          string         `gogm:"name=image_url"`
-	BlockchainImgURL  string         `gogm:"name=blockchain_image_url"`
-	AnimationURL      string         `gogm:"name=animation_url"`
-	BlockchainAnimURL string         `gogm:"name=blockchain_animation_url"`
-	Type              string         `gogm:"name=type"`
-	WebsiteDesc       string         `gogm:"name=website_description"`
-	TagLine           string         `gogm:"name=tag_line"`
-	DropOfWeek        bool           `gogm:"name=drop_of_the_week"`
-	Royalties         int            `gogm:"name=royalties"`
-	ShowOnWebsite     bool           `gogm:"name=show_on_website"`
-	Password          string         `gogm:"name=password"`
-	DropAt            string         `gogm:"name=drop_at"`
-	MintTransaction   string         `gogm:"name=mint_transaction"`
-	TemplateType      string         `gogm:"name=template_type"`
-	NFTOwner          *NFTOwner      `gogm:"direction=incoming;relationship=OWNS"`
-	Collection        *NFTCollection `gogm:"direction=incoming;relationship=BELONGS_TO"`
-	CreatedBy         *User          `gogm:"direction=incoming;relationship=CREATED"`
-	Transactions      []*Transaction `gogm:"direction=outgoing;relationship=INVOLVES"`
+func (n *NFT) GetPropertiesInMap() map[string]interface{} {
+	return map[string]interface{}{
+		"id":                     n.ID,
+		"contractAddress":        n.ContractAddress,
+		"price":                  n.Price,
+		"mintedOn":               n.MintedOn.Format("2006-01-02 15:04:05 MST"),
+		"status":                 n.Status,
+		"createdAt":              n.CreatedAt.Format("2006-01-02 15:04:05 MST"),
+		"updatedAt":              n.UpdatedAt.Format("2006-01-02 15:04:05 MST"),
+		"updatedOnBlock":         n.UpdatedOnBlock,
+		"currency":               n.Currency,
+		"tokenId":                n.TokenID,
+		"storeId":                n.StoreID,
+		"fee":                    n.Fee,
+		"creatorAddress":         n.CreatorAddress,
+		"supply":                 n.Supply,
+		"balance":                n.Balance,
+		"name":                   n.Name,
+		"description":            n.Description,
+		"blockchainDescription":  n.BlockchainDescription,
+		"perks":                  n.Perks,
+		"imageUrl":               n.ImageURL,
+		"blockchainImageUrl":     n.BlockchainImageURL,
+		"animationUrl":           n.AnimationURL,
+		"blockchainAnimationUrl": n.BlockchainAnimationURL,
+		"type":                   n.Type,
+		"royalties":              n.Royalties,
+		"showOnWebsite":          n.ShowOnWebsite,
+		"password":               n.Password,
+		"dropAt":                 n.DropAt,
+		"dropAtTime":             n.DropAtTime.Format("2006-01-02 15:04:05 MST"),
+		"mintTransaction":        n.MintTransaction,
+		"templateType":           n.TemplateType,
+	}
 }

@@ -76,6 +76,15 @@ func IsItemInList[K string | int](item K, list []K) bool {
 	return false
 }
 
+// ValPointer returns a pointer to the value passed in, uses generics
+// this is useful for setting values in structs
+// example:
+// 	type MyStruct struct {
+// 		MyField *string
+// 	}
+// 	myStruct := MyStruct{
+// 		MyField: ValPointer("myValue"),
+// 	}
 func ValPointer[K bool | string | time.Time | int](val K) *K {
 	return &val
 }

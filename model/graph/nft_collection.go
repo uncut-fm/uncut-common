@@ -1,22 +1,35 @@
 package model
 
 import (
-	"github.com/mindstand/gogm/v2"
 	"time"
 )
 
 type NFTCollection struct {
-	gogm.BaseNode
+	ID              int
+	Name            string
+	ContractAddress string
+	CreatorAddress  string
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
+	UpdatedOnBlock  int
+	Network         string
+	TokenType       string
+	Origin          string
+	NFTs            []*NFT
+}
 
-	ID              int       `gogm:"name=id,pk"`
-	Name            string    `gogm:"name=name"`
-	ContractAddress string    `gogm:"name=contract_address"`
-	CreatorAddress  string    `gogm:"name=creator_address"`
-	CreatedAt       time.Time `gogm:"name=created_at"`
-	UpdatedAt       time.Time `gogm:"name=updated_at"`
-	UpdatedOnBlock  int       `gogm:"name=updated_on_block"`
-	Network         string    `gogm:"name=network"`
-	TokenType       string    `gogm:"name=token_type"`
-	Origin          string    `gogm:"name=origin"`
-	NFTs            []*NFT    `gogm:"direction=outgoing;relationship=BELONGS_TO"`
+// GetPropertiesInMap returns a map of the properties of the NFTCollection; keys are in camelCase
+func (n *NFTCollection) GetPropertiesInMap() map[string]interface{} {
+	return map[string]interface{}{
+		"id":              n.ID,
+		"name":            n.Name,
+		"contractAddress": n.ContractAddress,
+		"creatorAddress":  n.CreatorAddress,
+		"createdAt":       n.CreatedAt.Format("2006-01-02 15:04:05 MST"),
+		"updatedAt":       n.UpdatedAt.Format("2006-01-02 15:04:05 MST"),
+		"updatedOnBlock":  n.UpdatedOnBlock,
+		"network":         n.Network,
+		"tokenType":       n.TokenType,
+		"origin":          n.Origin,
+	}
 }

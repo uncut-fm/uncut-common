@@ -1,17 +1,24 @@
 package model
 
+import "encoding/json"
+
 type GraphModelType string
 
 var (
-	NFTCollectionType GraphModelType = "NFTCollection"
-	NFTOwnerType      GraphModelType = "NFTOwner"
-	NFTType           GraphModelType = "NFT"
-	TransactionType   GraphModelType = "Transaction"
-	WalletType        GraphModelType = "Wallet"
-	UserType          GraphModelType = "User"
+	GraphModelTypeNFTCollection GraphModelType = "NFTCollection"
+	GraphModelTypeNFTOwner      GraphModelType = "NFTOwner"
+	GraphModelTypeNFT           GraphModelType = "NFT"
+	GraphModelTypeTransaction   GraphModelType = "Transaction"
+	GraphModelTypeWallet        GraphModelType = "Wallet"
+	GraphModelTypeUser          GraphModelType = "User"
 )
 
 type SyncEvent struct {
 	ModelType GraphModelType
-	Model     interface{}
+	NFTs      []*NFT
+	Users     []*User
+}
+
+func (s SyncEvent) Marshal() ([]byte, error) {
+	return json.Marshal(s)
 }

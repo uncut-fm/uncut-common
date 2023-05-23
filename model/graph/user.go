@@ -1,30 +1,29 @@
 package model
 
 import (
-	"github.com/mindstand/gogm/v2"
 	common_model "github.com/uncut-fm/uncut-common/model"
+	"time"
 )
 
 type User struct {
-	gogm.BaseNode
+	ID                    int
+	Name                  string
+	Email                 string
+	ProfileImageUrl       string
+	IsNftCreator          bool
+	CreatedAt             time.Time
+	UpdatedAt             time.Time
+	Title                 string
+	ThemeColorsAccent     string
+	ThemeColorsBackground string
+	IsAdmin               bool
 
-	ID                    int    `gogm:"name=id,pk"`
-	Name                  string `gogm:"name=name"`
-	Email                 string `gogm:"name=email"`
-	ProfileImageUrl       string `gogm:"name=profile_image_url"`
-	IsNftCreator          bool   `gogm:"name=is_nft_creator"`
-	CreatedAt             int    `gogm:"name=created_at"`
-	UpdatedAt             int    `gogm:"name=updated_at"`
-	Title                 string `gogm:"name=title"`
-	ThemeColorsAccent     string `gogm:"name=theme_colors_accent"`
-	ThemeColorsBackground string `gogm:"name=theme_colors_background"`
-	IsAdmin               bool   `gogm:"name=is_admin"`
-
-	Wallets      []*Wallet      `gogm:"direction=outgoing;relationship=OWNS"`
-	NFTsCreated  []*NFT         `gogm:"direction=outgoing;relationship=CREATED"`
-	Transactions []*Transaction `gogm:"direction=outgoing;relationship=PERFORMED"`
+	Wallets      []*Wallet
+	NFTsCreated  []*NFT
+	Transactions []*Transaction
 }
 
+// NewUsersListFromCommonUsers converts a slice of common_model.User to a slice of *User
 func NewUsersListFromCommonUsers(commonUsers []*common_model.User) []*User {
 	users := make([]*User, len(commonUsers))
 
@@ -37,7 +36,7 @@ func NewUsersListFromCommonUsers(commonUsers []*common_model.User) []*User {
 
 func NewUserFromCommonUser(commonUser *common_model.User) *User {
 	user := &User{
-		ID:              commonUser.UserId,
+		ID:              commonUser.ID,
 		Name:            commonUser.Name,
 		Email:           commonUser.Email,
 		ProfileImageUrl: commonUser.ProfileImageUrl,
@@ -54,4 +53,26 @@ func NewUserFromCommonUser(commonUser *common_model.User) *User {
 	}
 
 	return user
+}
+
+// SetUpdatedFields sets the fields that differ between the two users
+func (u *User) SetUpdatedFields(srcUser *User) bool {
+	return setUpdatedFields(u, srcUser)
+}
+
+// GetPropertiesInMap returns a map of the user's properties; keys are in camelCase
+func (u *User) GetPropertiesInMap() map[string]interface{} {
+	return map[string]interface{}{
+		"id":                    u.ID,
+		"name":                  u.Name,
+		"email":                 u.Email,
+		"profileImageUrl":       u.ProfileImageUrl,
+		"isNftCreator":          u.IsNftCreator,
+		"createdAt":             u.CreatedAt.Format("2006-01-02 15:04:05 MST"),
+		"updatedAt":             u.UpdatedAt.Format("2006-01-02 15:04:05 MST"),
+		"title":                 u.Title,
+		"themeColorsAccent":     u.ThemeColorsAccent,
+		"themeColorsBackground": u.ThemeColorsBackground,
+		"isAdmin":               u.IsAdmin,
+	}
 }

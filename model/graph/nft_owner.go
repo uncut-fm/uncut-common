@@ -1,18 +1,29 @@
 package model
 
-import "github.com/mindstand/gogm/v2"
+import "time"
 
 type NFTOwner struct {
-	gogm.BaseNode
+	ID                  int
+	UserWalletAddress   string
+	Balance             int
+	CreatedAt           time.Time
+	UpdatedAt           time.Time
+	IsHidden            bool
+	TransactionsStrings []string
 
-	ID                int    `gogm:"name=id,pk"`
-	UserWalletAddress string `gogm:"name=user_wallet_address"`
-	Balance           int    `gogm:"name=balance"`
-	CreatedAt         int    `gogm:"name=created_at"`
-	UpdatedAt         int    `gogm:"name=updated_at"`
-	IsHidden          bool   `gogm:"name=is_hidden"`
+	Wallet       *Wallet
+	NFTs         []*NFT
+	Transactions []*Transaction
+}
 
-	Wallet       *Wallet        `gogm:"direction=incoming;relationship=CONTAINS"`
-	NFTs         []*NFT         `gogm:"direction=outgoing;relationship=OWNS"`
-	Transactions []*Transaction `gogm:"direction=outgoing;relationship=HAS"`
+// GetPropertiesInMap returns a map of the properties of the NFTOwner; keys are in camelCase
+func (n *NFTOwner) GetPropertiesInMap() map[string]interface{} {
+	return map[string]interface{}{
+		"id":                n.ID,
+		"userWalletAddress": n.UserWalletAddress,
+		"balance":           n.Balance,
+		"createdAt":         n.CreatedAt.Format("2006-01-02 15:04:05 MST"),
+		"updatedAt":         n.UpdatedAt.Format("2006-01-02 15:04:05 MST"),
+		"isHidden":          n.IsHidden,
+	}
 }
