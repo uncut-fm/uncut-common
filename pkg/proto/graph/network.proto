@@ -1,0 +1,50 @@
+syntax = "proto3";
+package graph;
+
+option go_package = "pkg/proto/graph";
+
+import "auth/user/user.proto";
+import "google/protobuf/timestamp.proto";
+
+
+service Network {
+  rpc GetNetworkByUserID (GetNetworkByUserIDRequest) returns (NetworkMembersInfoResponse) {}
+}
+
+message GetNetworkByUserIDRequest {
+  string user_id = 1;
+  optional OffsetPagination pagination = 2;
+}
+
+message OffsetPagination {
+  int32 limit = 1;
+  int32 offset = 2;
+}
+
+message NetworkMembersInfoResponse {
+  int32 totalCount = 1;
+  repeated NetworkMemberUser users = 2;
+}
+
+message NetworkMemberUser {
+  user.User user = 1;
+  repeated Nft nftsInCommon = 2;
+  google.protobuf.Timestamp joinedOn = 3;
+}
+
+message Nft {
+  int32 id = 1;
+  float price = 2;
+  string name = 3;
+  string tokenId = 4;
+  repeated NftOwner owners = 5;
+  user.User creator = 6;
+}
+
+message NftOwner {
+  optional user.User user = 1;
+  Nft nft = 2;
+  string userWalletAddress = 3;
+  int32 balance = 4;
+
+}

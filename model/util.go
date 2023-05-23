@@ -92,3 +92,15 @@ func ValPointer[K bool | string | time.Time | int](val K) *K {
 func IsStringLooksLikeAddress(str string) bool {
 	return len(str) > 2 && strings.ToLower(str[:2]) == "0x"
 }
+
+// GetKeysFromStructMap returns the keys of a map of structs with generic key type
+func GetKeysFromStructMap[K string | int](m map[K]struct{}) []K {
+	keys := make([]K, len(m))
+	i := 0
+	for k := range m {
+		keys[i] = k
+		i++
+	}
+
+	return keys
+}
