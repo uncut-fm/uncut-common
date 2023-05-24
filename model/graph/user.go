@@ -45,7 +45,7 @@ func NewUserFromCommonUser(commonUser *common_model.User) *User {
 		IsAdmin:         commonUser.IsAdmin,
 	}
 
-	user.Wallets = NewWalletsListFromCommonWallets(commonUser.Edges.Wallets, user)
+	user.Wallets = NewWalletsListFromCommonWallets(commonUser.Edges.Wallets, *user)
 
 	if commonUser.ThemeColors != nil {
 		user.ThemeColorsAccent = commonUser.ThemeColors.Accent

@@ -22,8 +22,11 @@ type Wallet struct {
 	Transactions []*Transaction
 }
 
-func NewWalletsListFromCommonWallets(commonWallets []*common_model.Wallet, user *User) []*Wallet {
+func NewWalletsListFromCommonWallets(commonWallets []*common_model.Wallet, user User) []*Wallet {
 	wallets := make([]*Wallet, len(commonWallets))
+
+	// remove the user's wallets to avoid infinite recursion
+	user.Wallets = nil
 
 	for i := range commonWallets {
 		wallets[i] = NewWalletFromCommonWallet(commonWallets[i], user)
@@ -32,7 +35,7 @@ func NewWalletsListFromCommonWallets(commonWallets []*common_model.Wallet, user 
 	return wallets
 }
 
-func NewWalletFromCommonWallet(commonWallet *common_model.Wallet, user *User) *Wallet {
+func NewWalletFromCommonWallet(commonWallet *common_model.Wallet, user User) *Wallet {
 	return &Wallet{
 		ID:            commonWallet.ID,
 		Name:          commonWallet.Name,
@@ -42,7 +45,7 @@ func NewWalletFromCommonWallet(commonWallet *common_model.Wallet, user *User) *W
 		CreatedAt:     commonWallet.CreatedAt,
 		UpdatedAt:     commonWallet.UpdatedAt,
 		LastSyncedAt:  commonWallet.LastSyncedAt,
-		User:          user,
+		User:          &user,
 	}
 }
 

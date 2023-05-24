@@ -22,6 +22,7 @@ type Configuration struct {
 	Auth       AuthConfigs       `yaml:"auth"`
 	Transcoder TranscoderConfigs `yaml:"transcoder"`
 	Web3Events Web3EventsConfigs `yaml:"web3_events"`
+	Graph      GraphConfigs      `yaml:"graph"`
 }
 
 type Common struct {
@@ -141,6 +142,11 @@ type Web3EventsConfigs struct {
 	Currencies           Web3Currencies `yaml:"currencies"`
 	Sentry               SentryConfigs  `yaml:"sentry"`
 	Redis                RedisConfigs   `yaml:"redis"`
+}
+
+type GraphConfigs struct {
+	Neo4jDB DBConfigs     `yaml:"neo4j_db"`
+	Sentry  SentryConfigs `yaml:"sentry"`
 }
 
 type Web3Currencies struct {
