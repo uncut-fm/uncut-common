@@ -34,7 +34,7 @@ var (
 
 func GetBlockchainNetworksByEnvironment(env string) []BlockchainNetwork {
 	switch env {
-	case config.TestEnvironment:
+	case config.LocalEnvironment, config.DevEnvironment, config.TestEnvironment:
 		return []BlockchainNetwork{PolygonMumbaiBlockchainNetwork, EthereumGoerliBlockchainNetwork, ArbitrumGoerliBlockchainNetwork, OptimismGoerliBlockchainNetwork}
 	case config.StageEnvironment, config.ProdEnvironment:
 		return []BlockchainNetwork{PolygonMainnetBlockchainNetwork, EthereumMainnetBlockchainNetwork, ArbitrumMainnetBlockchainNetwork, OptimismMainnetBlockchainNetwork}
