@@ -101,6 +101,7 @@ type PubSub struct {
 	DatastoreEventsSubName string `yaml:"datastore_events_sub_name"`
 
 	GraphSyncTopicName string `yaml:"graph_sync_topic_name"`
+	GraphSyncSubName   string `yaml:"graph_sync_sub_name"`
 }
 
 type FaucetWallet struct {
