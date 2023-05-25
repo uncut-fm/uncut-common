@@ -3,17 +3,17 @@ package model
 import "time"
 
 type NFTOwner struct {
-	ID                  int
-	UserWalletAddress   string
-	Balance             int
-	CreatedAt           time.Time
-	UpdatedAt           time.Time
-	IsHidden            bool
-	TransactionsStrings []string
+	ID                  int       `json:"id"`
+	UserWalletAddress   string    `json:"userWalletAddress"`
+	Balance             int       `json:"balance"`
+	CreatedAt           time.Time `json:"createdAt"`
+	UpdatedAt           time.Time `json:"updatedAt"`
+	IsHidden            bool      `json:"isHidden"`
+	TransactionsStrings []string  `json:"transactions"`
 
-	Wallet       *Wallet
-	NFTs         []*NFT
-	Transactions []*Transaction
+	Wallet       *Wallet        `json:"-"`
+	NFTs         []*NFT         `json:"-"`
+	Transactions []*Transaction `json:"-"`
 }
 
 // GetPropertiesInMap returns a map of the properties of the NFTOwner; keys are in camelCase

@@ -8,15 +8,15 @@ import (
 )
 
 type Wallet struct {
-	ID              int
-	Name            string
-	Description     string
-	WalletAddress   string
-	Provider        string
-	CreatedAt       time.Time
-	UpdatedAt       time.Time
-	BecamePrimaryAt time.Time
-	LastSyncedAt    time.Time
+	ID              int       `json:"id"`
+	Name            string    `json:"name"`
+	Description     string    `json:"description"`
+	WalletAddress   string    `json:"walletAddress"`
+	Provider        string    `json:"provider"`
+	CreatedAt       time.Time `json:"createdAt"`
+	UpdatedAt       time.Time `json:"updatedAt"`
+	BecamePrimaryAt time.Time `json:"becamePrimaryAt"`
+	LastSyncedAt    time.Time `json:"lastSyncedAt"`
 
 	User         *User
 	NFTOwners    []*NFTOwner

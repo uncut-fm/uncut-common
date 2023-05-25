@@ -5,17 +5,17 @@ import (
 )
 
 type NFTCollection struct {
-	ID              int
-	Name            string
-	ContractAddress string
-	CreatorAddress  string
-	CreatedAt       time.Time
-	UpdatedAt       time.Time
-	UpdatedOnBlock  int
-	Network         string
-	TokenType       string
-	Origin          string
-	NFTs            []*NFT
+	ID              int       `json:"id"`
+	Name            string    `json:"name"`
+	ContractAddress string    `json:"contractAddress"`
+	CreatorAddress  string    `json:"creatorAddress"`
+	CreatedAt       time.Time `json:"createdAt"`
+	UpdatedAt       time.Time `json:"updatedAt"`
+	UpdatedOnBlock  int       `json:"updatedOnBlock"`
+	Network         string    `json:"network"`
+	TokenType       string    `json:"tokenType"`
+	Origin          string    `json:"origin"`
+	NFTs            []*NFT    `json:"-"`
 }
 
 // GetPropertiesInMap returns a map of the properties of the NFTCollection; keys are in camelCase

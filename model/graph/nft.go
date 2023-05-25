@@ -7,43 +7,43 @@ import (
 )
 
 type NFT struct {
-	ID                     int
-	ContractAddress        string
-	Price                  float64
-	MintedOn               time.Time
-	Status                 string
-	CreatedAt              time.Time
-	UpdatedAt              time.Time
-	UpdatedOnBlock         int
-	Currency               string
-	TokenID                string
-	StoreID                int
-	Fee                    float64
-	CreatorAddress         string
-	Supply                 int
-	Balance                int
-	Name                   string
-	Description            string
-	BlockchainDescription  string
-	Perks                  string
-	ImageURL               string
-	BlockchainImageURL     string
-	AnimationURL           string
-	BlockchainAnimationURL string
-	Type                   string
-	Royalties              int
-	ShowOnWebsite          bool
-	Password               string
-	DropAt                 string
-	DropAtTime             time.Time
-	DropType               string
-	MintTransaction        string
-	TemplateType           string
-	FeaturedByCreator      bool
-	NFTOwners              []*NFTOwner
-	NFTCollection          *NFTCollection
-	CreatedBy              *User
-	Transactions           []*Transaction
+	ID                     int            `json:"id"`
+	ContractAddress        string         `json:"contractAddress"`
+	Price                  float64        `json:"price"`
+	MintedOn               time.Time      `json:"mintedOn"`
+	Status                 string         `json:"status"`
+	CreatedAt              time.Time      `json:"createdAt"`
+	UpdatedAt              time.Time      `json:"updatedAt"`
+	UpdatedOnBlock         int            `json:"updatedOnBlock"`
+	Currency               string         `json:"currency"`
+	TokenID                string         `json:"tokenId"`
+	StoreID                int            `json:"storeId"`
+	Fee                    float64        `json:"fee"`
+	CreatorAddress         string         `json:"creatorAddress"`
+	Supply                 int            `json:"supply"`
+	Balance                int            `json:"balance"`
+	Name                   string         `json:"name"`
+	Description            string         `json:"description"`
+	BlockchainDescription  string         `json:"blockchainDescription"`
+	Perks                  string         `json:"perks"`
+	ImageURL               string         `json:"imageUrl"`
+	BlockchainImageURL     string         `json:"blockchainImageUrl"`
+	AnimationURL           string         `json:"animationUrl"`
+	BlockchainAnimationURL string         `json:"blockchainAnimationUrl"`
+	Type                   string         `json:"type"`
+	Royalties              int            `json:"royalties"`
+	ShowOnWebsite          bool           `json:"showOnWebsite"`
+	Password               string         `json:"password"`
+	DropAt                 string         `json:"dropAt"`
+	DropAtTime             time.Time      `json:"dropAtTime"`
+	DropType               string         `json:"dropType"`
+	MintTransaction        string         `json:"mintTransaction"`
+	TemplateType           string         `json:"templateType"`
+	FeaturedByCreator      bool           `json:"featuredByCreator"`
+	NFTOwners              []*NFTOwner    `json:"-"`
+	NFTCollection          *NFTCollection `json:"-"`
+	CreatedBy              *User          `json:"-"`
+	Transactions           []*Transaction `json:"-"`
 }
 
 func (n *NFT) GetPropertiesInMap() map[string]interface{} {

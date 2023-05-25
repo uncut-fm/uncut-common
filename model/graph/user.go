@@ -7,21 +7,21 @@ import (
 )
 
 type User struct {
-	ID                    int
-	Name                  string
-	Email                 string
-	ProfileImageUrl       string
-	IsNftCreator          bool
-	CreatedAt             time.Time
-	UpdatedAt             time.Time
-	Title                 string
-	ThemeColorsAccent     string
-	ThemeColorsBackground string
-	IsAdmin               bool
+	ID                    int       `json:"id"`
+	Name                  string    `json:"name"`
+	Email                 string    `json:"email"`
+	ProfileImageUrl       string    `json:"profileImageUrl"`
+	IsNftCreator          bool      `json:"isNftCreator"`
+	CreatedAt             time.Time `json:"createdAt"`
+	UpdatedAt             time.Time `json:"updatedAt"`
+	Title                 string    `json:"title"`
+	ThemeColorsAccent     string    `json:"themeColorsAccent"`
+	ThemeColorsBackground string    `json:"themeColorsBackground"`
+	IsAdmin               bool      `json:"isAdmin"`
 
-	Wallets      []*Wallet
-	NFTsCreated  []*NFT
-	Transactions []*Transaction
+	Wallets      []*Wallet      `json:"-"`
+	NFTsCreated  []*NFT         `json:"-"`
+	Transactions []*Transaction `json:"-"`
 }
 
 // NewUsersListFromCommonUsers converts a slice of common_model.User to a slice of *User
