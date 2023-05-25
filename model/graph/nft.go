@@ -1,6 +1,8 @@
 package model
 
 import (
+	"github.com/uncut-fm/uncut-common/pkg/proto/graph"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
 )
 
@@ -77,5 +79,42 @@ func (n *NFT) GetPropertiesInMap() map[string]interface{} {
 		"dropAtTime":             n.DropAtTime.Format("2006-01-02 15:04:05 MST"),
 		"mintTransaction":        n.MintTransaction,
 		"templateType":           n.TemplateType,
+	}
+}
+
+// convert NFT to graph.NFT
+func (n *NFT) ToProto() *graph.Nft {
+	return &graph.Nft{
+		Id:                     int64(n.ID),
+		ContractAddress:        n.ContractAddress,
+		Price:                  n.Price,
+		MintedOn:               timestamppb.New(n.MintedOn),
+		Status:                 n.Status,
+		CreatedAt:              timestamppb.New(n.CreatedAt),
+		UpdatedAt:              timestamppb.New(n.UpdatedAt),
+		UpdatedOnBlock:         int32(n.UpdatedOnBlock),
+		Currency:               n.Currency,
+		TokenId:                n.TokenID,
+		StoreId:                int32(n.StoreID),
+		Fee:                    n.Fee,
+		CreatorAddress:         n.CreatorAddress,
+		Supply:                 int32(n.Supply),
+		Balance:                int32(n.Balance),
+		Name:                   n.Name,
+		Description:            n.Description,
+		BlockchainDescription:  n.BlockchainDescription,
+		Perks:                  n.Perks,
+		ImageUrl:               n.ImageURL,
+		BlockchainImageUrl:     n.BlockchainImageURL,
+		AnimationUrl:           n.AnimationURL,
+		BlockchainAnimationUrl: n.BlockchainAnimationURL,
+		Type:                   n.Type,
+		Royalties:              int32(n.Royalties),
+		ShowOnWebsite:          n.ShowOnWebsite,
+		Password:               n.Password,
+		DropAt:                 n.DropAt,
+		DropAtTime:             timestamppb.New(n.DropAtTime),
+		MintTransaction:        n.MintTransaction,
+		TemplateType:           n.TemplateType,
 	}
 }

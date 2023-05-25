@@ -12,7 +12,7 @@ service Network {
 }
 
 message GetNetworkByUserIDRequest {
-  string user_id = 1;
+  int32 user_id = 1;
   optional OffsetPagination pagination = 2;
 }
 
@@ -28,23 +28,68 @@ message NetworkMembersInfoResponse {
 
 message NetworkMemberUser {
   user.User user = 1;
-  repeated Nft nftsInCommon = 2;
-  google.protobuf.Timestamp joinedOn = 3;
+  repeated Nft nfts_in_common = 2;
+  google.protobuf.Timestamp joined_on = 3;
 }
 
 message Nft {
-  int32 id = 1;
-  float price = 2;
-  string name = 3;
-  string tokenId = 4;
-  repeated NftOwner owners = 5;
-  user.User creator = 6;
+  int64 id = 1;
+  string contract_address = 2;
+  double price = 3;
+  google.protobuf.Timestamp minted_on = 4;
+  string status = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  int32 updated_on_block = 8;
+  string currency = 9;
+  string token_id = 10;
+  int32 store_id = 11;
+  double fee = 12;
+  string creator_address = 13;
+  int32 supply = 14;
+  int32 balance = 15;
+  string name = 16;
+  string description = 17;
+  string blockchain_description = 18;
+  string perks = 19;
+  string image_url = 20;
+  string blockchain_image_url = 21;
+  string animation_url = 22;
+  string blockchain_animation_url = 23;
+  string type = 24;
+  int32 royalties = 25;
+  bool show_on_website = 26;
+  string password = 27;
+  string drop_at = 28;
+  google.protobuf.Timestamp drop_at_time = 29;
+  string drop_type = 30;
+  string mint_transaction = 31;
+  string template_type = 32;
+  bool featured_by_creator = 33;
+  repeated NftOwner nft_owners = 34;
+  NftCollection nft_collection = 35;
+  user.User created_by = 36;
 }
 
 message NftOwner {
-  optional user.User user = 1;
-  Nft nft = 2;
-  string userWalletAddress = 3;
-  int32 balance = 4;
+  int64 id = 1;
+  string user_wallet_address = 2;
+  int32 balance = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  bool is_hidden = 6;
+  repeated string transactions = 7;
+}
 
+message NftCollection {
+  int32 id = 1;
+  string name = 2;
+  string contract_address = 3;
+  string creator_address = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  int32 updated_on_block = 7;
+  string network = 8;
+  string token_type = 9;
+  string origin = 10;
 }

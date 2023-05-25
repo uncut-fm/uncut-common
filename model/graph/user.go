@@ -2,6 +2,7 @@ package model
 
 import (
 	common_model "github.com/uncut-fm/uncut-common/model"
+	proto_user "github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
 	"time"
 )
 
@@ -55,11 +56,6 @@ func NewUserFromCommonUser(commonUser *common_model.User) *User {
 	return user
 }
 
-// SetUpdatedFields sets the fields that differ between the two users
-func (u *User) SetUpdatedFields(srcUser *User) bool {
-	return setUpdatedFields(u, srcUser)
-}
-
 // GetPropertiesInMap returns a map of the user's properties; keys are in camelCase
 func (u *User) GetPropertiesInMap() map[string]interface{} {
 	return map[string]interface{}{
@@ -74,5 +70,23 @@ func (u *User) GetPropertiesInMap() map[string]interface{} {
 		"themeColorsAccent":     u.ThemeColorsAccent,
 		"themeColorsBackground": u.ThemeColorsBackground,
 		"isAdmin":               u.IsAdmin,
+	}
+}
+
+// convert User to proto proto.User
+func (u *User) ToProto() *proto_user.User {
+	return &proto_user.User{
+		Id:              uint64(u.ID),
+		Name:            u.Name,
+		Email:           u.Email,
+		ProfileImageUrl: u.ProfileImageUrl,
+		IsNftCreator:    u.IsNftCreator,
+		Title:           u.Title,
+		ThemeColors: &proto_user.ThemeColors{
+			Accent:     u.ThemeColorsAccent,
+			Background: u.ThemeColorsBackground,
+		},
+		IsAdmin: u.IsAdmin,
+		Edges:   &proto_user.UserEdges{Wallets: NewProtoWalletsListFromWallets(u.Wallets)},
 	}
 }
