@@ -20,6 +20,7 @@ func (n UsersNetwork) ToProto() *graph.NetworkMembersInfoResponse {
 	}
 
 	for i, networkUser := range n.Users {
+		protoResponse.Users[i] = &graph.NetworkMemberUser{}
 		protoResponse.Users[i].User = networkUser.User.ToProto()
 		protoResponse.Users[i].NftsInCommon = make([]*graph.Nft, len(networkUser.NFTsInCommon))
 

@@ -12,7 +12,7 @@ service Network {
 }
 
 message GetNetworkByUserIDRequest {
-  int32 user_id = 1;
+  uint64 user_id = 1;
   optional OffsetPagination pagination = 2;
 }
 

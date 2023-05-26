@@ -4,19 +4,18 @@ import (
 	common_model "github.com/uncut-fm/uncut-common/model"
 	proto_user "github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"time"
 )
 
 type Wallet struct {
-	ID              int       `json:"id"`
-	Name            string    `json:"name"`
-	Description     string    `json:"description"`
-	WalletAddress   string    `json:"walletAddress"`
-	Provider        string    `json:"provider"`
-	CreatedAt       time.Time `json:"createdAt"`
-	UpdatedAt       time.Time `json:"updatedAt"`
-	BecamePrimaryAt time.Time `json:"becamePrimaryAt"`
-	LastSyncedAt    time.Time `json:"lastSyncedAt"`
+	ID              int    `json:"id"`
+	Name            string `json:"name"`
+	Description     string `json:"description"`
+	WalletAddress   string `json:"walletAddress"`
+	Provider        string `json:"provider"`
+	CreatedAt       int64  `json:"createdAt"`
+	UpdatedAt       int64  `json:"updatedAt"`
+	BecamePrimaryAt int64  `json:"becamePrimaryAt"`
+	LastSyncedAt    int64  `json:"lastSyncedAt"`
 
 	User         *User
 	NFTOwners    []*NFTOwner
@@ -53,10 +52,10 @@ func (w *Wallet) ToProto() *proto_user.Wallet {
 		Description:     w.Description,
 		WalletAddress:   w.WalletAddress,
 		Provider:        w.Provider,
-		CreatedAt:       timestamppb.New(w.CreatedAt),
-		UpdatedAt:       timestamppb.New(w.UpdatedAt),
-		LastSyncedAt:    timestamppb.New(w.LastSyncedAt),
-		BecamePrimaryAt: timestamppb.New(w.BecamePrimaryAt),
+		CreatedAt:       timestamppb.New(UnixTimeToTime(w.CreatedAt)),
+		UpdatedAt:       timestamppb.New(UnixTimeToTime(w.UpdatedAt)),
+		LastSyncedAt:    timestamppb.New(UnixTimeToTime(w.LastSyncedAt)),
+		BecamePrimaryAt: timestamppb.New(UnixTimeToTime(w.BecamePrimaryAt)),
 	}
 }
 
@@ -67,24 +66,9 @@ func NewWalletFromCommonWallet(commonWallet *common_model.Wallet, user User) *Wa
 		Description:   commonWallet.Description,
 		WalletAddress: commonWallet.WalletAddress,
 		Provider:      commonWallet.Provider,
-		CreatedAt:     commonWallet.CreatedAt,
-		UpdatedAt:     commonWallet.UpdatedAt,
-		LastSyncedAt:  commonWallet.LastSyncedAt,
+		CreatedAt:     commonWallet.CreatedAt.Unix(),
+		UpdatedAt:     commonWallet.UpdatedAt.Unix(),
+		LastSyncedAt:  commonWallet.LastSyncedAt.Unix(),
 		User:          &user,
-	}
-}
-
-// GetPropertiesInMap returns a map of the wallet's properties; keys are in camelCase
-func (w *Wallet) GetPropertiesInMap() map[string]interface{} {
-	return map[string]interface{}{
-		"id":              w.ID,
-		"name":            w.Name,
-		"description":     w.Description,
-		"walletAddress":   w.WalletAddress,
-		"provider":        w.Provider,
-		"createdAt":       w.CreatedAt.Format("2006-01-02 15:04:05 MST"),
-		"updatedAt":       w.UpdatedAt.Format("2006-01-02 15:04:05 MST"),
-		"lastSyncedAt":    w.LastSyncedAt.Format("2006-01-02 15:04:05 MST"),
-		"becamePrimaryAt": w.BecamePrimaryAt.Format("2006-01-02 15:04:05 MST"),
 	}
 }

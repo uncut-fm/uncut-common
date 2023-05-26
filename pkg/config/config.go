@@ -147,6 +147,7 @@ type Web3EventsConfigs struct {
 }
 
 type GraphConfigs struct {
+	Server  ServerConfigs `yaml:"server"`
 	Neo4jDB DBConfigs     `yaml:"neo4j_db"`
 	Sentry  SentryConfigs `yaml:"sentry"`
 }

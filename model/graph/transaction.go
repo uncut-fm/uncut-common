@@ -1,28 +1,24 @@
 package model
 
-import (
-	"time"
-)
-
 type Transaction struct {
-	ID                  int
-	Event               string
-	PaperTransactionId  string
-	PaperCheckoutId     string
-	BuyerWalletAddress  string
-	BuyerEmail          string
-	NetworkFeeUsd       float64
-	TotalPriceUsd       float64
-	PaymentCompletedAt  time.Time
-	TransferCompletedAt time.Time
-	PaymentMethod       string
-	CreatedAt           time.Time
-	PaperCreatedAt      time.Time
-	UpdatedAt           time.Time
-	WalletType          string
+	ID                  int     `json:"id"`
+	Event               string  `json:"event"`
+	PaperTransactionId  string  `json:"paperTransactionId"`
+	PaperCheckoutId     string  `json:"paperCheckoutId"`
+	BuyerWalletAddress  string  `json:"buyerWalletAddress"`
+	BuyerEmail          string  `json:"buyerEmail"`
+	NetworkFeeUsd       float64 `json:"networkFeeUsd"`
+	TotalPriceUsd       float64 `json:"totalPriceUsd"`
+	PaymentCompletedAt  int64   `json:"paymentCompletedAt"`
+	TransferCompletedAt int64   `json:"transferCompletedAt"`
+	PaymentMethod       string  `json:"paymentMethod"`
+	CreatedAt           int64   `json:"createdAt"`
+	PaperCreatedAt      int64   `json:"paperCreatedAt"`
+	UpdatedAt           int64   `json:"updatedAt"`
+	WalletType          string  `json:"walletType"`
 
-	NFTOwner      *NFTOwner
-	NFT           *NFT
-	User          *User
-	TransferredTo *Wallet
+	NFTOwner      *NFTOwner `json:"-"`
+	NFT           *NFT      `json:"-"`
+	User          *User     `json:"-"`
+	TransferredTo *Wallet   `json:"-"`
 }
