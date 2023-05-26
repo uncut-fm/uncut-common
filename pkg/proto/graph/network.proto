@@ -29,7 +29,7 @@ message NetworkMembersInfoResponse {
 message NetworkMemberUser {
   user.User user = 1;
   repeated Nft nfts_in_common = 2;
-  google.protobuf.Timestamp joined_on = 3;
+  google.protobuf.Timestamp joined_at = 3;
 }
 
 message Nft {

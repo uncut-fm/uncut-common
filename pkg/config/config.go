@@ -45,6 +45,7 @@ type ManagementConfigs struct {
 	AlchemyApiKey          string         `yaml:"alchemy_api_key"`
 	SegmentWriteKey        string         `yaml:"segment_write_key"`
 	AuthAdminToken         string         `yaml:"auth_admin_token"`
+	GraphAdminToken        string         `yaml:"graph_admin_token"`
 	SendgridAPIKey         string         `yaml:"sendgrid_api_key"`
 	Web3AdminToken         string         `yaml:"web3_admin_token"`
 	GcpStorageBucket       string         `yaml:"gcp_storage_bucket"`
@@ -248,6 +249,7 @@ type ServiceUrls struct {
 	WebappUrl           string `yaml:"webapp_url"`
 	Web3AdminUrl        string `yaml:"web3_admin_url"`
 	TranscoderUrl       string `yaml:"transcoder_url"`
+	GraphAPIUrl         string `yaml:"graph_api_url"`
 }
 
 type OauthProviders struct {
