@@ -60,6 +60,7 @@ const (
 	ConversationCommentNotification          NotificationTemplateType = "CONVERSATION_COMMENT"
 	ConversationReplyCommentatorNotification NotificationTemplateType = "CONVERSATION_REPLY_TO_COMMENTATOR"
 	ConversationReplyHostNotification        NotificationTemplateType = "CONVERSATION_REPLY_TO_HOST"
+	FeedPostMentionNotification              NotificationTemplateType = "FEED_POST_MENTION"
 	WelcomeEmailSetupNotification            NotificationTemplateType = "WELCOME_EMAIL_SETUP"
 	WelcomeOwnerUncutNotification            NotificationTemplateType = "WELCOME_OWNER_UNCUT"
 	MintFirstTokenTipNotification            NotificationTemplateType = "MINT_FIRST_TOKEN"
@@ -112,4 +113,5 @@ type UnsubscribeHTTPRequest struct {
 	JWT          string `json:"token"`
 	CategoryType string `json:"categoryType"`
 	SpaceID      *int   `json:"spaceId,omitempty"`
+	UserID       *int   `json:"userId,omitempty"`
 }

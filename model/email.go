@@ -19,7 +19,8 @@ var (
 	nftLinkPattern          = "%s/nft/%d"                // {show_link}/nft/{nft_id}
 	personalNftLinkPattern  = "%s/unft/%d"               // {show_link}/unft/{nft_id}
 
-	userLinkPattern = "%s/user/%d" // {base_url}/user/{user_id}
+	userLinkPattern     = "%s/user/%d" // {base_url}/user/{user_id}
+	feedPostLinkPattern = "%s/post/%d" // {user_link}/feed/{post_id}
 )
 
 func GetShowLink(environment, showSlug string) string {
@@ -94,6 +95,12 @@ func GetUserLink(environment string, userID int) string {
 	baseLink := GetShowLink(environment, "")
 
 	return fmt.Sprintf(userLinkPattern, baseLink, userID)
+}
+
+func GetFeedPostLink(environment string, userID int) string {
+	userLink := GetUserLink(environment, userID)
+
+	return fmt.Sprintf(feedPostLinkPattern, userLink, userID)
 }
 
 type EmailReceiver struct {

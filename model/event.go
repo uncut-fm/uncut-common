@@ -23,6 +23,7 @@ var (
 	NftAirdropEmailEvent             EventType = "AirdropEmail"
 	NewSpaceConversationCommentEvent EventType = "NewSpaceConversationComment"
 	NewSpaceConversationReplyEvent   EventType = "NewSpaceConversationReply"
+	NewMentionFeedPostReplyEvent     EventType = "NewMentionFeedPost"
 
 	NewCreatorEvent    EventType = "NewCreator"
 	NewUserEvent       EventType = "NewUser"
