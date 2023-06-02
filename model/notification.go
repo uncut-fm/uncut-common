@@ -60,16 +60,20 @@ const (
 	ConversationCommentNotification          NotificationTemplateType = "CONVERSATION_COMMENT"
 	ConversationReplyCommentatorNotification NotificationTemplateType = "CONVERSATION_REPLY_TO_COMMENTATOR"
 	ConversationReplyHostNotification        NotificationTemplateType = "CONVERSATION_REPLY_TO_HOST"
-	FeedPostMentionNotification              NotificationTemplateType = "FEED_POST_MENTION"
-	WelcomeEmailSetupNotification            NotificationTemplateType = "WELCOME_EMAIL_SETUP"
-	WelcomeOwnerUncutNotification            NotificationTemplateType = "WELCOME_OWNER_UNCUT"
-	MintFirstTokenTipNotification            NotificationTemplateType = "MINT_FIRST_TOKEN"
+
+	FeedPostMentionNotification    NotificationTemplateType = "FEED_POST_MENTION"
+	FeedCommentMentionNotification NotificationTemplateType = "FEED_COMMENT_MENTION"
+
+	WelcomeEmailSetupNotification NotificationTemplateType = "WELCOME_EMAIL_SETUP"
+	WelcomeOwnerUncutNotification NotificationTemplateType = "WELCOME_OWNER_UNCUT"
+	MintFirstTokenTipNotification NotificationTemplateType = "MINT_FIRST_TOKEN"
 )
 
 var (
-	ConversationNotificationTemplates = []NotificationTemplateType{ConversationSpaceNotification, ConversationCommentNotification, ConversationReplyCommentatorNotification, ConversationReplyHostNotification}
-	OnboardingUserSequenceTemplates   = []NotificationTemplateType{OnboardingUserHour1Notification, OnboardingUserHour2Notification, OnboardingDay1Notification, OnboardingDay2Notification, OnboardingDay4Notification, OnboardingDay7Notification, OnboardingDay10Notification, OnboardingDay15Notification, OnboardingDay20Notification, OnboardingDay30Notification}
-	TransactionNotificationTemplates  = []NotificationTemplateType{NftTransferCompletedNotification, NftSoldNotification, NftWelcomeNotification, NftAirdropNotification}
+	BlogNotificationTemplates        = []NotificationTemplateType{ConversationSpaceNotification, ConversationCommentNotification, ConversationReplyCommentatorNotification, ConversationReplyHostNotification}
+	FeedNotificationTemplates        = []NotificationTemplateType{FeedPostMentionNotification, FeedCommentMentionNotification}
+	OnboardingUserSequenceTemplates  = []NotificationTemplateType{OnboardingUserHour1Notification, OnboardingUserHour2Notification, OnboardingDay1Notification, OnboardingDay2Notification, OnboardingDay4Notification, OnboardingDay7Notification, OnboardingDay10Notification, OnboardingDay15Notification, OnboardingDay20Notification, OnboardingDay30Notification}
+	TransactionNotificationTemplates = []NotificationTemplateType{NftTransferCompletedNotification, NftSoldNotification, NftWelcomeNotification, NftAirdropNotification}
 )
 
 func (n NotificationTemplateType) String() string {
