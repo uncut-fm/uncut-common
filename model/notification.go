@@ -36,6 +36,7 @@ type NewSubscriptionNotification struct {
 	CategoryType  string
 	TemplateType  NotificationTemplateType
 	SpaceID       *int
+	UserID        *int
 }
 
 type NotificationTemplateType string
