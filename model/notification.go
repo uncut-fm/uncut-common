@@ -61,8 +61,11 @@ const (
 	ConversationReplyCommentatorNotification NotificationTemplateType = "CONVERSATION_REPLY_TO_COMMENTATOR"
 	ConversationReplyHostNotification        NotificationTemplateType = "CONVERSATION_REPLY_TO_HOST"
 
-	FeedPostMentionNotification    NotificationTemplateType = "FEED_POST_MENTION"
-	FeedCommentMentionNotification NotificationTemplateType = "FEED_COMMENT_MENTION"
+	FeedPostUserMentionNotification    NotificationTemplateType = "FEED_POST_USER_MENTION"
+	FeedCommentUserMentionNotification NotificationTemplateType = "FEED_COMMENT_USER_MENTION"
+	FeedPostNftMentionNotification     NotificationTemplateType = "FEED_POST_NFT_MENTION"
+	FeedPostReplyNotification          NotificationTemplateType = "FEED_POST_REPLY"
+	FeedCommentReplyNotification       NotificationTemplateType = "FEED_COMMENT_REPLY"
 
 	WelcomeEmailSetupNotification NotificationTemplateType = "WELCOME_EMAIL_SETUP"
 	WelcomeOwnerUncutNotification NotificationTemplateType = "WELCOME_OWNER_UNCUT"
@@ -71,7 +74,7 @@ const (
 
 var (
 	BlogNotificationTemplates        = []NotificationTemplateType{ConversationSpaceNotification, ConversationCommentNotification, ConversationReplyCommentatorNotification, ConversationReplyHostNotification}
-	FeedNotificationTemplates        = []NotificationTemplateType{FeedPostMentionNotification, FeedCommentMentionNotification}
+	FeedNotificationTemplates        = []NotificationTemplateType{FeedPostUserMentionNotification, FeedCommentUserMentionNotification, FeedPostNftMentionNotification, FeedPostReplyNotification, FeedCommentReplyNotification}
 	OnboardingUserSequenceTemplates  = []NotificationTemplateType{OnboardingUserHour1Notification, OnboardingUserHour2Notification, OnboardingDay1Notification, OnboardingDay2Notification, OnboardingDay4Notification, OnboardingDay7Notification, OnboardingDay10Notification, OnboardingDay15Notification, OnboardingDay20Notification, OnboardingDay30Notification}
 	TransactionNotificationTemplates = []NotificationTemplateType{NftTransferCompletedNotification, NftSoldNotification, NftWelcomeNotification, NftAirdropNotification}
 )
