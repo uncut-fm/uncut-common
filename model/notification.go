@@ -65,6 +65,7 @@ const (
 	FeedPostUserMentionNotification    NotificationTemplateType = "FEED_POST_USER_MENTION"
 	FeedCommentUserMentionNotification NotificationTemplateType = "FEED_COMMENT_USER_MENTION"
 	FeedPostNftMentionNotification     NotificationTemplateType = "FEED_POST_NFT_MENTION"
+	FeedCommentNftMentionNotification  NotificationTemplateType = "FEED_COMMENT_NFT_MENTION"
 	FeedPostReplyNotification          NotificationTemplateType = "FEED_POST_REPLY"
 	FeedCommentReplyNotification       NotificationTemplateType = "FEED_COMMENT_REPLY"
 
@@ -75,7 +76,7 @@ const (
 
 var (
 	BlogNotificationTemplates        = []NotificationTemplateType{ConversationSpaceNotification, ConversationCommentNotification, ConversationReplyCommentatorNotification, ConversationReplyHostNotification}
-	FeedNotificationTemplates        = []NotificationTemplateType{FeedPostUserMentionNotification, FeedCommentUserMentionNotification, FeedPostNftMentionNotification, FeedPostReplyNotification, FeedCommentReplyNotification}
+	FeedNotificationTemplates        = []NotificationTemplateType{FeedPostUserMentionNotification, FeedCommentUserMentionNotification, FeedPostNftMentionNotification, FeedPostReplyNotification, FeedCommentReplyNotification, FeedCommentNftMentionNotification}
 	OnboardingUserSequenceTemplates  = []NotificationTemplateType{OnboardingUserHour1Notification, OnboardingUserHour2Notification, OnboardingDay1Notification, OnboardingDay2Notification, OnboardingDay4Notification, OnboardingDay7Notification, OnboardingDay10Notification, OnboardingDay15Notification, OnboardingDay20Notification, OnboardingDay30Notification}
 	TransactionNotificationTemplates = []NotificationTemplateType{NftTransferCompletedNotification, NftSoldNotification, NftWelcomeNotification, NftAirdropNotification}
 )
