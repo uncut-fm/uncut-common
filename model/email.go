@@ -97,10 +97,10 @@ func GetUserLink(environment string, userID int) string {
 	return fmt.Sprintf(userLinkPattern, baseLink, userID)
 }
 
-func GetFeedPostLink(environment string, userID int) string {
+func GetFeedPostLink(environment string, userID, conversationID int) string {
 	userLink := GetUserLink(environment, userID)
 
-	return fmt.Sprintf(feedPostLinkPattern, userLink, userID)
+	return fmt.Sprintf(feedPostLinkPattern, userLink, conversationID)
 }
 
 type EmailReceiver struct {
