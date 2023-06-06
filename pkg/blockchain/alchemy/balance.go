@@ -133,18 +133,6 @@ func hexWeiStringToFloatEth(hexString string) float64 {
 	return wei2Eth(balanceBigInt)
 }
 
-func hexToInt(hexString string) int {
-	bigInt := hexToBigInt(hexString)
-
-	return int(bigInt.Int64())
-}
-
-func hexToNumString(hexString string) string {
-	bigInt := hexToBigInt(hexString)
-
-	return bigInt.String()
-}
-
 func hexToBigInt(hexString string) *big.Int {
 	bigInt := new(big.Int)
 	bigInt.SetString(hexString, 0)

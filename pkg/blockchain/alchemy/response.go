@@ -16,9 +16,3 @@ type getBlockResponse struct {
 		Timestamp string `json:"timestamp"`
 	} `json:"result"`
 }
-
-type getOwnedNftsResponse struct {
-	OwnedNfts  []Nft   `json:"ownedNfts"`
-	PageKey    *string `json:"pageKey,omitempty"`
-	TotalCount int     `json:"totalCount"`
-}
