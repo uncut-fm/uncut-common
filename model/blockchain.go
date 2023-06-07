@@ -24,6 +24,8 @@ var (
 
 	OptimismMainnetBlockchainNetwork BlockchainNetwork = "opt-mainnet"
 	OptimismGoerliBlockchainNetwork  BlockchainNetwork = "opt-goerli"
+
+	WaxBlockchainNetwork BlockchainNetwork = "wax"
 )
 
 func GetBlockchainNetworksByEnvironment(env string) []BlockchainNetwork {
