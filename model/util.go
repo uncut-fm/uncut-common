@@ -66,14 +66,16 @@ func EtherToWei(eth *big.Float) *big.Int {
 	return wei
 }
 
-func IsItemInList[K string | int](item K, list []K) bool {
-	for _, i := range list {
-		if item == i {
-			return true
+// IsItemInList checks if item is in list
+// returns true and index if item is in list, false and -1 otherwise
+func IsItemInList[K string | int](item K, list []K) (bool, int) {
+	for i, li := range list {
+		if item == li {
+			return true, i
 		}
 	}
 
-	return false
+	return false, -1
 }
 
 // ValPointer returns a pointer to the value passed in, uses generics
