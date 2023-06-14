@@ -24,6 +24,7 @@ type Configuration struct {
 	Transcoder TranscoderConfigs `yaml:"transcoder"`
 	Web3Events Web3EventsConfigs `yaml:"web3_events"`
 	Graph      GraphConfigs      `yaml:"graph"`
+	NftImport  NftImportConfigs  `yaml:"nft_import"`
 }
 
 type Common struct {
@@ -55,6 +56,16 @@ type ManagementConfigs struct {
 	PirFivePercentTokenIDs []int          `yaml:"pir_five_percent_token_ids"`
 	Redis                  RedisConfigs   `yaml:"redis"`
 	TranscoderAdminToken   string         `yaml:"transcoder_admin_token"`
+}
+
+type NftImportConfigs struct {
+	PlatformDB           DBConfigs     `yaml:"platform_db"`
+	Server               ServerConfigs `yaml:"server"`
+	Sentry               SentryConfigs `yaml:"sentry"`
+	AlchemyApiKey        string        `yaml:"alchemy_api_key"`
+	AuthAdminToken       string        `yaml:"auth_admin_token"`
+	Redis                RedisConfigs  `yaml:"redis"`
+	TranscoderAdminToken string        `yaml:"transcoder_admin_token"`
 }
 
 type PaperConfigs struct {
@@ -250,6 +261,7 @@ type ServiceUrls struct {
 	Web3AdminUrl        string `yaml:"web3_admin_url"`
 	TranscoderUrl       string `yaml:"transcoder_url"`
 	GraphAPIUrl         string `yaml:"graph_api_url"`
+	NftImportUrl        string `yaml:"nft_import_url"`
 }
 
 type OauthProviders struct {
