@@ -35,6 +35,8 @@ func getSecretNameByConfigStruct(configStruct interface{}) (string, error) {
 		return os.Getenv(Web3EventsSecretEnvVar), nil
 	case *GraphConfigs:
 		return os.Getenv(GraphSecretEnvVar), nil
+	case *NftImportConfigs:
+		return os.Getenv(NftImportSecretEnvVar), nil
 	default:
 		return "", errors.New("unsupported configStruct")
 	}

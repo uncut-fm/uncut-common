@@ -8,6 +8,7 @@ const (
 	TranscoderSecretEnvVar = "TRANSCODER_SECRET_ID"
 	Web3EventsSecretEnvVar = "WEB3_EVENTS_SECRET_ID"
 	GraphSecretEnvVar      = "GRAPH_SECRET_ID"
+	NftImportSecretEnvVar  = "NFT_IMPORT_SECRET_ID"
 
 	LocalEnvironment = "local"
 	DevEnvironment   = "dev"
