@@ -24,6 +24,7 @@ var (
 	NewSpaceConversationCommentEvent EventType = "NewSpaceConversationComment"
 	NewSpaceConversationReplyEvent   EventType = "NewSpaceConversationReply"
 	NewMentionFeedPostReplyEvent     EventType = "NewMentionFeedPost"
+	NewFeedConversationCommentEvent  EventType = "NewFeedConversationComment"
 
 	NewCreatorEvent    EventType = "NewCreator"
 	NewUserEvent       EventType = "NewUser"
