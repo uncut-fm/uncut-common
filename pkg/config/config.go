@@ -115,6 +115,9 @@ type PubSub struct {
 
 	GraphSyncTopicName string `yaml:"graph_sync_topic_name"`
 	GraphSyncSubName   string `yaml:"graph_sync_sub_name"`
+
+	TranscoderTopicName string `yaml:"transcoder_topic_name"`
+	TranscoderSubName   string `yaml:"transcoder_sub_name"`
 }
 
 type FaucetWallet struct {
