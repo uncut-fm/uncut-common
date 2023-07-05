@@ -55,6 +55,15 @@ message User {
   string title = 8;
   ThemeColors theme_colors = 9;
   bool is_admin = 10;
+  string bio = 11;
+  string banner_image_url = 12;
+  string website_url = 13;
+  string discord_handle = 14;
+  string instagram_handle = 15;
+  string facebook_handle = 16;
+  string linkedin_handle = 17;
+  string location = 18;
+  string verification_status = 19;
 }
 
 message UsersResponse {
@@ -114,6 +123,15 @@ message UpdateUserRequest {
   optional bool is_nft_creator = 7;
   optional string title = 8;
   optional ThemeColors theme_colors = 9;
+  optional string bio = 10;
+  optional string banner_image_url = 11;
+  optional string website_url = 12;
+  optional string discord_handle = 13;
+  optional string instagram_handle = 14;
+  optional string facebook_handle = 15;
+  optional string linkedin_handle = 16;
+  optional string location = 17;
+  optional string verification_status = 18;
 }
 
 message UpdateWalletRequest {

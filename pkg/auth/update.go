@@ -9,15 +9,24 @@ import (
 
 func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*model.User, error) {
 	protoUser, err := a.grpcClient.UpdateUser(a.addAdminTokenToGrpcCtx(ctx), &user.UpdateUserRequest{
-		Id:              uint64(input.ID),
-		Name:            input.Name,
-		Title:           input.Title,
-		Email:           input.Email,
-		ProfileImageUrl: input.ProfileImageURL,
-		WalletAddress:   input.WalletAddress,
-		TwitterHandle:   input.TwitterHandle,
-		IsNftCreator:    input.IsNftCreator,
-		ThemeColors:     model.ParseThemeColorsToProto(input.ThemeColors),
+		Id:                 uint64(input.ID),
+		Name:               input.Name,
+		Title:              input.Title,
+		Email:              input.Email,
+		ProfileImageUrl:    input.ProfileImageURL,
+		WalletAddress:      input.WalletAddress,
+		TwitterHandle:      input.TwitterHandle,
+		IsNftCreator:       input.IsNftCreator,
+		Bio:                input.Bio,
+		BannerImageUrl:     input.BannerImageURL,
+		Location:           input.Location,
+		InstagramHandle:    input.InstagramHandle,
+		FacebookHandle:     input.FacebookHandle,
+		LinkedinHandle:     input.LinkedinHandle,
+		DiscordHandle:      input.DiscordHandle,
+		WebsiteUrl:         input.WebsiteURL,
+		VerificationStatus: input.VerificationStatus,
+		ThemeColors:        model.ParseThemeColorsToProto(input.ThemeColors),
 	})
 
 	if a.log.CheckError(err, a.UpdateUser) != nil {
