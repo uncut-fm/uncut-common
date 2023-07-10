@@ -79,6 +79,7 @@ message NftOwner {
   google.protobuf.Timestamp updated_at = 5;
   bool is_hidden = 6;
   repeated string transactions = 7;
+  repeated string asset_ids = 8;
 }
 
 message NftCollection {
