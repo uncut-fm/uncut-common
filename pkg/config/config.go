@@ -57,6 +57,7 @@ type ManagementConfigs struct {
 	PirFivePercentTokenIDs []int          `yaml:"pir_five_percent_token_ids"`
 	Redis                  RedisConfigs   `yaml:"redis"`
 	TranscoderAdminToken   string         `yaml:"transcoder_admin_token"`
+	VerificationSecretKey  string         `yaml:"verification_secret_key"`
 }
 
 type NftImportConfigs struct {
