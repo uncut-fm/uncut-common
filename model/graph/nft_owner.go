@@ -8,6 +8,7 @@ type NFTOwner struct {
 	UpdatedAt           int64    `json:"updatedAt"`
 	IsHidden            bool     `json:"isHidden"`
 	TransactionsStrings []string `json:"transactions"`
+	AssetIDs            []string `json:"assetIDs"`
 
 	Wallet       *Wallet
 	NFTs         []*NFT
