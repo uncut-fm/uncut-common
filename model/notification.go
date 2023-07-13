@@ -73,6 +73,10 @@ const (
 	FeedPostReplyNotification          NotificationTemplateType = "FEED_POST_REPLY"
 	FeedCommentReplyNotification       NotificationTemplateType = "FEED_COMMENT_REPLY"
 
+	UserVerificationStartedNotification  NotificationTemplateType = "USER_VERIFICATION_STARTED"
+	UserVerificationAcceptedNotification NotificationTemplateType = "USER_VERIFICATION_ACCEPTED"
+	UserVerificationRefusedNotification  NotificationTemplateType = "USER_VERIFICATION_REFUSED"
+
 	WelcomeEmailSetupNotification NotificationTemplateType = "WELCOME_EMAIL_SETUP"
 	WelcomeOwnerUncutNotification NotificationTemplateType = "WELCOME_OWNER_UNCUT"
 	MintFirstTokenTipNotification NotificationTemplateType = "MINT_FIRST_TOKEN"
