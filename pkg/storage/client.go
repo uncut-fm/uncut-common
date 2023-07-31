@@ -196,6 +196,10 @@ func (s Client) DeleteFileByStoragePublicURL(ctx context.Context, fileURL string
 	return s.log.CheckError(err, s.DeleteFileByStoragePublicURL)
 }
 
+func (s Client) GetStorageFilePathFromPublicURL(fileURL string) (string, error) {
+	return s.getStorageFilePathFromPublicURL(fileURL)
+}
+
 func (s Client) getStorageFilePathFromPublicURL(fileURL string) (string, error) {
 	urlParts, err := url.Parse(fileURL)
 	if s.log.CheckError(err, s.DeleteFileByStoragePublicURL) != nil {
@@ -208,6 +212,10 @@ func (s Client) getStorageFilePathFromPublicURL(fileURL string) (string, error) 
 		return "", errors.FileAccessErr
 	}
 	return path[i:], nil
+}
+
+func (s Client) UploadFile(ctx context.Context, fileURL string, file []byte) error {
+	return s.uploadFile(ctx, fileURL, file)
 }
 
 func (s Client) uploadFile(c context.Context, fileName string, file []byte) error {
