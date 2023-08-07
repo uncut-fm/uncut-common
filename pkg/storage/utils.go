@@ -15,7 +15,7 @@ const (
 	nftLocationPath           = "%v/nfts/%v"          // "{environment}/nfts/{file_name}"
 	userLocationPath          = "%v/users/%v"         // "{environment}/users/{file_name}"
 	conversationsLocationPath = "%v/conversations/%v" // "{environment}/conversations/{file_name}"
-	showLocationPath          = "%v/shows/%v"         // "{environment}/shows/{file_name}"
+	collectionLocationPath    = "%v/collections/%v"   // "{environment}/collection/{file_name}"
 
 	publicFileFormat = "https://storage.googleapis.com/%v/%v" // https://storage.googleapis.com/BUCKET_NAME/FILE_NAME
 )
@@ -45,7 +45,7 @@ func GetConversationLocationPath(env, fileName string) string {
 }
 
 func GetShowLocationPath(env, fileName string) string {
-	return fmt.Sprintf(showLocationPath, env, fileName)
+	return fmt.Sprintf(collectionLocationPath, env, fileName)
 }
 
 var mimeTypesToExt = map[string]string{
@@ -124,7 +124,7 @@ func GetEntityTypeAndEntityIDByObjectName(objectName string) (EntityType, int, e
 
 	entityID, err := strconv.Atoi(parts[2])
 	if err != nil {
-		return EntityTypeShow, 0, err
+		return EntityTypeCollection, 0, err
 	}
 
 	var entityType EntityType
@@ -134,6 +134,8 @@ func GetEntityTypeAndEntityIDByObjectName(objectName string) (EntityType, int, e
 		entityType = EntityTypeNft
 	case "shows":
 		entityType = EntityTypeShow
+	case "collections":
+		entityType = EntityTypeCollection
 	case "spaces":
 		entityType = EntityTypeSpace
 	case "users":

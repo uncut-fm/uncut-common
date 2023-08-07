@@ -64,7 +64,7 @@ func (s Client) UploadEntityFileByFileBytes(ctx context.Context, entityType Enti
 	switch entityType {
 	case EntityTypeSpace:
 		fileURL, err = s.uploadSpaceAttachmentFile(ctx, *entityID, file, extension, "image")
-	case EntityTypeShow:
+	case EntityTypeShow, EntityTypeCollection:
 		fileURL, err = s.storeShowImage(ctx, entityID, file, extension)
 	case EntityTypeConversation:
 		fileURL, err = s.storeConversationImage(ctx, entityID, file, extension)
@@ -91,7 +91,7 @@ func (s Client) UploadEntityFileByDataURI(ctx context.Context, fileDataURLString
 	switch entityType {
 	case EntityTypeSpace:
 		fileURL, err = s.uploadSpaceAttachmentFile(ctx, *entityID, fileDataURLStruct.Data, extension, fileDataURLStruct.Type)
-	case EntityTypeShow:
+	case EntityTypeShow, EntityTypeCollection:
 		fileURL, err = s.storeShowImage(ctx, entityID, fileDataURLStruct.Data, extension)
 	case EntityTypeConversation:
 		fileURL, err = s.storeConversationImage(ctx, entityID, fileDataURLStruct.Data, extension)
@@ -148,7 +148,7 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID *int, requestedMime
 	switch entityType {
 	case EntityTypeSpace:
 		filename = s.getSpaceAttachmentFilepath(*entityID, fileType, extension)
-	case EntityTypeShow:
+	case EntityTypeShow, EntityTypeCollection:
 		filename = s.getShowImageFilepath(entityID, extension)
 	case EntityTypeConversation:
 		if !model.IsStringNil(requestedFilename) {
