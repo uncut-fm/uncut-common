@@ -178,6 +178,7 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID *int, requestedMime
 	expires := time.Now().Add(time.Minute * time.Duration(expirationInMinutes))
 
 	signedUrl, err := s.bucketHandle.SignedURL(filename, &storage.SignedURLOptions{
+		Scheme:      storage.SigningSchemeV4,
 		ContentType: mimeType,
 		Method:      "PUT",
 		Expires:     expires,
