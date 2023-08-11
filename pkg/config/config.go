@@ -7,7 +7,6 @@ const (
 	AuthSecretEnvVar       = "AUTH_SECRET_ID"
 	TranscoderSecretEnvVar = "TRANSCODER_SECRET_ID"
 	Web3EventsSecretEnvVar = "WEB3_EVENTS_SECRET_ID"
-	GraphSecretEnvVar      = "GRAPH_SECRET_ID"
 	NftImportSecretEnvVar  = "NFT_IMPORT_SECRET_ID"
 
 	LocalEnvironment = "local"
@@ -24,7 +23,6 @@ type Configuration struct {
 	Auth       AuthConfigs       `yaml:"auth"`
 	Transcoder TranscoderConfigs `yaml:"transcoder"`
 	Web3Events Web3EventsConfigs `yaml:"web3_events"`
-	Graph      GraphConfigs      `yaml:"graph"`
 	NftImport  NftImportConfigs  `yaml:"nft_import"`
 }
 
@@ -47,7 +45,6 @@ type ManagementConfigs struct {
 	AlchemyApiKey          string         `yaml:"alchemy_api_key"`
 	SegmentWriteKey        string         `yaml:"segment_write_key"`
 	AuthAdminToken         string         `yaml:"auth_admin_token"`
-	GraphAdminToken        string         `yaml:"graph_admin_token"`
 	SendgridAPIKey         string         `yaml:"sendgrid_api_key"`
 	Web3AdminToken         string         `yaml:"web3_admin_token"`
 	GcpStorageBucket       string         `yaml:"gcp_storage_bucket"`
@@ -114,9 +111,6 @@ type PubSub struct {
 	EmailEventsSubName     string `yaml:"email_events_sub_name"`
 	DatastoreEventsSubName string `yaml:"datastore_events_sub_name"`
 
-	GraphSyncTopicName string `yaml:"graph_sync_topic_name"`
-	GraphSyncSubName   string `yaml:"graph_sync_sub_name"`
-
 	TranscoderRequestsTopicName string `yaml:"transcoder_requests_topic_name"`
 	TranscoderRequestsSubName   string `yaml:"transcoder_requests_sub_name"`
 }
@@ -162,12 +156,6 @@ type Web3EventsConfigs struct {
 	Currencies           Web3Currencies `yaml:"currencies"`
 	Sentry               SentryConfigs  `yaml:"sentry"`
 	Redis                RedisConfigs   `yaml:"redis"`
-}
-
-type GraphConfigs struct {
-	Server  ServerConfigs `yaml:"server"`
-	Neo4jDB DBConfigs     `yaml:"neo4j_db"`
-	Sentry  SentryConfigs `yaml:"sentry"`
 }
 
 type Web3Currencies struct {
@@ -266,7 +254,6 @@ type ServiceUrls struct {
 	WebappUrl           string `yaml:"webapp_url"`
 	Web3AdminUrl        string `yaml:"web3_admin_url"`
 	TranscoderUrl       string `yaml:"transcoder_url"`
-	GraphAPIUrl         string `yaml:"graph_api_url"`
 	NftImportUrl        string `yaml:"nft_import_url"`
 }
 
