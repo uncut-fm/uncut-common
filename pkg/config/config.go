@@ -134,6 +134,8 @@ type AuthConfigs struct {
 	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
 	Twitter              TwitterConfigs `yaml:"twitter"`
 	Redis                RedisConfigs   `yaml:"redis"`
+	GcpStorageBucket     string         `yaml:"gcp_storage_bucket"`
+	UserBannersFolder    string         `yaml:"user_banners_folder"`
 }
 
 type FaucetLimit struct {

@@ -11,6 +11,5 @@ func NewBucketHandler(ctx context.Context, bucket string) (*storage.BucketHandle
 	if err != nil {
 		return nil, err
 	}
-
 	return client.Bucket(bucket), nil
 }
