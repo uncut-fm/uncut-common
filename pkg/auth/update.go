@@ -26,6 +26,7 @@ func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*mod
 		DiscordHandle:      input.DiscordHandle,
 		WebsiteUrl:         input.WebsiteURL,
 		VerificationStatus: input.VerificationStatus,
+		Type:               input.Type,
 		ThemeColors:        model.ParseThemeColorsToProto(input.ThemeColors),
 	})
 

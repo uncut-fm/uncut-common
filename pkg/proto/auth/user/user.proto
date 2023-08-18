@@ -64,6 +64,7 @@ message User {
   string linkedin_handle = 17;
   string location = 18;
   string verification_status = 19;
+  string type = 20;
 }
 
 message UsersResponse {
@@ -132,6 +133,7 @@ message UpdateUserRequest {
   optional string linkedin_handle = 16;
   optional string location = 17;
   optional string verification_status = 18;
+  optional string type = 19;
 }
 
 message UpdateWalletRequest {

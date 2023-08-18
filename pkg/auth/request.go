@@ -24,6 +24,7 @@ type UpdateUserAuthRequest struct {
 	WebsiteURL         *string            `json:"website_url"`
 	Location           *string            `json:"location"`
 	VerificationStatus *string            `json:"verification_status"`
+	Type               *string            `json:"type"`
 }
 
 type UpdateWalletRequest struct {

@@ -27,6 +27,7 @@ type User struct {
 	LinkedinHandle     string       `json:"linkedin_handle"`
 	DiscordHandle      string       `json:"discord_handle"`
 	WebsiteUrl         string       `json:"website_url"`
+	Type               string       `json:"type"`
 	Edges              UserEdges    `json:"edges"`
 }
 
@@ -104,6 +105,7 @@ func ParseProtoUserToUser(protoUser *proto_user.User) *User {
 		LinkedinHandle:     protoUser.LinkedinHandle,
 		DiscordHandle:      protoUser.DiscordHandle,
 		WebsiteUrl:         protoUser.WebsiteUrl,
+		Type:               protoUser.Type,
 		Edges:              UserEdges{Wallets: ParseProtoWalletsToWallets(protoUser.Edges.Wallets)},
 	}
 
