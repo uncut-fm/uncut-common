@@ -22,15 +22,18 @@ var (
 	nftAudioIDFileFormat        = "%v/nft_audio_%v" // {nft_id}/nft_audio_{time_now}.{ext}
 	nftVideoIDFileFormat        = "%v/nft_video_%v" // {nft_id}/nft_video_{time_now}.{ext}
 
-	conversationAttachmentWithFilenameFileFormat   = "%d/%s.%s"            // {time_now}/{filename}.{ext}
 	conversationAttachmentIDWithFilenameFileFormat = "%d/%d/%s.%s"         // {conversation_id}/{time_now}/{filename}.{ext}
+	conversationAttachmentWithFilenameFileFormat   = "%d/%s.%s"            // {time_now}/{filename}.{ext}
 	conversationAttachmentIDFileFormat             = "%d/attachment_%v.%s" // {conversation_id}/attachment_{time_now}.{ext}"
 	conversationAttachmentFileFormat               = "attachment_%v.%s"    // attachment_{time_now}.{ext}"
 
 	spaceAttachmentFileFormat = "%v/space_attachment_%s_%v.%s" // {space_id}/space_attachment_{attachment_type}_{time_now}.{ext}
 
-	showImageIDFileFormat = "%v/show_%v.%s" // {show_id}/show_{time_now}.{ext}
-	showImageFileFormat   = "show_%v.%s"    // show_{time_now}.{ext}
+	collectionImageIDFileFormat = "%v/collection_%v.%s" // {show_id}/collection_{time_now}.{ext}
+	collectionImageFileFormat   = "collection_%v.%s"    // collection_{time_now}.{ext}
+
+	collectionImageIDWithNameFileFormat = "%d/%d/%s.%s" // {show_id}/{time_now}/{filename}.{ext}
+	collectionImageWithNameFileFormat   = "%d/%s.%s"    // {time_now}/{filename}.{ext}
 
 	userImageIDFileFormat = "%v/user_%v.%s" // {user_id}/user_{time_now}.{ext}
 	userImageFileFormat   = "user_%v.%s"    // user_{time_now}.{ext}
@@ -149,6 +152,10 @@ func (s Client) GetSignedUrl(entityType EntityType, entityID *int, requestedMime
 	case EntityTypeSpace:
 		filename = s.getSpaceAttachmentFilepath(*entityID, fileType, extension)
 	case EntityTypeShow, EntityTypeCollection:
+		if !model.IsStringNil(requestedFilename) {
+			filename = s.getCollectionWithNameImageFilepath(entityID, extension, *requestedFilename)
+			break
+		}
 		filename = s.getShowImageFilepath(entityID, extension)
 	case EntityTypeConversation:
 		if !model.IsStringNil(requestedFilename) {

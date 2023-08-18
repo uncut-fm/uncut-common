@@ -32,10 +32,25 @@ func (s Client) getShowImageFilepath(showID *int, extension string) string {
 
 	var fileName string
 	if model.IsIntNil(showID) {
-		fileName = fmt.Sprintf(showImageFileFormat, now.Unix(), extension)
+		fileName = fmt.Sprintf(collectionImageFileFormat, now.Unix(), extension)
 	} else {
-		fileName = fmt.Sprintf(showImageIDFileFormat, *showID, now.Unix(), extension)
+		fileName = fmt.Sprintf(collectionImageIDFileFormat, *showID, now.Unix(), extension)
 	}
 
 	return GetShowLocationPath(s.environment, fileName)
+}
+
+func (s Client) getCollectionWithNameImageFilepath(showID *int, extension, fileName string) string {
+	var filePath string
+
+	fileName = prepareFileNameFromRequest(fileName)
+
+	now := time.Now()
+	if model.IsIntNil(showID) {
+		filePath = fmt.Sprintf(collectionImageWithNameFileFormat, now.Unix(), fileName, extension)
+	} else {
+		filePath = fmt.Sprintf(collectionImageIDWithNameFileFormat, *showID, now.Unix(), fileName, extension)
+	}
+
+	return GetShowLocationPath(s.environment, filePath)
 }
