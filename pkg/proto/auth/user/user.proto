@@ -8,11 +8,12 @@ import "google/protobuf/timestamp.proto";
 service Users {
   rpc ListNftCreators (Empty) returns (UsersResponse) {}
   rpc ListAll (Empty) returns (UsersResponse) {}
+  rpc ListUsersByWalletAddresses(WalletAddressesRequest) returns (UsersResponse){}
+  rpc ListUsersByIDs(IDsRequest) returns (UsersResponse){}
+  rpc ListWalletsByUserID(IDRequest) returns(WalletsResponse){}
   rpc GetUserByEmail (EmailRequest) returns (User){}
   rpc GetUserByWalletAddress(WalletAddressRequest) returns (User){}
   rpc GetUserByID(IDRequest) returns (User){}
-  rpc ListUsersByWalletAddresses(WalletAddressesRequest) returns (UsersResponse){}
-  rpc ListWalletsByUserID(IDRequest) returns(WalletsResponse){}
   rpc GetOrCreateUserAsCreator(EmailRequest) returns(GetOrCreateUserResponse) {}
   rpc SearchByKeyword(SearchRequest) returns (UsersInfoResponse) {}
 
@@ -98,6 +99,10 @@ message WalletAddressRequest {
 
 message WalletAddressesRequest {
   repeated string wallet_addresses = 1;
+}
+
+message IDsRequest {
+  repeated uint64 ids = 1;
 }
 
 message IDRequest {

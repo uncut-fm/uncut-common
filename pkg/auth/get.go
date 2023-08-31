@@ -134,6 +134,15 @@ func (a API) ListUsersByWalletAddresses(ctx context.Context, walletAddresses []s
 	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), nil
 }
 
+func (a API) ListUsersByIDs(ctx context.Context, userIDs []int) ([]*model.User, error) {
+	protoUsers, err := a.grpcClient.ListUsersByIDs(a.addAdminTokenToGrpcCtx(ctx), &proto_user.IDsRequest{Ids: model.IntToUInt64Slice(userIDs)})
+	if a.log.CheckError(err, a.ListUsersByWalletAddresses) != nil {
+		return nil, err
+	}
+
+	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), nil
+}
+
 func (a API) ListWalletsByUserID(ctx context.Context, userID int) ([]*model.Wallet, error) {
 	var (
 		err                  error

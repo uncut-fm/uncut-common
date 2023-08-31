@@ -24,11 +24,12 @@ const _ = grpc.SupportPackageIsVersion7
 type UsersClient interface {
 	ListNftCreators(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UsersResponse, error)
 	ListAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UsersResponse, error)
+	ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest, opts ...grpc.CallOption) (*UsersResponse, error)
+	ListUsersByIDs(ctx context.Context, in *IDsRequest, opts ...grpc.CallOption) (*UsersResponse, error)
+	ListWalletsByUserID(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*WalletsResponse, error)
 	GetUserByEmail(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*User, error)
 	GetUserByWalletAddress(ctx context.Context, in *WalletAddressRequest, opts ...grpc.CallOption) (*User, error)
 	GetUserByID(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*User, error)
-	ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest, opts ...grpc.CallOption) (*UsersResponse, error)
-	ListWalletsByUserID(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*WalletsResponse, error)
 	GetOrCreateUserAsCreator(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*GetOrCreateUserResponse, error)
 	SearchByKeyword(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*UsersInfoResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
@@ -63,6 +64,33 @@ func (c *usersClient) ListAll(ctx context.Context, in *Empty, opts ...grpc.CallO
 	return out, nil
 }
 
+func (c *usersClient) ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest, opts ...grpc.CallOption) (*UsersResponse, error) {
+	out := new(UsersResponse)
+	err := c.cc.Invoke(ctx, "/user.Users/ListUsersByWalletAddresses", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) ListUsersByIDs(ctx context.Context, in *IDsRequest, opts ...grpc.CallOption) (*UsersResponse, error) {
+	out := new(UsersResponse)
+	err := c.cc.Invoke(ctx, "/user.Users/ListUsersByIDs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) ListWalletsByUserID(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*WalletsResponse, error) {
+	out := new(WalletsResponse)
+	err := c.cc.Invoke(ctx, "/user.Users/ListWalletsByUserID", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *usersClient) GetUserByEmail(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
 	err := c.cc.Invoke(ctx, "/user.Users/GetUserByEmail", in, out, opts...)
@@ -84,24 +112,6 @@ func (c *usersClient) GetUserByWalletAddress(ctx context.Context, in *WalletAddr
 func (c *usersClient) GetUserByID(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
 	err := c.cc.Invoke(ctx, "/user.Users/GetUserByID", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *usersClient) ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest, opts ...grpc.CallOption) (*UsersResponse, error) {
-	out := new(UsersResponse)
-	err := c.cc.Invoke(ctx, "/user.Users/ListUsersByWalletAddresses", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *usersClient) ListWalletsByUserID(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*WalletsResponse, error) {
-	out := new(WalletsResponse)
-	err := c.cc.Invoke(ctx, "/user.Users/ListWalletsByUserID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -168,11 +178,12 @@ func (c *usersClient) DeleteWallet(ctx context.Context, in *DeleteWalletRequest,
 type UsersServer interface {
 	ListNftCreators(context.Context, *Empty) (*UsersResponse, error)
 	ListAll(context.Context, *Empty) (*UsersResponse, error)
+	ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error)
+	ListUsersByIDs(context.Context, *IDsRequest) (*UsersResponse, error)
+	ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error)
 	GetUserByEmail(context.Context, *EmailRequest) (*User, error)
 	GetUserByWalletAddress(context.Context, *WalletAddressRequest) (*User, error)
 	GetUserByID(context.Context, *IDRequest) (*User, error)
-	ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error)
-	ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error)
 	GetOrCreateUserAsCreator(context.Context, *EmailRequest) (*GetOrCreateUserResponse, error)
 	SearchByKeyword(context.Context, *SearchRequest) (*UsersInfoResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
@@ -192,6 +203,15 @@ func (UnimplementedUsersServer) ListNftCreators(context.Context, *Empty) (*Users
 func (UnimplementedUsersServer) ListAll(context.Context, *Empty) (*UsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAll not implemented")
 }
+func (UnimplementedUsersServer) ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsersByWalletAddresses not implemented")
+}
+func (UnimplementedUsersServer) ListUsersByIDs(context.Context, *IDsRequest) (*UsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsersByIDs not implemented")
+}
+func (UnimplementedUsersServer) ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWalletsByUserID not implemented")
+}
 func (UnimplementedUsersServer) GetUserByEmail(context.Context, *EmailRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserByEmail not implemented")
 }
@@ -200,12 +220,6 @@ func (UnimplementedUsersServer) GetUserByWalletAddress(context.Context, *WalletA
 }
 func (UnimplementedUsersServer) GetUserByID(context.Context, *IDRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserByID not implemented")
-}
-func (UnimplementedUsersServer) ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListUsersByWalletAddresses not implemented")
-}
-func (UnimplementedUsersServer) ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListWalletsByUserID not implemented")
 }
 func (UnimplementedUsersServer) GetOrCreateUserAsCreator(context.Context, *EmailRequest) (*GetOrCreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrCreateUserAsCreator not implemented")
@@ -274,6 +288,60 @@ func _Users_ListAll_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Users_ListUsersByWalletAddresses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WalletAddressesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).ListUsersByWalletAddresses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.Users/ListUsersByWalletAddresses",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).ListUsersByWalletAddresses(ctx, req.(*WalletAddressesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_ListUsersByIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IDsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).ListUsersByIDs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.Users/ListUsersByIDs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).ListUsersByIDs(ctx, req.(*IDsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_ListWalletsByUserID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).ListWalletsByUserID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.Users/ListWalletsByUserID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).ListWalletsByUserID(ctx, req.(*IDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Users_GetUserByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EmailRequest)
 	if err := dec(in); err != nil {
@@ -324,42 +392,6 @@ func _Users_GetUserByID_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UsersServer).GetUserByID(ctx, req.(*IDRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Users_ListUsersByWalletAddresses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WalletAddressesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UsersServer).ListUsersByWalletAddresses(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/user.Users/ListUsersByWalletAddresses",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).ListUsersByWalletAddresses(ctx, req.(*WalletAddressesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Users_ListWalletsByUserID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IDRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UsersServer).ListWalletsByUserID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/user.Users/ListWalletsByUserID",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).ListWalletsByUserID(ctx, req.(*IDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -488,6 +520,18 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Users_ListAll_Handler,
 		},
 		{
+			MethodName: "ListUsersByWalletAddresses",
+			Handler:    _Users_ListUsersByWalletAddresses_Handler,
+		},
+		{
+			MethodName: "ListUsersByIDs",
+			Handler:    _Users_ListUsersByIDs_Handler,
+		},
+		{
+			MethodName: "ListWalletsByUserID",
+			Handler:    _Users_ListWalletsByUserID_Handler,
+		},
+		{
 			MethodName: "GetUserByEmail",
 			Handler:    _Users_GetUserByEmail_Handler,
 		},
@@ -498,14 +542,6 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserByID",
 			Handler:    _Users_GetUserByID_Handler,
-		},
-		{
-			MethodName: "ListUsersByWalletAddresses",
-			Handler:    _Users_ListUsersByWalletAddresses_Handler,
-		},
-		{
-			MethodName: "ListWalletsByUserID",
-			Handler:    _Users_ListWalletsByUserID_Handler,
 		},
 		{
 			MethodName: "GetOrCreateUserAsCreator",

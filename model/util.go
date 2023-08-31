@@ -92,12 +92,13 @@ func GetItemIDInList[K string | int](item K, list []K) int {
 // ValPointer returns a pointer to the value passed in, uses generics
 // this is useful for setting values in structs
 // example:
-// 	type MyStruct struct {
-// 		MyField *string
-// 	}
-// 	myStruct := MyStruct{
-// 		MyField: ValPointer("myValue"),
-// 	}
+//
+//	type MyStruct struct {
+//		MyField *string
+//	}
+//	myStruct := MyStruct{
+//		MyField: ValPointer("myValue"),
+//	}
 func ValPointer[K bool | string | time.Time | int](val K) *K {
 	return &val
 }
@@ -116,4 +117,20 @@ func GetKeysFromStructMap[K string | int](m map[K]struct{}) []K {
 	}
 
 	return keys
+}
+
+func IntToUInt64Slice(src []int) []uint64 {
+	var dest []uint64
+	for _, v := range src {
+		dest = append(dest, uint64(v))
+	}
+	return dest
+}
+
+func UInt64ToIntSlice(src []uint64) []int {
+	var dest []int
+	for _, v := range src {
+		dest = append(dest, int(v))
+	}
+	return dest
 }
