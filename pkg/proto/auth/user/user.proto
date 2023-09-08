@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 
 service Users {
   rpc ListNftCreators (Empty) returns (UsersResponse) {}
-  rpc ListAll (Empty) returns (UsersResponse) {}
+  rpc ListAll (ListAllUsersRequest) returns (UsersResponse) {}
   rpc ListUsersByWalletAddresses(WalletAddressesRequest) returns (UsersResponse){}
   rpc ListUsersByIDs(IDsRequest) returns (UsersResponse){}
   rpc ListWalletsByUserID(IDRequest) returns(WalletsResponse){}
@@ -123,6 +123,7 @@ message IDRequest {
 message SearchRequest {
   string keyword = 1;
   OffsetPaginationRequest pagination = 2;
+  UserFilters filters = 3;
 }
 
 message OffsetPaginationRequest {
@@ -172,4 +173,12 @@ message AddWalletRequest {
 message DeleteWalletRequest {
   uint64 user_id = 1;
   uint64 wallet_id = 2;
+}
+
+message ListAllUsersRequest {
+  optional UserFilters filters = 1;
+}
+
+message UserFilters {
+  repeated string networks = 1;
 }

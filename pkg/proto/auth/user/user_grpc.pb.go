@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UsersClient interface {
 	ListNftCreators(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UsersResponse, error)
-	ListAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UsersResponse, error)
+	ListAll(ctx context.Context, in *ListAllUsersRequest, opts ...grpc.CallOption) (*UsersResponse, error)
 	ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest, opts ...grpc.CallOption) (*UsersResponse, error)
 	ListUsersByIDs(ctx context.Context, in *IDsRequest, opts ...grpc.CallOption) (*UsersResponse, error)
 	ListWalletsByUserID(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*WalletsResponse, error)
@@ -55,7 +55,7 @@ func (c *usersClient) ListNftCreators(ctx context.Context, in *Empty, opts ...gr
 	return out, nil
 }
 
-func (c *usersClient) ListAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UsersResponse, error) {
+func (c *usersClient) ListAll(ctx context.Context, in *ListAllUsersRequest, opts ...grpc.CallOption) (*UsersResponse, error) {
 	out := new(UsersResponse)
 	err := c.cc.Invoke(ctx, "/user.Users/ListAll", in, out, opts...)
 	if err != nil {
@@ -177,7 +177,7 @@ func (c *usersClient) DeleteWallet(ctx context.Context, in *DeleteWalletRequest,
 // for forward compatibility
 type UsersServer interface {
 	ListNftCreators(context.Context, *Empty) (*UsersResponse, error)
-	ListAll(context.Context, *Empty) (*UsersResponse, error)
+	ListAll(context.Context, *ListAllUsersRequest) (*UsersResponse, error)
 	ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error)
 	ListUsersByIDs(context.Context, *IDsRequest) (*UsersResponse, error)
 	ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error)
@@ -200,7 +200,7 @@ type UnimplementedUsersServer struct {
 func (UnimplementedUsersServer) ListNftCreators(context.Context, *Empty) (*UsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNftCreators not implemented")
 }
-func (UnimplementedUsersServer) ListAll(context.Context, *Empty) (*UsersResponse, error) {
+func (UnimplementedUsersServer) ListAll(context.Context, *ListAllUsersRequest) (*UsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAll not implemented")
 }
 func (UnimplementedUsersServer) ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error) {
@@ -271,7 +271,7 @@ func _Users_ListNftCreators_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _Users_ListAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(ListAllUsersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -283,7 +283,7 @@ func _Users_ListAll_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: "/user.Users/ListAll",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).ListAll(ctx, req.(*Empty))
+		return srv.(UsersServer).ListAll(ctx, req.(*ListAllUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

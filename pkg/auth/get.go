@@ -36,8 +36,18 @@ func (a API) GetNftCreators(ctx context.Context) ([]*model.User, error) {
 	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), nil
 }
 
-func (a API) ListAll(ctx context.Context) ([]*model.User, error) {
-	protoUsers, err := a.userClient.ListAll(a.addAdminTokenToGrpcCtx(ctx), &proto_user.Empty{})
+type UsersFilters struct {
+	Networks []string
+}
+
+func (a API) ListAll(ctx context.Context, filters *UsersFilters) ([]*model.User, error) {
+	req := &proto_user.ListAllUsersRequest{}
+	if filters != nil {
+		req.Filters = &proto_user.UserFilters{
+			Networks: filters.Networks,
+		}
+	}
+	protoUsers, err := a.userClient.ListAll(a.addAdminTokenToGrpcCtx(ctx), req)
 
 	if a.log.CheckError(err, a.ListAll) != nil {
 		return nil, err
@@ -108,10 +118,17 @@ func (a API) GetUserEmailByWalletAddress(ctx context.Context, walletAddress stri
 	return user.Email, nil
 }
 
-func (a API) SearchUsers(ctx context.Context, keyword string, pagination *model.OffsetPaginationInput) (*UsersInfoResponse, error) {
-	protoUsersInfo, err := a.userClient.SearchByKeyword(a.addAdminTokenToGrpcCtx(ctx), &proto_user.SearchRequest{
+func (a API) SearchUsers(ctx context.Context, keyword string, pagination *model.OffsetPaginationInput, filters *UsersFilters) (*UsersInfoResponse, error) {
+	req := &proto_user.SearchRequest{
 		Keyword:    keyword,
-		Pagination: model.ParseOffsetPaginationToProto(pagination)})
+		Pagination: model.ParseOffsetPaginationToProto(pagination)}
+
+	if filters != nil {
+		req.Filters = &proto_user.UserFilters{
+			Networks: filters.Networks,
+		}
+	}
+	protoUsersInfo, err := a.userClient.SearchByKeyword(a.addAdminTokenToGrpcCtx(ctx), req)
 
 	if a.log.CheckError(err, a.SearchUsers) != nil {
 		return nil, err
