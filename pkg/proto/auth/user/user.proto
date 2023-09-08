@@ -180,5 +180,5 @@ message ListAllUsersRequest {
 }
 
 message UserFilters {
-  repeated string networks = 1;
+  repeated string wallet_providers = 1;
 }

@@ -37,14 +37,14 @@ func (a API) GetNftCreators(ctx context.Context) ([]*model.User, error) {
 }
 
 type UsersFilters struct {
-	Networks []string
+	WalletProviders []string
 }
 
 func (a API) ListAll(ctx context.Context, filters *UsersFilters) ([]*model.User, error) {
 	req := &proto_user.ListAllUsersRequest{}
 	if filters != nil {
 		req.Filters = &proto_user.UserFilters{
-			Networks: filters.Networks,
+			WalletProviders: filters.WalletProviders,
 		}
 	}
 	protoUsers, err := a.userClient.ListAll(a.addAdminTokenToGrpcCtx(ctx), req)
@@ -125,7 +125,7 @@ func (a API) SearchUsers(ctx context.Context, keyword string, pagination *model.
 
 	if filters != nil {
 		req.Filters = &proto_user.UserFilters{
-			Networks: filters.Networks,
+			WalletProviders: filters.WalletProviders,
 		}
 	}
 	protoUsersInfo, err := a.userClient.SearchByKeyword(a.addAdminTokenToGrpcCtx(ctx), req)
