@@ -181,7 +181,7 @@ func (a API) GetUserSessionByWalletAddress(ctx context.Context, walletAddress st
 	)
 
 	operation := func() error {
-		protoSessionResponse, err = a.authClient.GetUserSessionByWalletAddress(ctx, &proto_user.WalletAddressRequest{WalletAddress: walletAddress})
+		protoSessionResponse, err = a.authClient.GetUserSessionByWalletAddress(a.addAdminTokenToGrpcCtx(ctx), &proto_user.WalletAddressRequest{WalletAddress: walletAddress})
 		if a.log.CheckError(err, a.GetUserSessionByWalletAddress) != nil {
 			return err
 		}
