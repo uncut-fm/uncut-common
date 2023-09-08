@@ -8,7 +8,7 @@ import (
 )
 
 func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*model.User, error) {
-	protoUser, err := a.grpcClient.UpdateUser(a.addAdminTokenToGrpcCtx(ctx), &user.UpdateUserRequest{
+	protoUser, err := a.userClient.UpdateUser(a.addAdminTokenToGrpcCtx(ctx), &user.UpdateUserRequest{
 		Id:                 uint64(input.ID),
 		Name:               input.Name,
 		Title:              input.Title,
@@ -50,7 +50,7 @@ func (a API) UpdateWallet(ctx context.Context, input *UpdateWalletRequest) (*mod
 		request.LastSyncedAt = timestamppb.New(*input.LastSyncedAt)
 	}
 
-	protoWallet, err := a.grpcClient.UpdateWallet(a.addAdminTokenToGrpcCtx(ctx), request)
+	protoWallet, err := a.userClient.UpdateWallet(a.addAdminTokenToGrpcCtx(ctx), request)
 
 	if a.log.CheckError(err, a.UpdateWallet) != nil {
 		return nil, err

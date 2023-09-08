@@ -159,3 +159,19 @@ func ParseThemeColorsToProto(protoThemeColors *ThemeColors) *proto_user.ThemeCol
 		Background: protoThemeColors.Background,
 	}
 }
+
+type UserSession struct {
+	User         *User
+	AccessToken  string
+	RefreshToken string
+	IsNewUser    bool
+}
+
+func ParseProtoUserSessionToUserSession(protoUserSession *proto_user.UserSessionResponse) *UserSession {
+	return &UserSession{
+		User:         ParseProtoUserToUser(protoUserSession.User),
+		AccessToken:  protoUserSession.AccessToken,
+		RefreshToken: protoUserSession.RefreshToken,
+		IsNewUser:    protoUserSession.IsNewUser,
+	}
+}

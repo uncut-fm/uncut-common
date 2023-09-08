@@ -24,6 +24,17 @@ service Users {
   rpc DeleteWallet(DeleteWalletRequest) returns (Empty) {}
 }
 
+service Auth {
+  rpc GetUserSessionByWalletAddress(WalletAddressRequest) returns (UserSessionResponse) {}
+}
+
+message UserSessionResponse {
+  User user = 1;
+  string access_token = 2;
+  string refresh_token = 3;
+  bool is_new_user = 4;
+}
+
 message Wallet {
   uint64 id = 1;
   string name = 2;

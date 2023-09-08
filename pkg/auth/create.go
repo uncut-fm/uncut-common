@@ -7,7 +7,7 @@ import (
 )
 
 func (a API) AddWallet(ctx context.Context, input *AddWalletRequest) (*model.Wallet, error) {
-	protoWallet, err := a.grpcClient.AddWallet(a.addAdminTokenToGrpcCtx(ctx), &user.AddWalletRequest{
+	protoWallet, err := a.userClient.AddWallet(a.addAdminTokenToGrpcCtx(ctx), &user.AddWalletRequest{
 		UserId:        uint64(input.UserID),
 		Name:          input.Name,
 		Description:   input.Description,

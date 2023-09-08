@@ -21,6 +21,77 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type UserSessionResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	User         *User  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	AccessToken  string `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	RefreshToken string `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
+	IsNewUser    bool   `protobuf:"varint,4,opt,name=is_new_user,json=isNewUser,proto3" json:"is_new_user,omitempty"`
+}
+
+func (x *UserSessionResponse) Reset() {
+	*x = UserSessionResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_user_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserSessionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserSessionResponse) ProtoMessage() {}
+
+func (x *UserSessionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserSessionResponse.ProtoReflect.Descriptor instead.
+func (*UserSessionResponse) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *UserSessionResponse) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *UserSessionResponse) GetAccessToken() string {
+	if x != nil {
+		return x.AccessToken
+	}
+	return ""
+}
+
+func (x *UserSessionResponse) GetRefreshToken() string {
+	if x != nil {
+		return x.RefreshToken
+	}
+	return ""
+}
+
+func (x *UserSessionResponse) GetIsNewUser() bool {
+	if x != nil {
+		return x.IsNewUser
+	}
+	return false
+}
+
 type Wallet struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -40,7 +111,7 @@ type Wallet struct {
 func (x *Wallet) Reset() {
 	*x = Wallet{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[0]
+		mi := &file_user_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -53,7 +124,7 @@ func (x *Wallet) String() string {
 func (*Wallet) ProtoMessage() {}
 
 func (x *Wallet) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[0]
+	mi := &file_user_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -66,7 +137,7 @@ func (x *Wallet) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Wallet.ProtoReflect.Descriptor instead.
 func (*Wallet) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{0}
+	return file_user_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Wallet) GetId() uint64 {
@@ -143,7 +214,7 @@ type UserEdges struct {
 func (x *UserEdges) Reset() {
 	*x = UserEdges{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[1]
+		mi := &file_user_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -156,7 +227,7 @@ func (x *UserEdges) String() string {
 func (*UserEdges) ProtoMessage() {}
 
 func (x *UserEdges) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[1]
+	mi := &file_user_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -169,7 +240,7 @@ func (x *UserEdges) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserEdges.ProtoReflect.Descriptor instead.
 func (*UserEdges) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{1}
+	return file_user_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UserEdges) GetWallets() []*Wallet {
@@ -191,7 +262,7 @@ type ThemeColors struct {
 func (x *ThemeColors) Reset() {
 	*x = ThemeColors{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[2]
+		mi := &file_user_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -204,7 +275,7 @@ func (x *ThemeColors) String() string {
 func (*ThemeColors) ProtoMessage() {}
 
 func (x *ThemeColors) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[2]
+	mi := &file_user_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -217,7 +288,7 @@ func (x *ThemeColors) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ThemeColors.ProtoReflect.Descriptor instead.
 func (*ThemeColors) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{2}
+	return file_user_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ThemeColors) GetAccent() string {
@@ -264,7 +335,7 @@ type User struct {
 func (x *User) Reset() {
 	*x = User{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[3]
+		mi := &file_user_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -277,7 +348,7 @@ func (x *User) String() string {
 func (*User) ProtoMessage() {}
 
 func (x *User) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[3]
+	mi := &file_user_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -290,7 +361,7 @@ func (x *User) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{3}
+	return file_user_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *User) GetId() uint64 {
@@ -444,7 +515,7 @@ type UsersResponse struct {
 func (x *UsersResponse) Reset() {
 	*x = UsersResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[4]
+		mi := &file_user_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -457,7 +528,7 @@ func (x *UsersResponse) String() string {
 func (*UsersResponse) ProtoMessage() {}
 
 func (x *UsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[4]
+	mi := &file_user_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -470,7 +541,7 @@ func (x *UsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UsersResponse.ProtoReflect.Descriptor instead.
 func (*UsersResponse) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{4}
+	return file_user_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UsersResponse) GetUsers() []*User {
@@ -492,7 +563,7 @@ type UsersInfoResponse struct {
 func (x *UsersInfoResponse) Reset() {
 	*x = UsersInfoResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[5]
+		mi := &file_user_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -505,7 +576,7 @@ func (x *UsersInfoResponse) String() string {
 func (*UsersInfoResponse) ProtoMessage() {}
 
 func (x *UsersInfoResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[5]
+	mi := &file_user_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -518,7 +589,7 @@ func (x *UsersInfoResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UsersInfoResponse.ProtoReflect.Descriptor instead.
 func (*UsersInfoResponse) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{5}
+	return file_user_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UsersInfoResponse) GetTotalCount() uint64 {
@@ -546,7 +617,7 @@ type WalletsResponse struct {
 func (x *WalletsResponse) Reset() {
 	*x = WalletsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[6]
+		mi := &file_user_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -559,7 +630,7 @@ func (x *WalletsResponse) String() string {
 func (*WalletsResponse) ProtoMessage() {}
 
 func (x *WalletsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[6]
+	mi := &file_user_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -572,7 +643,7 @@ func (x *WalletsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WalletsResponse.ProtoReflect.Descriptor instead.
 func (*WalletsResponse) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{6}
+	return file_user_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *WalletsResponse) GetWallets() []*Wallet {
@@ -594,7 +665,7 @@ type GetOrCreateUserResponse struct {
 func (x *GetOrCreateUserResponse) Reset() {
 	*x = GetOrCreateUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[7]
+		mi := &file_user_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -607,7 +678,7 @@ func (x *GetOrCreateUserResponse) String() string {
 func (*GetOrCreateUserResponse) ProtoMessage() {}
 
 func (x *GetOrCreateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[7]
+	mi := &file_user_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -620,7 +691,7 @@ func (x *GetOrCreateUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrCreateUserResponse.ProtoReflect.Descriptor instead.
 func (*GetOrCreateUserResponse) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{7}
+	return file_user_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetOrCreateUserResponse) GetUser() *User {
@@ -646,7 +717,7 @@ type Empty struct {
 func (x *Empty) Reset() {
 	*x = Empty{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[8]
+		mi := &file_user_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -659,7 +730,7 @@ func (x *Empty) String() string {
 func (*Empty) ProtoMessage() {}
 
 func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[8]
+	mi := &file_user_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -672,7 +743,7 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Empty.ProtoReflect.Descriptor instead.
 func (*Empty) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{8}
+	return file_user_proto_rawDescGZIP(), []int{9}
 }
 
 type EmailRequest struct {
@@ -686,7 +757,7 @@ type EmailRequest struct {
 func (x *EmailRequest) Reset() {
 	*x = EmailRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[9]
+		mi := &file_user_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -699,7 +770,7 @@ func (x *EmailRequest) String() string {
 func (*EmailRequest) ProtoMessage() {}
 
 func (x *EmailRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[9]
+	mi := &file_user_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -712,7 +783,7 @@ func (x *EmailRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EmailRequest.ProtoReflect.Descriptor instead.
 func (*EmailRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{9}
+	return file_user_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *EmailRequest) GetEmail() string {
@@ -733,7 +804,7 @@ type WalletAddressRequest struct {
 func (x *WalletAddressRequest) Reset() {
 	*x = WalletAddressRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[10]
+		mi := &file_user_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -746,7 +817,7 @@ func (x *WalletAddressRequest) String() string {
 func (*WalletAddressRequest) ProtoMessage() {}
 
 func (x *WalletAddressRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[10]
+	mi := &file_user_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -759,7 +830,7 @@ func (x *WalletAddressRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WalletAddressRequest.ProtoReflect.Descriptor instead.
 func (*WalletAddressRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{10}
+	return file_user_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *WalletAddressRequest) GetWalletAddress() string {
@@ -780,7 +851,7 @@ type WalletAddressesRequest struct {
 func (x *WalletAddressesRequest) Reset() {
 	*x = WalletAddressesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[11]
+		mi := &file_user_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -793,7 +864,7 @@ func (x *WalletAddressesRequest) String() string {
 func (*WalletAddressesRequest) ProtoMessage() {}
 
 func (x *WalletAddressesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[11]
+	mi := &file_user_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -806,7 +877,7 @@ func (x *WalletAddressesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WalletAddressesRequest.ProtoReflect.Descriptor instead.
 func (*WalletAddressesRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{11}
+	return file_user_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *WalletAddressesRequest) GetWalletAddresses() []string {
@@ -827,7 +898,7 @@ type IDsRequest struct {
 func (x *IDsRequest) Reset() {
 	*x = IDsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[12]
+		mi := &file_user_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -840,7 +911,7 @@ func (x *IDsRequest) String() string {
 func (*IDsRequest) ProtoMessage() {}
 
 func (x *IDsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[12]
+	mi := &file_user_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -853,7 +924,7 @@ func (x *IDsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IDsRequest.ProtoReflect.Descriptor instead.
 func (*IDsRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{12}
+	return file_user_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *IDsRequest) GetIds() []uint64 {
@@ -874,7 +945,7 @@ type IDRequest struct {
 func (x *IDRequest) Reset() {
 	*x = IDRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[13]
+		mi := &file_user_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -887,7 +958,7 @@ func (x *IDRequest) String() string {
 func (*IDRequest) ProtoMessage() {}
 
 func (x *IDRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[13]
+	mi := &file_user_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -900,7 +971,7 @@ func (x *IDRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IDRequest.ProtoReflect.Descriptor instead.
 func (*IDRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{13}
+	return file_user_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *IDRequest) GetId() uint64 {
@@ -922,7 +993,7 @@ type SearchRequest struct {
 func (x *SearchRequest) Reset() {
 	*x = SearchRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[14]
+		mi := &file_user_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -935,7 +1006,7 @@ func (x *SearchRequest) String() string {
 func (*SearchRequest) ProtoMessage() {}
 
 func (x *SearchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[14]
+	mi := &file_user_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -948,7 +1019,7 @@ func (x *SearchRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchRequest.ProtoReflect.Descriptor instead.
 func (*SearchRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{14}
+	return file_user_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *SearchRequest) GetKeyword() string {
@@ -977,7 +1048,7 @@ type OffsetPaginationRequest struct {
 func (x *OffsetPaginationRequest) Reset() {
 	*x = OffsetPaginationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[15]
+		mi := &file_user_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -990,7 +1061,7 @@ func (x *OffsetPaginationRequest) String() string {
 func (*OffsetPaginationRequest) ProtoMessage() {}
 
 func (x *OffsetPaginationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[15]
+	mi := &file_user_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1003,7 +1074,7 @@ func (x *OffsetPaginationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OffsetPaginationRequest.ProtoReflect.Descriptor instead.
 func (*OffsetPaginationRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{15}
+	return file_user_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *OffsetPaginationRequest) GetLimit() uint64 {
@@ -1049,7 +1120,7 @@ type UpdateUserRequest struct {
 func (x *UpdateUserRequest) Reset() {
 	*x = UpdateUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[16]
+		mi := &file_user_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1062,7 +1133,7 @@ func (x *UpdateUserRequest) String() string {
 func (*UpdateUserRequest) ProtoMessage() {}
 
 func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[16]
+	mi := &file_user_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1075,7 +1146,7 @@ func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{16}
+	return file_user_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *UpdateUserRequest) GetId() uint64 {
@@ -1227,7 +1298,7 @@ type UpdateWalletRequest struct {
 func (x *UpdateWalletRequest) Reset() {
 	*x = UpdateWalletRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[17]
+		mi := &file_user_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1240,7 +1311,7 @@ func (x *UpdateWalletRequest) String() string {
 func (*UpdateWalletRequest) ProtoMessage() {}
 
 func (x *UpdateWalletRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[17]
+	mi := &file_user_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1253,7 +1324,7 @@ func (x *UpdateWalletRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateWalletRequest.ProtoReflect.Descriptor instead.
 func (*UpdateWalletRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{17}
+	return file_user_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *UpdateWalletRequest) GetUserId() uint64 {
@@ -1313,7 +1384,7 @@ type AddWalletRequest struct {
 func (x *AddWalletRequest) Reset() {
 	*x = AddWalletRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[18]
+		mi := &file_user_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1326,7 +1397,7 @@ func (x *AddWalletRequest) String() string {
 func (*AddWalletRequest) ProtoMessage() {}
 
 func (x *AddWalletRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[18]
+	mi := &file_user_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1339,7 +1410,7 @@ func (x *AddWalletRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddWalletRequest.ProtoReflect.Descriptor instead.
 func (*AddWalletRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{18}
+	return file_user_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *AddWalletRequest) GetUserId() uint64 {
@@ -1389,7 +1460,7 @@ type DeleteWalletRequest struct {
 func (x *DeleteWalletRequest) Reset() {
 	*x = DeleteWalletRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[19]
+		mi := &file_user_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1402,7 +1473,7 @@ func (x *DeleteWalletRequest) String() string {
 func (*DeleteWalletRequest) ProtoMessage() {}
 
 func (x *DeleteWalletRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[19]
+	mi := &file_user_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1415,7 +1486,7 @@ func (x *DeleteWalletRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteWalletRequest.ProtoReflect.Descriptor instead.
 func (*DeleteWalletRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{19}
+	return file_user_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *DeleteWalletRequest) GetUserId() uint64 {
@@ -1438,7 +1509,17 @@ var file_user_proto_rawDesc = []byte{
 	0x0a, 0x0a, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x04, 0x75, 0x73,
 	0x65, 0x72, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x22, 0x91, 0x03, 0x0a, 0x06, 0x57, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x12, 0x0e,
+	0x6f, 0x74, 0x6f, 0x22, 0x9d, 0x01, 0x0a, 0x13, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x73, 0x73,
+	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1e, 0x0a, 0x04, 0x75,
+	0x73, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0a, 0x2e, 0x75, 0x73, 0x65, 0x72,
+	0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x04, 0x75, 0x73, 0x65, 0x72, 0x12, 0x21, 0x0a, 0x0c, 0x61,
+	0x63, 0x63, 0x65, 0x73, 0x73, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0b, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x23,
+	0x0a, 0x0d, 0x72, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x72, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x54, 0x6f,
+	0x6b, 0x65, 0x6e, 0x12, 0x1e, 0x0a, 0x0b, 0x69, 0x73, 0x5f, 0x6e, 0x65, 0x77, 0x5f, 0x75, 0x73,
+	0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x69, 0x73, 0x4e, 0x65, 0x77, 0x55,
+	0x73, 0x65, 0x72, 0x22, 0x91, 0x03, 0x0a, 0x06, 0x57, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x12, 0x0e,
 	0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12,
 	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61,
 	0x6d, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f,
@@ -1714,11 +1795,17 @@ var file_user_proto_rawDesc = []byte{
 	0x65, 0x6c, 0x65, 0x74, 0x65, 0x57, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x12, 0x19, 0x2e, 0x75, 0x73,
 	0x65, 0x72, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x57, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0b, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x45, 0x6d,
-	0x70, 0x74, 0x79, 0x22, 0x00, 0x42, 0x36, 0x5a, 0x34, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
-	0x63, 0x6f, 0x6d, 0x2f, 0x75, 0x6e, 0x63, 0x75, 0x74, 0x2d, 0x66, 0x6d, 0x2f, 0x75, 0x6e, 0x63,
-	0x75, 0x74, 0x2d, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x74, 0x79, 0x22, 0x00, 0x32, 0x60, 0x0a, 0x04, 0x41, 0x75, 0x74, 0x68, 0x12, 0x58, 0x0a,
+	0x1d, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x42,
+	0x79, 0x57, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x1a,
+	0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x57, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x41, 0x64, 0x64, 0x72,
+	0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x19, 0x2e, 0x75, 0x73, 0x65,
+	0x72, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x36, 0x5a, 0x34, 0x67, 0x69, 0x74, 0x68, 0x75,
+	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x75, 0x6e, 0x63, 0x75, 0x74, 0x2d, 0x66, 0x6d, 0x2f, 0x75,
+	0x6e, 0x63, 0x75, 0x74, 0x2d, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x70, 0x6b, 0x67, 0x2f,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1733,78 +1820,82 @@ func file_user_proto_rawDescGZIP() []byte {
 	return file_user_proto_rawDescData
 }
 
-var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
+var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_user_proto_goTypes = []interface{}{
-	(*Wallet)(nil),                  // 0: user.Wallet
-	(*UserEdges)(nil),               // 1: user.UserEdges
-	(*ThemeColors)(nil),             // 2: user.ThemeColors
-	(*User)(nil),                    // 3: user.User
-	(*UsersResponse)(nil),           // 4: user.UsersResponse
-	(*UsersInfoResponse)(nil),       // 5: user.UsersInfoResponse
-	(*WalletsResponse)(nil),         // 6: user.WalletsResponse
-	(*GetOrCreateUserResponse)(nil), // 7: user.GetOrCreateUserResponse
-	(*Empty)(nil),                   // 8: user.Empty
-	(*EmailRequest)(nil),            // 9: user.EmailRequest
-	(*WalletAddressRequest)(nil),    // 10: user.WalletAddressRequest
-	(*WalletAddressesRequest)(nil),  // 11: user.WalletAddressesRequest
-	(*IDsRequest)(nil),              // 12: user.IDsRequest
-	(*IDRequest)(nil),               // 13: user.IDRequest
-	(*SearchRequest)(nil),           // 14: user.SearchRequest
-	(*OffsetPaginationRequest)(nil), // 15: user.OffsetPaginationRequest
-	(*UpdateUserRequest)(nil),       // 16: user.UpdateUserRequest
-	(*UpdateWalletRequest)(nil),     // 17: user.UpdateWalletRequest
-	(*AddWalletRequest)(nil),        // 18: user.AddWalletRequest
-	(*DeleteWalletRequest)(nil),     // 19: user.DeleteWalletRequest
-	(*timestamppb.Timestamp)(nil),   // 20: google.protobuf.Timestamp
+	(*UserSessionResponse)(nil),     // 0: user.UserSessionResponse
+	(*Wallet)(nil),                  // 1: user.Wallet
+	(*UserEdges)(nil),               // 2: user.UserEdges
+	(*ThemeColors)(nil),             // 3: user.ThemeColors
+	(*User)(nil),                    // 4: user.User
+	(*UsersResponse)(nil),           // 5: user.UsersResponse
+	(*UsersInfoResponse)(nil),       // 6: user.UsersInfoResponse
+	(*WalletsResponse)(nil),         // 7: user.WalletsResponse
+	(*GetOrCreateUserResponse)(nil), // 8: user.GetOrCreateUserResponse
+	(*Empty)(nil),                   // 9: user.Empty
+	(*EmailRequest)(nil),            // 10: user.EmailRequest
+	(*WalletAddressRequest)(nil),    // 11: user.WalletAddressRequest
+	(*WalletAddressesRequest)(nil),  // 12: user.WalletAddressesRequest
+	(*IDsRequest)(nil),              // 13: user.IDsRequest
+	(*IDRequest)(nil),               // 14: user.IDRequest
+	(*SearchRequest)(nil),           // 15: user.SearchRequest
+	(*OffsetPaginationRequest)(nil), // 16: user.OffsetPaginationRequest
+	(*UpdateUserRequest)(nil),       // 17: user.UpdateUserRequest
+	(*UpdateWalletRequest)(nil),     // 18: user.UpdateWalletRequest
+	(*AddWalletRequest)(nil),        // 19: user.AddWalletRequest
+	(*DeleteWalletRequest)(nil),     // 20: user.DeleteWalletRequest
+	(*timestamppb.Timestamp)(nil),   // 21: google.protobuf.Timestamp
 }
 var file_user_proto_depIdxs = []int32{
-	20, // 0: user.Wallet.created_at:type_name -> google.protobuf.Timestamp
-	20, // 1: user.Wallet.updated_at:type_name -> google.protobuf.Timestamp
-	20, // 2: user.Wallet.became_primary_at:type_name -> google.protobuf.Timestamp
-	20, // 3: user.Wallet.last_synced_at:type_name -> google.protobuf.Timestamp
-	0,  // 4: user.UserEdges.wallets:type_name -> user.Wallet
-	1,  // 5: user.User.edges:type_name -> user.UserEdges
-	2,  // 6: user.User.theme_colors:type_name -> user.ThemeColors
-	3,  // 7: user.UsersResponse.users:type_name -> user.User
-	3,  // 8: user.UsersInfoResponse.users:type_name -> user.User
-	0,  // 9: user.WalletsResponse.wallets:type_name -> user.Wallet
-	3,  // 10: user.GetOrCreateUserResponse.user:type_name -> user.User
-	15, // 11: user.SearchRequest.pagination:type_name -> user.OffsetPaginationRequest
-	2,  // 12: user.UpdateUserRequest.theme_colors:type_name -> user.ThemeColors
-	20, // 13: user.UpdateWalletRequest.last_synced_at:type_name -> google.protobuf.Timestamp
-	8,  // 14: user.Users.ListNftCreators:input_type -> user.Empty
-	8,  // 15: user.Users.ListAll:input_type -> user.Empty
-	11, // 16: user.Users.ListUsersByWalletAddresses:input_type -> user.WalletAddressesRequest
-	12, // 17: user.Users.ListUsersByIDs:input_type -> user.IDsRequest
-	13, // 18: user.Users.ListWalletsByUserID:input_type -> user.IDRequest
-	9,  // 19: user.Users.GetUserByEmail:input_type -> user.EmailRequest
-	10, // 20: user.Users.GetUserByWalletAddress:input_type -> user.WalletAddressRequest
-	13, // 21: user.Users.GetUserByID:input_type -> user.IDRequest
-	9,  // 22: user.Users.GetOrCreateUserAsCreator:input_type -> user.EmailRequest
-	14, // 23: user.Users.SearchByKeyword:input_type -> user.SearchRequest
-	16, // 24: user.Users.UpdateUser:input_type -> user.UpdateUserRequest
-	17, // 25: user.Users.UpdateWallet:input_type -> user.UpdateWalletRequest
-	18, // 26: user.Users.AddWallet:input_type -> user.AddWalletRequest
-	19, // 27: user.Users.DeleteWallet:input_type -> user.DeleteWalletRequest
-	4,  // 28: user.Users.ListNftCreators:output_type -> user.UsersResponse
-	4,  // 29: user.Users.ListAll:output_type -> user.UsersResponse
-	4,  // 30: user.Users.ListUsersByWalletAddresses:output_type -> user.UsersResponse
-	4,  // 31: user.Users.ListUsersByIDs:output_type -> user.UsersResponse
-	6,  // 32: user.Users.ListWalletsByUserID:output_type -> user.WalletsResponse
-	3,  // 33: user.Users.GetUserByEmail:output_type -> user.User
-	3,  // 34: user.Users.GetUserByWalletAddress:output_type -> user.User
-	3,  // 35: user.Users.GetUserByID:output_type -> user.User
-	7,  // 36: user.Users.GetOrCreateUserAsCreator:output_type -> user.GetOrCreateUserResponse
-	5,  // 37: user.Users.SearchByKeyword:output_type -> user.UsersInfoResponse
-	3,  // 38: user.Users.UpdateUser:output_type -> user.User
-	0,  // 39: user.Users.UpdateWallet:output_type -> user.Wallet
-	0,  // 40: user.Users.AddWallet:output_type -> user.Wallet
-	8,  // 41: user.Users.DeleteWallet:output_type -> user.Empty
-	28, // [28:42] is the sub-list for method output_type
-	14, // [14:28] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	4,  // 0: user.UserSessionResponse.user:type_name -> user.User
+	21, // 1: user.Wallet.created_at:type_name -> google.protobuf.Timestamp
+	21, // 2: user.Wallet.updated_at:type_name -> google.protobuf.Timestamp
+	21, // 3: user.Wallet.became_primary_at:type_name -> google.protobuf.Timestamp
+	21, // 4: user.Wallet.last_synced_at:type_name -> google.protobuf.Timestamp
+	1,  // 5: user.UserEdges.wallets:type_name -> user.Wallet
+	2,  // 6: user.User.edges:type_name -> user.UserEdges
+	3,  // 7: user.User.theme_colors:type_name -> user.ThemeColors
+	4,  // 8: user.UsersResponse.users:type_name -> user.User
+	4,  // 9: user.UsersInfoResponse.users:type_name -> user.User
+	1,  // 10: user.WalletsResponse.wallets:type_name -> user.Wallet
+	4,  // 11: user.GetOrCreateUserResponse.user:type_name -> user.User
+	16, // 12: user.SearchRequest.pagination:type_name -> user.OffsetPaginationRequest
+	3,  // 13: user.UpdateUserRequest.theme_colors:type_name -> user.ThemeColors
+	21, // 14: user.UpdateWalletRequest.last_synced_at:type_name -> google.protobuf.Timestamp
+	9,  // 15: user.Users.ListNftCreators:input_type -> user.Empty
+	9,  // 16: user.Users.ListAll:input_type -> user.Empty
+	12, // 17: user.Users.ListUsersByWalletAddresses:input_type -> user.WalletAddressesRequest
+	13, // 18: user.Users.ListUsersByIDs:input_type -> user.IDsRequest
+	14, // 19: user.Users.ListWalletsByUserID:input_type -> user.IDRequest
+	10, // 20: user.Users.GetUserByEmail:input_type -> user.EmailRequest
+	11, // 21: user.Users.GetUserByWalletAddress:input_type -> user.WalletAddressRequest
+	14, // 22: user.Users.GetUserByID:input_type -> user.IDRequest
+	10, // 23: user.Users.GetOrCreateUserAsCreator:input_type -> user.EmailRequest
+	15, // 24: user.Users.SearchByKeyword:input_type -> user.SearchRequest
+	17, // 25: user.Users.UpdateUser:input_type -> user.UpdateUserRequest
+	18, // 26: user.Users.UpdateWallet:input_type -> user.UpdateWalletRequest
+	19, // 27: user.Users.AddWallet:input_type -> user.AddWalletRequest
+	20, // 28: user.Users.DeleteWallet:input_type -> user.DeleteWalletRequest
+	11, // 29: user.Auth.GetUserSessionByWalletAddress:input_type -> user.WalletAddressRequest
+	5,  // 30: user.Users.ListNftCreators:output_type -> user.UsersResponse
+	5,  // 31: user.Users.ListAll:output_type -> user.UsersResponse
+	5,  // 32: user.Users.ListUsersByWalletAddresses:output_type -> user.UsersResponse
+	5,  // 33: user.Users.ListUsersByIDs:output_type -> user.UsersResponse
+	7,  // 34: user.Users.ListWalletsByUserID:output_type -> user.WalletsResponse
+	4,  // 35: user.Users.GetUserByEmail:output_type -> user.User
+	4,  // 36: user.Users.GetUserByWalletAddress:output_type -> user.User
+	4,  // 37: user.Users.GetUserByID:output_type -> user.User
+	8,  // 38: user.Users.GetOrCreateUserAsCreator:output_type -> user.GetOrCreateUserResponse
+	6,  // 39: user.Users.SearchByKeyword:output_type -> user.UsersInfoResponse
+	4,  // 40: user.Users.UpdateUser:output_type -> user.User
+	1,  // 41: user.Users.UpdateWallet:output_type -> user.Wallet
+	1,  // 42: user.Users.AddWallet:output_type -> user.Wallet
+	9,  // 43: user.Users.DeleteWallet:output_type -> user.Empty
+	0,  // 44: user.Auth.GetUserSessionByWalletAddress:output_type -> user.UserSessionResponse
+	30, // [30:45] is the sub-list for method output_type
+	15, // [15:30] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_user_proto_init() }
@@ -1814,7 +1905,7 @@ func file_user_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_user_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Wallet); i {
+			switch v := v.(*UserSessionResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1826,7 +1917,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserEdges); i {
+			switch v := v.(*Wallet); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1838,7 +1929,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ThemeColors); i {
+			switch v := v.(*UserEdges); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1850,7 +1941,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*User); i {
+			switch v := v.(*ThemeColors); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1862,7 +1953,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UsersResponse); i {
+			switch v := v.(*User); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1874,7 +1965,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UsersInfoResponse); i {
+			switch v := v.(*UsersResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1886,7 +1977,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WalletsResponse); i {
+			switch v := v.(*UsersInfoResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1898,7 +1989,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetOrCreateUserResponse); i {
+			switch v := v.(*WalletsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1910,7 +2001,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Empty); i {
+			switch v := v.(*GetOrCreateUserResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1922,7 +2013,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EmailRequest); i {
+			switch v := v.(*Empty); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1934,7 +2025,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WalletAddressRequest); i {
+			switch v := v.(*EmailRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1946,7 +2037,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WalletAddressesRequest); i {
+			switch v := v.(*WalletAddressRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1958,7 +2049,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*IDsRequest); i {
+			switch v := v.(*WalletAddressesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1970,7 +2061,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*IDRequest); i {
+			switch v := v.(*IDsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1982,7 +2073,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SearchRequest); i {
+			switch v := v.(*IDRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1994,7 +2085,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*OffsetPaginationRequest); i {
+			switch v := v.(*SearchRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2006,7 +2097,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateUserRequest); i {
+			switch v := v.(*OffsetPaginationRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2018,7 +2109,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateWalletRequest); i {
+			switch v := v.(*UpdateUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2030,7 +2121,7 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddWalletRequest); i {
+			switch v := v.(*UpdateWalletRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2042,6 +2133,18 @@ func file_user_proto_init() {
 			}
 		}
 		file_user_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddWalletRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_user_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteWalletRequest); i {
 			case 0:
 				return &v.state
@@ -2054,18 +2157,18 @@ func file_user_proto_init() {
 			}
 		}
 	}
-	file_user_proto_msgTypes[16].OneofWrappers = []interface{}{}
 	file_user_proto_msgTypes[17].OneofWrappers = []interface{}{}
 	file_user_proto_msgTypes[18].OneofWrappers = []interface{}{}
+	file_user_proto_msgTypes[19].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_user_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   20,
+			NumMessages:   21,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
 		GoTypes:           file_user_proto_goTypes,
 		DependencyIndexes: file_user_proto_depIdxs,

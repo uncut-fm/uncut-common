@@ -21,7 +21,8 @@ const requestTimeout = 5 * time.Second
 type API struct {
 	log            logger.Logger
 	restyClient    *resty.Client
-	grpcClient     proto_user.UsersClient
+	userClient     proto_user.UsersClient
+	authClient     proto_user.AuthClient
 	authApiUrl     string
 	authAdminToken string
 }
@@ -32,7 +33,8 @@ func NewAPI(l logger.Logger, authApiUrl, authAdminToken string, grpcConn *grpc.C
 		authApiUrl:     authApiUrl,
 		authAdminToken: authAdminToken,
 		restyClient:    createRestyClient(),
-		grpcClient:     proto_user.NewUsersClient(grpcConn),
+		userClient:     proto_user.NewUsersClient(grpcConn),
+		authClient:     proto_user.NewAuthClient(grpcConn),
 	}
 }
 

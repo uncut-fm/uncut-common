@@ -6,7 +6,7 @@ import (
 )
 
 func (a API) DeleteWallet(ctx context.Context, input *DeleteWalletRequest) error {
-	_, err := a.grpcClient.DeleteWallet(a.addAdminTokenToGrpcCtx(ctx), &user.DeleteWalletRequest{
+	_, err := a.userClient.DeleteWallet(a.addAdminTokenToGrpcCtx(ctx), &user.DeleteWalletRequest{
 		UserId:   uint64(input.UserID),
 		WalletId: uint64(input.WalletID),
 	})

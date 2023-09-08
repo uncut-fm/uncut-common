@@ -571,3 +571,89 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "user.proto",
 }
+
+// AuthClient is the client API for Auth service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type AuthClient interface {
+	GetUserSessionByWalletAddress(ctx context.Context, in *WalletAddressRequest, opts ...grpc.CallOption) (*UserSessionResponse, error)
+}
+
+type authClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewAuthClient(cc grpc.ClientConnInterface) AuthClient {
+	return &authClient{cc}
+}
+
+func (c *authClient) GetUserSessionByWalletAddress(ctx context.Context, in *WalletAddressRequest, opts ...grpc.CallOption) (*UserSessionResponse, error) {
+	out := new(UserSessionResponse)
+	err := c.cc.Invoke(ctx, "/user.Auth/GetUserSessionByWalletAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// AuthServer is the server API for Auth service.
+// All implementations must embed UnimplementedAuthServer
+// for forward compatibility
+type AuthServer interface {
+	GetUserSessionByWalletAddress(context.Context, *WalletAddressRequest) (*UserSessionResponse, error)
+	mustEmbedUnimplementedAuthServer()
+}
+
+// UnimplementedAuthServer must be embedded to have forward compatible implementations.
+type UnimplementedAuthServer struct {
+}
+
+func (UnimplementedAuthServer) GetUserSessionByWalletAddress(context.Context, *WalletAddressRequest) (*UserSessionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserSessionByWalletAddress not implemented")
+}
+func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
+
+// UnsafeAuthServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AuthServer will
+// result in compilation errors.
+type UnsafeAuthServer interface {
+	mustEmbedUnimplementedAuthServer()
+}
+
+func RegisterAuthServer(s grpc.ServiceRegistrar, srv AuthServer) {
+	s.RegisterService(&Auth_ServiceDesc, srv)
+}
+
+func _Auth_GetUserSessionByWalletAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WalletAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServer).GetUserSessionByWalletAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.Auth/GetUserSessionByWalletAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServer).GetUserSessionByWalletAddress(ctx, req.(*WalletAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// Auth_ServiceDesc is the grpc.ServiceDesc for Auth service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Auth_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "user.Auth",
+	HandlerType: (*AuthServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetUserSessionByWalletAddress",
+			Handler:    _Auth_GetUserSessionByWalletAddress_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "user.proto",
+}
