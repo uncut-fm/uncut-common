@@ -7,8 +7,7 @@ import (
 )
 
 type User struct {
-	ID                 int          `json:"id"`      // used to parse from ent model
-	UserId             int          `json:"user_id"` // used to parse from jwt token
+	ID                 int          `json:"id"`
 	Name               string       `json:"name,omitempty"`
 	Title              string       `json:"title,omitempty"`
 	Email              string       `json:"email"`
@@ -87,7 +86,6 @@ func ParseProtoUsersToCommonUsers(protoUsers []*proto_user.User) []*User {
 func ParseProtoUserToUser(protoUser *proto_user.User) *User {
 	user := &User{
 		ID:                 int(protoUser.Id),
-		UserId:             int(protoUser.Id),
 		Name:               protoUser.Name,
 		Title:              protoUser.Title,
 		Email:              protoUser.Email,

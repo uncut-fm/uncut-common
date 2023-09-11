@@ -2,11 +2,9 @@ package jwt
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/config"
 	"strings"
 	"time"
@@ -45,20 +43,14 @@ type Service struct {
 }
 
 type Context interface {
-	SetUserToGinContext(ctx *gin.Context, user *model.User)
+	SetUserIDToGinContext(ctx *gin.Context, userID int)
 	SetAuthenticatedUserKey(ctx *gin.Context, authenticated bool)
 }
 
 // GenerateAccessToken generates new JWT token and populates it with user data
-func (s Service) GenerateAccessToken(ctx context.Context, user model.User, expirable bool) (string, error) {
+func (s Service) GenerateAccessToken(ctx context.Context, userID int, expirable bool) (string, error) {
 	claims := jwt.MapClaims{
-		"user_id":           user.UserId,
-		"name":              user.Name,
-		"email":             user.Email,
-		"profile_image_url": user.ProfileImageUrl,
-		"wallet_addresses":  user.WalletAddresses,
-		"twitter_handle":    user.TwitterHandle,
-		"is_nft_creator":    user.IsNftCreator,
+		"user_id": userID,
 	}
 
 	if expirable {
@@ -77,7 +69,7 @@ func (s Service) MWFunc() gin.HandlerFunc {
 			return
 		}
 
-		user, err := s.GetUserFromToken(token)
+		userID, err := s.GetUserIDFromToken(token)
 		if err != nil {
 			s.context.SetAuthenticatedUserKey(c, false)
 			c.Next()
@@ -86,7 +78,7 @@ func (s Service) MWFunc() gin.HandlerFunc {
 
 		s.context.SetAuthenticatedUserKey(c, true)
 
-		s.context.SetUserToGinContext(c, user)
+		s.context.SetUserIDToGinContext(c, userID)
 
 		c.Next()
 	}
@@ -107,27 +99,20 @@ func (s Service) parseTokenFromHeader(c *gin.Context) (string, error) {
 	return parts[1], nil
 }
 
-func (s Service) GetUserFromToken(token string) (*model.User, error) {
+func (s Service) GetUserIDFromToken(token string) (int, error) {
 	claims := jwt.MapClaims{}
 	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
 		return s.accessKey, nil
 	})
 
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 
-	claimsBytes, err := json.Marshal(claims)
-	if err != nil {
-		return nil, err
+	userID, ok := claims["user_id"].(int)
+	if !ok {
+		return 0, errors.New("invalid user_id")
 	}
 
-	user := new(model.User)
-
-	err = json.Unmarshal(claimsBytes, user)
-	if err != nil {
-		return nil, err
-	}
-
-	return user, err
+	return userID, err
 }

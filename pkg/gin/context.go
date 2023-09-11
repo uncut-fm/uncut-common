@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/uncut-fm/uncut-common/model"
 	"log"
 )
 
@@ -44,39 +43,27 @@ func (c ContextService) getGinContextFromContext(ctx context.Context) (*gin.Cont
 	return gc, nil
 }
 
-func (c ContextService) SetUserToGinContext(ctx *gin.Context, user *model.User) {
-	ctx.Set("email", user.Email)
-	ctx.Set("id", user.UserId)
-	ctx.Set("name", user.Name)
-	ctx.Set("profile_image_url", user.ProfileImageUrl)
-	ctx.Set("wallet_addresses", user.WalletAddresses)
-	ctx.Set("twitter_handle", user.TwitterHandle)
-	ctx.Set("is_nft_creator", user.IsNftCreator)
+func (c ContextService) SetUserIDToGinContext(ctx *gin.Context, userID int) {
+	ctx.Set("id", userID)
 }
 
-func (c ContextService) GetUserFromContext(ctx context.Context) (*model.User, error) {
+func (c ContextService) GetUserIDFromContext(ctx context.Context) (int, error) {
 	ginContext, err := c.getGinContextFromContext(ctx)
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 
-	return c.GetUserFromGinContext(ginContext)
+	userID, err := c.GetUserIDFromGinContext(ginContext)
+
+	return userID, err
 }
 
-func (c ContextService) GetUserFromGinContext(ginContext *gin.Context) (*model.User, error) {
+func (c ContextService) GetUserIDFromGinContext(ginContext *gin.Context) (int, error) {
 	if err := c.mustBeAuthenticatedUserGin(ginContext); err != nil {
-		return nil, err
+		return 0, err
 	}
 
-	return &model.User{
-		ID:              ginContext.GetInt("id"),
-		Name:            ginContext.GetString("name"),
-		Email:           ginContext.GetString("email"),
-		ProfileImageUrl: ginContext.GetString("profile_image_url"),
-		WalletAddresses: ginContext.GetStringSlice("wallet_addresses"),
-		TwitterHandle:   ginContext.GetString("twitter_handle"),
-		IsNftCreator:    ginContext.GetBool("is_nft_creator"),
-	}, nil
+	return ginContext.GetInt("id"), nil
 }
 
 func (c ContextService) SetAuthenticatedUserKey(ctx *gin.Context, authenticated bool) {
