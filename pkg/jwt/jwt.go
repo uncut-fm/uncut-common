@@ -109,10 +109,10 @@ func (s Service) GetUserIDFromToken(token string) (int, error) {
 		return 0, err
 	}
 
-	userID, ok := claims["user_id"].(int)
+	userIDFloat64, ok := claims["user_id"].(float64)
 	if !ok {
 		return 0, errors.New("invalid user_id")
 	}
 
-	return userID, err
+	return int(userIDFloat64), err
 }
