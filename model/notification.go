@@ -73,6 +73,11 @@ const (
 	FeedPostReplyNotification          NotificationTemplateType = "FEED_POST_REPLY"
 	FeedCommentReplyNotification       NotificationTemplateType = "FEED_COMMENT_REPLY"
 
+	SocialPostLikeNotification    NotificationTemplateType = "FEED_POST_LIKE"
+	SocialCommentLikeNotification NotificationTemplateType = "FEED_COMMENT_LIKE"
+	SocialNftLikeNotification     NotificationTemplateType = "NFT_LIKE"
+	SocialFollowNotification      NotificationTemplateType = "USER_FOLLOW"
+
 	UserVerificationStartedNotification  NotificationTemplateType = "USER_VERIFICATION_STARTED"
 	UserVerificationAcceptedNotification NotificationTemplateType = "USER_VERIFICATION_ACCEPTED"
 	UserVerificationRefusedNotification  NotificationTemplateType = "USER_VERIFICATION_REFUSED"
