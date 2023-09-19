@@ -43,7 +43,6 @@ type ManagementConfigs struct {
 	StoreContractAddress   string         `yaml:"store_contract_address"`
 	Currencies             Web3Currencies `yaml:"currencies"`
 	AlchemyApiKey          string         `yaml:"alchemy_api_key"`
-	SegmentWriteKey        string         `yaml:"segment_write_key"`
 	AuthAdminToken         string         `yaml:"auth_admin_token"`
 	SendgridAPIKey         string         `yaml:"sendgrid_api_key"`
 	Web3AdminToken         string         `yaml:"web3_admin_token"`
@@ -83,7 +82,6 @@ type BackofficeConfigs struct {
 	StoreContractAddress string         `yaml:"store_contract_address"`
 	Web3AdminToken       string         `yaml:"web3_admin_token"`
 	TranscoderAdminToken string         `yaml:"transcoder_admin_token"`
-	SegmentWriteKey      string         `yaml:"segment_write_key"`
 	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
 	Currencies           Web3Currencies `yaml:"currencies"`
 	AlchemyApiKey        string         `yaml:"alchemy_api_key"`
@@ -130,7 +128,6 @@ type AuthConfigs struct {
 	MagicLinkKey         string         `yaml:"magic_link_key"`
 	Sentry               SentryConfigs  `yaml:"sentry"`
 	MaticFaucetLimit     FaucetLimit    `yaml:"matic_faucet_limit"`
-	SegmentWriteKey      string         `yaml:"segment_write_key"`
 	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
 	Twitter              TwitterConfigs `yaml:"twitter"`
 	Redis                RedisConfigs   `yaml:"redis"`
