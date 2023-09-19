@@ -46,6 +46,8 @@ const (
 	NftSoldNotification              NotificationTemplateType = "NFT_SOLD"
 	NftWelcomeNotification           NotificationTemplateType = "NFT_WELCOME"
 	NftAirdropNotification           NotificationTemplateType = "NFT_AIRDROP"
+	NftMintedNotification            NotificationTemplateType = "NFT_MINTED"
+	CollectionCreatedNotification    NotificationTemplateType = "COLLECTION_CREATED"
 
 	OnboardingDay0Notification      NotificationTemplateType = "DAY_0"
 	OnboardingDay1Notification      NotificationTemplateType = "DAY_1"
