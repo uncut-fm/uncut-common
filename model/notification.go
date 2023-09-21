@@ -47,7 +47,7 @@ const (
 	NftWelcomeNotification           NotificationTemplateType = "NFT_WELCOME"
 	NftAirdropNotification           NotificationTemplateType = "NFT_AIRDROP"
 
-	YourNftMintedNotification            NotificationTemplateType = "YOUR_NFT_MINTED"
+	UsersNftMintedNotification           NotificationTemplateType = "USERS_NFT_MINTED"
 	CreatorMintedNftNotification         NotificationTemplateType = "CREATOR_MINTED_NFT"
 	CreatorCreatedCollectionNotification NotificationTemplateType = "CREATOR_CREATED_COLLECTION"
 
