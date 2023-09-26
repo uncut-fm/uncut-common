@@ -79,6 +79,7 @@ message User {
   string type = 20;
   int32 karma = 21;
   int32 karma_in_30_days = 22;
+  google.protobuf.Timestamp last_karma_processed_at = 23;
 }
 
 message UsersResponse {

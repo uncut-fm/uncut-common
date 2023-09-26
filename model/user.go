@@ -7,29 +7,30 @@ import (
 )
 
 type User struct {
-	ID                 int          `json:"id"`
-	Name               string       `json:"name,omitempty"`
-	Title              string       `json:"title,omitempty"`
-	Email              string       `json:"email"`
-	ProfileImageUrl    string       `json:"profile_image_url,omitempty"`
-	WalletAddresses    []string     `json:"wallet_addresses"`
-	TwitterHandle      string       `json:"twitter_handle"`
-	IsNftCreator       bool         `json:"is_nft_creator"`
-	ThemeColors        *ThemeColors `json:"theme_colors"`
-	IsAdmin            bool         `json:"is_admin"`
-	BannerImageUrl     string       `json:"banner_image_url"`
-	Location           string       `json:"location"`
-	VerificationStatus string       `json:"verification_status"`
-	Bio                string       `json:"bio"`
-	InstagramHandle    string       `json:"instagram_handle"`
-	FacebookHandle     string       `json:"facebook_handle"`
-	LinkedinHandle     string       `json:"linkedin_handle"`
-	DiscordHandle      string       `json:"discord_handle"`
-	WebsiteUrl         string       `json:"website_url"`
-	Type               string       `json:"type"`
-	Karma              int32        `json:"karma"`
-	KarmaIn30Days      int32        `json:"karma_in_30_days"`
-	Edges              UserEdges    `json:"edges"`
+	ID                   int          `json:"id"`
+	Name                 string       `json:"name,omitempty"`
+	Title                string       `json:"title,omitempty"`
+	Email                string       `json:"email"`
+	ProfileImageUrl      string       `json:"profile_image_url,omitempty"`
+	WalletAddresses      []string     `json:"wallet_addresses"`
+	TwitterHandle        string       `json:"twitter_handle"`
+	IsNftCreator         bool         `json:"is_nft_creator"`
+	ThemeColors          *ThemeColors `json:"theme_colors"`
+	IsAdmin              bool         `json:"is_admin"`
+	BannerImageUrl       string       `json:"banner_image_url"`
+	Location             string       `json:"location"`
+	VerificationStatus   string       `json:"verification_status"`
+	Bio                  string       `json:"bio"`
+	InstagramHandle      string       `json:"instagram_handle"`
+	FacebookHandle       string       `json:"facebook_handle"`
+	LinkedinHandle       string       `json:"linkedin_handle"`
+	DiscordHandle        string       `json:"discord_handle"`
+	WebsiteUrl           string       `json:"website_url"`
+	Type                 string       `json:"type"`
+	Karma                int32        `json:"karma"`
+	KarmaIn30Days        int32        `json:"karma_in_30_days"`
+	LastKarmaProcessedAt time.Time    `json:"last_karma_processed_at"`
+	Edges                UserEdges    `json:"edges"`
 }
 
 type ThemeColors struct {
@@ -87,28 +88,29 @@ func ParseProtoUsersToCommonUsers(protoUsers []*proto_user.User) []*User {
 
 func ParseProtoUserToUser(protoUser *proto_user.User) *User {
 	user := &User{
-		ID:                 int(protoUser.Id),
-		Name:               protoUser.Name,
-		Title:              protoUser.Title,
-		Email:              protoUser.Email,
-		ProfileImageUrl:    protoUser.ProfileImageUrl,
-		TwitterHandle:      protoUser.TwitterHandle,
-		IsNftCreator:       protoUser.IsNftCreator,
-		ThemeColors:        ParseProtoThemeColors(protoUser.ThemeColors),
-		IsAdmin:            protoUser.IsAdmin,
-		BannerImageUrl:     protoUser.BannerImageUrl,
-		Location:           protoUser.Location,
-		VerificationStatus: protoUser.VerificationStatus,
-		Bio:                protoUser.Bio,
-		InstagramHandle:    protoUser.InstagramHandle,
-		FacebookHandle:     protoUser.FacebookHandle,
-		LinkedinHandle:     protoUser.LinkedinHandle,
-		DiscordHandle:      protoUser.DiscordHandle,
-		WebsiteUrl:         protoUser.WebsiteUrl,
-		Type:               protoUser.Type,
-		Karma:              protoUser.Karma,
-		KarmaIn30Days:      protoUser.KarmaIn_30Days,
-		Edges:              UserEdges{Wallets: ParseProtoWalletsToWallets(protoUser.Edges.Wallets)},
+		ID:                   int(protoUser.Id),
+		Name:                 protoUser.Name,
+		Title:                protoUser.Title,
+		Email:                protoUser.Email,
+		ProfileImageUrl:      protoUser.ProfileImageUrl,
+		TwitterHandle:        protoUser.TwitterHandle,
+		IsNftCreator:         protoUser.IsNftCreator,
+		ThemeColors:          ParseProtoThemeColors(protoUser.ThemeColors),
+		IsAdmin:              protoUser.IsAdmin,
+		BannerImageUrl:       protoUser.BannerImageUrl,
+		Location:             protoUser.Location,
+		VerificationStatus:   protoUser.VerificationStatus,
+		Bio:                  protoUser.Bio,
+		InstagramHandle:      protoUser.InstagramHandle,
+		FacebookHandle:       protoUser.FacebookHandle,
+		LinkedinHandle:       protoUser.LinkedinHandle,
+		DiscordHandle:        protoUser.DiscordHandle,
+		WebsiteUrl:           protoUser.WebsiteUrl,
+		Type:                 protoUser.Type,
+		Karma:                protoUser.Karma,
+		KarmaIn30Days:        protoUser.KarmaIn_30Days,
+		LastKarmaProcessedAt: protoUser.LastKarmaProcessedAt.AsTime(),
+		Edges:                UserEdges{Wallets: ParseProtoWalletsToWallets(protoUser.Edges.Wallets)},
 	}
 
 	user.SetWalletAddressesStringListFromEdges()
