@@ -60,3 +60,13 @@ func (a API) UpdateWallet(ctx context.Context, input *UpdateWalletRequest) (*mod
 
 	return model.ParseProtoWalletToWallet(protoWallet), err
 }
+
+func (a API) UpdateKarmasByUserIDs(ctx context.Context, userIDs []uint64, karmas, karmasIn30Days []int32) error {
+	_, err := a.userClient.UpdateKarmasByUserIDs(a.addAdminTokenToGrpcCtx(ctx), &user.UpdateKarmasByUserIDsRequest{
+		UserIds:         userIDs,
+		Karmas:          karmas,
+		KarmasIn_30Days: karmasIn30Days,
+	})
+
+	return a.log.CheckError(err, a.UpdateKarmasByUserIDs)
+}

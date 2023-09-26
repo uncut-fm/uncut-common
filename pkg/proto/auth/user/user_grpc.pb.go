@@ -32,7 +32,9 @@ type UsersClient interface {
 	GetUserByID(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*User, error)
 	GetOrCreateUserAsCreator(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*GetOrCreateUserResponse, error)
 	SearchByKeyword(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*UsersInfoResponse, error)
+	ListUsersWithOutdatedKarma(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UsersResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
+	UpdateKarmasByUserIDs(ctx context.Context, in *UpdateKarmasByUserIDsRequest, opts ...grpc.CallOption) (*Empty, error)
 	UpdateWallet(ctx context.Context, in *UpdateWalletRequest, opts ...grpc.CallOption) (*Wallet, error)
 	AddWallet(ctx context.Context, in *AddWalletRequest, opts ...grpc.CallOption) (*Wallet, error)
 	DeleteWallet(ctx context.Context, in *DeleteWalletRequest, opts ...grpc.CallOption) (*Empty, error)
@@ -136,9 +138,27 @@ func (c *usersClient) SearchByKeyword(ctx context.Context, in *SearchRequest, op
 	return out, nil
 }
 
+func (c *usersClient) ListUsersWithOutdatedKarma(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UsersResponse, error) {
+	out := new(UsersResponse)
+	err := c.cc.Invoke(ctx, "/user.Users/ListUsersWithOutdatedKarma", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *usersClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
 	err := c.cc.Invoke(ctx, "/user.Users/UpdateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) UpdateKarmasByUserIDs(ctx context.Context, in *UpdateKarmasByUserIDsRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/user.Users/UpdateKarmasByUserIDs", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -186,7 +206,9 @@ type UsersServer interface {
 	GetUserByID(context.Context, *IDRequest) (*User, error)
 	GetOrCreateUserAsCreator(context.Context, *EmailRequest) (*GetOrCreateUserResponse, error)
 	SearchByKeyword(context.Context, *SearchRequest) (*UsersInfoResponse, error)
+	ListUsersWithOutdatedKarma(context.Context, *Empty) (*UsersResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
+	UpdateKarmasByUserIDs(context.Context, *UpdateKarmasByUserIDsRequest) (*Empty, error)
 	UpdateWallet(context.Context, *UpdateWalletRequest) (*Wallet, error)
 	AddWallet(context.Context, *AddWalletRequest) (*Wallet, error)
 	DeleteWallet(context.Context, *DeleteWalletRequest) (*Empty, error)
@@ -227,8 +249,14 @@ func (UnimplementedUsersServer) GetOrCreateUserAsCreator(context.Context, *Email
 func (UnimplementedUsersServer) SearchByKeyword(context.Context, *SearchRequest) (*UsersInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchByKeyword not implemented")
 }
+func (UnimplementedUsersServer) ListUsersWithOutdatedKarma(context.Context, *Empty) (*UsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsersWithOutdatedKarma not implemented")
+}
 func (UnimplementedUsersServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (UnimplementedUsersServer) UpdateKarmasByUserIDs(context.Context, *UpdateKarmasByUserIDsRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateKarmasByUserIDs not implemented")
 }
 func (UnimplementedUsersServer) UpdateWallet(context.Context, *UpdateWalletRequest) (*Wallet, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWallet not implemented")
@@ -432,6 +460,24 @@ func _Users_SearchByKeyword_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Users_ListUsersWithOutdatedKarma_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).ListUsersWithOutdatedKarma(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.Users/ListUsersWithOutdatedKarma",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).ListUsersWithOutdatedKarma(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Users_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateUserRequest)
 	if err := dec(in); err != nil {
@@ -446,6 +492,24 @@ func _Users_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UsersServer).UpdateUser(ctx, req.(*UpdateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_UpdateKarmasByUserIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateKarmasByUserIDsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).UpdateKarmasByUserIDs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.Users/UpdateKarmasByUserIDs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).UpdateKarmasByUserIDs(ctx, req.(*UpdateKarmasByUserIDsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -552,8 +616,16 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Users_SearchByKeyword_Handler,
 		},
 		{
+			MethodName: "ListUsersWithOutdatedKarma",
+			Handler:    _Users_ListUsersWithOutdatedKarma_Handler,
+		},
+		{
 			MethodName: "UpdateUser",
 			Handler:    _Users_UpdateUser_Handler,
+		},
+		{
+			MethodName: "UpdateKarmasByUserIDs",
+			Handler:    _Users_UpdateKarmasByUserIDs_Handler,
 		},
 		{
 			MethodName: "UpdateWallet",

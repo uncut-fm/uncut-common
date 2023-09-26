@@ -17,7 +17,10 @@ service Users {
   rpc GetOrCreateUserAsCreator(EmailRequest) returns(GetOrCreateUserResponse) {}
   rpc SearchByKeyword(SearchRequest) returns (UsersInfoResponse) {}
 
+  rpc ListUsersWithOutdatedKarma(Empty) returns (UsersResponse) {}
+
   rpc UpdateUser(UpdateUserRequest) returns (User) {}
+  rpc UpdateKarmasByUserIDs(UpdateKarmasByUserIDsRequest) returns (Empty) {}
 
   rpc UpdateWallet(UpdateWalletRequest) returns (Wallet) {}
   rpc AddWallet(AddWalletRequest) returns (Wallet) {}
@@ -156,6 +159,12 @@ message UpdateUserRequest {
   optional string type = 19;
   optional int32 karma = 20;
   optional int32 karma_in_30_days = 21;
+}
+
+message UpdateKarmasByUserIDsRequest {
+  repeated uint64 user_ids = 1;
+  repeated int32 karmas = 2;
+  repeated int32 karmas_in_30_days = 3;
 }
 
 message UpdateWalletRequest {
