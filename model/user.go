@@ -205,3 +205,14 @@ func ParseUserOrderToProto(order *UserOrder) *proto_user.UserOrder {
 		Desc:  order.Desc,
 	}
 }
+
+func ParseProtoUserOrder(protoOrder *proto_user.UserOrder) *UserOrder {
+	if protoOrder == nil {
+		return nil
+	}
+
+	return &UserOrder{
+		Field: UserOrderField(protoOrder.Field),
+		Desc:  protoOrder.Desc,
+	}
+}

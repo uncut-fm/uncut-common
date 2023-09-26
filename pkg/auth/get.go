@@ -40,7 +40,7 @@ type UsersFilters struct {
 	WalletProviders []string
 }
 
-func (a API) ListAll(ctx context.Context, filters *UsersFilters, orderBy *model.UserOrder, pagination *model.OffsetPaginationInput) ([]*model.User, error) {
+func (a API) ListAll(ctx context.Context, filters *UsersFilters, orderBy *model.UserOrder, pagination *model.OffsetPaginationInput) (*UsersInfoResponse, error) {
 	req := &proto_user.ListAllUsersRequest{}
 	if filters != nil {
 		req.Filters = &proto_user.UserFilters{
@@ -56,13 +56,17 @@ func (a API) ListAll(ctx context.Context, filters *UsersFilters, orderBy *model.
 		req.Pagination = model.ParseOffsetPaginationToProto(pagination)
 	}
 
-	protoUsers, err := a.userClient.ListAll(a.addAdminTokenToGrpcCtx(ctx), req)
-
+	protoUsersInfo, err := a.userClient.ListAll(a.addAdminTokenToGrpcCtx(ctx), req)
 	if a.log.CheckError(err, a.ListAll) != nil {
 		return nil, err
 	}
 
-	return model.ParseProtoUsersToCommonUsers(protoUsers.Users), nil
+	response := &UsersInfoResponse{
+		TotalCount: int(protoUsersInfo.TotalCount),
+		Users:      model.ParseProtoUsersToCommonUsers(protoUsersInfo.Users),
+	}
+
+	return response, nil
 }
 
 func (a API) GetUserByEmail(ctx context.Context, email string) (*model.User, error) {
