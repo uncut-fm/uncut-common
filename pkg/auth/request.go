@@ -25,6 +25,8 @@ type UpdateUserAuthRequest struct {
 	Location           *string            `json:"location"`
 	VerificationStatus *string            `json:"verification_status"`
 	Type               *string            `json:"type"`
+	Karma              *int32             `json:"karma"`
+	KarmaIn30Days      *int32             `json:"karma_in_30_days"`
 }
 
 type UpdateWalletRequest struct {

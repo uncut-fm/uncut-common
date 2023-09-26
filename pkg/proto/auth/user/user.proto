@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 
 service Users {
   rpc ListNftCreators (Empty) returns (UsersResponse) {}
-  rpc ListAll (ListAllUsersRequest) returns (UsersResponse) {}
+  rpc ListAll (ListAllUsersRequest) returns (UsersInfoResponse) {}
   rpc ListUsersByWalletAddresses(WalletAddressesRequest) returns (UsersResponse){}
   rpc ListUsersByIDs(IDsRequest) returns (UsersResponse){}
   rpc ListWalletsByUserID(IDRequest) returns(WalletsResponse){}
@@ -77,6 +77,8 @@ message User {
   string location = 18;
   string verification_status = 19;
   string type = 20;
+  int32 karma = 21;
+  int32 karma_in_30_days = 22;
 }
 
 message UsersResponse {
@@ -151,6 +153,8 @@ message UpdateUserRequest {
   optional string location = 17;
   optional string verification_status = 18;
   optional string type = 19;
+  optional int32 karma = 20;
+  optional int32 karma_in_30_days = 21;
 }
 
 message UpdateWalletRequest {
@@ -177,6 +181,13 @@ message DeleteWalletRequest {
 
 message ListAllUsersRequest {
   optional UserFilters filters = 1;
+  OffsetPaginationRequest pagination = 2;
+  optional UserOrder order = 3;
+}
+
+message UserOrder {
+  string field = 1;
+  bool desc = 2;
 }
 
 message UserFilters {

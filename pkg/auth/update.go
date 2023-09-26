@@ -27,6 +27,8 @@ func (a API) UpdateUser(ctx context.Context, input *UpdateUserAuthRequest) (*mod
 		WebsiteUrl:         input.WebsiteURL,
 		VerificationStatus: input.VerificationStatus,
 		Type:               input.Type,
+		Karma:              input.Karma,
+		KarmaIn_30Days:     input.KarmaIn30Days,
 		ThemeColors:        model.ParseThemeColorsToProto(input.ThemeColors),
 	})
 

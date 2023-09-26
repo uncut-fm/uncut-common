@@ -27,6 +27,8 @@ type User struct {
 	DiscordHandle      string       `json:"discord_handle"`
 	WebsiteUrl         string       `json:"website_url"`
 	Type               string       `json:"type"`
+	Karma              int32        `json:"karma"`
+	KarmaIn30Days      int32        `json:"karma_in_30_days"`
 	Edges              UserEdges    `json:"edges"`
 }
 
@@ -104,6 +106,8 @@ func ParseProtoUserToUser(protoUser *proto_user.User) *User {
 		DiscordHandle:      protoUser.DiscordHandle,
 		WebsiteUrl:         protoUser.WebsiteUrl,
 		Type:               protoUser.Type,
+		Karma:              protoUser.Karma,
+		KarmaIn30Days:      protoUser.KarmaIn_30Days,
 		Edges:              UserEdges{Wallets: ParseProtoWalletsToWallets(protoUser.Edges.Wallets)},
 	}
 
@@ -171,5 +175,33 @@ func ParseProtoUserSessionToUserSession(protoUserSession *proto_user.UserSession
 		AccessToken:  protoUserSession.AccessToken,
 		RefreshToken: protoUserSession.RefreshToken,
 		IsNewUser:    protoUserSession.IsNewUser,
+	}
+}
+
+type UserOrder struct {
+	Field UserOrderField
+	Desc  bool
+}
+
+type UserOrderField string
+
+func (u UserOrderField) String() string {
+	return string(u)
+}
+
+var (
+	UserOrderFieldCreatedAt     UserOrderField = "created_at"
+	UserOrderFieldKarma         UserOrderField = "karma"
+	UserOrderFieldKarmaIn30Days UserOrderField = "karma_in_30_days"
+)
+
+func ParseUserOrderToProto(order *UserOrder) *proto_user.UserOrder {
+	if order == nil {
+		return nil
+	}
+
+	return &proto_user.UserOrder{
+		Field: order.Field.String(),
+		Desc:  order.Desc,
 	}
 }
