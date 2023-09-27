@@ -24,8 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type UsersClient interface {
 	ListNftCreators(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UsersResponse, error)
 	ListAll(ctx context.Context, in *ListAllUsersRequest, opts ...grpc.CallOption) (*UsersInfoResponse, error)
-	ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest, opts ...grpc.CallOption) (*UsersResponse, error)
-	ListUsersByIDs(ctx context.Context, in *IDsRequest, opts ...grpc.CallOption) (*UsersResponse, error)
+	ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest, opts ...grpc.CallOption) (*UsersInfoResponse, error)
+	ListUsersByIDs(ctx context.Context, in *IDsRequest, opts ...grpc.CallOption) (*UsersInfoResponse, error)
 	ListWalletsByUserID(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*WalletsResponse, error)
 	GetUserByEmail(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*User, error)
 	GetUserByWalletAddress(ctx context.Context, in *WalletAddressRequest, opts ...grpc.CallOption) (*User, error)
@@ -66,8 +66,8 @@ func (c *usersClient) ListAll(ctx context.Context, in *ListAllUsersRequest, opts
 	return out, nil
 }
 
-func (c *usersClient) ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest, opts ...grpc.CallOption) (*UsersResponse, error) {
-	out := new(UsersResponse)
+func (c *usersClient) ListUsersByWalletAddresses(ctx context.Context, in *WalletAddressesRequest, opts ...grpc.CallOption) (*UsersInfoResponse, error) {
+	out := new(UsersInfoResponse)
 	err := c.cc.Invoke(ctx, "/user.Users/ListUsersByWalletAddresses", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -75,8 +75,8 @@ func (c *usersClient) ListUsersByWalletAddresses(ctx context.Context, in *Wallet
 	return out, nil
 }
 
-func (c *usersClient) ListUsersByIDs(ctx context.Context, in *IDsRequest, opts ...grpc.CallOption) (*UsersResponse, error) {
-	out := new(UsersResponse)
+func (c *usersClient) ListUsersByIDs(ctx context.Context, in *IDsRequest, opts ...grpc.CallOption) (*UsersInfoResponse, error) {
+	out := new(UsersInfoResponse)
 	err := c.cc.Invoke(ctx, "/user.Users/ListUsersByIDs", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -198,8 +198,8 @@ func (c *usersClient) DeleteWallet(ctx context.Context, in *DeleteWalletRequest,
 type UsersServer interface {
 	ListNftCreators(context.Context, *Empty) (*UsersResponse, error)
 	ListAll(context.Context, *ListAllUsersRequest) (*UsersInfoResponse, error)
-	ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error)
-	ListUsersByIDs(context.Context, *IDsRequest) (*UsersResponse, error)
+	ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersInfoResponse, error)
+	ListUsersByIDs(context.Context, *IDsRequest) (*UsersInfoResponse, error)
 	ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error)
 	GetUserByEmail(context.Context, *EmailRequest) (*User, error)
 	GetUserByWalletAddress(context.Context, *WalletAddressRequest) (*User, error)
@@ -225,10 +225,10 @@ func (UnimplementedUsersServer) ListNftCreators(context.Context, *Empty) (*Users
 func (UnimplementedUsersServer) ListAll(context.Context, *ListAllUsersRequest) (*UsersInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAll not implemented")
 }
-func (UnimplementedUsersServer) ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersResponse, error) {
+func (UnimplementedUsersServer) ListUsersByWalletAddresses(context.Context, *WalletAddressesRequest) (*UsersInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsersByWalletAddresses not implemented")
 }
-func (UnimplementedUsersServer) ListUsersByIDs(context.Context, *IDsRequest) (*UsersResponse, error) {
+func (UnimplementedUsersServer) ListUsersByIDs(context.Context, *IDsRequest) (*UsersInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsersByIDs not implemented")
 }
 func (UnimplementedUsersServer) ListWalletsByUserID(context.Context, *IDRequest) (*WalletsResponse, error) {

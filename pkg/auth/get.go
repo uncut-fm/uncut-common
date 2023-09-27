@@ -164,22 +164,50 @@ func (a API) SearchUsers(ctx context.Context, keyword string, pagination *model.
 	return response, nil
 }
 
-func (a API) ListUsersByWalletAddresses(ctx context.Context, walletAddresses []string) ([]*model.User, error) {
-	protoUsers, err := a.userClient.ListUsersByWalletAddresses(a.addAdminTokenToGrpcCtx(ctx), &proto_user.WalletAddressesRequest{WalletAddresses: walletAddresses})
+func (a API) ListUsersByWalletAddresses(ctx context.Context, walletAddresses []string, orderBy *model.UserOrder, pagination *model.OffsetPaginationInput) (*UsersInfoResponse, error) {
+	req := &proto_user.WalletAddressesRequest{WalletAddresses: walletAddresses}
+	if orderBy != nil {
+		req.Order = model.ParseUserOrderToProto(orderBy)
+	}
+
+	if pagination != nil {
+		req.Pagination = model.ParseOffsetPaginationToProto(pagination)
+	}
+
+	protoUsersInfo, err := a.userClient.ListUsersByWalletAddresses(a.addAdminTokenToGrpcCtx(ctx), req)
 	if a.log.CheckError(err, a.ListUsersByWalletAddresses) != nil {
 		return nil, err
 	}
 
-	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), nil
+	response := &UsersInfoResponse{
+		TotalCount: int(protoUsersInfo.TotalCount),
+		Users:      model.ParseProtoUsersToCommonUsers(protoUsersInfo.Users),
+	}
+
+	return response, nil
 }
 
-func (a API) ListUsersByIDs(ctx context.Context, userIDs []int) ([]*model.User, error) {
-	protoUsers, err := a.userClient.ListUsersByIDs(a.addAdminTokenToGrpcCtx(ctx), &proto_user.IDsRequest{Ids: model.IntToUInt64Slice(userIDs)})
+func (a API) ListUsersByIDs(ctx context.Context, userIDs []int, orderBy *model.UserOrder, pagination *model.OffsetPaginationInput) (*UsersInfoResponse, error) {
+	req := &proto_user.IDsRequest{Ids: model.IntToUInt64Slice(userIDs)}
+	if orderBy != nil {
+		req.Order = model.ParseUserOrderToProto(orderBy)
+	}
+
+	if pagination != nil {
+		req.Pagination = model.ParseOffsetPaginationToProto(pagination)
+	}
+
+	protoUsersInfo, err := a.userClient.ListUsersByIDs(a.addAdminTokenToGrpcCtx(ctx), req)
 	if a.log.CheckError(err, a.ListUsersByWalletAddresses) != nil {
 		return nil, err
 	}
 
-	return model.ParseProtoUsersResponseToCommonUsers(protoUsers), nil
+	response := &UsersInfoResponse{
+		TotalCount: int(protoUsersInfo.TotalCount),
+		Users:      model.ParseProtoUsersToCommonUsers(protoUsersInfo.Users),
+	}
+
+	return response, nil
 }
 
 func (a API) ListWalletsByUserID(ctx context.Context, userID int) ([]*model.Wallet, error) {
