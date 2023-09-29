@@ -47,7 +47,7 @@ func (a API) ListAll(ctx context.Context, filters *UsersFilters, orderBy *model.
 	if filters != nil {
 		req.Filters = &proto_user.UserFilters{
 			WalletProviders:   filters.WalletProviders,
-			IncludeEmptyUsers: true,
+			IncludeEmptyUsers: filters.IncludeEmptyUsers,
 		}
 	}
 
@@ -178,13 +178,24 @@ func (a API) ListUsersByWalletAddresses(ctx context.Context, walletAddresses []s
 	var errMu sync.Mutex
 
 	const batchSize = 1000
+	const maxConcurrentGoroutines = 10
+
+	// Create a semaphore using a buffered channel
+	semaphore := make(chan struct{}, maxConcurrentGoroutines)
 
 	// load in batches of 1000 to avoid grpc error "message too large"
 	// run in parallel and merge results
 	for i := 0; i < len(walletAddresses); i += batchSize {
 		wg.Add(1)
+		// Acquire a token
+		semaphore <- struct{}{}
+
 		go func(start int) {
 			defer wg.Done()
+			defer func() {
+				// Release the token
+				<-semaphore
+			}()
 			end := start + batchSize
 			if end > len(walletAddresses) {
 				end = len(walletAddresses)
@@ -248,13 +259,24 @@ func (a API) ListUsersByIDs(ctx context.Context, userIDs []int, orderBy *model.U
 
 	// Decide on a reasonable batch size. Here, I'm using 1000 as an example.
 	const batchSize = 1000
+	const maxConcurrentGoroutines = 10
+
+	// Create a semaphore using a buffered channel
+	semaphore := make(chan struct{}, maxConcurrentGoroutines)
 
 	// load in batches of batchSize
 	// run in parallel and merge results
 	for i := 0; i < len(userIDs); i += batchSize {
 		wg.Add(1)
+		// Acquire a token
+		semaphore <- struct{}{}
+
 		go func(start int) {
 			defer wg.Done()
+			defer func() {
+				// Release the token
+				<-semaphore
+			}()
 
 			end := start + batchSize
 			if end > len(userIDs) {
