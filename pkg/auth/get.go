@@ -38,14 +38,16 @@ func (a API) GetNftCreators(ctx context.Context) ([]*model.User, error) {
 }
 
 type UsersFilters struct {
-	WalletProviders []string
+	WalletProviders   []string
+	IncludeEmptyUsers bool
 }
 
 func (a API) ListAll(ctx context.Context, filters *UsersFilters, orderBy *model.UserOrder, pagination *model.OffsetPaginationInput) (*UsersInfoResponse, error) {
 	req := &proto_user.ListAllUsersRequest{}
 	if filters != nil {
 		req.Filters = &proto_user.UserFilters{
-			WalletProviders: filters.WalletProviders,
+			WalletProviders:   filters.WalletProviders,
+			IncludeEmptyUsers: true,
 		}
 	}
 
@@ -148,7 +150,8 @@ func (a API) SearchUsers(ctx context.Context, keyword string, pagination *model.
 
 	if filters != nil {
 		req.Filters = &proto_user.UserFilters{
-			WalletProviders: filters.WalletProviders,
+			WalletProviders:   filters.WalletProviders,
+			IncludeEmptyUsers: filters.IncludeEmptyUsers,
 		}
 	}
 	protoUsersInfo, err := a.userClient.SearchByKeyword(a.addAdminTokenToGrpcCtx(ctx), req)

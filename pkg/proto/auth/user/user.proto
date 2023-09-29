@@ -206,4 +206,5 @@ message UserOrder {
 
 message UserFilters {
   repeated string wallet_providers = 1;
+  bool include_empty_users = 2;
 }
