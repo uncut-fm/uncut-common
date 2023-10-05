@@ -13,3 +13,8 @@ func (a API) DeleteWallet(ctx context.Context, input *DeleteWalletRequest) error
 
 	return err
 }
+
+func (a API) DeleteUser(ctx context.Context, userID int) error {
+	_, err := a.userClient.DeleteUser(a.addAdminTokenToGrpcCtx(ctx), &user.IDRequest{Id: uint64(userID)})
+	return err
+}

@@ -35,6 +35,7 @@ type UsersClient interface {
 	ListUsersWithOutdatedKarma(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UsersResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
 	UpdateKarmasByUserIDs(ctx context.Context, in *UpdateKarmasByUserIDsRequest, opts ...grpc.CallOption) (*Empty, error)
+	DeleteUser(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*Empty, error)
 	UpdateWallet(ctx context.Context, in *UpdateWalletRequest, opts ...grpc.CallOption) (*Wallet, error)
 	AddWallet(ctx context.Context, in *AddWalletRequest, opts ...grpc.CallOption) (*Wallet, error)
 	DeleteWallet(ctx context.Context, in *DeleteWalletRequest, opts ...grpc.CallOption) (*Empty, error)
@@ -165,6 +166,15 @@ func (c *usersClient) UpdateKarmasByUserIDs(ctx context.Context, in *UpdateKarma
 	return out, nil
 }
 
+func (c *usersClient) DeleteUser(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/user.Users/DeleteUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *usersClient) UpdateWallet(ctx context.Context, in *UpdateWalletRequest, opts ...grpc.CallOption) (*Wallet, error) {
 	out := new(Wallet)
 	err := c.cc.Invoke(ctx, "/user.Users/UpdateWallet", in, out, opts...)
@@ -209,6 +219,7 @@ type UsersServer interface {
 	ListUsersWithOutdatedKarma(context.Context, *Empty) (*UsersResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 	UpdateKarmasByUserIDs(context.Context, *UpdateKarmasByUserIDsRequest) (*Empty, error)
+	DeleteUser(context.Context, *IDRequest) (*Empty, error)
 	UpdateWallet(context.Context, *UpdateWalletRequest) (*Wallet, error)
 	AddWallet(context.Context, *AddWalletRequest) (*Wallet, error)
 	DeleteWallet(context.Context, *DeleteWalletRequest) (*Empty, error)
@@ -257,6 +268,9 @@ func (UnimplementedUsersServer) UpdateUser(context.Context, *UpdateUserRequest) 
 }
 func (UnimplementedUsersServer) UpdateKarmasByUserIDs(context.Context, *UpdateKarmasByUserIDsRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateKarmasByUserIDs not implemented")
+}
+func (UnimplementedUsersServer) DeleteUser(context.Context, *IDRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 func (UnimplementedUsersServer) UpdateWallet(context.Context, *UpdateWalletRequest) (*Wallet, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWallet not implemented")
@@ -514,6 +528,24 @@ func _Users_UpdateKarmasByUserIDs_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Users_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.Users/DeleteUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).DeleteUser(ctx, req.(*IDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Users_UpdateWallet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateWalletRequest)
 	if err := dec(in); err != nil {
@@ -626,6 +658,10 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateKarmasByUserIDs",
 			Handler:    _Users_UpdateKarmasByUserIDs_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _Users_DeleteUser_Handler,
 		},
 		{
 			MethodName: "UpdateWallet",

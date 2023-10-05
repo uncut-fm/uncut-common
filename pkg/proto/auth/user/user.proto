@@ -21,6 +21,7 @@ service Users {
 
   rpc UpdateUser(UpdateUserRequest) returns (User) {}
   rpc UpdateKarmasByUserIDs(UpdateKarmasByUserIDsRequest) returns (Empty) {}
+  rpc DeleteUser(IDRequest) returns (Empty) {}
 
   rpc UpdateWallet(UpdateWalletRequest) returns (Wallet) {}
   rpc AddWallet(AddWalletRequest) returns (Wallet) {}
