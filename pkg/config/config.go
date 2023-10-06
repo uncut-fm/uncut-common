@@ -8,6 +8,7 @@ const (
 	TranscoderSecretEnvVar = "TRANSCODER_SECRET_ID"
 	Web3EventsSecretEnvVar = "WEB3_EVENTS_SECRET_ID"
 	NftImportSecretEnvVar  = "NFT_IMPORT_SECRET_ID"
+	HubspotSecretEnvVar    = "HUBSPOT_SECRET_ID"
 
 	LocalEnvironment = "local"
 	DevEnvironment   = "dev"
@@ -24,6 +25,7 @@ type Configuration struct {
 	Transcoder TranscoderConfigs `yaml:"transcoder"`
 	Web3Events Web3EventsConfigs `yaml:"web3_events"`
 	NftImport  NftImportConfigs  `yaml:"nft_import"`
+	Hubspot    HubspotConfigs    `yaml:"hubspot"`
 }
 
 type Common struct {
@@ -64,6 +66,13 @@ type NftImportConfigs struct {
 	AuthAdminToken       string        `yaml:"auth_admin_token"`
 	Redis                RedisConfigs  `yaml:"redis"`
 	TranscoderAdminToken string        `yaml:"transcoder_admin_token"`
+}
+
+type HubspotConfigs struct {
+	Server         ServerConfigs `yaml:"server"`
+	Sentry         SentryConfigs `yaml:"sentry"`
+	AuthAdminToken string        `yaml:"auth_admin_token"`
+	HubspotApiKey  string        `yaml:"hubspot_api_key"`
 }
 
 type PaperConfigs struct {
