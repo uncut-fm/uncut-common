@@ -84,6 +84,8 @@ message User {
   int32 karma = 21;
   int32 karma_in_30_days = 22;
   google.protobuf.Timestamp last_karma_processed_at = 23;
+  google.protobuf.Timestamp created_at = 24;
+  google.protobuf.Timestamp updated_at = 25;
 }
 
 message UsersResponse {
