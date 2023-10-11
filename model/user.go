@@ -30,6 +30,9 @@ type User struct {
 	Karma                int32        `json:"karma"`
 	KarmaIn30Days        int32        `json:"karma_in_30_days"`
 	LastKarmaProcessedAt time.Time    `json:"last_karma_processed_at"`
+	CreatedAt            time.Time    `json:"created_at"`
+	UpdatedAt            time.Time    `json:"updated_at"`
+	LastLoggedInAt       time.Time    `json:"last_logged_in_at"`
 	Edges                UserEdges    `json:"edges"`
 }
 
@@ -110,6 +113,9 @@ func ParseProtoUserToUser(protoUser *proto_user.User) *User {
 		Karma:                protoUser.Karma,
 		KarmaIn30Days:        protoUser.KarmaIn_30Days,
 		LastKarmaProcessedAt: protoUser.LastKarmaProcessedAt.AsTime(),
+		CreatedAt:            protoUser.CreatedAt.AsTime(),
+		UpdatedAt:            protoUser.UpdatedAt.AsTime(),
+		LastLoggedInAt:       protoUser.LastLoggedInAt.AsTime(),
 		Edges:                UserEdges{Wallets: ParseProtoWalletsToWallets(protoUser.Edges.Wallets)},
 	}
 
