@@ -14,17 +14,7 @@ func (s Client) StoreConversationImage(c context.Context, conversationID *int, f
 func (s Client) storeConversationImage(c context.Context, conversationID *int, file []byte, extension string) (string, error) {
 	fileName := s.getConversationAttachmentFilepath(conversationID, extension)
 
-	err := s.uploadFile(c, fileName, file)
-	if err != nil {
-		return "", err
-	}
-
-	err = s.MakeFilePublic(c, fileName)
-	if err != nil {
-		return "", err
-	}
-
-	return GetPublicFilePath(s.bucket, fileName), nil
+	return s.uploadPublicFile(c, fileName, file, nil)
 }
 
 func (s Client) getConversationWithNameFilepath(conversationID *int, extension, fileName string) string {

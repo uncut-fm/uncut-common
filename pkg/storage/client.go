@@ -223,13 +223,31 @@ func (s Client) getStorageFilePathFromPublicURL(fileURL string) (string, error) 
 }
 
 func (s Client) UploadFile(ctx context.Context, fileURL string, file []byte) error {
-	return s.uploadFile(ctx, fileURL, file)
+	return s.uploadFile(ctx, fileURL, file, nil)
 }
 
-func (s Client) uploadFile(c context.Context, fileName string, file []byte) error {
+func (s Client) uploadPublicFile(ctx context.Context, fileName string, file []byte, objectAttrs *storage.ObjectAttrs) (string, error) {
+	err := s.uploadFile(ctx, fileName, file, objectAttrs)
+	if err != nil {
+		return "", err
+	}
+
+	err = s.MakeFilePublic(ctx, fileName)
+	if err != nil {
+		return "", err
+	}
+
+	return GetPublicFilePath(s.bucket, fileName), nil
+}
+
+func (s Client) uploadFile(c context.Context, fileName string, file []byte, objectAttrs *storage.ObjectAttrs) error {
 	obj := s.bucketHandle.Object(fileName)
 
 	wr := obj.NewWriter(c)
+
+	if objectAttrs != nil {
+		wr.ObjectAttrs = *objectAttrs
+	}
 
 	_, err := wr.Write(file)
 	if err != nil {

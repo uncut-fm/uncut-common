@@ -1,26 +1,29 @@
 package storage
 
 import (
+	"cloud.google.com/go/storage"
 	"context"
 	"fmt"
 	"github.com/uncut-fm/uncut-common/model"
 	"time"
 )
 
+func (s Client) UploadNftCsvFileByFileBytes(ctx context.Context, nftID int, file []byte, filename string) (string, error) {
+	filename = s.getNftWithNameFilepath(&nftID, "csv", filename)
+
+	// Set the content type to "text/csv"
+	objectAttrs := storage.ObjectAttrs{
+		ContentType: "text/csv",
+		Name:        filename,
+	}
+
+	return s.uploadPublicFile(ctx, filename, file, &objectAttrs)
+}
+
 func (s Client) storeNftFile(c context.Context, nftID *int, file []byte, extension string, nftFilePath func(nftID *int, extension *string) string) (string, error) {
 	fileName := nftFilePath(nftID, &extension)
 
-	err := s.uploadFile(c, fileName, file)
-	if err != nil {
-		return "", err
-	}
-
-	err = s.MakeFilePublic(c, fileName)
-	if err != nil {
-		return "", err
-	}
-
-	return GetPublicFilePath(s.bucket, fileName), nil
+	return s.uploadPublicFile(c, fileName, file, nil)
 }
 
 func (s Client) getNftVideoFilepath(nftId *int, extension *string) string {

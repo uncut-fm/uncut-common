@@ -14,17 +14,7 @@ func (s Client) StoreShowImage(c context.Context, showID *int, file []byte, exte
 func (s Client) storeShowImage(c context.Context, showID *int, file []byte, extension string) (string, error) {
 	fileName := s.getShowImageFilepath(showID, extension)
 
-	err := s.uploadFile(c, fileName, file)
-	if err != nil {
-		return "", err
-	}
-
-	err = s.MakeFilePublic(c, fileName)
-	if err != nil {
-		return "", err
-	}
-
-	return GetPublicFilePath(s.bucket, fileName), nil
+	return s.uploadPublicFile(c, fileName, file, nil)
 }
 
 func (s Client) getShowImageFilepath(showID *int, extension string) string {
