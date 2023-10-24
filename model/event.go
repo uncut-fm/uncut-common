@@ -29,6 +29,7 @@ var (
 	NewCreatorEvent    EventType = "NewCreator"
 	NewUserEvent       EventType = "NewUser"
 	WalletDeletedEvent EventType = "WalletDeleted"
+	WalletAddedEvent   EventType = "WalletAdded"
 
 	NewNFTMintedEvent        EventType = "NewNFTMinted"
 	MintedNftUpdateEvent     EventType = "MintedNftUpdate"
