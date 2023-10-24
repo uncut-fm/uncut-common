@@ -117,6 +117,7 @@ type PubSub struct {
 	UserEventsSubName      string `yaml:"user_events_sub_name"`
 	EmailEventsSubName     string `yaml:"email_events_sub_name"`
 	DatastoreEventsSubName string `yaml:"datastore_events_sub_name"`
+	SyncEventsSubName      string `yaml:"sync_events_sub_name"`
 
 	TranscoderRequestsTopicName string `yaml:"transcoder_requests_topic_name"`
 	TranscoderRequestsSubName   string `yaml:"transcoder_requests_sub_name"`
