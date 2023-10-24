@@ -28,6 +28,7 @@ var (
 
 	NewCreatorEvent    EventType = "NewCreator"
 	NewUserEvent       EventType = "NewUser"
+	UserDeletedEvent   EventType = "UserDeleted"
 	WalletDeletedEvent EventType = "WalletDeleted"
 	WalletAddedEvent   EventType = "WalletAdded"
 
