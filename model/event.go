@@ -33,6 +33,8 @@ var (
 	WalletDeletedEvent EventType = "WalletDeleted"
 	WalletAddedEvent   EventType = "WalletAdded"
 
+	UserAddedOrRemovedTagsEvent EventType = "UserAddedOrRemovedTags"
+
 	NewNFTMintedEvent        EventType = "NewNFTMinted"
 	MintedNftUpdateEvent     EventType = "MintedNftUpdate"
 	NewScheduledNftMintEvent EventType = "NewScheduledNftMint"
