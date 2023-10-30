@@ -118,6 +118,7 @@ type PubSub struct {
 	EmailEventsSubName     string `yaml:"email_events_sub_name"`
 	DatastoreEventsSubName string `yaml:"datastore_events_sub_name"`
 	SyncEventsSubName      string `yaml:"sync_events_sub_name"`
+	HubspotEventsSubName   string `yaml:"hubspot_events_sub_name"`
 
 	TranscoderRequestsTopicName string `yaml:"transcoder_requests_topic_name"`
 	TranscoderRequestsSubName   string `yaml:"transcoder_requests_sub_name"`
@@ -255,6 +256,7 @@ type JWTConfigs struct {
 
 type ServiceUrls struct {
 	ManagementURL       string `yaml:"management_url"`
+	ApolloStudioURL     string `yaml:"apollo_studio_url"`
 	ManagementSchemaUrl string `yaml:"management_schema_url"`
 	BackofficeSchemaUrl string `yaml:"backoffice_schema_url"`
 	GatewaySchemaUrl    string `yaml:"gateway_schema_url"`
