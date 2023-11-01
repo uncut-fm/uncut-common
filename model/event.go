@@ -26,6 +26,10 @@ var (
 	NewMentionFeedPostReplyEvent     EventType = "NewMentionFeedPost"
 	NewFeedConversationCommentEvent  EventType = "NewFeedConversationComment"
 
+	NewPostEvent     EventType = "NewPost"
+	NewBlogPostEvent EventType = "NewBlogPost"
+	NewCommentEvent  EventType = "NewComment"
+
 	NewCreatorEvent    EventType = "NewCreator"
 	NewUserEvent       EventType = "NewUser"
 	UserDeletedEvent   EventType = "UserDeleted"
