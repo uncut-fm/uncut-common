@@ -30,11 +30,21 @@ var (
 	NewBlogPostEvent EventType = "NewBlogPost"
 	NewCommentEvent  EventType = "NewComment"
 
-	NewCreatorEvent    EventType = "NewCreator"
-	NewUserEvent       EventType = "NewUser"
-	UserDeletedEvent   EventType = "UserDeleted"
-	UserUpdatedEvent   EventType = "UserUpdated"
-	UserLoggedInEvent  EventType = "UserLoggedIn"
+	NewCreatorEvent   EventType = "NewCreator"
+	NewUserEvent      EventType = "NewUser"
+	UserDeletedEvent  EventType = "UserDeleted"
+	UserUpdatedEvent  EventType = "UserUpdated"
+	UserLoggedInEvent EventType = "UserLoggedIn"
+
+	UserLikedPostEvent      EventType = "UserLikedPost"
+	UserUnlikedPostEvent    EventType = "UserUnlikedPost"
+	UserLikedCommentEvent   EventType = "UserLikedComment"
+	UserUnlikedCommentEvent EventType = "UserUnlikedComment"
+	UserLikedNftEvent       EventType = "UserLikedNft"
+	UserUnlikedNftEvent     EventType = "UserUnlikedNft"
+
+	UserFollowedUserEvent EventType = "UserFollowedUser"
+
 	WalletDeletedEvent EventType = "WalletDeleted"
 	WalletAddedEvent   EventType = "WalletAdded"
 
