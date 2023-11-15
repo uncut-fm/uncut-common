@@ -37,25 +37,55 @@ type Common struct {
 }
 
 type ManagementConfigs struct {
-	PlatformDB             DBConfigs      `yaml:"platform_db"`
-	Server                 ServerConfigs  `yaml:"server"`
-	Sentry                 SentryConfigs  `yaml:"sentry"`
-	Paper                  PaperConfigs   `yaml:"paper"`
-	BlockchainName         string         `yaml:"blockchain_name"`
-	StoreContractAddress   string         `yaml:"store_contract_address"`
-	Currencies             Web3Currencies `yaml:"currencies"`
-	AlchemyApiKey          string         `yaml:"alchemy_api_key"`
-	AuthAdminToken         string         `yaml:"auth_admin_token"`
-	SendgridAPIKey         string         `yaml:"sendgrid_api_key"`
-	Web3AdminToken         string         `yaml:"web3_admin_token"`
-	GcpStorageBucket       string         `yaml:"gcp_storage_bucket"`
-	Twitter                TwitterConfigs `yaml:"twitter"`
-	ReservedSlugs          []string       `yaml:"reserved_slugs"`
-	BackofficeAdminToken   string         `yaml:"backoffice_admin_token"`
-	PirFivePercentTokenIDs []int          `yaml:"pir_five_percent_token_ids"`
-	Redis                  RedisConfigs   `yaml:"redis"`
-	TranscoderAdminToken   string         `yaml:"transcoder_admin_token"`
-	VerificationSecretKey  string         `yaml:"verification_secret_key"`
+	PlatformDB             DBConfigs           `yaml:"platform_db"`
+	Server                 ServerConfigs       `yaml:"server"`
+	Sentry                 SentryConfigs       `yaml:"sentry"`
+	Paper                  PaperConfigs        `yaml:"paper"`
+	BlockchainName         string              `yaml:"blockchain_name"`
+	StoreContractAddress   string              `yaml:"store_contract_address"`
+	Currencies             Web3Currencies      `yaml:"currencies"`
+	AlchemyApiKey          string              `yaml:"alchemy_api_key"`
+	AuthAdminToken         string              `yaml:"auth_admin_token"`
+	SendgridAPIKey         string              `yaml:"sendgrid_api_key"`
+	Web3AdminToken         string              `yaml:"web3_admin_token"`
+	GcpStorageBucket       string              `yaml:"gcp_storage_bucket"`
+	Twitter                TwitterConfigs      `yaml:"twitter"`
+	ReservedSlugs          []string            `yaml:"reserved_slugs"`
+	BackofficeAdminToken   string              `yaml:"backoffice_admin_token"`
+	PirFivePercentTokenIDs []int               `yaml:"pir_five_percent_token_ids"`
+	Redis                  RedisConfigs        `yaml:"redis"`
+	TranscoderAdminToken   string              `yaml:"transcoder_admin_token"`
+	VerificationSecretKey  string              `yaml:"verification_secret_key"`
+	HubspotEmailConfigs    HubspotEmailConfigs `yaml:"hubspot_email_configs"`
+}
+
+type HubspotEmailConfigs struct {
+	APIKey                string                     `yaml:"api_key"`
+	ManagementTemplateIDs ManagementEmailTemplateIDs `yaml:"management_templates"`
+	BackofficeTemplateIDs BackofficeEmailTemplateIDs `yaml:"backoffice_templates"`
+}
+
+type ManagementEmailTemplateIDs struct {
+	BlogConversation         int `yaml:"blog_conversation"`
+	FeedConversation         int `yaml:"feed_conversation"`
+	BlogComment              int `yaml:"blog_comment"`
+	FeedComment              int `yaml:"feed_comment"`
+	BlogReplyToCommentator   int `yaml:"blog_reply_to_commentator"`
+	BlogReplyToHost          int `yaml:"blog_reply_to_host"`
+	FeedUserMention          int `yaml:"feed_user_mention"`
+	FeedNFTMention           int `yaml:"feed_nft_mention"`
+	UserVerificationStarted  int `yaml:"user_verification_started"`
+	UserVerificationAccepted int `yaml:"user_verification_accepted"`
+	UserVerificationRefused  int `yaml:"user_verification_refused"`
+}
+
+type BackofficeEmailTemplateIDs struct {
+	NftAirdrop                   int `yaml:"nft_airdrop"`
+	NftSold                      int `yaml:"nft_sold"`
+	NftTransferred               int `yaml:"nft_transferred"`
+	FaucetBalance                int `yaml:"faucet_balance"`
+	UnprocessedTransactionsAlert int `yaml:"unprocessed_transactions_alert"`
+	NewWelcomeUser               int `yaml:"new_welcome_user"`
 }
 
 type NftImportConfigs struct {
@@ -81,23 +111,24 @@ type PaperConfigs struct {
 }
 
 type BackofficeConfigs struct {
-	PlatformDB           DBConfigs      `yaml:"platform_db"`
-	Server               ServerConfigs  `yaml:"server"`
-	Twitter              TwitterConfigs `yaml:"twitter"`
-	GcpStorageBucket     string         `yaml:"gcp_storage_bucket"`
-	AdminToken           string         `yaml:"admin_token"`
-	AuthAdminToken       string         `yaml:"auth_admin_token"`
-	Sentry               SentryConfigs  `yaml:"sentry"`
-	StoreContractAddress string         `yaml:"store_contract_address"`
-	Web3AdminToken       string         `yaml:"web3_admin_token"`
-	TranscoderAdminToken string         `yaml:"transcoder_admin_token"`
-	SendgridAPIKey       string         `yaml:"sendgrid_api_key"`
-	Currencies           Web3Currencies `yaml:"currencies"`
-	AlchemyApiKey        string         `yaml:"alchemy_api_key"`
-	BlockchainName       string         `yaml:"blockchain_name"`
-	FaucetWallet         FaucetWallet   `yaml:"faucet_wallet"`
-	PIRTokenIDs          []int          `yaml:"pir_token_ids"`
-	Redis                RedisConfigs   `yaml:"redis"`
+	PlatformDB           DBConfigs           `yaml:"platform_db"`
+	Server               ServerConfigs       `yaml:"server"`
+	Twitter              TwitterConfigs      `yaml:"twitter"`
+	GcpStorageBucket     string              `yaml:"gcp_storage_bucket"`
+	AdminToken           string              `yaml:"admin_token"`
+	AuthAdminToken       string              `yaml:"auth_admin_token"`
+	Sentry               SentryConfigs       `yaml:"sentry"`
+	StoreContractAddress string              `yaml:"store_contract_address"`
+	Web3AdminToken       string              `yaml:"web3_admin_token"`
+	TranscoderAdminToken string              `yaml:"transcoder_admin_token"`
+	SendgridAPIKey       string              `yaml:"sendgrid_api_key"`
+	Currencies           Web3Currencies      `yaml:"currencies"`
+	AlchemyApiKey        string              `yaml:"alchemy_api_key"`
+	BlockchainName       string              `yaml:"blockchain_name"`
+	FaucetWallet         FaucetWallet        `yaml:"faucet_wallet"`
+	PIRTokenIDs          []int               `yaml:"pir_token_ids"`
+	Redis                RedisConfigs        `yaml:"redis"`
+	HubspotEmailConfigs  HubspotEmailConfigs `yaml:"hubspot_email_configs"`
 }
 
 type PubSub struct {

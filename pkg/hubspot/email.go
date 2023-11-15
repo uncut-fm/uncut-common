@@ -7,14 +7,16 @@ import (
 var sendEmailEndpoint = "https://api.hubapi.com/marketing/v3/transactional/single-email/send"
 
 type NewEmailRequest struct {
-	HubspotEmailID int `json:"emailId"`
-	Message        struct {
-		From    *string  `json:"from"`
-		To      *string  `json:"to"`
-		SendID  *string  `json:"sendId"`
-		ReplyTo []string `json:"replyTo"`
-	} `json:"message"`
+	HubspotEmailID   int                    `json:"emailId"`
+	Message          EmailMessage           `json:"message"`
 	CustomProperties map[string]interface{} `json:"customProperties"`
+}
+
+type EmailMessage struct {
+	From    *string  `json:"from,omitempty"`
+	To      *string  `json:"to"`
+	SendID  *string  `json:"sendId"`
+	ReplyTo []string `json:"replyTo,omitempty"`
 }
 
 func (c *Client) SendEmail(ctx context.Context, request *NewEmailRequest) error {

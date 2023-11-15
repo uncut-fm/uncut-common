@@ -43,12 +43,16 @@ type batchReadRequest struct {
 }
 
 func (c *Client) sendPostRequest(url string, data interface{}, hubspotResp hubspotResponseInterface) error {
-	payload, err := json.Marshal(data)
+	payload := new(bytes.Buffer)
+	enc := json.NewEncoder(payload)
+	enc.SetEscapeHTML(false)
+
+	err := enc.Encode(data)
 	if err != nil {
 		return err
 	}
 
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	req, err := http.NewRequest("POST", url, payload)
 	if err != nil {
 		return err
 	}
