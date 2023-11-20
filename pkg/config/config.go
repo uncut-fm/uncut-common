@@ -86,6 +86,9 @@ type BackofficeEmailTemplateIDs struct {
 	FaucetBalance                int `yaml:"faucet_balance"`
 	UnprocessedTransactionsAlert int `yaml:"unprocessed_transactions_alert"`
 	NewWelcomeUser               int `yaml:"new_welcome_user"`
+	NewCollection                int `yaml:"new_collection"`
+	FraudCollectionOwner         int `yaml:"fraud_collection_owner"`
+	FraudAlert                   int `yaml:"fraud_alert"`
 }
 
 type NftImportConfigs struct {
