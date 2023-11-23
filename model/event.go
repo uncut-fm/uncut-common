@@ -26,9 +26,12 @@ var (
 	NewMentionFeedPostReplyEvent     EventType = "NewMentionFeedPost"
 	NewFeedConversationCommentEvent  EventType = "NewFeedConversationComment"
 
-	NewPostEvent     EventType = "NewPost"
-	NewBlogPostEvent EventType = "NewBlogPost"
-	NewCommentEvent  EventType = "NewComment"
+	NewPostEvent         EventType = "NewPost"
+	PostDeletedEvent     EventType = "PostDeleted"
+	NewBlogPostEvent     EventType = "NewBlogPost"
+	BlogPostDeletedEvent EventType = "BlogPostDeleted"
+	NewCommentEvent      EventType = "NewComment"
+	CommentDeletedEvent  EventType = "CommentDeleted"
 
 	NewCreatorEvent   EventType = "NewCreator"
 	NewUserEvent      EventType = "NewUser"
@@ -43,7 +46,8 @@ var (
 	UserLikedNftEvent       EventType = "UserLikedNft"
 	UserUnlikedNftEvent     EventType = "UserUnlikedNft"
 
-	UserFollowedUserEvent EventType = "UserFollowedUser"
+	UserFollowedUserEvent   EventType = "UserFollowedUser"
+	UserUnfollowedUserEvent EventType = "UserUnfollowedUser"
 
 	WalletDeletedEvent EventType = "WalletDeleted"
 	WalletAddedEvent   EventType = "WalletAdded"

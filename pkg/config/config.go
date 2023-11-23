@@ -153,6 +153,7 @@ type PubSub struct {
 	DatastoreEventsSubName string `yaml:"datastore_events_sub_name"`
 	SyncEventsSubName      string `yaml:"sync_events_sub_name"`
 	HubspotEventsSubName   string `yaml:"hubspot_events_sub_name"`
+	ScoreEventsSubName     string `yaml:"score_events_sub_name"`
 
 	TranscoderRequestsTopicName string `yaml:"transcoder_requests_topic_name"`
 	TranscoderRequestsSubName   string `yaml:"transcoder_requests_sub_name"`
