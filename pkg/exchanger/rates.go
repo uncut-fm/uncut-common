@@ -61,10 +61,10 @@ func (c *ExchangerAPI) ETHEquivalentInUSD(ethQuantity float64) (float64, error) 
 	return usdPrice, c.log.CheckError(err, c.ETHEquivalentInUSD)
 }
 
-func (c *ExchangerAPI) WaxEquivalentInUSD(waxQuantity float64) (float64, error) {
-	usdPrice, err := c.getTokenEquivalentInUSD(waxQuantity, WAXP)
+func (c *ExchangerAPI) TokenEquivalentInUSD(tokenQuantity float64, token TokenSymbol) (float64, error) {
+	usdPrice, err := c.getTokenEquivalentInUSD(tokenQuantity, token)
 
-	return usdPrice, c.log.CheckError(err, c.WaxEquivalentInUSD)
+	return usdPrice, c.log.CheckError(err, c.TokenEquivalentInUSD)
 }
 
 func (c *ExchangerAPI) getTokenEquivalentInUSD(tokenQuantity float64, token TokenSymbol) (float64, error) {
