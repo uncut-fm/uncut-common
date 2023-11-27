@@ -25,7 +25,12 @@ var (
 	OptimismGoerliBlockchainNetwork  BlockchainNetwork = "opt-goerli"
 
 	WaxBlockchainNetwork BlockchainNetwork = "wax"
+
+	WAXPTokenSymbol TokenSymbol = "WAXP"
+	ETHTokenSymbol  TokenSymbol = "ETH"
 )
+
+type TokenSymbol string
 
 func GetBlockchainNetworksByEnvironment(env string) []BlockchainNetwork {
 	switch env {
