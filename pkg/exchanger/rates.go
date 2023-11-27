@@ -7,6 +7,7 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
+	"sync"
 	"time"
 )
 
@@ -20,16 +21,18 @@ var fallbackPricePerToken = map[model.TokenSymbol]float64{
 }
 
 type ExchangerAPI struct {
-	log              logger.Logger
-	restyClient      *resty.Client
-	cachedTokenPrice map[model.TokenSymbol]*cachedPriceStruct
+	log                   logger.Logger
+	restyClient           *resty.Client
+	cachedTokenPrice      map[model.TokenSymbol]*cachedPriceStruct
+	cachedTokenPriceMutex *sync.RWMutex
 }
 
 func NewCryptoExchanger(log logger.Logger) *ExchangerAPI {
 	return &ExchangerAPI{
-		log:              log,
-		restyClient:      createRestyClient(),
-		cachedTokenPrice: make(map[model.TokenSymbol]*cachedPriceStruct),
+		log:                   log,
+		restyClient:           createRestyClient(),
+		cachedTokenPrice:      make(map[model.TokenSymbol]*cachedPriceStruct),
+		cachedTokenPriceMutex: new(sync.RWMutex),
 	}
 }
 
@@ -84,9 +87,8 @@ func (c *ExchangerAPI) getTokenPrice(token model.TokenSymbol) float64 {
 
 				c.setUSDEquivalentOfTokenCache(token, tokenPrice)
 			}()
-
-			return tokenPrice
 		}
+		return tokenPrice
 	}
 
 	tokenPrice, err := c.getTokenPriceInUSDFromAPI(token)
@@ -100,6 +102,9 @@ func (c *ExchangerAPI) getTokenPrice(token model.TokenSymbol) float64 {
 }
 
 func (c *ExchangerAPI) getTokenPriceFromCache(token model.TokenSymbol) (float64, bool, bool) {
+	c.cachedTokenPriceMutex.RLock()
+	defer c.cachedTokenPriceMutex.RUnlock()
+
 	cachedPrice := c.cachedTokenPrice[token]
 	if cachedPrice == nil {
 		return 0, false, false
@@ -113,6 +118,9 @@ func (c *ExchangerAPI) getTokenPriceFromCache(token model.TokenSymbol) (float64,
 }
 
 func (c *ExchangerAPI) setUSDEquivalentOfTokenCache(token model.TokenSymbol, priceInUSD float64) {
+	c.cachedTokenPriceMutex.Lock()
+	defer c.cachedTokenPriceMutex.Unlock()
+
 	c.cachedTokenPrice[token] = &cachedPriceStruct{
 		price:         priceInUSD,
 		retrievedTime: time.Now(),
