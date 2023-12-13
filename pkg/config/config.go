@@ -290,17 +290,18 @@ type JWTConfigs struct {
 }
 
 type ServiceUrls struct {
-	ManagementURL       string `yaml:"management_url"`
-	ApolloStudioURL     string `yaml:"apollo_studio_url"`
-	ManagementSchemaUrl string `yaml:"management_schema_url"`
-	BackofficeSchemaUrl string `yaml:"backoffice_schema_url"`
-	GatewaySchemaUrl    string `yaml:"gateway_schema_url"`
-	AuthAPIUrl          string `yaml:"auth_api_url"`
-	SearchAPIUrl        string `yaml:"search_api_url"`
-	WebappUrl           string `yaml:"webapp_url"`
-	Web3AdminUrl        string `yaml:"web3_admin_url"`
-	TranscoderUrl       string `yaml:"transcoder_url"`
-	NftImportUrl        string `yaml:"nft_import_url"`
+	ManagementURL             string `yaml:"management_url"`
+	ApolloStudioURL           string `yaml:"apollo_studio_url"`
+	ManagementSchemaUrl       string `yaml:"management_schema_url"`
+	BackofficeSchemaUrl       string `yaml:"backoffice_schema_url"`
+	GatewaySchemaUrl          string `yaml:"gateway_schema_url"`
+	AuthAPIUrl                string `yaml:"auth_api_url"`
+	SearchAPIUrl              string `yaml:"search_api_url"`
+	WebappUrl                 string `yaml:"webapp_url"`
+	Web3AdminUrl              string `yaml:"web3_admin_url"`
+	TranscoderUrl             string `yaml:"transcoder_url"`
+	NftImportUrl              string `yaml:"nft_import_url"`
+	BlockchainEventsWorkerUrl string `yaml:"blockchain_events_worker_url"`
 }
 
 type OauthProviders struct {
