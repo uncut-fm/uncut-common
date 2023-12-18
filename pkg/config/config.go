@@ -123,6 +123,7 @@ type BackofficeConfigs struct {
 	Sentry               SentryConfigs       `yaml:"sentry"`
 	StoreContractAddress string              `yaml:"store_contract_address"`
 	Web3AdminToken       string              `yaml:"web3_admin_token"`
+	BlockchainRpcUrl     string              `yaml:"blockchain_rpc_url"`
 	TranscoderAdminToken string              `yaml:"transcoder_admin_token"`
 	SendgridAPIKey       string              `yaml:"sendgrid_api_key"`
 	Currencies           Web3Currencies      `yaml:"currencies"`
