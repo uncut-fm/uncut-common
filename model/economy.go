@@ -1,8 +1,8 @@
 package model
 
 const (
-	COMPLETE_PROFILE_REWARD_AMOUNT        = 1000
-	SIGNUP_REWARD_AMOUNT                  = 1000
-	SIGNIN_REWARD_AMOUNT                  = 100
-	SIGNIN_ADDITIONAL_DAILY_REWARD_AMOUNT = 10
+	CompleteProfileRewardAmount       = 1000
+	SignupRewardAmount                = 1000
+	SigninRewardAmount                = 100
+	SigninAdditionalDailyRewardAmount = 10
 )
