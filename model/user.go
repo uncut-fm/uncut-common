@@ -36,6 +36,40 @@ type User struct {
 	Edges                UserEdges    `json:"edges"`
 }
 
+func (u User) IsProfileComplete() bool {
+	return u.Name != "" && u.ProfileImageUrl != "" && u.Title != "" && len(u.WalletAddresses) > 0 && u.countUserSocialLinks() > 1
+}
+
+func (u User) countUserSocialLinks() int {
+	var count int
+
+	if len(u.FacebookHandle) > 0 {
+		count++
+	}
+
+	if len(u.InstagramHandle) > 0 {
+		count++
+	}
+
+	if len(u.TwitterHandle) > 0 {
+		count++
+	}
+
+	if len(u.LinkedinHandle) > 0 {
+		count++
+	}
+
+	if len(u.DiscordHandle) > 0 {
+		count++
+	}
+
+	if len(u.WebsiteUrl) > 0 {
+		count++
+	}
+
+	return count
+}
+
 type ThemeColors struct {
 	Accent     string `json:"accent"`
 	Background string `json:"background"`
