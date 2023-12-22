@@ -120,11 +120,12 @@ type BackofficeConfigs struct {
 	GcpStorageBucket     string              `yaml:"gcp_storage_bucket"`
 	AdminToken           string              `yaml:"admin_token"`
 	AuthAdminToken       string              `yaml:"auth_admin_token"`
+	ManagementAdminToken string              `yaml:"management_admin_token"`
+	Web3AdminToken       string              `yaml:"web3_admin_token"`
+	TranscoderAdminToken string              `yaml:"transcoder_admin_token"`
 	Sentry               SentryConfigs       `yaml:"sentry"`
 	StoreContractAddress string              `yaml:"store_contract_address"`
-	Web3AdminToken       string              `yaml:"web3_admin_token"`
 	BlockchainRpcUrl     string              `yaml:"blockchain_rpc_url"`
-	TranscoderAdminToken string              `yaml:"transcoder_admin_token"`
 	SendgridAPIKey       string              `yaml:"sendgrid_api_key"`
 	Currencies           Web3Currencies      `yaml:"currencies"`
 	AlchemyApiKey        string              `yaml:"alchemy_api_key"`
