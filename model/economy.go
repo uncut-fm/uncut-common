@@ -6,4 +6,5 @@ const (
 	SigninRewardAmount                   = 100
 	SigninAdditionalDailyRewardAmount    = 10
 	SigninMaxAdditionalDailyRewardAmount = 100
+	SellNftRewardAmount                  = 30
 )
