@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"reflect"
 	"runtime"
+	"strings"
 )
 
 func New() Logger {
@@ -35,7 +36,7 @@ type Logger interface {
 }
 
 func (l log) CheckError(err error, i interface{}) error {
-	if err != nil {
+	if err != nil && !strings.Contains(err.Error(), "not found") {
 		l.Warn("Function name: "+getFunctionName(i)+" | Error: ", err)
 	}
 
