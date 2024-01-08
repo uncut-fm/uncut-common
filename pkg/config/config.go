@@ -57,6 +57,7 @@ type ManagementConfigs struct {
 	TranscoderAdminToken   string              `yaml:"transcoder_admin_token"`
 	VerificationSecretKey  string              `yaml:"verification_secret_key"`
 	HubspotEmailConfigs    HubspotEmailConfigs `yaml:"hubspot_email_configs"`
+	StripeConfigs          StripeConfigs       `yaml:"stripe_configs"`
 }
 
 type HubspotEmailConfigs struct {
@@ -314,4 +315,9 @@ type OauthProviders struct {
 type SentryConfigs struct {
 	DSN        string  `yaml:"dsn"`
 	SampleRate float32 `yaml:"sample_rate"`
+}
+
+type StripeConfigs struct {
+	APIKey        string `yaml:"api_key"`
+	WebhookSecret string `yaml:"webhook_secret"`
 }
