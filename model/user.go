@@ -37,7 +37,7 @@ type User struct {
 }
 
 func (u User) IsProfileComplete() bool {
-	return u.Name != "" && u.ProfileImageUrl != "" && u.Title != "" && len(u.WalletAddresses) > 0 && u.countUserSocialLinks() > 1
+	return u.Name != "" && u.ProfileImageUrl != "" && u.Title != "" && len(u.WalletAddresses) > 0 && u.countUserSocialLinks() >= 1
 }
 
 func (u User) countUserSocialLinks() int {
