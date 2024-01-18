@@ -89,6 +89,8 @@ const (
 	FraudCollectionOwnerNotification NotificationTemplateType = "FRAUD_COLLECTION_OWNER"
 
 	GamificationNewLevelReachedNotification NotificationTemplateType = "NEW_LEVEL_REACHED"
+
+	ArtxIntroductionProductUpdateNotification NotificationTemplateType = "UPDATE_ARTX_0_MODAL"
 )
 
 var (
