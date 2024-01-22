@@ -5,6 +5,7 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/vincent-petithory/dataurl"
 	"math/big"
+	"math/rand"
 	"strings"
 	"time"
 )
@@ -133,4 +134,11 @@ func UInt64ToIntSlice(src []uint64) []int {
 		dest = append(dest, int(v))
 	}
 	return dest
+}
+
+func GetRandomNumberInRange(min, max int) int {
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+
+	return min + r1.Intn(max-min)
 }
