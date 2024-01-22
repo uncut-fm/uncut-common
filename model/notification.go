@@ -105,8 +105,8 @@ const (
 
 	GamificationNewLevelReachedNotification NotificationTemplateType = "NEW_LEVEL_REACHED"
 
-	ArtxIntroductionProductUpdateNotification  NotificationTemplateType = "UPDATE_ARTX_0_MODAL"
-	ArtxPlatformGrantProductUpdateNotification NotificationTemplateType = "ARTX_PLATFORM_GRANT"
+	ArtxIntroductionProductUpdateNotification NotificationTemplateType = "UPDATE_ARTX_0_MODAL"
+	ArtxPlatformGrantNotification             NotificationTemplateType = "ARTX_PLATFORM_GRANT"
 )
 
 var (
