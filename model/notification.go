@@ -31,6 +31,21 @@ type NewNotification struct {
 	Metadata      map[string]interface{}
 }
 
+func NewGrantArtxMetadata(userID, artxAmount int) map[string]interface{} {
+	return map[string]interface{}{
+		"userId":      userID,
+		"artxGranted": artxAmount,
+	}
+}
+
+func GetArtxAmountFromMetadata(metadata map[string]interface{}) (int, bool) {
+	if artxGranted, ok := metadata["artxGranted"]; ok {
+		return int(artxGranted.(float64)), true
+	}
+
+	return 0, false
+}
+
 type NewSubscriptionNotification struct {
 	ReceiverEmail string
 	CategoryType  string
@@ -90,7 +105,8 @@ const (
 
 	GamificationNewLevelReachedNotification NotificationTemplateType = "NEW_LEVEL_REACHED"
 
-	ArtxIntroductionProductUpdateNotification NotificationTemplateType = "UPDATE_ARTX_0_MODAL"
+	ArtxIntroductionProductUpdateNotification  NotificationTemplateType = "UPDATE_ARTX_0_MODAL"
+	ArtxPlatformGrantProductUpdateNotification NotificationTemplateType = "ARTX_PLATFORM_GRANT"
 )
 
 var (
