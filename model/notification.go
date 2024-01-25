@@ -108,6 +108,7 @@ const (
 	ArtxIntroductionProductUpdateNotification NotificationTemplateType = "UPDATE_ARTX_0_MODAL"
 	ArtxPlatformGrantNotification             NotificationTemplateType = "ARTX_PLATFORM_GRANT"
 	WelcomeArtxBonusNotification              NotificationTemplateType = "WELCOME_ARTX_BONUS"
+	CuratedListWinnerRewardNotification       NotificationTemplateType = "CURATED_LIST_WINNER_REWARD"
 )
 
 var (
