@@ -9,7 +9,7 @@ const (
 	SigninAdditionalDailyRewardAmount    = 5
 	SigninMaxAdditionalDailyRewardAmount = 75
 	NFTMintCopyFee                       = 1
-	NewCollectionFee                     = 500
+	NewCollectionFee                     = 100
 	NFTVoteFee                           = 1
 	//SellNftRewardAmount                  = 30
 )
