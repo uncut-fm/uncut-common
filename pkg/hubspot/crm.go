@@ -33,7 +33,7 @@ func (c *Client) ListObjects(ctx context.Context, objectType HubspotObjectType, 
 
 type batchUpdateInput struct {
 	Properties map[string]string `json:"properties"`
-	IdProperty string            `json:"idProperty"`
+	IdProperty *string           `json:"idProperty,omitempty"`
 	ID         string            `json:"id"`
 }
 
