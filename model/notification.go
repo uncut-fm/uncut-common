@@ -31,11 +31,17 @@ type NewNotification struct {
 	Metadata      map[string]interface{}
 }
 
-func NewGrantArtxMetadata(userID, artxAmount int) map[string]interface{} {
-	return map[string]interface{}{
+func NewGrantArtxMetadata(userID, artxAmount int, note *string) map[string]interface{} {
+	metadata := map[string]interface{}{
 		"userId":      userID,
 		"artxGranted": artxAmount,
 	}
+
+	if note != nil && len(*note) > 0 {
+		metadata["note"] = *note
+	}
+
+	return metadata
 }
 
 func GetArtxAmountFromMetadata(metadata map[string]interface{}) (int, bool) {
