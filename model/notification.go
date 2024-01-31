@@ -46,7 +46,12 @@ func NewGrantArtxMetadata(userID, artxAmount int, note *string) map[string]inter
 
 func GetArtxAmountFromMetadata(metadata map[string]interface{}) (int, bool) {
 	if artxGranted, ok := metadata["artxGranted"]; ok {
-		return int(artxGranted.(float64)), true
+		switch v := artxGranted.(type) {
+		case float64:
+			return int(v), true
+		case int:
+			return v, true
+		}
 	}
 
 	return 0, false
