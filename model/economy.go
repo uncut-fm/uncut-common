@@ -7,7 +7,7 @@ const (
 	signupGrantToAmount                  = 100
 	SigninRewardAmount                   = 25
 	SigninAdditionalDailyRewardAmount    = 5
-	SigninMaxAdditionalDailyRewardAmount = 75
+	SigninMaxAdditionalDailyRewardAmount = 25
 	NFTMintCopyFee                       = 1
 	NewCollectionFee                     = 100
 	NFTVoteFee                           = 1
