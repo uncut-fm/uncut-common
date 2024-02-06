@@ -81,10 +81,12 @@ type TranscoderPubsubRequest struct {
 	NftTokenID         string
 	NftContractAddress string
 	VideoURL           string
+	ImageURL           string
 }
 
 type TranscoderPubsubRequestType string
 
 var (
 	ExtractVideoFirstFrame TranscoderPubsubRequestType = "ExtractVideoFirstFrame"
+	ProcessImageMetadata   TranscoderPubsubRequestType = "ImageMetadata"
 )
