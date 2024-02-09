@@ -80,4 +80,5 @@ type PropertyGroupName string
 const (
 	PropertyGroupNameSocialMedia PropertyGroupName = "socialmediainformation"
 	PropertyGroupNameContactInfo PropertyGroupName = "contactinformation"
+	PropertyGroupArtxInfo        PropertyGroupName = "artx_information"
 )
