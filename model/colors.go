@@ -57,6 +57,12 @@ func (c HSL) String() string {
 	return fmt.Sprintf("H%f S%f L%f", c.H, c.S, c.L)
 }
 
+func NewHSLFromString(hsl string) HSL {
+	var h, s, l float64
+	fmt.Sscanf(hsl, "H%f S%f L%f", &h, &s, &l)
+	return HSL{h, s, l}
+}
+
 func (c RGB) String() string {
 	return fmt.Sprintf("rgb(%d,%d,%d)", c.R, c.G, c.B)
 }
