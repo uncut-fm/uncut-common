@@ -7,4 +7,6 @@ type ImageMetadata struct {
 	Size             int
 	MimeType         string
 	GifFirstFrameUrl *string
+	AccentColor      *string
+	BackgroundColor  *string
 }
