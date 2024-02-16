@@ -120,6 +120,7 @@ const (
 	ArtxPlatformGrantNotification             NotificationTemplateType = "ARTX_PLATFORM_GRANT"
 	WelcomeArtxBonusNotification              NotificationTemplateType = "WELCOME_ARTX_BONUS"
 	CuratedListWinnerRewardNotification       NotificationTemplateType = "CURATED_LIST_WINNER_REWARD"
+	UserNftCuratedNotification                NotificationTemplateType = "NFT_CURATED"
 )
 
 var (
