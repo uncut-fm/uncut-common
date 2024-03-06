@@ -42,3 +42,33 @@ func GetBlockchainNetworksByEnvironment(env string) []BlockchainNetwork {
 		return []BlockchainNetwork{PolygonMainnetBlockchainNetwork, EthereumMainnetBlockchainNetwork, ArbitrumMainnetBlockchainNetwork, OptimismMainnetBlockchainNetwork}
 	}
 }
+
+type WaxCollectionInfo struct {
+	CollectionName     string   `json:"collection_name"`
+	Name               string   `json:"name"`
+	Description        string   `json:"description"`
+	CreatedAtBlock     string   `json:"created_at_block"`
+	CreatedAtTime      string   `json:"created_at_time"`
+	Image              string   `json:"img"`
+	Author             string   `json:"author"`
+	AuthorizedAccounts []string `json:"authorized_accounts"`
+	NotifyAccounts     []string `json:"notify_accounts"`
+	MarketFee          float64  `json:"market_fee"`
+	AllowNotify        bool     `json:"allow_notify"`
+}
+
+func (w WaxCollectionInfo) GetMap() map[string]interface{} {
+	return map[string]interface{}{
+		"collection_name":     w.CollectionName,
+		"name":                w.Name,
+		"description":         w.Description,
+		"created_at_block":    w.CreatedAtBlock,
+		"created_at_time":     w.CreatedAtTime,
+		"img":                 w.Image,
+		"author":              w.Author,
+		"authorized_accounts": w.AuthorizedAccounts,
+		"notify_accounts":     w.NotifyAccounts,
+		"market_fee":          w.MarketFee,
+		"allow_notify":        w.AllowNotify,
+	}
+}
