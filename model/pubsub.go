@@ -71,9 +71,10 @@ type BlockchainRequest struct {
 type BlockchainRequestType string
 
 var (
-	BlockchainRequestMintNft        BlockchainRequestType = "MintNFT"
-	BlockchainRequestBurnNft        BlockchainRequestType = "BurnNFT"
-	BlockchainRequestMintCollection BlockchainRequestType = "MintCollection"
+	BlockchainRequestMintNft           BlockchainRequestType = "MintNFT"
+	BlockchainRequestBurnNft           BlockchainRequestType = "BurnNFT"
+	BlockchainRequestMintCollection    BlockchainRequestType = "MintCollection"
+	BlockchainRequestMintWaxCollection BlockchainRequestType = "MintWaxCollection"
 )
 
 type TranscoderPubsubRequest struct {
