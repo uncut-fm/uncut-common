@@ -3,6 +3,7 @@ package model
 import (
 	"errors"
 	"github.com/uncut-fm/uncut-common/pkg/config"
+	"strconv"
 	"strings"
 )
 
@@ -102,8 +103,21 @@ func WaxName(str string) (string, error) {
 // CollectionName ensures that the collection name is 12 characters long and a valid eosio name
 func WaxCollectionName(str string) (string, error) {
 	if len(str) != 12 {
-		return "", errors.New("Collection name must be 12 characters while this one is " + string(len(str)))
+		return "", errors.New("Collection name must be 12 characters while this one is " + strconv.Itoa(len(str)))
 	}
 
 	return WaxName(str)
 }
+
+type WaxAttribute struct {
+	Key   string   `json:"key"`
+	Value []string `json:"value"`
+}
+
+type WaxAttributeType string
+
+var (
+	StringWaxAttributeType WaxAttributeType = "string"
+	FloatWaxAttributeType  WaxAttributeType = "float"
+	Int32WaxAttributeType  WaxAttributeType = "int32_t"
+)
