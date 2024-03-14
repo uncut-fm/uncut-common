@@ -67,4 +67,7 @@ var (
 	ScheduledEmailEvent EventType = "NewScheduledEmail"
 	ShowCreatedEvent    EventType = "NewShowCreated"
 	ShowPublicEvent     EventType = "ShowBecomePublic"
+
+	NftCuratedEvent         EventType = "NftCurated"
+	NftCurationUpdatedEvent EventType = "NftCurationUpdated"
 )
