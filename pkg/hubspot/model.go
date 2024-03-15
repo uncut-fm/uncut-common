@@ -26,7 +26,7 @@ var (
 
 	HubspotDefinedAssociationCategory HubspotAssociationCategory = "HUBSPOT_DEFINED"
 
-	DefaultHubspotDealsOwnerID          = "562479474"
+	DefaultHubspotDealsOwnerID          = "560963740"
 	FeaturedArtOfTheDayPipelineID       = "88439581"
 	FeaturedArtOfTheDayScheduledStageID = "164285780"
 )

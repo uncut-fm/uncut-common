@@ -70,4 +70,5 @@ var (
 
 	NftCuratedEvent         EventType = "NftCurated"
 	NftCurationUpdatedEvent EventType = "NftCurationUpdated"
+	NftCurationDeletedEvent EventType = "NftCurationDeleted"
 )
