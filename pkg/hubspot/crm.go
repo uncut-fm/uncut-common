@@ -21,7 +21,7 @@ func (c *Client) ListObjects(ctx context.Context, objectType HubspotObjectType, 
 		})
 	}
 
-	resp := &hubspotObjectsResponseV3{}
+	resp := &hubspotBatchObjectsResponseV3{}
 
 	err := c.sendPostRequest(endpoint, payload, resp)
 	if err != nil {
@@ -54,7 +54,7 @@ func (c *Client) UpdateContactsByEmailsBatch(ctx context.Context, properties []H
 		"inputs": inputs,
 	}
 
-	resp := &hubspotObjectsResponseV3{}
+	resp := &hubspotBatchObjectsResponseV3{}
 
 	err := c.sendPostRequest(endpoint, payload, resp)
 
@@ -68,7 +68,7 @@ func (c *Client) CreateProperties(ctx context.Context, newProperties []NewProper
 		"inputs": newProperties,
 	}
 
-	resp := &hubspotObjectsResponseV3{}
+	resp := &hubspotBatchObjectsResponseV3{}
 
 	err := c.sendPostRequest(endpoint, payload, resp)
 
@@ -81,7 +81,7 @@ func (c *Client) CreateObjectsBatch(ctx context.Context, objectType HubspotObjec
 		"inputs": objects,
 	}
 
-	resp := &hubspotObjectsResponseV3{}
+	resp := &hubspotBatchObjectsResponseV3{}
 
 	err := c.sendPostRequest(endpoint, payload, resp)
 	if err != nil {
@@ -99,7 +99,20 @@ func (c *Client) DeleteObjectByID(ctx context.Context, objectType HubspotObjectT
 	return err
 }
 
-func (c *Client) ListAssociationsByContactIDs(ctx context.Context, toObjectType HubspotObjectType, contactIDs []string) ([]AssociationObject, error) {
+func (c *Client) CreateObject(ctx context.Context, objectType HubspotObjectType, object CreateObjectInput) (HubspotSimplePublicObjectInput, error) {
+	endpoint := fmt.Sprintf(objectCreateBaseAPIUrl, string(objectType))
+
+	resp := &hubspotObjectResponseV3{}
+
+	err := c.sendPostRequest(endpoint, object, resp)
+	if err != nil {
+		return HubspotSimplePublicObjectInput{}, err
+	}
+
+	return resp.HubspotSimplePublicObjectInput, nil
+}
+
+func (c *Client) ListAssociationsByContactIDs(ctx context.Context, toObjectType HubspotObjectType, contactIDs []string) ([]AssociationPairToArrayObject, error) {
 	endpoint := fmt.Sprintf(batchAssociationsReadBaseAPIUrl, ContactsObjectType, toObjectType)
 
 	type input struct {

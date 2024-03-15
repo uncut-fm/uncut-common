@@ -15,6 +15,7 @@ const (
 	batchObjectsCreateBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s/batch/create"
 	batchObjectsUpdateBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s/batch/update"
 
+	objectCreateBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s"    // /crm/v3/objects/:object_type
 	objectDeleteBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s/%s" // /crm/v3/objects/:object_type/:id
 
 	propertiesBaseAPIUrl = "https://api.hubapi.com/crm/v3/properties"

@@ -103,10 +103,11 @@ type NftImportConfigs struct {
 }
 
 type HubspotConfigs struct {
-	Server         ServerConfigs `yaml:"server"`
-	Sentry         SentryConfigs `yaml:"sentry"`
-	AuthAdminToken string        `yaml:"auth_admin_token"`
-	HubspotApiKey  string        `yaml:"hubspot_api_key"`
+	Server               ServerConfigs `yaml:"server"`
+	Sentry               SentryConfigs `yaml:"sentry"`
+	AuthAdminToken       string        `yaml:"auth_admin_token"`
+	ManagementAdminToken string        `yaml:"management_admin_token"`
+	HubspotApiKey        string        `yaml:"hubspot_api_key"`
 }
 
 type PaperConfigs struct {

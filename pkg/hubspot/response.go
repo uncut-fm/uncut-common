@@ -1,6 +1,6 @@
 package hubspot
 
-type hubspotObjectsResponseV3 struct {
+type hubspotBatchObjectsResponseV3 struct {
 	Status        hubspotStatus                    `json:"status"`
 	Message       string                           `json:"message"`
 	CorrelationID string                           `json:"correlationId"`
@@ -8,11 +8,27 @@ type hubspotObjectsResponseV3 struct {
 	Results       []HubspotSimplePublicObjectInput `json:"results"`
 }
 
-func (h hubspotObjectsResponseV3) GetStatus() hubspotStatus {
+type hubspotObjectResponseV3 struct {
+	Status        hubspotStatus `json:"status"`
+	Message       string        `json:"message"`
+	CorrelationID string        `json:"correlationId"`
+	Category      string        `json:"category"`
+	HubspotSimplePublicObjectInput
+}
+
+func (h hubspotBatchObjectsResponseV3) GetStatus() hubspotStatus {
 	return h.Status
 }
 
-func (h hubspotObjectsResponseV3) GetMessage() string {
+func (h hubspotBatchObjectsResponseV3) GetMessage() string {
+	return h.Message
+}
+
+func (h hubspotObjectResponseV3) GetStatus() hubspotStatus {
+	return h.Status
+}
+
+func (h hubspotObjectResponseV3) GetMessage() string {
 	return h.Message
 }
 
@@ -24,9 +40,9 @@ type associationResponseErr struct {
 }
 
 type hubspotReadAssociationsResponseV3 struct {
-	Status  hubspotStatus            `json:"status"`
-	Errors  []associationResponseErr `json:"errors"`
-	Results []AssociationObject      `json:"results"`
+	Status  hubspotStatus                  `json:"status"`
+	Errors  []associationResponseErr       `json:"errors"`
+	Results []AssociationPairToArrayObject `json:"results"`
 }
 
 func (h hubspotReadAssociationsResponseV3) GetStatus() hubspotStatus {
@@ -44,7 +60,7 @@ func (h hubspotReadAssociationsResponseV3) GetMessage() string {
 func (h *hubspotReadAssociationsResponseV3) setResultsForAssociationsWithErrors() {
 	for _, err := range h.Errors {
 		if len(err.Context.FromObjectID) > 0 {
-			h.Results = append(h.Results, AssociationObject{
+			h.Results = append(h.Results, AssociationPairToArrayObject{
 				From: struct {
 					ID string `json:"id"`
 				}{

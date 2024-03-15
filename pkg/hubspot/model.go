@@ -1,43 +1,72 @@
 package hubspot
 
+import (
+	"fmt"
+	"time"
+)
+
 type (
-	HubspotObjectType      string
-	HubspotAssociationType string
+	HubspotObjectType          string
+	HubspotAssociationType     string
+	HubspotAssociationCategory string
+	HubpsotAssociationTypeID   int
 )
 
 var (
-	ContactsObjectType          HubspotObjectType      = "contacts"
-	TagsObjectType              HubspotObjectType      = "tags"
-	ContactToTagAssociationType HubspotAssociationType = "user_tags"
+	ContactsObjectType HubspotObjectType = "contacts"
+	TagsObjectType     HubspotObjectType = "tags"
+	BadgesObjectType   HubspotObjectType = "badges"
+	DealsObjectType    HubspotObjectType = "deals"
 
-	BadgesObjectType              HubspotObjectType      = "badges"
+	ContactToTagAssociationType   HubspotAssociationType = "user_tags"
 	EAPBadgeName                                         = "EAP"
 	ContactToBadgeAssociationType HubspotAssociationType = "user_badges"
+
+	DealToContactAssociationTypeID HubpsotAssociationTypeID = 3
+
+	HubspotDefinedAssociationCategory HubspotAssociationCategory = "HUBSPOT_DEFINED"
+
+	DefaultHubspotDealsOwnerID          = "562479474"
+	FeaturedArtOfTheDayPipelineID       = "88439581"
+	FeaturedArtOfTheDayScheduledStageID = "164285780"
 )
 
 type HubspotSimplePublicObjectInput struct {
 	ID         string            `json:"id,omitempty"`
-	Properties map[string]string `json:"properties"`
+	Properties map[string]string `json:"properties,omitempty"`
 }
 
-type AssociationObject struct {
-	From struct {
-		ID string `json:"id"`
-	} `json:"from"`
-	To []struct {
+type CreateObjectInput struct {
+	Properties   map[string]string     `json:"properties"`
+	Associations []AssociationToObject `json:"associations,omitempty"`
+}
+
+type HubspotAssociationTypeObject struct {
+	AssociationCategory HubspotAssociationCategory `json:"associationCategory"`
+	AssociationTypeId   HubpsotAssociationTypeID   `json:"associationTypeId"`
+}
+
+type AssociationPairToArrayObject struct {
+	From IDObject `json:"from"`
+	To   []struct {
 		ID   string                 `json:"id"`
 		Type HubspotAssociationType `json:"type"`
 	}
 }
 
+type IDObject struct {
+	ID string `json:"id"`
+}
+
 type AssociationPair struct {
-	From struct {
-		ID string `json:"id"`
-	} `json:"from"`
-	To struct {
-		ID string `json:"id"`
-	} `json:"to"`
+	From IDObject               `json:"from"`
+	To   IDObject               `json:"to"`
 	Type HubspotAssociationType `json:"type"`
+}
+
+type AssociationToObject struct {
+	Types []HubspotAssociationTypeObject `json:"types"`
+	To    IDObject                       `json:"to"`
 }
 
 type NewProperty struct {
@@ -82,3 +111,42 @@ const (
 	PropertyGroupNameContactInfo PropertyGroupName = "contactinformation"
 	PropertyGroupArtxInfo        PropertyGroupName = "artx_information"
 )
+
+func GetTimeString(t time.Time) string {
+	return t.Format(time.RFC3339)
+}
+
+type FeaturedArtOfTheDayDealInput struct {
+	UserName      string
+	UserHubspotID string
+	ScheduledDate time.Time
+}
+
+var featuredArtOfTheDayDealNamePattern = "%s - %s" // {user_name} - {scheduled_data}
+
+func NewFeaturedArtOfTheDayDealObjectInput(input FeaturedArtOfTheDayDealInput) CreateObjectInput {
+	timeString := GetTimeString(input.ScheduledDate)
+
+	return CreateObjectInput{
+		Associations: []AssociationToObject{
+			{
+				Types: []HubspotAssociationTypeObject{
+					{
+						AssociationCategory: HubspotDefinedAssociationCategory,
+						AssociationTypeId:   DealToContactAssociationTypeID,
+					},
+				},
+				To: IDObject{
+					ID: input.UserHubspotID,
+				},
+			},
+		},
+		Properties: map[string]string{
+			"dealname":         fmt.Sprintf(featuredArtOfTheDayDealNamePattern, input.UserName, timeString),
+			"pipeline":         FeaturedArtOfTheDayPipelineID,
+			"dealstage":        FeaturedArtOfTheDayScheduledStageID,
+			"hubspot_owner_id": DefaultHubspotDealsOwnerID,
+			"closedate":        timeString,
+		},
+	}
+}
