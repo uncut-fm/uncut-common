@@ -17,6 +17,7 @@ const (
 
 	objectCreateBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s"    // /crm/v3/objects/:object_type
 	objectDeleteBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s/%s" // /crm/v3/objects/:object_type/:id
+	objectUpdateBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s/%s" // /crm/v3/objects/:object_type/:id
 
 	propertiesBaseAPIUrl = "https://api.hubapi.com/crm/v3/properties"
 
@@ -44,6 +45,14 @@ type batchReadRequest struct {
 }
 
 func (c *Client) sendPostRequest(url string, data interface{}, hubspotResp hubspotResponseInterface) error {
+	return c.sendRequest(url, data, hubspotResp, http.MethodPost)
+}
+
+func (c *Client) sendPatchRequest(url string, data interface{}, hubspotResp hubspotResponseInterface) error {
+	return c.sendRequest(url, data, hubspotResp, http.MethodPatch)
+}
+
+func (c *Client) sendRequest(url string, data interface{}, hubspotResp hubspotResponseInterface, method string) error {
 	payload := new(bytes.Buffer)
 	enc := json.NewEncoder(payload)
 	enc.SetEscapeHTML(false)
@@ -53,7 +62,7 @@ func (c *Client) sendPostRequest(url string, data interface{}, hubspotResp hubsp
 		return err
 	}
 
-	req, err := http.NewRequest("POST", url, payload)
+	req, err := http.NewRequest(method, url, payload)
 	if err != nil {
 		return err
 	}

@@ -112,6 +112,19 @@ func (c *Client) CreateObject(ctx context.Context, objectType HubspotObjectType,
 	return resp.HubspotSimplePublicObjectInput, nil
 }
 
+func (c *Client) UpdateObject(ctx context.Context, objectType HubspotObjectType, object UpdateObjectInput) (HubspotSimplePublicObjectInput, error) {
+	endpoint := fmt.Sprintf(objectUpdateBaseAPIUrl, string(objectType), object.ObjectID)
+
+	resp := &hubspotObjectResponseV3{}
+
+	err := c.sendPatchRequest(endpoint, object, resp)
+	if err != nil {
+		return HubspotSimplePublicObjectInput{}, err
+	}
+
+	return resp.HubspotSimplePublicObjectInput, nil
+}
+
 func (c *Client) ListAssociationsByContactIDs(ctx context.Context, toObjectType HubspotObjectType, contactIDs []string) ([]AssociationPairToArrayObject, error) {
 	endpoint := fmt.Sprintf(batchAssociationsReadBaseAPIUrl, ContactsObjectType, toObjectType)
 

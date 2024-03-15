@@ -41,6 +41,11 @@ type CreateObjectInput struct {
 	Associations []AssociationToObject `json:"associations,omitempty"`
 }
 
+type UpdateObjectInput struct {
+	ObjectID   string            `json:"-"`
+	Properties map[string]string `json:"properties"`
+}
+
 type HubspotAssociationTypeObject struct {
 	AssociationCategory HubspotAssociationCategory `json:"associationCategory"`
 	AssociationTypeId   HubpsotAssociationTypeID   `json:"associationTypeId"`
@@ -124,9 +129,7 @@ type FeaturedArtOfTheDayDealInput struct {
 
 var featuredArtOfTheDayDealNamePattern = "%s - %s" // {user_name} - {scheduled_data}
 
-func NewFeaturedArtOfTheDayDealObjectInput(input FeaturedArtOfTheDayDealInput) CreateObjectInput {
-	timeString := GetTimeString(input.ScheduledDate)
-
+func NewFeaturedArtOfTheDayDealCreateObjectInput(input FeaturedArtOfTheDayDealInput) CreateObjectInput {
 	return CreateObjectInput{
 		Associations: []AssociationToObject{
 			{
@@ -141,12 +144,25 @@ func NewFeaturedArtOfTheDayDealObjectInput(input FeaturedArtOfTheDayDealInput) C
 				},
 			},
 		},
-		Properties: map[string]string{
-			"dealname":         fmt.Sprintf(featuredArtOfTheDayDealNamePattern, input.UserName, timeString),
-			"pipeline":         FeaturedArtOfTheDayPipelineID,
-			"dealstage":        FeaturedArtOfTheDayScheduledStageID,
-			"hubspot_owner_id": DefaultHubspotDealsOwnerID,
-			"closedate":        timeString,
-		},
+		Properties: newFeaturedArtOfTheDayDealPropertiesInput(input),
+	}
+}
+
+func NewFeaturedArtOfTheDayDealUpdateObjectInput(input FeaturedArtOfTheDayDealInput, dealID string) UpdateObjectInput {
+	return UpdateObjectInput{
+		ObjectID:   dealID,
+		Properties: newFeaturedArtOfTheDayDealPropertiesInput(input),
+	}
+}
+
+func newFeaturedArtOfTheDayDealPropertiesInput(input FeaturedArtOfTheDayDealInput) map[string]string {
+	timeString := GetTimeString(input.ScheduledDate)
+
+	return map[string]string{
+		"dealname":         fmt.Sprintf(featuredArtOfTheDayDealNamePattern, input.UserName, timeString),
+		"pipeline":         FeaturedArtOfTheDayPipelineID,
+		"dealstage":        FeaturedArtOfTheDayScheduledStageID,
+		"hubspot_owner_id": DefaultHubspotDealsOwnerID,
+		"closedate":        timeString,
 	}
 }
