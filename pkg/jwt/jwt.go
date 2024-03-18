@@ -100,11 +100,7 @@ func (s Service) parseTokenFromHeader(c *gin.Context) (string, error) {
 }
 
 func (s Service) GetUserIDFromToken(token string) (int, error) {
-	claims := jwt.MapClaims{}
-	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
-		return s.accessKey, nil
-	})
-
+	claims, err := s.getClaimsFromJwtToken(token)
 	if err != nil {
 		return 0, err
 	}
@@ -115,4 +111,23 @@ func (s Service) GetUserIDFromToken(token string) (int, error) {
 	}
 
 	return int(userIDFloat64), err
+}
+
+func (s Service) getClaimsFromJwtToken(token string) (jwt.MapClaims, error) {
+	claims := jwt.MapClaims{}
+
+	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		// Check the signing method
+		if token.Method.Alg() != s.algo.Alg() {
+			return nil, errors.New("invalid signing method")
+		}
+
+		return s.accessKey, nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return claims, nil
 }
