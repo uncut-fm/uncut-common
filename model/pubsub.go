@@ -75,6 +75,7 @@ var (
 	BlockchainRequestBurnNft                 BlockchainRequestType = "BurnNFT"
 	BlockchainRequestMintCollection          BlockchainRequestType = "MintCollection"
 	BlockchainRequestMintWaxCollection       BlockchainRequestType = "MintWaxCollection"
+	BlockchainRequestMintWaxSchema           BlockchainRequestType = "MintWaxSchema"
 	BlockchainRequestUpdateWaxCollectionData BlockchainRequestType = "UpdateWaxCollectionData"
 )
 

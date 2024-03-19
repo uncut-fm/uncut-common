@@ -114,10 +114,15 @@ type WaxAttribute struct {
 	Value []string `json:"value"`
 }
 
-type WaxAttributeType string
+type WaxFormat struct {
+	Key  string  `json:"key"`
+	Type WaxType `json:"type"`
+}
+
+type WaxType string
 
 var (
-	StringWaxAttributeType WaxAttributeType = "string"
-	FloatWaxAttributeType  WaxAttributeType = "float"
-	Int32WaxAttributeType  WaxAttributeType = "int32_t"
+	StringWaxAttributeType WaxType = "string"
+	FloatWaxAttributeType  WaxType = "float"
+	Int32WaxAttributeType  WaxType = "int32_t"
 )
