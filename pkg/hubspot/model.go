@@ -1,7 +1,6 @@
 package hubspot
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -25,10 +24,6 @@ var (
 	DealToContactAssociationTypeID HubpsotAssociationTypeID = 3
 
 	HubspotDefinedAssociationCategory HubspotAssociationCategory = "HUBSPOT_DEFINED"
-
-	DefaultHubspotDealsOwnerID          = "560963740"
-	FeaturedArtOfTheDayPipelineID       = "88439581"
-	FeaturedArtOfTheDayScheduledStageID = "164285780"
 )
 
 type HubspotSimplePublicObjectInput struct {
@@ -119,50 +114,4 @@ const (
 
 func GetTimeString(t time.Time) string {
 	return t.Format(time.RFC3339)
-}
-
-type FeaturedArtOfTheDayDealInput struct {
-	UserName      string
-	UserHubspotID string
-	ScheduledDate time.Time
-}
-
-var featuredArtOfTheDayDealNamePattern = "%s - %s" // {user_name} - {scheduled_data}
-
-func NewFeaturedArtOfTheDayDealCreateObjectInput(input FeaturedArtOfTheDayDealInput) CreateObjectInput {
-	return CreateObjectInput{
-		Associations: []AssociationToObject{
-			{
-				Types: []HubspotAssociationTypeObject{
-					{
-						AssociationCategory: HubspotDefinedAssociationCategory,
-						AssociationTypeId:   DealToContactAssociationTypeID,
-					},
-				},
-				To: IDObject{
-					ID: input.UserHubspotID,
-				},
-			},
-		},
-		Properties: newFeaturedArtOfTheDayDealPropertiesInput(input),
-	}
-}
-
-func NewFeaturedArtOfTheDayDealUpdateObjectInput(input FeaturedArtOfTheDayDealInput, dealID string) UpdateObjectInput {
-	return UpdateObjectInput{
-		ObjectID:   dealID,
-		Properties: newFeaturedArtOfTheDayDealPropertiesInput(input),
-	}
-}
-
-func newFeaturedArtOfTheDayDealPropertiesInput(input FeaturedArtOfTheDayDealInput) map[string]string {
-	timeString := GetTimeString(input.ScheduledDate)
-
-	return map[string]string{
-		"dealname":         fmt.Sprintf(featuredArtOfTheDayDealNamePattern, input.UserName, timeString),
-		"pipeline":         FeaturedArtOfTheDayPipelineID,
-		"dealstage":        FeaturedArtOfTheDayScheduledStageID,
-		"hubspot_owner_id": DefaultHubspotDealsOwnerID,
-		"closedate":        timeString,
-	}
 }
