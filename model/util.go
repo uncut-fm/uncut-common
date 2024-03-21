@@ -142,3 +142,16 @@ func GetRandomNumberInRange(min, max int) int {
 
 	return min + r1.Intn(max-min)
 }
+
+func GetUncutNFTUrl(nftID int, showSlug, environment string) string {
+	switch environment {
+	case "dev", "stage":
+		return fmt.Sprintf("https://%s.%s.uncut.network/nft/%d", environment, showSlug, nftID)
+	case "test":
+		return fmt.Sprintf("https://%s.qa.uncut.network/nft/%d", showSlug, nftID)
+	case "production":
+		return fmt.Sprintf("https://%s.uncut.network/nft/%d", showSlug, nftID)
+	default:
+		return ""
+	}
+}
