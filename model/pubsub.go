@@ -77,6 +77,7 @@ var (
 	BlockchainRequestMintWaxCollection       BlockchainRequestType = "MintWaxCollection"
 	BlockchainRequestMintWaxSchema           BlockchainRequestType = "MintWaxSchema"
 	BlockchainRequestUpdateWaxCollectionData BlockchainRequestType = "UpdateWaxCollectionData"
+	BlockchainRequestMintWaxNft              BlockchainRequestType = "MintWaxNft"
 )
 
 type TranscoderPubsubRequest struct {
