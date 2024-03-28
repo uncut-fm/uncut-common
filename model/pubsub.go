@@ -16,6 +16,7 @@ var (
 	NftMintedBlockchainEventType        BlockchainEventType = "NftMinted"
 	NftPriceChangedBlockchainEvent      BlockchainEventType = "NftPriceChanged"
 	NftCollectionCreatedBlockchainEvent BlockchainEventType = "NftCollectionCreated"
+	NewWaxBlockchainEvent               BlockchainEventType = "NewWaxEvent"
 )
 
 type CollectionCreatedEventInfo struct {
