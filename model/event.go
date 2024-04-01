@@ -68,7 +68,8 @@ var (
 	ShowCreatedEvent    EventType = "NewShowCreated"
 	ShowPublicEvent     EventType = "ShowBecomePublic"
 
-	NftCuratedEvent         EventType = "NftCurated"
-	NftCurationUpdatedEvent EventType = "NftCurationUpdated"
-	NftCurationDeletedEvent EventType = "NftCurationDeleted"
+	NftCuratedEvent           EventType = "NftCurated"
+	NftCurationUpdatedEvent   EventType = "NftCurationUpdated"
+	NftCurationDeletedEvent   EventType = "NftCurationDeleted"
+	CuratedListFinalizedEvent EventType = "CuratedListFinalized"
 )
