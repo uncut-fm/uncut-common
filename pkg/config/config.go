@@ -303,6 +303,7 @@ type ServiceUrls struct {
 	SearchAPIUrl              string `yaml:"search_api_url"`
 	WebappUrl                 string `yaml:"webapp_url"`
 	Web3AdminUrl              string `yaml:"web3_admin_url"`
+	Web3eventsUrl             string `yaml:"web3events_url"`
 	TranscoderUrl             string `yaml:"transcoder_url"`
 	NftImportUrl              string `yaml:"nft_import_url"`
 	BlockchainEventsWorkerUrl string `yaml:"blockchain_events_worker_url"`
