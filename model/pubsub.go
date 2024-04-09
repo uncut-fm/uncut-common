@@ -74,6 +74,7 @@ type BlockchainRequestType string
 var (
 	BlockchainRequestMintNft                 BlockchainRequestType = "MintNFT"
 	BlockchainRequestBurnNft                 BlockchainRequestType = "BurnNFT"
+	BlockchainRequestBurnWaxNft              BlockchainRequestType = "BurnWaxNft"
 	BlockchainRequestMintCollection          BlockchainRequestType = "MintCollection"
 	BlockchainRequestMintWaxCollection       BlockchainRequestType = "MintWaxCollection"
 	BlockchainRequestMintWaxSchema           BlockchainRequestType = "MintWaxSchema"
