@@ -5,10 +5,10 @@ const (
 	SignupRewardAmount                   = 5
 	signupGrantFromAmount                = 25
 	signupGrantToAmount                  = 100
-	SigninRewardAmount                   = 25
+	SigninRewardAmount                   = 10
 	SigninAdditionalDailyRewardAmount    = 5
-	SigninMaxAdditionalDailyRewardAmount = 25
-	NFTMintCopyFee                       = 1
+	SigninMaxAdditionalDailyRewardAmount = 15
+	NFTMintCopyFee                       = 2
 	NewCollectionFee                     = 100
 	NFTVoteFee                           = 1
 	//SellNftRewardAmount                  = 30
