@@ -17,6 +17,7 @@ var (
 	PolygonNetwork                  BlockchainNetwork = "polygon"
 	PolygonMainnetBlockchainNetwork BlockchainNetwork = "polygon-mainnet"
 	PolygonMumbaiBlockchainNetwork  BlockchainNetwork = "polygon-mumbai"
+	PolygonAmoyBlockchainNetwork    BlockchainNetwork = "polygon-amoy"
 
 	EthereumMainnetBlockchainNetwork BlockchainNetwork = "eth-mainnet"
 	EthereumGoerliBlockchainNetwork  BlockchainNetwork = "eth-goerli"
@@ -38,7 +39,7 @@ type TokenSymbol string
 func GetBlockchainNetworksByEnvironment(env string) []BlockchainNetwork {
 	switch env {
 	case config.LocalEnvironment, config.DevEnvironment, config.TestEnvironment:
-		return []BlockchainNetwork{PolygonMumbaiBlockchainNetwork, EthereumGoerliBlockchainNetwork, ArbitrumGoerliBlockchainNetwork, OptimismGoerliBlockchainNetwork}
+		return []BlockchainNetwork{PolygonAmoyBlockchainNetwork, EthereumGoerliBlockchainNetwork, ArbitrumGoerliBlockchainNetwork, OptimismGoerliBlockchainNetwork}
 	case config.StageEnvironment, config.ProdEnvironment:
 		return []BlockchainNetwork{PolygonMainnetBlockchainNetwork, EthereumMainnetBlockchainNetwork, ArbitrumMainnetBlockchainNetwork, OptimismMainnetBlockchainNetwork}
 	default:
