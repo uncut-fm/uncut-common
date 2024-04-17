@@ -78,6 +78,7 @@ type ManagementEmailTemplateIDs struct {
 	UserVerificationStarted  int `yaml:"user_verification_started"`
 	UserVerificationAccepted int `yaml:"user_verification_accepted"`
 	UserVerificationRefused  int `yaml:"user_verification_refused"`
+	ReportNFT                int `yaml:"report_nft"`
 }
 
 type BackofficeEmailTemplateIDs struct {

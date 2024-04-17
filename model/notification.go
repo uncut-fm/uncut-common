@@ -121,6 +121,8 @@ const (
 	WelcomeArtxBonusNotification              NotificationTemplateType = "WELCOME_ARTX_BONUS"
 	CuratedListWinnerRewardNotification       NotificationTemplateType = "CURATED_LIST_WINNER_REWARD"
 	UserNftCuratedNotification                NotificationTemplateType = "NFT_CURATED"
+
+	ReportNFTNotification NotificationTemplateType = "REPORT_NFT"
 )
 
 var (
