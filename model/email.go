@@ -14,7 +14,6 @@ var (
 	baseURL                 = "https://uncut.network"
 	showLinkPattern         = "https://%s.uncut.network" // https://{show_slug}.uncut.network
 	feedLinkPattern         = "%s/blog"                  // {show_link}/blog
-	collectiveLinkPattern   = "%s/collective"            // {show_link}/collective
 	conversationLinkPattern = "%s/%d"                    // {feed_link}/blog/{conversation_id}
 	nftLinkPattern          = "%s/nft/%d"                // {show_link}/nft/{nft_id}
 	personalNftLinkPattern  = "%s/unft/%d"               // {show_link}/unft/{nft_id}
@@ -51,11 +50,6 @@ func GetFeedLink(environment, showSlug string) string {
 func GetConversationLink(environment, showSlug string, conversationID int) string {
 	feedLink := GetFeedLink(environment, showSlug)
 	return fmt.Sprintf(conversationLinkPattern, feedLink, conversationID)
-}
-
-func GetCollectiveLink(environment, showSlug string) string {
-	showLink := GetShowLink(environment, showSlug)
-	return fmt.Sprintf(collectiveLinkPattern, showLink)
 }
 
 func GetNftLink(environment, showSlug string, nftID int) string {
