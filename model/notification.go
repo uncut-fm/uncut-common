@@ -122,6 +122,9 @@ const (
 	CuratedListWinnerRewardNotification       NotificationTemplateType = "CURATED_LIST_WINNER_REWARD"
 	UserNftCuratedNotification                NotificationTemplateType = "NFT_CURATED"
 
+	ReferralBonusNotification NotificationTemplateType = "REFERRAL_BONUS"
+	ReferrerBonusNotification NotificationTemplateType = "REFERRER_BONUS"
+
 	ReportNFTNotification NotificationTemplateType = "REPORT_NFT"
 )
 
