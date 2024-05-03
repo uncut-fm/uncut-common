@@ -33,11 +33,12 @@ var (
 	NewCommentEvent      EventType = "NewComment"
 	CommentDeletedEvent  EventType = "CommentDeleted"
 
-	NewCreatorEvent   EventType = "NewCreator"
-	NewUserEvent      EventType = "NewUser"
-	UserDeletedEvent  EventType = "UserDeleted"
-	UserUpdatedEvent  EventType = "UserUpdated"
-	UserLoggedInEvent EventType = "UserLoggedIn"
+	NewCreatorEvent      EventType = "NewCreator"
+	NewUserEvent         EventType = "NewUser"
+	NewReferredUserEvent EventType = "NewReferredUser"
+	UserDeletedEvent     EventType = "UserDeleted"
+	UserUpdatedEvent     EventType = "UserUpdated"
+	UserLoggedInEvent    EventType = "UserLoggedIn"
 
 	UserLikedPostEvent      EventType = "UserLikedPost"
 	UserUnlikedPostEvent    EventType = "UserUnlikedPost"
