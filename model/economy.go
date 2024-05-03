@@ -11,6 +11,9 @@ const (
 	NFTMintCopyFee                       = 2
 	NewCollectionFee                     = 100
 	NFTVoteFee                           = 1
+	ReferralSignupBonusRewardAmount      = 50
+	ReferrerBonusRewardAmount            = 500
+
 	//SellNftRewardAmount                  = 30
 )
 
