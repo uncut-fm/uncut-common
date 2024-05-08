@@ -67,20 +67,43 @@ type BlockchainRequest struct {
 	RequestType BlockchainRequestType
 	ObjectID    int
 	SubjectID   *string
+	Metadata    BlockchainRequestMetadata
+}
+
+type BlockchainRequestMetadata map[string]interface{}
+
+func NewUpdateCollectionWalletBlockchainRequestMetadata(oldWallet, newWallet string) BlockchainRequestMetadata {
+	return BlockchainRequestMetadata{
+		"oldWallet": oldWallet,
+		"newWallet": newWallet,
+	}
+}
+
+func (b BlockchainRequestMetadata) GetUpdateCollectionWalletOldWallet() (string, bool) {
+	oldWallet, ok := b["oldWallet"].(string)
+
+	return oldWallet, ok
+}
+
+func (b BlockchainRequestMetadata) GetUpdateCollectionWalletNewWallet() (string, bool) {
+	newWallet, ok := b["newWallet"].(string)
+
+	return newWallet, ok
 }
 
 type BlockchainRequestType string
 
 var (
-	BlockchainRequestMintNft                 BlockchainRequestType = "MintNFT"
-	BlockchainRequestBurnNft                 BlockchainRequestType = "BurnNFT"
-	BlockchainRequestBurnWaxNft              BlockchainRequestType = "BurnWaxNft"
-	BlockchainRequestMintCollection          BlockchainRequestType = "MintCollection"
-	BlockchainRequestMintWaxCollection       BlockchainRequestType = "MintWaxCollection"
-	BlockchainRequestMintWaxSchema           BlockchainRequestType = "MintWaxSchema"
-	BlockchainRequestUpdateWaxCollectionData BlockchainRequestType = "UpdateWaxCollectionData"
-	BlockchainRequestMintWaxNft              BlockchainRequestType = "MintWaxNft"
-	BlockchainRequestUpdateWaxTemplateAssets BlockchainRequestType = "UpdateWaxTemplateAssets"
+	BlockchainRequestMintNft                   BlockchainRequestType = "MintNFT"
+	BlockchainRequestBurnNft                   BlockchainRequestType = "BurnNFT"
+	BlockchainRequestBurnWaxNft                BlockchainRequestType = "BurnWaxNft"
+	BlockchainRequestMintCollection            BlockchainRequestType = "MintCollection"
+	BlockchainRequestMintWaxCollection         BlockchainRequestType = "MintWaxCollection"
+	BlockchainRequestMintWaxSchema             BlockchainRequestType = "MintWaxSchema"
+	BlockchainRequestUpdateWaxCollectionData   BlockchainRequestType = "UpdateWaxCollectionData"
+	BlockchainRequestMintWaxNft                BlockchainRequestType = "MintWaxNft"
+	BlockchainRequestUpdateWaxTemplateAssets   BlockchainRequestType = "UpdateWaxTemplateAssets"
+	BlockchainRequestUpdateWaxCollectionWallet BlockchainRequestType = "UpdateWaxCollectionWallet"
 )
 
 type TranscoderPubsubRequest struct {
