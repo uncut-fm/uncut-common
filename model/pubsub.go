@@ -91,6 +91,18 @@ func (b BlockchainRequestMetadata) GetUpdateCollectionWalletNewWallet() (string,
 	return newWallet, ok
 }
 
+func NewMintWaxAssetBlockchainRequestMetadata(newOwner string) BlockchainRequestMetadata {
+	return BlockchainRequestMetadata{
+		"newOwner": newOwner,
+	}
+}
+
+func (b BlockchainRequestMetadata) GetMintWaxAssetNewOwner() (string, bool) {
+	newOwner, ok := b["newOwner"].(string)
+
+	return newOwner, ok
+}
+
 type BlockchainRequestType string
 
 var (
@@ -104,6 +116,8 @@ var (
 	BlockchainRequestMintWaxNft                BlockchainRequestType = "MintWaxNft"
 	BlockchainRequestUpdateWaxTemplateAssets   BlockchainRequestType = "UpdateWaxTemplateAssets"
 	BlockchainRequestUpdateWaxCollectionWallet BlockchainRequestType = "UpdateWaxCollectionWallet"
+	BlockchainRequestListWaxAssetOnMarket      BlockchainRequestType = "ListWaxAssetOnMarket"
+	BlockchainRequestMintWaxAsset              BlockchainRequestType = "MintWaxAsset"
 )
 
 type TranscoderPubsubRequest struct {

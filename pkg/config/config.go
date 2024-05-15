@@ -128,6 +128,7 @@ type BackofficeConfigs struct {
 	TranscoderAdminToken string              `yaml:"transcoder_admin_token"`
 	Sentry               SentryConfigs       `yaml:"sentry"`
 	StoreContractAddress string              `yaml:"store_contract_address"`
+	PlatformWaxAccount   string              `yaml:"platform_wax_account"`
 	BlockchainRpcUrl     string              `yaml:"blockchain_rpc_url"`
 	SendgridAPIKey       string              `yaml:"sendgrid_api_key"`
 	Currencies           Web3Currencies      `yaml:"currencies"`
