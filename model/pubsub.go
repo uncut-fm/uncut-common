@@ -105,9 +105,12 @@ func (b BlockchainRequestMetadata) GetMintWaxAssetNewOwner() (string, bool) {
 }
 
 func (b BlockchainRequestMetadata) GetMintWaxAssetCopies() (int, bool) {
-	copies, ok := b["copies"].(int)
+	copies, ok := b["copies"].(float64)
+	if ok {
+		return int(copies), ok
+	}
 
-	return copies, ok
+	return 0, false
 }
 
 type BlockchainRequestType string
