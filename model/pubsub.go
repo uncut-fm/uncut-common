@@ -91,9 +91,10 @@ func (b BlockchainRequestMetadata) GetUpdateCollectionWalletNewWallet() (string,
 	return newWallet, ok
 }
 
-func NewMintWaxAssetBlockchainRequestMetadata(newOwner string) BlockchainRequestMetadata {
+func NewMintWaxAssetBlockchainRequestMetadata(newOwner string, copies int) BlockchainRequestMetadata {
 	return BlockchainRequestMetadata{
 		"newOwner": newOwner,
+		"copies":   copies,
 	}
 }
 
@@ -101,6 +102,12 @@ func (b BlockchainRequestMetadata) GetMintWaxAssetNewOwner() (string, bool) {
 	newOwner, ok := b["newOwner"].(string)
 
 	return newOwner, ok
+}
+
+func (b BlockchainRequestMetadata) GetMintWaxAssetCopies() (int, bool) {
+	copies, ok := b["copies"].(int)
+
+	return copies, ok
 }
 
 type BlockchainRequestType string
