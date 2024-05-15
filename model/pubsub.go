@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type BlockchainEvent struct {
 	EventType       BlockchainEventType
@@ -105,9 +108,18 @@ func (b BlockchainRequestMetadata) GetMintWaxAssetNewOwner() (string, bool) {
 }
 
 func (b BlockchainRequestMetadata) GetMintWaxAssetCopies() (int, bool) {
-	copies, ok := b["copies"].(float64)
-	if ok {
-		return int(copies), ok
+	if copies, ok := b["copies"]; ok {
+		switch copies.(type) {
+		case int:
+			return copies.(int), ok
+		case float64:
+			return int(copies.(float64)), ok
+		case float32:
+			return int(copies.(float32)), ok
+		default:
+			fmt.Printf("unexpected type: %T\n", copies)
+			return 0, false
+		}
 	}
 
 	return 0, false
