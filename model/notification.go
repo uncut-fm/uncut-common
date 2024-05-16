@@ -77,8 +77,12 @@ const (
 	CreatorMintedNftNotification         NotificationTemplateType = "CREATOR_MINTED_NFT"
 	CreatorCreatedCollectionNotification NotificationTemplateType = "CREATOR_CREATED_COLLECTION"
 
-	OnboardingDay0Notification    NotificationTemplateType = "DAY_0"
-	OnboardingNewUserNotification NotificationTemplateType = "NEW_USER"
+	OnboardingDay0Notification        NotificationTemplateType = "DAY_0"
+	OnboardingNewUserNotification     NotificationTemplateType = "NEW_USER"
+	OnboardingTourPageNotification    NotificationTemplateType = "TOUR_PAGE"
+	OnboardingExplorePageNotification NotificationTemplateType = "EXPLORE_PAGE"
+	OnboardingProfilePageNotification NotificationTemplateType = "PROFILE_PAGE"
+	OnboardingFeedPageNotification    NotificationTemplateType = "FEED_PAGE"
 
 	ConversationSpaceNotification            NotificationTemplateType = "SPACE_CONVERSATION"
 	ConversationCommentNotification          NotificationTemplateType = "CONVERSATION_COMMENT"
