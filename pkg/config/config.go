@@ -43,6 +43,7 @@ type ManagementConfigs struct {
 	Paper                  PaperConfigs        `yaml:"paper"`
 	BlockchainName         string              `yaml:"blockchain_name"`
 	StoreContractAddress   string              `yaml:"store_contract_address"`
+	PlatformWaxAccount     string              `yaml:"platform_wax_account"`
 	Currencies             Web3Currencies      `yaml:"currencies"`
 	AlchemyApiKey          string              `yaml:"alchemy_api_key"`
 	AuthAdminToken         string              `yaml:"auth_admin_token"`
