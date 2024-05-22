@@ -8,7 +8,8 @@ const (
 	SigninRewardAmount                   = 10
 	SigninAdditionalDailyRewardAmount    = 5
 	SigninMaxAdditionalDailyRewardAmount = 15
-	NFTMintCopyFee                       = 2
+	NFTMintCopyFeeGeneral                = 2
+	NFTMintCopyFeeForWaxp                = 1.5
 	NewCollectionFee                     = 100
 	NFTVoteFee                           = 1
 	ReferralSignupBonusRewardAmount      = 50
