@@ -110,6 +110,7 @@ const (
 	PropertyGroupNameSocialMedia PropertyGroupName = "socialmediainformation"
 	PropertyGroupNameContactInfo PropertyGroupName = "contactinformation"
 	PropertyGroupArtxInfo        PropertyGroupName = "artx_information"
+	PropertyGroupWaxpInfo        PropertyGroupName = "waxp_information"
 )
 
 func GetTimeString(t time.Time) string {
