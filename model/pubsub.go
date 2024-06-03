@@ -21,10 +21,15 @@ var (
 	NftCollectionCreatedBlockchainEvent BlockchainEventType = "NftCollectionCreated"
 	NewWaxBlockchainEvent               BlockchainEventType = "NewWaxEvent"
 	NewWaxPurchasedSaleEvent            BlockchainEventType = "NewWaxPurchasedSaleEvent"
+	NewWaxAssetTransferEvent            BlockchainEventType = "NewWaxAssetTransferEvent"
 )
 
 type PurchasedSaleEventInfo struct {
 	SaleID string `json:"saleId"`
+}
+
+type WaxTransferTransactionEventInfo struct {
+	TransactionID int `json:"transactionId"`
 }
 
 type CollectionCreatedEventInfo struct {
