@@ -13,7 +13,7 @@ const (
 	NFTMintCopyFeeForPolygonETH          = 3
 	NewCollectionFee                     = 100
 	NFTVoteFee                           = 1
-	ReferralSignupBonusRewardAmount      = 50
+	ReferralSignupBonusRewardAmount      = 100
 	ReferrerBonusRewardAmount            = 500
 
 	//SellNftRewardAmount                  = 30
