@@ -10,6 +10,7 @@ const (
 	SigninMaxAdditionalDailyRewardAmount = 15
 	NFTMintCopyFeeGeneral                = 2
 	NFTMintCopyFeeForWaxp                = 1
+	NFTMintCopyFeeForPolygonETH          = 3
 	NewCollectionFee                     = 100
 	NFTVoteFee                           = 1
 	ReferralSignupBonusRewardAmount      = 50
