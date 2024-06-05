@@ -130,6 +130,8 @@ const (
 	ReferrerBonusNotification NotificationTemplateType = "REFERRER_BONUS"
 
 	ReportNFTNotification NotificationTemplateType = "REPORT_NFT"
+
+	NewReferredUserSignupNotification NotificationTemplateType = "NEW_REFERRED_USER_SIGNUP"
 )
 
 var (
