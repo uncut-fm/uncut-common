@@ -12,6 +12,8 @@ const (
 	NFTMintCopyFeeForWaxp                = 1
 	NFTMintCopyFeeForPolygonETH          = 3
 	NewCollectionFee                     = 100
+	NewCollectionFeeForWaxp              = 50
+	NewCollectionFeeForPolygon           = 100
 	NFTVoteFee                           = 1
 	ReferralSignupBonusRewardAmount      = 50
 	ReferrerBonusRewardAmount            = 500
