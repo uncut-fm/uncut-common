@@ -16,7 +16,7 @@ const (
 	NewCollectionFeeForPolygon           = 100
 	NFTVoteFee                           = 1
 	ReferralSignupBonusRewardAmount      = 100
-	ReferrerBonusRewardAmount            = 500
+	ReferrerBonusRewardAmount            = 100
 
 	//SellNftRewardAmount                  = 30
 )
