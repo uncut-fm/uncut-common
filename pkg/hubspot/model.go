@@ -112,6 +112,7 @@ const (
 	PropertyGroupArtxInfo        PropertyGroupName = "artx_information"
 	PropertyGroupWaxpInfo        PropertyGroupName = "waxp_information"
 	PropertyGroupCollectibleInfo PropertyGroupName = "collectible_information"
+	PropertyGroupCollectionInfo  PropertyGroupName = "collection_information"
 )
 
 func GetTimeString(t time.Time) string {
