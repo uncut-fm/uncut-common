@@ -224,7 +224,7 @@ func (w Web3Currencies) GetContractAddressBySymbol(symbol string) string {
 	case w.Cdols.Symbol:
 		return w.Cdols.ContractAddress
 	case w.Usdc.Symbol:
-		return w.Cdols.ContractAddress
+		return w.Usdc.ContractAddress
 	case w.Matic.Symbol:
 		return w.Matic.ContractAddress
 	default:
