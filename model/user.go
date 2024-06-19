@@ -7,33 +7,34 @@ import (
 )
 
 type User struct {
-	ID                   int          `json:"id"`
-	Name                 string       `json:"name,omitempty"`
-	Title                string       `json:"title,omitempty"`
-	Email                string       `json:"email"`
-	ProfileImageUrl      string       `json:"profile_image_url,omitempty"`
-	WalletAddresses      []string     `json:"wallet_addresses"`
-	TwitterHandle        string       `json:"twitter_handle"`
-	IsNftCreator         bool         `json:"is_nft_creator"`
-	ThemeColors          *ThemeColors `json:"theme_colors"`
-	IsAdmin              bool         `json:"is_admin"`
-	BannerImageUrl       string       `json:"banner_image_url"`
-	Location             string       `json:"location"`
-	VerificationStatus   string       `json:"verification_status"`
-	Bio                  string       `json:"bio"`
-	InstagramHandle      string       `json:"instagram_handle"`
-	FacebookHandle       string       `json:"facebook_handle"`
-	LinkedinHandle       string       `json:"linkedin_handle"`
-	DiscordHandle        string       `json:"discord_handle"`
-	WebsiteUrl           string       `json:"website_url"`
-	Type                 string       `json:"type"`
-	Karma                int32        `json:"karma"`
-	KarmaIn30Days        int32        `json:"karma_in_30_days"`
-	LastKarmaProcessedAt time.Time    `json:"last_karma_processed_at"`
-	CreatedAt            time.Time    `json:"created_at"`
-	UpdatedAt            time.Time    `json:"updated_at"`
-	LastLoggedInAt       time.Time    `json:"last_logged_in_at"`
-	Edges                UserEdges    `json:"edges"`
+	ID                     int          `json:"id"`
+	Name                   string       `json:"name,omitempty"`
+	Title                  string       `json:"title,omitempty"`
+	Email                  string       `json:"email"`
+	ProfileImageUrl        string       `json:"profile_image_url,omitempty"`
+	WalletAddresses        []string     `json:"wallet_addresses"`
+	TwitterHandle          string       `json:"twitter_handle"`
+	IsNftCreator           bool         `json:"is_nft_creator"`
+	ThemeColors            *ThemeColors `json:"theme_colors"`
+	IsAdmin                bool         `json:"is_admin"`
+	BannerImageUrl         string       `json:"banner_image_url"`
+	Location               string       `json:"location"`
+	VerificationStatus     string       `json:"verification_status"`
+	Bio                    string       `json:"bio"`
+	InstagramHandle        string       `json:"instagram_handle"`
+	FacebookHandle         string       `json:"facebook_handle"`
+	LinkedinHandle         string       `json:"linkedin_handle"`
+	DiscordHandle          string       `json:"discord_handle"`
+	WebsiteUrl             string       `json:"website_url"`
+	Type                   string       `json:"type"`
+	Karma                  int32        `json:"karma"`
+	KarmaIn30Days          int32        `json:"karma_in_30_days"`
+	LastKarmaProcessedAt   time.Time    `json:"last_karma_processed_at"`
+	isConfirmedWithVoteFee bool         `json:"is_confirmed_with_vote_fee"`
+	CreatedAt              time.Time    `json:"created_at"`
+	UpdatedAt              time.Time    `json:"updated_at"`
+	LastLoggedInAt         time.Time    `json:"last_logged_in_at"`
+	Edges                  UserEdges    `json:"edges"`
 }
 
 func (u User) IsProfileComplete() bool {
