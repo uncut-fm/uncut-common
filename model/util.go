@@ -71,15 +71,18 @@ func BigFloatWithCurrencyToWei(eth *big.Float, currency CurrencySymbol) *big.Int
 func parseBigFloatToBigIntWIthDecimals(eth *big.Float, decimals int) *big.Int {
 	truncInt, _ := eth.Int(nil)
 
+	var fracStr string
+
 	switch decimals {
 	case 18:
 		truncInt = new(big.Int).Mul(truncInt, big.NewInt(params.Ether))
+		fracStr = strings.Split(fmt.Sprintf("%.18f", eth), ".")[1]
+		fracStr += strings.Repeat("0", 18-len(fracStr))
 	case 6:
 		truncInt = new(big.Int).Mul(truncInt, big.NewInt(1e6))
+		fracStr = strings.Split(fmt.Sprintf("%.6f", eth), ".")[1]
+		fracStr += strings.Repeat("0", 6-len(fracStr))
 	}
-
-	fracStr := strings.Split(fmt.Sprintf("%.18f", eth), ".")[1]
-	fracStr += strings.Repeat("0", 18-len(fracStr))
 
 	fracInt, _ := new(big.Int).SetString(fracStr, 10)
 	wei := new(big.Int).Add(truncInt, fracInt)
