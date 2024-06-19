@@ -57,13 +57,33 @@ func ParseBigFloat(value string) (*big.Float, error) {
 	return f, err
 }
 
-func EtherToWei(eth *big.Float) *big.Int {
+func BigFloatWithCurrencyToWei(eth *big.Float, currency CurrencySymbol) *big.Int {
+	var decimals int
+	switch currency {
+	case CurrencySymbolUsdc:
+		decimals = 6
+	default:
+		decimals = 18
+	}
+	return parseBigFloatToBigIntWIthDecimals(eth, decimals)
+}
+
+func parseBigFloatToBigIntWIthDecimals(eth *big.Float, decimals int) *big.Int {
 	truncInt, _ := eth.Int(nil)
 	truncInt = new(big.Int).Mul(truncInt, big.NewInt(params.Ether))
-	fracStr := strings.Split(fmt.Sprintf("%.18f", eth), ".")[1]
-	fracStr += strings.Repeat("0", 18-len(fracStr))
+	var fracStr string
+	switch decimals {
+	case 18:
+		fracStr = strings.Split(fmt.Sprintf("%.18f", eth), ".")[1]
+		fracStr += strings.Repeat("0", 18-len(fracStr))
+	case 6:
+		fracStr = strings.Split(fmt.Sprintf("%.6f", eth), ".")[1]
+		fracStr += strings.Repeat("0", 6-len(fracStr))
+	}
+
 	fracInt, _ := new(big.Int).SetString(fracStr, 10)
 	wei := new(big.Int).Add(truncInt, fracInt)
+
 	return wei
 }
 
