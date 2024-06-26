@@ -18,9 +18,20 @@ const (
 	ReferralSignupBonusRewardAmount      = 100
 	ReferrerBonusRewardAmount            = 250
 
+	ArtxUsdRate   = 0.003 // 1 ARTX = 0.003 USD.
+	UsdToArtxRate = 333   // 1 USD = 333.33 ARTX.
+
 	//SellNftRewardAmount                  = 30
 )
 
 func GetRandomSingupGrantAmount() int {
 	return GetRandomNumberInRange(signupGrantFromAmount, signupGrantToAmount)
+}
+
+func ConvertArtxToUsd(artxAmount float64) float64 {
+	return artxAmount * ArtxUsdRate
+}
+
+func ConvertUsdToArtx(usdAmount float64) float64 {
+	return usdAmount * UsdToArtxRate
 }

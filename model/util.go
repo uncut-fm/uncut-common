@@ -10,6 +10,8 @@ import (
 	"time"
 )
 
+const usdcDecimals = 1e6
+
 func IsFieldNew[K int | float64 | string](newField *K, oldField K) bool {
 	return newField != nil && *newField != oldField
 }
@@ -77,11 +79,11 @@ func parseBigFloatToBigIntWIthDecimals(eth *big.Float, decimals int) *big.Int {
 	case 18:
 		truncInt = new(big.Int).Mul(truncInt, big.NewInt(params.Ether))
 		fracStr = strings.Split(fmt.Sprintf("%.18f", eth), ".")[1]
-		fracStr += strings.Repeat("0", 18-len(fracStr))
+		fracStr += strings.Repeat("0", decimals-len(fracStr))
 	case 6:
-		truncInt = new(big.Int).Mul(truncInt, big.NewInt(1e6))
+		truncInt = new(big.Int).Mul(truncInt, big.NewInt(usdcDecimals))
 		fracStr = strings.Split(fmt.Sprintf("%.6f", eth), ".")[1]
-		fracStr += strings.Repeat("0", 6-len(fracStr))
+		fracStr += strings.Repeat("0", decimals-len(fracStr))
 	}
 
 	fracInt, _ := new(big.Int).SetString(fracStr, 10)
