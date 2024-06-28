@@ -12,4 +12,7 @@ const (
 	CurrencySymbolWEth  CurrencySymbol = "wETH"
 	CurrencySymbolCdol  CurrencySymbol = "CDOL"
 	CurrencySymbolUsdc  CurrencySymbol = "USDC"
+	CurrencySymbolWaxp  CurrencySymbol = "WAXP"
+	// Artx is the internal uncut currency
+	CurrencySymbolArtx CurrencySymbol = "ARTX"
 )
