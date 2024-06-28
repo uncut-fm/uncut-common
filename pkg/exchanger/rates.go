@@ -108,6 +108,42 @@ func (c *ExchangerAPI) ConvertCurrencyAmountToArtx(currencyAmount float64, curre
 	return float64(roundToNearestFive(int(artxAmount))), err
 }
 
+func (c *ExchangerAPI) convertUsdToTokenCurrencyPrice(usdAmount float64, currency model.TokenSymbol) (float64, error) {
+	tokenPriceToUSD, err := c.TokenEquivalentInUSD(1, currency)
+	if err != nil {
+		return 0, err
+	}
+
+	return roundFloat64To2DecimalPlaces(usdAmount / tokenPriceToUSD), nil
+}
+
+func (c *ExchangerAPI) ConvertArtxAmountToCurrency(artxAmount float64, currency model.CurrencySymbol) (float64, error) {
+	usdAmount := model.ConvertArtxToUsd(artxAmount)
+
+	switch currency {
+	case model.CurrencySymbolUsdc:
+		return usdAmount, nil
+	case model.CurrencySymbolWaxp:
+		waxPrice, err := c.convertUsdToTokenCurrencyPrice(usdAmount, model.WAXPTokenSymbol)
+		if err != nil {
+			return 0, err
+		}
+
+		return waxPrice, nil
+	case model.CurrencySymbolWEth:
+		ethPrice, err := c.convertUsdToTokenCurrencyPrice(usdAmount, model.ETHTokenSymbol)
+		if err != nil {
+			return 0, err
+		}
+
+		return ethPrice, nil
+	case model.CurrencySymbolArtx:
+		return artxAmount, nil
+	default:
+		return artxAmount, nil
+	}
+}
+
 // RoundToNearestFive rounds a number to the nearest 5
 func roundToNearestFive(num int) int {
 	remainder := num % 5
@@ -115,6 +151,10 @@ func roundToNearestFive(num int) int {
 		return num + (5 - remainder)
 	}
 	return num - remainder
+}
+
+func roundFloat64To2DecimalPlaces(input float64) float64 {
+	return math.Round(input*100) / 100
 }
 
 func (c *ExchangerAPI) getTokenEquivalentInUSD(tokenQuantity float64, token model.TokenSymbol) (float64, error) {
