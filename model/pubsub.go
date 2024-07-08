@@ -135,6 +135,18 @@ func (b BlockchainRequestMetadata) GetMintWaxAssetCopies() (int, bool) {
 	return 0, false
 }
 
+func NewListAssetsOnMarketBlockchainRequestMetadata(assetIDs []int) BlockchainRequestMetadata {
+	return BlockchainRequestMetadata{
+		"assetIDs": assetIDs,
+	}
+}
+
+func (b BlockchainRequestMetadata) GetListAssetsOnMarketAssetIDs() ([]int, bool) {
+	assetIDs, ok := b["assetIDs"].([]int)
+
+	return assetIDs, ok
+}
+
 type BlockchainRequestType string
 
 var (
