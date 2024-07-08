@@ -7,12 +7,14 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
+	"math"
 	"sync"
 	"time"
 )
 
 const (
-	apiUrlPattern = "https://min-api.cryptocompare.com/data/price?fsym=%s&tsyms=%s"
+	apiUrlPattern           = "https://min-api.cryptocompare.com/data/price?fsym=%s&tsyms=%s"
+	DefaultFreeNftArtxPrice = 5
 )
 
 var fallbackPricePerToken = map[model.TokenSymbol]float64{
@@ -65,6 +67,94 @@ func (c *ExchangerAPI) TokenEquivalentInUSD(tokenQuantity float64, token model.T
 	usdPrice, err := c.getTokenEquivalentInUSD(tokenQuantity, token)
 
 	return usdPrice, c.log.CheckError(err, c.TokenEquivalentInUSD)
+}
+
+func (c *ExchangerAPI) convertTokenCurrencyToArtxPrice(tokenAmount float64, currency model.TokenSymbol) (float64, error) {
+	usdPrice, err := c.TokenEquivalentInUSD(tokenAmount, currency)
+	if err != nil {
+		return 0, err
+	}
+
+	return math.Ceil(model.ConvertUsdToArtx(usdPrice)), nil
+}
+
+func (c *ExchangerAPI) ConvertCurrencyAmountToArtx(currencyAmount float64, currency model.CurrencySymbol) (float64, error) {
+	var (
+		artxAmount float64
+		err        error
+	)
+
+	switch currency {
+	case model.CurrencySymbolUsdc:
+		artxAmount = model.ConvertUsdToArtx(currencyAmount)
+	case model.CurrencySymbolWaxp:
+		artxAmount, err = c.convertTokenCurrencyToArtxPrice(currencyAmount, model.WAXPTokenSymbol)
+	case model.CurrencySymbolWEth:
+		artxAmount, err = c.convertTokenCurrencyToArtxPrice(currencyAmount, model.ETHTokenSymbol)
+	case model.CurrencySymbolArtx:
+		return currencyAmount, nil
+	default:
+		return currencyAmount, nil
+	}
+
+	if err != nil {
+		return 0, err
+	}
+
+	if artxAmount < DefaultFreeNftArtxPrice {
+		return DefaultFreeNftArtxPrice, nil
+	}
+
+	return float64(roundToNearestFive(int(artxAmount))), err
+}
+
+func (c *ExchangerAPI) convertUsdToTokenCurrencyPrice(usdAmount float64, currency model.TokenSymbol) (float64, error) {
+	tokenPriceToUSD, err := c.TokenEquivalentInUSD(1, currency)
+	if err != nil {
+		return 0, err
+	}
+
+	return roundFloat64To2DecimalPlaces(usdAmount / tokenPriceToUSD), nil
+}
+
+func (c *ExchangerAPI) ConvertArtxAmountToCurrency(artxAmount float64, currency model.CurrencySymbol) (float64, error) {
+	usdAmount := model.ConvertArtxToUsd(artxAmount)
+
+	switch currency {
+	case model.CurrencySymbolUsdc:
+		return usdAmount, nil
+	case model.CurrencySymbolWaxp:
+		waxPrice, err := c.convertUsdToTokenCurrencyPrice(usdAmount, model.WAXPTokenSymbol)
+		if err != nil {
+			return 0, err
+		}
+
+		return waxPrice, nil
+	case model.CurrencySymbolWEth:
+		ethPrice, err := c.convertUsdToTokenCurrencyPrice(usdAmount, model.ETHTokenSymbol)
+		if err != nil {
+			return 0, err
+		}
+
+		return ethPrice, nil
+	case model.CurrencySymbolArtx:
+		return artxAmount, nil
+	default:
+		return artxAmount, nil
+	}
+}
+
+// RoundToNearestFive rounds a number to the nearest 5
+func roundToNearestFive(num int) int {
+	remainder := num % 5
+	if remainder >= 3 {
+		return num + (5 - remainder)
+	}
+	return num - remainder
+}
+
+func roundFloat64To2DecimalPlaces(input float64) float64 {
+	return math.Round(input*100) / 100
 }
 
 func (c *ExchangerAPI) getTokenEquivalentInUSD(tokenQuantity float64, token model.TokenSymbol) (float64, error) {
