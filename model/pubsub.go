@@ -1,6 +1,7 @@
 package model
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -142,9 +143,21 @@ func NewListAssetsOnMarketBlockchainRequestMetadata(assetIDs []int) BlockchainRe
 }
 
 func (b BlockchainRequestMetadata) GetListAssetsOnMarketAssetIDs() ([]int, bool) {
-	assetIDs, ok := b["assetIDs"].([]int)
+	metadataMap, err := json.Marshal(b)
+	if err != nil {
+		return nil, false
+	}
 
-	return assetIDs, ok
+	var assetIDs struct {
+		AssetIDs []int `json:"assetIDs"`
+	}
+
+	err = json.Unmarshal(metadataMap, &assetIDs)
+	if err != nil {
+		return nil, false
+	}
+
+	return assetIDs.AssetIDs, true
 }
 
 type BlockchainRequestType string
