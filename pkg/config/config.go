@@ -111,6 +111,7 @@ type HubspotConfigs struct {
 	ManagementAdminToken string        `yaml:"management_admin_token"`
 	HubspotApiKey        string        `yaml:"hubspot_api_key"`
 	MixpanelApiKey       string        `yaml:"mixpanel_api_key"`
+	MixpanelProjectToken string        `yaml:"mixpanel_project_token"`
 }
 
 type PaperConfigs struct {
