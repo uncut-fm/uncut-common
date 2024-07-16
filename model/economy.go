@@ -1,6 +1,10 @@
 package model
 
 const (
+	PLATFORM_TREAUSURY_ID = 0
+	TOTAL_TREASURY_ID     = -1
+	NULL_TREASURY_ID      = -2
+
 	CompleteProfileRewardAmount          = 100
 	SignupRewardAmount                   = 5
 	signupGrantFromAmount                = 25
