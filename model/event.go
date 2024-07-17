@@ -77,9 +77,11 @@ var (
 	NewArtxTransferEvent EventType = "NewArtxTransfer"
 
 	ReportNFTEvent EventType = "ReportNFT"
+
+	OnboardingStepCompletedEvent EventType = "OnboardingStepCompleted"
 )
 
-type OnboardingStepCompletedEvent struct {
+type OnboardingStepCompletedEventMetadata struct {
 	TemplateType        NotificationTemplateType `json:"template_type"`
 	StepNumber          int                      `json:"step_number"`
 	TotalStepsCompleted int                      `json:"total_steps_completed"`
