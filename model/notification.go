@@ -138,6 +138,7 @@ var (
 	BlogNotificationTemplates        = []NotificationTemplateType{ConversationSpaceNotification, ConversationCommentNotification, ConversationReplyCommentatorNotification, ConversationReplyHostNotification}
 	FeedNotificationTemplates        = []NotificationTemplateType{FeedPostNotification, FeedPostUserMentionNotification, FeedCommentUserMentionNotification, FeedPostNftMentionNotification, FeedPostReplyNotification, FeedCommentReplyNotification, FeedCommentNftMentionNotification}
 	TransactionNotificationTemplates = []NotificationTemplateType{NftTransferCompletedNotification, NftSoldNotification, NftWelcomeNotification, NftAirdropNotification}
+	OnboardingNotificationTemplates  = []NotificationTemplateType{OnboardingTourPageNotification, OnboardingExplorePageNotification, OnboardingProfilePageNotification, OnboardingFeedPageNotification}
 )
 
 func (n NotificationTemplateType) String() string {

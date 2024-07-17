@@ -93,7 +93,7 @@ func parseBigFloatToBigIntWIthDecimals(eth *big.Float, decimals int) *big.Int {
 }
 
 // IsItemInList checks if item is in list
-func IsItemInList[K string | int](item K, list []K) bool {
+func IsItemInList[K string | int | NotificationTemplateType](item K, list []K) bool {
 	for _, li := range list {
 		if item == li {
 			return true
