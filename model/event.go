@@ -82,6 +82,7 @@ var (
 )
 
 type OnboardingStepCompletedEventMetadata struct {
+	UserEmail           string                   `json:"user_email"`
 	TemplateType        NotificationTemplateType `json:"template_type"`
 	StepNumber          int                      `json:"step_number"`
 	TotalStepsCompleted int                      `json:"total_steps_completed"`
