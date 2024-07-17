@@ -78,3 +78,10 @@ var (
 
 	ReportNFTEvent EventType = "ReportNFT"
 )
+
+type OnboardingStepCompletedEvent struct {
+	TemplateType        NotificationTemplateType `json:"template_type"`
+	StepNumber          int                      `json:"step_number"`
+	TotalStepsCompleted int                      `json:"total_steps_completed"`
+	OnboardingStatus    OnboardingStatus         `json:"onboarding_status"`
+}
