@@ -183,3 +183,11 @@ type UnsubscribeHTTPRequest struct {
 	SpaceID      *int   `json:"spaceId,omitempty"`
 	UserID       *int   `json:"userId,omitempty"`
 }
+
+type OnboardingStatus string
+
+const (
+	OnboardingStatusStarted   OnboardingStatus = "STARTED"
+	OnboardingStatusCompleted OnboardingStatus = "COMPLETED"
+	OnboardingStatusPending   OnboardingStatus = "PENDING"
+)
