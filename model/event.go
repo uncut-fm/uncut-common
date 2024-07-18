@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type Event struct {
 	EventType EventType
 	ObjectID  int
@@ -87,4 +89,8 @@ type OnboardingStepCompletedEventMetadata struct {
 	StepNumber          int                      `json:"step_number"`
 	TotalStepsCompleted int                      `json:"total_steps_completed"`
 	OnboardingStatus    OnboardingStatus         `json:"onboarding_status"`
+}
+
+type LastLoggedInEventMetadata struct {
+	LastLoggedInAt time.Time `json:"last_logged_in_at"`
 }
