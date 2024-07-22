@@ -5,11 +5,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetResponseError(ctx *gin.Context, statusCode int, err error) {
+func SetResponseError(ctx *gin.Context, statusCode int, err error, withSentryCapture bool) {
 	ctx.JSON(statusCode, gin.H{"message": err.Error()})
 	ctx.Abort()
-	if hub := sentrygin.GetHubFromContext(ctx); hub != nil {
-		hub.CaptureException(err)
+
+	if withSentryCapture {
+		if hub := sentrygin.GetHubFromContext(ctx); hub != nil {
+			hub.CaptureException(err)
+		}
 	}
 
 	return
