@@ -18,7 +18,7 @@ const (
 	NewCollectionFee                     = 100
 	NewCollectionFeeForWaxp              = 50
 	NewCollectionFeeForPolygon           = 100
-	NFTVoteFee                           = 1
+	NFTVoteFee                           = 5
 	ReferralSignupBonusRewardAmount      = 100
 	ReferrerBonusRewardAmount            = 250
 
