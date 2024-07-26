@@ -9,6 +9,7 @@ type SubscriptionEventMetadata struct {
 	UserEmail                 string             `json:"user_email"`
 	UserSubscriptionStartedAt time.Time          `json:"user_subscription_started_at"`
 	UserSubscriptionExpiresAt time.Time          `json:"user_subscription_expires_at"`
+	SubscriptionPeriod        SubscriptionPeriod `json:"subscription_period"`
 }
 
 // Action defines the type for the "action" enum field.
@@ -30,4 +31,11 @@ type SubscriptionType string
 const (
 	TypeCollector SubscriptionType = "COLLECTOR"
 	TypeCreator   SubscriptionType = "CREATOR"
+)
+
+type SubscriptionPeriod string
+
+const (
+	SubscriptionPeriodMonthly SubscriptionPeriod = "MONTHLY"
+	SubscriptionPeriodYearly  SubscriptionPeriod = "YEARLY"
 )
