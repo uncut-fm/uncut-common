@@ -64,6 +64,7 @@ var (
 	ScheduledNftDeleteEvent  EventType = "ScheduledNftDelete"
 	NFTSoldEvent             EventType = "NftSold"
 	NftDeletedEvent          EventType = "NftDeleted"
+	NftAirdropEvent          EventType = "NftAirdrop"
 
 	NewPaperCheckoutEvent EventType = "NewPaperCheckout"
 
@@ -76,13 +77,10 @@ var (
 	NftCurationDeletedEvent   EventType = "NftCurationDeleted"
 	CuratedListFinalizedEvent EventType = "CuratedListFinalized"
 
-	NewArtxTransferEvent EventType = "NewArtxTransfer"
-
-	ReportNFTEvent EventType = "ReportNFT"
-
+	NewArtxTransferEvent         EventType = "NewArtxTransfer"
+	ReportNFTEvent               EventType = "ReportNFT"
 	OnboardingStepCompletedEvent EventType = "OnboardingStepCompleted"
-
-	SubscriptionUpdatedEvent EventType = "SubscriptionUpdated"
+	SubscriptionUpdatedEvent     EventType = "SubscriptionUpdated"
 )
 
 type OnboardingStepCompletedEventMetadata struct {
@@ -95,4 +93,11 @@ type OnboardingStepCompletedEventMetadata struct {
 
 type LastLoggedInEventMetadata struct {
 	LastLoggedInAt time.Time `json:"last_logged_in_at"`
+}
+
+type AirdropEventMetadata struct {
+	UserEmails    []string          `json:"user_emails"`
+	UserIDs       []int             `json:"user_ids"`
+	CollectibleID int               `json:"collectible_id"`
+	Blockchain    BlockchainNetwork `json:"blockchain"`
 }
