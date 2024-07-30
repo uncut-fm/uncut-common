@@ -142,6 +142,28 @@ func NewListAssetsOnMarketBlockchainRequestMetadata(assetIDs []int) BlockchainRe
 	}
 }
 
+func NewUpdateNftPriceBlockchainRequestMetadata(price float64) BlockchainRequestMetadata {
+	return BlockchainRequestMetadata{
+		"price": price,
+	}
+}
+
+func (b BlockchainRequestMetadata) GetUpdateNftPricePrice() (float64, bool) {
+	if price, ok := b["price"]; ok {
+		switch price.(type) {
+		case float64:
+			return price.(float64), ok
+		case float32:
+			return float64(price.(float32)), ok
+		default:
+			fmt.Printf("unexpected type: %T\n", price)
+			return 0, false
+		}
+	}
+
+	return 0, false
+}
+
 func (b BlockchainRequestMetadata) GetListAssetsOnMarketAssetIDs() ([]int, bool) {
 	metadataMap, err := json.Marshal(b)
 	if err != nil {
