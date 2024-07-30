@@ -175,6 +175,7 @@ var (
 	BlockchainRequestUpdateWaxCollectionWallet BlockchainRequestType = "UpdateWaxCollectionWallet"
 	BlockchainRequestListWaxAssetOnMarket      BlockchainRequestType = "ListWaxAssetOnMarket"
 	BlockchainRequestMintWaxAsset              BlockchainRequestType = "MintWaxAsset"
+	BlockchainRequestUpdateWaxNftPrice         BlockchainRequestType = "UpdateWaxNftPrice"
 )
 
 type TranscoderPubsubRequest struct {
