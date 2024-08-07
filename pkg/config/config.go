@@ -105,13 +105,14 @@ type NftImportConfigs struct {
 }
 
 type HubspotConfigs struct {
-	Server               ServerConfigs `yaml:"server"`
-	Sentry               SentryConfigs `yaml:"sentry"`
-	AuthAdminToken       string        `yaml:"auth_admin_token"`
-	ManagementAdminToken string        `yaml:"management_admin_token"`
-	HubspotApiKey        string        `yaml:"hubspot_api_key"`
-	MixpanelApiKey       string        `yaml:"mixpanel_api_key"`
-	MixpanelProjectToken string        `yaml:"mixpanel_project_token"`
+	Server                     ServerConfigs `yaml:"server"`
+	Sentry                     SentryConfigs `yaml:"sentry"`
+	AuthAdminToken             string        `yaml:"auth_admin_token"`
+	ManagementAdminToken       string        `yaml:"management_admin_token"`
+	HubspotApiKey              string        `yaml:"hubspot_api_key"`
+	MixpanelApiKey             string        `yaml:"mixpanel_api_key"`
+	MixpanelProjectToken       string        `yaml:"mixpanel_project_token"`
+	DiscordNotificationWebhook string        `yaml:"discord_notification_webhook"`
 }
 
 type PaperConfigs struct {
@@ -163,6 +164,7 @@ type PubSub struct {
 	SyncEventsSubName      string `yaml:"sync_events_sub_name"`
 	HubspotEventsSubName   string `yaml:"hubspot_events_sub_name"`
 	MixpanelEventsSubName  string `yaml:"mixpanel_events_sub_name"`
+	DiscordEventsSubName   string `yaml:"discord_events_sub_name"`
 	ScoreEventsSubName     string `yaml:"score_events_sub_name"`
 
 	TranscoderRequestsTopicName string `yaml:"transcoder_requests_topic_name"`
