@@ -1,6 +1,7 @@
 package exchanger
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/cenkalti/backoff"
@@ -8,7 +9,6 @@ import (
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
 	"math"
-	"sync"
 	"time"
 )
 
@@ -18,23 +18,21 @@ const (
 )
 
 var fallbackPricePerToken = map[model.TokenSymbol]float64{
-	model.ETHTokenSymbol:  2000,
-	model.WAXPTokenSymbol: 0.059,
+	model.ETHTokenSymbol:  2500,
+	model.WAXPTokenSymbol: 0.04,
 }
 
 type ExchangerAPI struct {
-	log                   logger.Logger
-	restyClient           *resty.Client
-	cachedTokenPrice      map[model.TokenSymbol]*cachedPriceStruct
-	cachedTokenPriceMutex *sync.RWMutex
+	log         logger.Logger
+	cache       Cache
+	restyClient *resty.Client
 }
 
-func NewCryptoExchanger(log logger.Logger) *ExchangerAPI {
+func NewCryptoExchanger(log logger.Logger, cache Cache) *ExchangerAPI {
 	return &ExchangerAPI{
-		log:                   log,
-		restyClient:           createRestyClient(),
-		cachedTokenPrice:      make(map[model.TokenSymbol]*cachedPriceStruct),
-		cachedTokenPriceMutex: new(sync.RWMutex),
+		log:         log,
+		cache:       cache,
+		restyClient: createRestyClient(),
 	}
 }
 
@@ -48,29 +46,25 @@ func createRestyClient() *resty.Client {
 	return client
 }
 
-type cachedPriceStruct struct {
-	price         float64
-	retrievedTime time.Time
+type Cache interface {
+	GetTokenPrice(ctx context.Context, token model.TokenSymbol) (float64, bool)
+	SetTokenPrice(ctx context.Context, token model.TokenSymbol, price float64)
 }
 
-func (c cachedPriceStruct) isOlderThan10min() bool {
-	return c.retrievedTime.Add(10 * time.Minute).Before(time.Now())
-}
-
-func (c *ExchangerAPI) ETHEquivalentInUSD(ethQuantity float64) (float64, error) {
-	usdPrice, err := c.getTokenEquivalentInUSD(ethQuantity, model.ETHTokenSymbol)
+func (c *ExchangerAPI) ETHEquivalentInUSD(ctx context.Context, ethQuantity float64) (float64, error) {
+	usdPrice, err := c.getTokenEquivalentInUSD(ctx, ethQuantity, model.ETHTokenSymbol)
 
 	return usdPrice, c.log.CheckError(err, c.ETHEquivalentInUSD)
 }
 
-func (c *ExchangerAPI) TokenEquivalentInUSD(tokenQuantity float64, token model.TokenSymbol) (float64, error) {
-	usdPrice, err := c.getTokenEquivalentInUSD(tokenQuantity, token)
+func (c *ExchangerAPI) TokenEquivalentInUSD(ctx context.Context, tokenQuantity float64, token model.TokenSymbol) (float64, error) {
+	usdPrice, err := c.getTokenEquivalentInUSD(ctx, tokenQuantity, token)
 
 	return usdPrice, c.log.CheckError(err, c.TokenEquivalentInUSD)
 }
 
-func (c *ExchangerAPI) convertTokenCurrencyToArtxPrice(tokenAmount float64, currency model.TokenSymbol) (float64, error) {
-	usdPrice, err := c.TokenEquivalentInUSD(tokenAmount, currency)
+func (c *ExchangerAPI) convertTokenCurrencyToArtxPrice(ctx context.Context, tokenAmount float64, currency model.TokenSymbol) (float64, error) {
+	usdPrice, err := c.getTokenEquivalentInUSD(ctx, tokenAmount, currency)
 	if err != nil {
 		return 0, err
 	}
@@ -78,7 +72,7 @@ func (c *ExchangerAPI) convertTokenCurrencyToArtxPrice(tokenAmount float64, curr
 	return math.Ceil(model.ConvertUsdToArtx(usdPrice)), nil
 }
 
-func (c *ExchangerAPI) ConvertCurrencyAmountToArtx(currencyAmount float64, currency model.CurrencySymbol) (float64, error) {
+func (c *ExchangerAPI) ConvertCurrencyAmountToArtx(ctx context.Context, currencyAmount float64, currency model.CurrencySymbol) (float64, error) {
 	var (
 		artxAmount float64
 		err        error
@@ -88,9 +82,9 @@ func (c *ExchangerAPI) ConvertCurrencyAmountToArtx(currencyAmount float64, curre
 	case model.CurrencySymbolUsdc:
 		artxAmount = model.ConvertUsdToArtx(currencyAmount)
 	case model.CurrencySymbolWaxp:
-		artxAmount, err = c.convertTokenCurrencyToArtxPrice(currencyAmount, model.WAXPTokenSymbol)
+		artxAmount, err = c.convertTokenCurrencyToArtxPrice(ctx, currencyAmount, model.WAXPTokenSymbol)
 	case model.CurrencySymbolWEth:
-		artxAmount, err = c.convertTokenCurrencyToArtxPrice(currencyAmount, model.ETHTokenSymbol)
+		artxAmount, err = c.convertTokenCurrencyToArtxPrice(ctx, currencyAmount, model.ETHTokenSymbol)
 	case model.CurrencySymbolArtx:
 		return currencyAmount, nil
 	default:
@@ -108,8 +102,8 @@ func (c *ExchangerAPI) ConvertCurrencyAmountToArtx(currencyAmount float64, curre
 	return float64(roundToNearestFive(int(artxAmount))), err
 }
 
-func (c *ExchangerAPI) convertUsdToTokenCurrencyPrice(usdAmount float64, currency model.TokenSymbol) (float64, error) {
-	tokenPriceToUSD, err := c.TokenEquivalentInUSD(1, currency)
+func (c *ExchangerAPI) convertUsdToTokenCurrencyPrice(ctx context.Context, usdAmount float64, currency model.TokenSymbol) (float64, error) {
+	tokenPriceToUSD, err := c.TokenEquivalentInUSD(ctx, 1, currency)
 	if err != nil {
 		return 0, err
 	}
@@ -117,21 +111,21 @@ func (c *ExchangerAPI) convertUsdToTokenCurrencyPrice(usdAmount float64, currenc
 	return roundFloat64To2DecimalPlaces(usdAmount / tokenPriceToUSD), nil
 }
 
-func (c *ExchangerAPI) ConvertArtxAmountToCurrency(artxAmount float64, currency model.CurrencySymbol) (float64, error) {
+func (c *ExchangerAPI) ConvertArtxAmountToCurrency(ctx context.Context, artxAmount float64, currency model.CurrencySymbol) (float64, error) {
 	usdAmount := model.ConvertArtxToUsd(artxAmount)
 
 	switch currency {
 	case model.CurrencySymbolUsdc:
 		return usdAmount, nil
 	case model.CurrencySymbolWaxp:
-		waxPrice, err := c.convertUsdToTokenCurrencyPrice(usdAmount, model.WAXPTokenSymbol)
+		waxPrice, err := c.convertUsdToTokenCurrencyPrice(ctx, usdAmount, model.WAXPTokenSymbol)
 		if err != nil {
 			return 0, err
 		}
 
 		return waxPrice, nil
 	case model.CurrencySymbolWEth:
-		ethPrice, err := c.convertUsdToTokenCurrencyPrice(usdAmount, model.ETHTokenSymbol)
+		ethPrice, err := c.convertUsdToTokenCurrencyPrice(ctx, usdAmount, model.ETHTokenSymbol)
 		if err != nil {
 			return 0, err
 		}
@@ -157,17 +151,17 @@ func roundFloat64To2DecimalPlaces(input float64) float64 {
 	return math.Round(input*100) / 100
 }
 
-func (c *ExchangerAPI) getTokenEquivalentInUSD(tokenQuantity float64, token model.TokenSymbol) (float64, error) {
-	tokenPrice := c.getTokenPrice(token)
+func (c *ExchangerAPI) getTokenEquivalentInUSD(ctx context.Context, tokenQuantity float64, token model.TokenSymbol) (float64, error) {
+	tokenPrice := c.getTokenPrice(ctx, token)
 
 	usdEquivalent := calculateExchangeValue(tokenPrice, tokenQuantity)
 
 	return usdEquivalent, nil
 }
 
-func (c *ExchangerAPI) getTokenPrice(token model.TokenSymbol) float64 {
-	tokenPrice, inCache, isPriceRelevant := c.getTokenPriceFromCache(token)
-	if inCache {
+func (c *ExchangerAPI) getTokenPrice(ctx context.Context, token model.TokenSymbol) float64 {
+	tokenPrice, isPriceRelevant := c.getTokenPriceFromCache(ctx, token)
+	if tokenPrice > 0 {
 		if !isPriceRelevant {
 			go func() {
 				tokenPrice, err := c.getTokenPriceInUSDFromAPI(token)
@@ -175,7 +169,7 @@ func (c *ExchangerAPI) getTokenPrice(token model.TokenSymbol) float64 {
 					return
 				}
 
-				c.setUSDEquivalentOfTokenCache(token, tokenPrice)
+				c.setUSDEquivalentOfTokenCache(ctx, token, tokenPrice)
 			}()
 		}
 		return tokenPrice
@@ -186,35 +180,17 @@ func (c *ExchangerAPI) getTokenPrice(token model.TokenSymbol) float64 {
 		return fallbackPricePerToken[token]
 	}
 
-	c.setUSDEquivalentOfTokenCache(token, tokenPrice)
+	c.setUSDEquivalentOfTokenCache(ctx, token, tokenPrice)
 
 	return tokenPrice
 }
 
-func (c *ExchangerAPI) getTokenPriceFromCache(token model.TokenSymbol) (float64, bool, bool) {
-	c.cachedTokenPriceMutex.RLock()
-	defer c.cachedTokenPriceMutex.RUnlock()
-
-	cachedPrice := c.cachedTokenPrice[token]
-	if cachedPrice == nil {
-		return 0, false, false
-	}
-
-	if cachedPrice.isOlderThan10min() {
-		return cachedPrice.price, true, false
-	}
-
-	return cachedPrice.price, true, true
+func (c *ExchangerAPI) getTokenPriceFromCache(ctx context.Context, token model.TokenSymbol) (float64, bool) {
+	return c.cache.GetTokenPrice(ctx, token)
 }
 
-func (c *ExchangerAPI) setUSDEquivalentOfTokenCache(token model.TokenSymbol, priceInUSD float64) {
-	c.cachedTokenPriceMutex.Lock()
-	defer c.cachedTokenPriceMutex.Unlock()
-
-	c.cachedTokenPrice[token] = &cachedPriceStruct{
-		price:         priceInUSD,
-		retrievedTime: time.Now(),
-	}
+func (c *ExchangerAPI) setUSDEquivalentOfTokenCache(ctx context.Context, token model.TokenSymbol, priceInUSD float64) {
+	c.cache.SetTokenPrice(ctx, token, priceInUSD)
 }
 
 func calculateExchangeValue(pricePerItem, items float64) float64 {
