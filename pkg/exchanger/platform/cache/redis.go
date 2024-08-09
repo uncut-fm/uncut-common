@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis/v8"
+	"github.com/uncut-fm/uncut-common/model"
 	"time"
 )
 
@@ -33,7 +34,7 @@ func (t tokenPriceCache) IsExpired() bool {
 	return t.ExpiresAt.Before(time.Now())
 }
 
-func (c *RedisCache) GetTokenPrice(ctx context.Context, token string) (float64, bool) {
+func (c *RedisCache) GetTokenPrice(ctx context.Context, token model.TokenSymbol) (float64, bool) {
 	key := c.getTokenPriceCacheKey(token)
 
 	tokenCache := tokenPriceCache{}
@@ -51,7 +52,7 @@ func (c *RedisCache) GetTokenPrice(ctx context.Context, token string) (float64, 
 	return tokenCache.Price, !tokenCache.IsExpired()
 }
 
-func (c *RedisCache) SetTokenPrice(ctx context.Context, token string, price float64) {
+func (c *RedisCache) SetTokenPrice(ctx context.Context, token model.TokenSymbol, price float64) {
 	key := c.getTokenPriceCacheKey(token)
 
 	tokenCache := tokenPriceCache{
@@ -69,6 +70,6 @@ func (c *RedisCache) SetTokenPrice(ctx context.Context, token string, price floa
 	return
 }
 
-func (c *RedisCache) getTokenPriceCacheKey(token string) string {
+func (c *RedisCache) getTokenPriceCacheKey(token model.TokenSymbol) string {
 	return fmt.Sprintf(tokenPriceCacheKeyPattern, token)
 }
