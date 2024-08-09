@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"strconv"
+	"time"
+)
 
 type Event struct {
 	EventType EventType
@@ -13,6 +16,15 @@ type EventType string
 
 func (e EventType) String() string {
 	return string(e)
+}
+
+func (e Event) GetUserID() int {
+	if e.SubjectID == nil || *e.SubjectID == "" {
+		return 0
+	}
+
+	userID, _ := strconv.Atoi(*e.SubjectID)
+	return userID
 }
 
 var (
