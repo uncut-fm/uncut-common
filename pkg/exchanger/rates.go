@@ -207,6 +207,13 @@ func (c ExchangerAPI) getTokenPriceInUSDFromAPI(token model.TokenSymbol) (float6
 	}{}
 
 	err := c.makeRequest(apiRequest, &responseStruct)
+	if err != nil {
+		return 0, err
+	}
+
+	if responseStruct.USD == 0 {
+		return 0, fmt.Errorf("token price is zero")
+	}
 
 	return responseStruct.USD, c.log.CheckError(err, c.getTokenPriceInUSDFromAPI)
 }
