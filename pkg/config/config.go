@@ -105,14 +105,19 @@ type NftImportConfigs struct {
 }
 
 type HubspotConfigs struct {
-	Server                     ServerConfigs `yaml:"server"`
-	Sentry                     SentryConfigs `yaml:"sentry"`
-	AuthAdminToken             string        `yaml:"auth_admin_token"`
-	ManagementAdminToken       string        `yaml:"management_admin_token"`
-	HubspotApiKey              string        `yaml:"hubspot_api_key"`
-	MixpanelApiKey             string        `yaml:"mixpanel_api_key"`
-	MixpanelProjectToken       string        `yaml:"mixpanel_project_token"`
-	DiscordNotificationWebhook string        `yaml:"discord_notification_webhook"`
+	Server                      ServerConfigs      `yaml:"server"`
+	Sentry                      SentryConfigs      `yaml:"sentry"`
+	AuthAdminToken              string             `yaml:"auth_admin_token"`
+	ManagementAdminToken        string             `yaml:"management_admin_token"`
+	HubspotApiKey               string             `yaml:"hubspot_api_key"`
+	MixpanelApiKey              string             `yaml:"mixpanel_api_key"`
+	MixpanelProjectToken        string             `yaml:"mixpanel_project_token"`
+	DiscordNotificationWebhooks DiscordWebhookURLs `yaml:"discord_notification_webhooks"`
+}
+
+type DiscordWebhookURLs struct {
+	Monetization string `yaml:"monetization"`
+	Growth       string `yaml:"growth"`
 }
 
 type PaperConfigs struct {
