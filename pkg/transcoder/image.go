@@ -24,7 +24,7 @@ func (a API) makeImageMetadataRequest(imageURL string) (*model.ImageMetadata, er
 		SetQueryParam("url", imageURL).
 		Get(fmt.Sprintf(imageMetadata, a.url))
 
-	if a.log.CheckError(err, a.makeVideoFirstFrameRequest) != nil {
+	if a.log.CheckError(err, a.makeImageMetadataRequest) != nil {
 		return nil, err
 	}
 
@@ -32,5 +32,5 @@ func (a API) makeImageMetadataRequest(imageURL string) (*model.ImageMetadata, er
 		return nil, errors.New("failed getting image metadata")
 	}
 
-	return metadata, a.log.CheckError(err, a.makeVideoFirstFrameRequest)
+	return metadata, a.log.CheckError(err, a.makeImageMetadataRequest)
 }

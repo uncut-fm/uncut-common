@@ -10,6 +10,7 @@ const (
 	requestTimeout  = 1 * time.Minute
 	gifFirstFrame   = "%s/gif/first-frame"
 	videoFirstFrame = "%s/video/first-frame"
+	videoMetadata   = "%s/video/metadata"
 	imageMetadata   = "%s/image/metadata"
 )
 
