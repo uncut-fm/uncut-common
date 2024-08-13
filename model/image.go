@@ -15,7 +15,7 @@ type VideoMetadata struct {
 	Height        int     `json:"height"`
 	AspectRatio   float64 `json:"aspect_ratio"`
 	Size          int     `json:"size"`
-	DurationInSec int     `json:"duration_in_sec"`
+	DurationInSec float64 `json:"duration_in_sec"`
 	MimeType      string  `json:"mime_type"`
 	FirstFrameUrl *string `json:"first_frame_url"`
 }
