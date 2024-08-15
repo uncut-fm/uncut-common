@@ -19,3 +19,9 @@ type VideoMetadata struct {
 	MimeType      string  `json:"mime_type"`
 	FirstFrameUrl *string `json:"first_frame_url"`
 }
+
+type AudioMetadata struct {
+	Size          int     `json:"size"`
+	DurationInSec float64 `json:"duration_in_sec"`
+	MimeType      string  `json:"mime_type"`
+}

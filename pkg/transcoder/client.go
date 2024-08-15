@@ -7,11 +7,12 @@ import (
 )
 
 const (
-	requestTimeout  = 1 * time.Minute
-	gifFirstFrame   = "%s/gif/first-frame"
-	videoFirstFrame = "%s/video/first-frame"
-	videoMetadata   = "%s/video/metadata"
-	imageMetadata   = "%s/image/metadata"
+	requestTimeout        = 1 * time.Minute
+	gifFirstFrame         = "%s/gif/first-frame"
+	videoFirstFrame       = "%s/video/first-frame"
+	videoMetadata         = "%s/video/metadata"
+	imageMetadata         = "%s/image/metadata"
+	audioMetadataEndpoint = "%s/audio/metadata"
 )
 
 type API struct {
