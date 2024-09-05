@@ -7,7 +7,9 @@ import (
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/errors"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
+	"io"
 	"net/url"
+	"os"
 	"strings"
 	"time"
 )
@@ -277,4 +279,36 @@ func (s Client) MakeFilePublic(ctx context.Context, fileName string) error {
 	}
 
 	return nil
+}
+
+// downloadFile downloads an object to a file.
+func (s Client) DownloadFile(ctx context.Context, object string, destFileName string) error {
+	// object := "object-name"
+	// destFileName := "file.txt"
+	ctx, cancel := context.WithTimeout(ctx, time.Second*50)
+	defer cancel()
+
+	f, err := os.Create(destFileName)
+	if err != nil {
+		return fmt.Errorf("os.Create: %w", err)
+	}
+
+	rc, err := s.bucketHandle.Object(object).NewReader(ctx)
+	if err != nil {
+		return fmt.Errorf("Object(%q).NewReader: %w", object, err)
+	}
+	defer rc.Close()
+
+	if _, err := io.Copy(f, rc); err != nil {
+		return fmt.Errorf("io.Copy: %w", err)
+	}
+
+	if err = f.Close(); err != nil {
+		return fmt.Errorf("f.Close: %w", err)
+	}
+
+	s.log.Infof("Blob %v downloaded to local file %v\n", object, destFileName)
+
+	return nil
+
 }
