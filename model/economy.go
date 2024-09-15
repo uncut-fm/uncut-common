@@ -19,7 +19,7 @@ const (
 	NewCollectionFeeForWaxp              = 50
 	NewCollectionFeeForPolygon           = 100
 	NFTVoteFee                           = 5
-	PromoteCuratedNftFee                 = 1000
+	PromoteCuratedNftFee                 = 200
 	ReferralSignupBonusRewardAmount      = 100
 	ReferrerBonusRewardAmount            = 250
 
