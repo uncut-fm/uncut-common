@@ -95,6 +95,8 @@ var (
 	ReportNFTEvent               EventType = "ReportNFT"
 	OnboardingStepCompletedEvent EventType = "OnboardingStepCompleted"
 	SubscriptionUpdatedEvent     EventType = "SubscriptionUpdated"
+
+	LevelUpEvent EventType = "LevelUp"
 )
 
 type OnboardingStepCompletedEventMetadata struct {
