@@ -60,6 +60,8 @@ var (
 	UserUnlikedCommentEvent EventType = "UserUnlikedComment"
 	UserLikedNftEvent       EventType = "UserLikedNft"
 	UserUnlikedNftEvent     EventType = "UserUnlikedNft"
+	UserVotedNftEvent       EventType = "UserVotedNft"
+	UserUnvotedNftEvent     EventType = "UserUnvotedNft"
 
 	UserFollowedUserEvent   EventType = "UserFollowedUser"
 	UserUnfollowedUserEvent EventType = "UserUnfollowedUser"
@@ -112,4 +114,10 @@ type AirdropEventMetadata struct {
 	UserIDs       []int             `json:"user_ids"`
 	CollectibleID int               `json:"collectible_id"`
 	Blockchain    BlockchainNetwork `json:"blockchain"`
+}
+
+type LevelUpEventMetadata struct {
+	LevelTypeName        string        `json:"level_type_name"`
+	NewLevel             int           `json:"new_level"`
+	TimeSinceLastLevelUp time.Duration `json:"time_since_last_level_up"`
 }
