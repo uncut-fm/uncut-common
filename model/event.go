@@ -119,6 +119,7 @@ type AirdropEventMetadata struct {
 }
 
 type LevelUpEventMetadata struct {
+	UserEmail       string     `json:"user_email"`
 	LevelTypeName   string     `json:"level_type_name"`
 	NewLevel        int        `json:"new_level"`
 	LastLevelUpTime *time.Time `json:"last_level_up_time"`
