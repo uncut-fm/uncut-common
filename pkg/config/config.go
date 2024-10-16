@@ -293,10 +293,13 @@ type GoogleOauthConfigs struct {
 }
 
 type RedisConfigs struct {
-	Address  string `yaml:"address"`
-	Port     string `yaml:"port"`
-	DB       int    `yaml:"db"`
-	Password string `yaml:"password"`
+	Address               string `yaml:"address"`
+	Port                  string `yaml:"port"`
+	DB                    int    `yaml:"db"`
+	Password              string `yaml:"password"`
+	DialTimeoutInSeconds  int    `yaml:"dial_timeout_seconds"`
+	ReadTimeoutInSeconds  int    `yaml:"read_timeout_seconds"`
+	WriteTimeoutInSeconds int    `yaml:"write_timeout_seconds"`
 }
 
 type JWTConfigs struct {
