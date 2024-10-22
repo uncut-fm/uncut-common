@@ -121,6 +121,7 @@ const (
 	GamificationNewLevelReachedNotification NotificationTemplateType = "NEW_LEVEL_REACHED"
 
 	ArtxIntroductionProductUpdateNotification NotificationTemplateType = "UPDATE_ARTX_0_MODAL"
+	AirdropHiddenProductUpdateNotification    NotificationTemplateType = "UPDATE_AIRDROP_HIDDEN"
 	ArtxPlatformGrantNotification             NotificationTemplateType = "ARTX_PLATFORM_GRANT"
 	WelcomeArtxBonusNotification              NotificationTemplateType = "WELCOME_ARTX_BONUS"
 	CuratedListWinnerRewardNotification       NotificationTemplateType = "CURATED_LIST_WINNER_REWARD"
