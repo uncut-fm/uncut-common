@@ -91,11 +91,11 @@ var (
 	NftCurationDeletedEvent   EventType = "NftCurationDeleted"
 	CuratedListFinalizedEvent EventType = "CuratedListFinalized"
 
-	NewArtxTransferEvent         EventType                = "NewArtxTransfer"
-	ReportNFTEvent               EventType                = "ReportNFT"
-	OnboardingStepCompletedEvent EventType                = "OnboardingStepCompleted"
-	SubscriptionUpdatedEvent     EventType                = "SubscriptionUpdated"
-	NftPromotedNotification      NotificationTemplateType = "NftPromoted"
+	NewArtxTransferEvent         EventType = "NewArtxTransfer"
+	ReportNFTEvent               EventType = "ReportNFT"
+	OnboardingStepCompletedEvent EventType = "OnboardingStepCompleted"
+	SubscriptionUpdatedEvent     EventType = "SubscriptionUpdated"
+	NftPromotedEvent             EventType = "NftPromoted"
 
 	LevelUpEvent EventType = "LevelUp"
 )
