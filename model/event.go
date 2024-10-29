@@ -91,10 +91,11 @@ var (
 	NftCurationDeletedEvent   EventType = "NftCurationDeleted"
 	CuratedListFinalizedEvent EventType = "CuratedListFinalized"
 
-	NewArtxTransferEvent         EventType = "NewArtxTransfer"
-	ReportNFTEvent               EventType = "ReportNFT"
-	OnboardingStepCompletedEvent EventType = "OnboardingStepCompleted"
-	SubscriptionUpdatedEvent     EventType = "SubscriptionUpdated"
+	NewArtxTransferEvent         EventType                = "NewArtxTransfer"
+	ReportNFTEvent               EventType                = "ReportNFT"
+	OnboardingStepCompletedEvent EventType                = "OnboardingStepCompleted"
+	SubscriptionUpdatedEvent     EventType                = "SubscriptionUpdated"
+	NftPromotedNotification      NotificationTemplateType = "NftPromoted"
 
 	LevelUpEvent EventType = "LevelUp"
 )
@@ -123,4 +124,11 @@ type LevelUpEventMetadata struct {
 	LevelTypeName   string     `json:"level_type_name"`
 	NewLevel        int        `json:"new_level"`
 	LastLevelUpTime *time.Time `json:"last_level_up_time"`
+}
+
+type NftPromotedEventMetadata struct {
+	UserEmail          string    `json:"user_email"`
+	NftID              int       `json:"nft_id"`
+	CurationStartsDate time.Time `json:"curation_starts_date"`
+	ArtxSpent          int       `json:"artx_spent"`
 }
