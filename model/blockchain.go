@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+const ZeroBlockchainAddress = "0x0000000000000000000000000000000000000000"
+
 type BlockchainNetwork string
 
 func (b BlockchainNetwork) String() string {
