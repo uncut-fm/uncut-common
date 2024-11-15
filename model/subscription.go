@@ -10,6 +10,7 @@ type SubscriptionEventMetadata struct {
 	UserSubscriptionStartedAt time.Time          `json:"user_subscription_started_at"`
 	UserSubscriptionExpiresAt time.Time          `json:"user_subscription_expires_at"`
 	SubscriptionPeriod        SubscriptionPeriod `json:"subscription_period"`
+	IsPaidWithArtx            bool               `json:"is_paid_with_artx"`
 }
 
 // Action defines the type for the "action" enum field.
