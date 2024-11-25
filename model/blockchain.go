@@ -34,6 +34,7 @@ var (
 
 	WAXPTokenSymbol TokenSymbol = "WAXP"
 	ETHTokenSymbol  TokenSymbol = "ETH"
+	ArtxTokenSymbol TokenSymbol = "ARTX"
 
 	PolygonNetworkInEvents BlockchainNetwork = "Polygon"
 	WaxNetworkInEvents     BlockchainNetwork = "WAX"

@@ -160,6 +160,10 @@ func (c *ExchangerAPI) getTokenEquivalentInUSD(ctx context.Context, tokenQuantit
 }
 
 func (c *ExchangerAPI) getTokenPrice(ctx context.Context, token model.TokenSymbol) float64 {
+	if token == model.ArtxTokenSymbol {
+		return model.ArtxUsdRate
+	}
+
 	tokenPrice, isPriceRelevant := c.getTokenPriceFromCache(ctx, token)
 	if tokenPrice > 0 {
 		if !isPriceRelevant {
