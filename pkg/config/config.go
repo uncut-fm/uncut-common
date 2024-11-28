@@ -59,6 +59,7 @@ type ManagementConfigs struct {
 	VerificationSecretKey  string              `yaml:"verification_secret_key"`
 	HubspotEmailConfigs    HubspotEmailConfigs `yaml:"hubspot_email_configs"`
 	StripeConfigs          StripeConfigs       `yaml:"stripe_configs"`
+	JaegerURL              string              `yaml:"jaeger_url"`
 }
 
 type HubspotEmailConfigs struct {
