@@ -59,7 +59,6 @@ type ManagementConfigs struct {
 	VerificationSecretKey  string              `yaml:"verification_secret_key"`
 	HubspotEmailConfigs    HubspotEmailConfigs `yaml:"hubspot_email_configs"`
 	StripeConfigs          StripeConfigs       `yaml:"stripe_configs"`
-	JaegerURL              string              `yaml:"jaeger_url"`
 }
 
 type HubspotEmailConfigs struct {
@@ -325,6 +324,7 @@ type ServiceUrls struct {
 	TranscoderUrl             string `yaml:"transcoder_url"`
 	NftImportUrl              string `yaml:"nft_import_url"`
 	BlockchainEventsWorkerUrl string `yaml:"blockchain_events_worker_url"`
+	JaegerURL                 string `yaml:"jaeger_url"`
 }
 
 type OauthProviders struct {
