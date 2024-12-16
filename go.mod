@@ -19,6 +19,7 @@ require (
 	github.com/go-resty/resty/v2 v2.11.0
 	github.com/jackc/pgx/v4 v4.16.1
 	github.com/lib/pq v1.10.7
+	github.com/microcosm-cc/bluemonday v1.0.23
 	github.com/mmcdole/gofeed v1.1.3
 	github.com/sirupsen/logrus v1.9.0
 	github.com/stretchr/testify v1.8.4
@@ -39,6 +40,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.1 // indirect
 	github.com/StackExchange/wmi v1.2.1 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
+	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/bits-and-blooms/bitset v1.10.0 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
 	github.com/bytedance/sonic v1.10.1 // indirect
@@ -74,6 +76,7 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.1 // indirect
+	github.com/gorilla/css v1.0.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/holiman/uint256 v1.2.4 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
