@@ -3,6 +3,7 @@ package middleware
 import (
 	"bytes"
 	"encoding/json"
+	"html"
 	"io"
 	"net/http"
 
@@ -53,7 +54,8 @@ func sanitizeMap(data map[string]interface{}, policy *bluemonday.Policy) map[str
 	for key, value := range data {
 		switch v := value.(type) {
 		case string:
-			data[key] = policy.Sanitize(v)
+			// Sanitize and unescape the string
+			data[key] = unescapeEntities(policy.Sanitize(v))
 		case map[string]interface{}:
 			data[key] = sanitizeMap(v, policy)
 		case []interface{}:
@@ -67,7 +69,8 @@ func sanitizeSlice(data []interface{}, policy *bluemonday.Policy) []interface{} 
 	for i, value := range data {
 		switch v := value.(type) {
 		case string:
-			data[i] = policy.Sanitize(v)
+			// Sanitize and unescape the string
+			data[i] = unescapeEntities(policy.Sanitize(v))
 		case map[string]interface{}:
 			data[i] = sanitizeMap(v, policy)
 		case []interface{}:
@@ -75,4 +78,9 @@ func sanitizeSlice(data []interface{}, policy *bluemonday.Policy) []interface{} 
 		}
 	}
 	return data
+}
+
+// unescapeEntities unescapes HTML entities such as &#39; back to original characters
+func unescapeEntities(input string) string {
+	return html.UnescapeString(input)
 }
