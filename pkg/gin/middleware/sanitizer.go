@@ -11,6 +11,8 @@ import (
 	"github.com/microcosm-cc/bluemonday"
 )
 
+const maxFieldLength = 10000
+
 // InputSanitizerMiddleware sanitizes incoming request bodies
 func InputSanitizerMiddleware() gin.HandlerFunc {
 	policy := CustomUGCPolicy()
@@ -55,7 +57,14 @@ func sanitizeMap(data map[string]interface{}, policy *bluemonday.Policy) map[str
 		switch v := value.(type) {
 		case string:
 			// Sanitize and unescape the string
-			data[key] = unescapeEntities(policy.Sanitize(v))
+			sanitized := unescapeEntities(policy.Sanitize(v))
+
+			// Limit the string length
+			if len(sanitized) > maxFieldLength {
+				sanitized = sanitized[:maxFieldLength]
+			}
+
+			data[key] = sanitized
 		case map[string]interface{}:
 			data[key] = sanitizeMap(v, policy)
 		case []interface{}:
@@ -70,7 +79,15 @@ func sanitizeSlice(data []interface{}, policy *bluemonday.Policy) []interface{} 
 		switch v := value.(type) {
 		case string:
 			// Sanitize and unescape the string
-			data[i] = unescapeEntities(policy.Sanitize(v))
+			sanitized := unescapeEntities(policy.Sanitize(v))
+
+			// Limit the string length
+			if len(sanitized) > maxFieldLength {
+				sanitized = sanitized[:maxFieldLength]
+			}
+
+			// Sanitize and unescape the string
+			data[i] = sanitized
 		case map[string]interface{}:
 			data[i] = sanitizeMap(v, policy)
 		case []interface{}:
