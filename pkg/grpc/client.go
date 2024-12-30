@@ -6,6 +6,8 @@ import (
 	"crypto/x509"
 	"fmt"
 	"github.com/cenkalti/backoff"
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
+	"go.opentelemetry.io/otel/trace"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
@@ -18,7 +20,7 @@ const (
 	rpcPort                 = 443
 )
 
-func NewClient(ctx context.Context, address string) (*grpc.ClientConn, error) {
+func NewClient(ctx context.Context, address string, tracerProvider trace.TracerProvider) (*grpc.ClientConn, error) {
 	var isInsecure bool
 	if strings.Contains(address, "http://") {
 		isInsecure = true
@@ -32,7 +34,8 @@ func NewClient(ctx context.Context, address string) (*grpc.ClientConn, error) {
 	operation := func() error {
 		var err error
 
-		opts := []grpc.DialOption{grpc.WithAuthority(address)}
+		opts := []grpc.DialOption{grpc.WithAuthority(address),
+			grpc.WithStatsHandler(otelgrpc.NewClientHandler(otelgrpc.WithTracerProvider(tracerProvider)))}
 
 		if isInsecure {
 			opts = append(opts, grpc.WithInsecure())
