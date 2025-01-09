@@ -6,6 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
+	"github.com/uncut-fm/uncut-common/pkg/tracing"
+	"go.opentelemetry.io/otel/trace"
 	"io"
 	"net/http"
 )
@@ -29,12 +31,14 @@ const (
 type Client struct {
 	log    logger.Logger
 	apiKey string
+	client *http.Client
 }
 
-func NewClient(log logger.Logger, apiKey string) *Client {
+func NewClient(log logger.Logger, tp trace.TracerProvider, apiKey string) *Client {
 	return &Client{
 		log:    log,
 		apiKey: apiKey,
+		client: tracing.NewHTTPClient(tp),
 	}
 }
 
@@ -71,8 +75,7 @@ func (c *Client) sendRequest(url string, data interface{}, hubspotResp hubspotRe
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.apiKey))
 	req.Header.Add("Content-Type", "application/json")
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	resp, err := c.client.Do(req)
 	if err != nil {
 		return err
 	}
@@ -112,8 +115,7 @@ func (c *Client) sendDeleteRequest(url string) error {
 	// Add Bearer token to the header
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.apiKey))
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	resp, err := c.client.Do(req)
 	if err != nil {
 		return err
 	}
