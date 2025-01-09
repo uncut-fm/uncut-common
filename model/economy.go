@@ -8,7 +8,7 @@ const (
 	CompleteProfileRewardAmount          = 100
 	SignupRewardAmount                   = 5
 	signupGrantFromAmount                = 25
-	signupGrantToAmount                  = 100
+	SignupGrantToAmount                  = 100
 	SigninRewardAmount                   = 10
 	SigninAdditionalDailyRewardAmount    = 5
 	SigninMaxAdditionalDailyRewardAmount = 15
@@ -30,7 +30,7 @@ const (
 )
 
 func GetRandomSingupGrantAmount() int {
-	return GetRandomNumberInRange(signupGrantFromAmount, signupGrantToAmount)
+	return GetRandomNumberInRange(signupGrantFromAmount, SignupGrantToAmount)
 }
 
 func ConvertArtxToUsd(artxAmount float64) float64 {
