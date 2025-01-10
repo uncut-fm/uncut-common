@@ -8,6 +8,8 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/model"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
+	"github.com/uncut-fm/uncut-common/pkg/tracing"
+	"go.opentelemetry.io/otel/trace"
 	"math"
 	"time"
 )
@@ -28,20 +30,21 @@ type ExchangerAPI struct {
 	restyClient *resty.Client
 }
 
-func NewCryptoExchanger(log logger.Logger, cache Cache) *ExchangerAPI {
+func NewCryptoExchanger(log logger.Logger, tp trace.TracerProvider, cache Cache) *ExchangerAPI {
 	return &ExchangerAPI{
 		log:         log,
 		cache:       cache,
-		restyClient: createRestyClient(),
+		restyClient: createRestyClient(tp),
 	}
 }
 
-func createRestyClient() *resty.Client {
-	client := resty.New()
-	client.SetTimeout(5 * time.Second)
-	client.SetRetryCount(5)
-	client.SetRetryWaitTime(time.Second)
-	client.AddRetryAfterErrorCondition()
+func createRestyClient(tp trace.TracerProvider) *resty.Client {
+	client := resty.New().
+		SetTransport(tracing.NewTransport(tp)).
+		SetTimeout(5 * time.Second).
+		SetRetryCount(5).
+		SetRetryWaitTime(time.Second).
+		AddRetryAfterErrorCondition()
 
 	return client
 }

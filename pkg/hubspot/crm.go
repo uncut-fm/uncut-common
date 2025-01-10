@@ -23,7 +23,7 @@ func (c *Client) ListObjects(ctx context.Context, objectType HubspotObjectType, 
 
 	resp := &hubspotBatchObjectsResponseV3{}
 
-	err := c.sendPostRequest(endpoint, payload, resp)
+	err := c.sendPostRequest(ctx, endpoint, payload, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *Client) UpdateContactsByEmailsBatch(ctx context.Context, properties []H
 
 	resp := &hubspotBatchObjectsResponseV3{}
 
-	err := c.sendPostRequest(endpoint, payload, resp)
+	err := c.sendPostRequest(ctx, endpoint, payload, resp)
 
 	return err
 }
@@ -70,7 +70,7 @@ func (c *Client) CreateProperties(ctx context.Context, newProperties []NewProper
 
 	resp := &hubspotBatchObjectsResponseV3{}
 
-	err := c.sendPostRequest(endpoint, payload, resp)
+	err := c.sendPostRequest(ctx, endpoint, payload, resp)
 
 	return err
 }
@@ -83,7 +83,7 @@ func (c *Client) CreateObjectsBatch(ctx context.Context, objectType HubspotObjec
 
 	resp := &hubspotBatchObjectsResponseV3{}
 
-	err := c.sendPostRequest(endpoint, payload, resp)
+	err := c.sendPostRequest(ctx, endpoint, payload, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +104,7 @@ func (c *Client) CreateObject(ctx context.Context, objectType HubspotObjectType,
 
 	resp := &hubspotObjectResponseV3{}
 
-	err := c.sendPostRequest(endpoint, object, resp)
+	err := c.sendPostRequest(ctx, endpoint, object, resp)
 	if err != nil {
 		return HubspotSimplePublicObjectInput{}, err
 	}
@@ -117,7 +117,7 @@ func (c *Client) UpdateObject(ctx context.Context, objectType HubspotObjectType,
 
 	resp := &hubspotObjectResponseV3{}
 
-	err := c.sendPatchRequest(endpoint, object, resp)
+	err := c.sendPatchRequest(ctx, endpoint, object, resp)
 	if err != nil {
 		return HubspotSimplePublicObjectInput{}, err
 	}
@@ -146,7 +146,7 @@ func (c *Client) ListAssociationsByContactIDs(ctx context.Context, toObjectType 
 
 	resp := &hubspotReadAssociationsResponseV3{}
 
-	err := c.sendPostRequest(endpoint, payload, resp)
+	err := c.sendPostRequest(ctx, endpoint, payload, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -167,7 +167,7 @@ func (c *Client) CreateAssociationsBatch(ctx context.Context, toObjectType Hubsp
 
 	resp := &hubspotCreateAssociationsResponseV3{}
 
-	err := c.sendPostRequest(endpoint, payload, resp)
+	err := c.sendPostRequest(ctx, endpoint, payload, resp)
 
 	return err
 }
@@ -179,7 +179,7 @@ func (c *Client) ArchiveAssociationsBatch(ctx context.Context, toObjectType Hubs
 		"inputs": associations,
 	}
 
-	err := c.sendPostRequest(endpoint, payload, nil)
+	err := c.sendPostRequest(ctx, endpoint, payload, nil)
 
 	return err
 }

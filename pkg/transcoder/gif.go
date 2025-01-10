@@ -1,12 +1,13 @@
 package transcoder
 
 import (
+	"context"
 	"errors"
 	"fmt"
 )
 
-func (a API) GetFirstFrameFromGif(gifURL string) (string, error) {
-	response, err := a.makeGifFirstFrameRequest(gifURL)
+func (a API) GetFirstFrameFromGif(ctx context.Context, gifURL string) (string, error) {
+	response, err := a.makeGifFirstFrameRequest(ctx, gifURL)
 	if a.log.CheckError(err, a.GetFirstFrameFromGif) != nil {
 		return "", err
 	}
@@ -14,7 +15,7 @@ func (a API) GetFirstFrameFromGif(gifURL string) (string, error) {
 	return response, err
 }
 
-func (a API) makeGifFirstFrameRequest(gifURL string) (string, error) {
+func (a API) makeGifFirstFrameRequest(ctx context.Context, gifURL string) (string, error) {
 	var result struct {
 		Url string `json:"url"`
 	}

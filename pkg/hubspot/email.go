@@ -22,7 +22,7 @@ type EmailMessage struct {
 func (c *Client) SendEmail(ctx context.Context, request *NewEmailRequest) error {
 	resp := &sendEmailResponse{}
 
-	err := c.sendPostRequest(sendEmailEndpoint, request, resp)
+	err := c.sendPostRequest(ctx, sendEmailEndpoint, request, resp)
 	if err != nil {
 		return err
 	}

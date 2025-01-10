@@ -1,13 +1,14 @@
 package transcoder
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"github.com/uncut-fm/uncut-common/model"
 )
 
-func (a API) GetImageMetadataByURL(imageURL string) (*model.ImageMetadata, error) {
-	response, err := a.makeImageMetadataRequest(imageURL)
+func (a API) GetImageMetadataByURL(ctx context.Context, imageURL string) (*model.ImageMetadata, error) {
+	response, err := a.makeImageMetadataRequest(ctx, imageURL)
 	if a.log.CheckError(err, a.GetImageMetadataByURL) != nil {
 		return nil, err
 	}
@@ -15,10 +16,10 @@ func (a API) GetImageMetadataByURL(imageURL string) (*model.ImageMetadata, error
 	return response, err
 }
 
-func (a API) makeImageMetadataRequest(imageURL string) (*model.ImageMetadata, error) {
+func (a API) makeImageMetadataRequest(ctx context.Context, imageURL string) (*model.ImageMetadata, error) {
 	metadata := new(model.ImageMetadata)
 
-	resp, err := a.restyClient.R().EnableTrace().
+	resp, err := a.restyClient.R().SetContext(ctx).
 		SetHeader("admin-token", a.adminToken).
 		SetResult(metadata).
 		SetQueryParam("url", imageURL).

@@ -69,7 +69,7 @@ func (c Client) makeGetTokenBalancesRequest(ctx context.Context, walletAddress s
 
 	response := new(getTokenBalancesResponse)
 	operation := func() error {
-		_, err = c.restyClient.R().EnableTrace().
+		_, err = c.restyClient.R().SetContext(ctx).
 			SetBody(request).
 			SetResult(response).
 			Post(c.getRpcUrl(c.getBlockchainNetworkByCommonName(model.PolygonNetwork)))

@@ -1,6 +1,8 @@
 package alchemy
 
 import (
+	"github.com/uncut-fm/uncut-common/pkg/tracing"
+	"go.opentelemetry.io/otel/trace"
 	"strings"
 	"sync"
 	"time"
@@ -37,7 +39,7 @@ func (c cachedBalancesStruct) isOlderThan5min() bool {
 	return c.retrievedTime.Add(5 * time.Minute).Before(time.Now())
 }
 
-func NewClient(log logger.Logger, currencies config.Web3Currencies, alchemyAPIKey, env string) *Client {
+func NewClient(log logger.Logger, tp trace.TracerProvider, currencies config.Web3Currencies, alchemyAPIKey, env string) *Client {
 	client := &Client{
 		log:                 log,
 		alchemyAPIKey:       alchemyAPIKey,
@@ -45,15 +47,16 @@ func NewClient(log logger.Logger, currencies config.Web3Currencies, alchemyAPIKe
 		currencies:          currencies,
 		cachedBalances:      make(map[string]cachedBalancesStruct),
 		cachedBalancesMutex: new(sync.RWMutex),
-		restyClient:         createRestyClient(),
+		restyClient:         createRestyClient(tp),
 	}
 
 	return client
 }
 
-func createRestyClient() *resty.Client {
-	client := resty.New()
-	client.SetTimeout(requestTimeout)
+func createRestyClient(tp trace.TracerProvider) *resty.Client {
+	client := resty.New().
+		SetTransport(tracing.NewTransport(tp)).
+		SetTimeout(requestTimeout)
 
 	return client
 }

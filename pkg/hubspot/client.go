@@ -2,6 +2,7 @@ package hubspot
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -48,15 +49,15 @@ type batchReadRequest struct {
 	Inputs     []map[string]string `json:"inputs"`
 }
 
-func (c *Client) sendPostRequest(url string, data interface{}, hubspotResp hubspotResponseInterface) error {
-	return c.sendRequest(url, data, hubspotResp, http.MethodPost)
+func (c *Client) sendPostRequest(ctx context.Context, url string, data interface{}, hubspotResp hubspotResponseInterface) error {
+	return c.sendRequest(ctx, url, data, hubspotResp, http.MethodPost)
 }
 
-func (c *Client) sendPatchRequest(url string, data interface{}, hubspotResp hubspotResponseInterface) error {
-	return c.sendRequest(url, data, hubspotResp, http.MethodPatch)
+func (c *Client) sendPatchRequest(ctx context.Context, url string, data interface{}, hubspotResp hubspotResponseInterface) error {
+	return c.sendRequest(ctx, url, data, hubspotResp, http.MethodPatch)
 }
 
-func (c *Client) sendRequest(url string, data interface{}, hubspotResp hubspotResponseInterface, method string) error {
+func (c *Client) sendRequest(ctx context.Context, url string, data interface{}, hubspotResp hubspotResponseInterface, method string) error {
 	payload := new(bytes.Buffer)
 	enc := json.NewEncoder(payload)
 	enc.SetEscapeHTML(false)
@@ -70,6 +71,8 @@ func (c *Client) sendRequest(url string, data interface{}, hubspotResp hubspotRe
 	if err != nil {
 		return err
 	}
+
+	req = req.WithContext(ctx)
 
 	// Add Bearer token to the header
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.apiKey))

@@ -3,6 +3,8 @@ package transcoder
 import (
 	"github.com/go-resty/resty/v2"
 	"github.com/uncut-fm/uncut-common/pkg/logger"
+	"github.com/uncut-fm/uncut-common/pkg/tracing"
+	"go.opentelemetry.io/otel/trace"
 	"time"
 )
 
@@ -22,18 +24,19 @@ type API struct {
 	restyClient *resty.Client
 }
 
-func New(log logger.Logger, url, token string) *API {
+func New(log logger.Logger, tp trace.TracerProvider, url, token string) *API {
 	return &API{
 		log:         log,
 		url:         url,
 		adminToken:  token,
-		restyClient: createRestyClient(),
+		restyClient: createRestyClient(tp),
 	}
 }
 
-func createRestyClient() *resty.Client {
-	client := resty.New()
-	client.SetTimeout(requestTimeout).
+func createRestyClient(tp trace.TracerProvider) *resty.Client {
+	client := resty.New().
+		SetTransport(tracing.NewTransport(tp)).
+		SetTimeout(requestTimeout).
 		SetRetryCount(2)
 
 	return client

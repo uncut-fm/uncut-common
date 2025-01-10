@@ -33,7 +33,7 @@ func (c Client) makeGetBlockByNumberRequest(ctx context.Context, blockNumber int
 
 	response := new(getBlockResponse)
 	operation := func() error {
-		_, err = c.restyClient.R().EnableTrace().
+		_, err = c.restyClient.R().SetContext(ctx).
 			SetBody(request).
 			SetResult(response).
 			Post(c.getRpcUrl(network))
