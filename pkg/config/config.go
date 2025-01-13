@@ -146,6 +146,7 @@ type BackofficeConfigs struct {
 	FaucetWallet         FaucetWallet        `yaml:"faucet_wallet"`
 	PIRTokenIDs          []int               `yaml:"pir_token_ids"`
 	Redis                RedisConfigs        `yaml:"redis"`
+	RedisManagement      RedisConfigs        `yaml:"redis_management"`
 	HubspotEmailConfigs  HubspotEmailConfigs `yaml:"hubspot_email_configs"`
 }
 
