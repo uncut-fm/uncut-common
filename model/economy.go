@@ -7,6 +7,7 @@ const (
 
 	CompleteProfileRewardAmount             = 100
 	SignupRewardAmount                      = 5
+	SignupFeaturedArtistRewardAmount        = 5000
 	signupGrantFromAmount                   = 25
 	SignupGrantToAmount                     = 100
 	SigninRewardAmount                      = 10
