@@ -8,6 +8,11 @@ type hubspotBatchObjectsResponseV3 struct {
 	Results       []HubspotSimplePublicObjectInput `json:"results"`
 }
 
+type hubspotSearchObjectsResponseV3 struct {
+	Total   int                              `json:"total"`
+	Results []HubspotSimplePublicObjectInput `json:"results"`
+}
+
 type hubspotObjectResponseV3 struct {
 	Status        hubspotStatus `json:"status"`
 	Message       string        `json:"message"`
@@ -30,6 +35,14 @@ func (h hubspotObjectResponseV3) GetStatus() hubspotStatus {
 
 func (h hubspotObjectResponseV3) GetMessage() string {
 	return h.Message
+}
+
+func (h hubspotSearchObjectsResponseV3) GetStatus() hubspotStatus {
+	return hubspotStatusComplete
+}
+
+func (h hubspotSearchObjectsResponseV3) GetMessage() string {
+	return ""
 }
 
 type associationResponseErr struct {

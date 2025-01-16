@@ -31,6 +31,36 @@ func (c *Client) ListObjects(ctx context.Context, objectType HubspotObjectType, 
 	return resp.Results, nil
 }
 
+func (c *Client) SearchObjectsByProperty(ctx context.Context, objectType HubspotObjectType, propertyName string, propertyValue string, properties []string) ([]HubspotSimplePublicObjectInput, error) {
+	endpoint := fmt.Sprintf(objectsSearchBaseAPIUrl, objectType)
+	payload := searchRequest{
+		FilterGroups: []searchFilterGroup{
+			{
+				Filters: []searchFilter{
+					{
+						PropertyName: propertyName,
+						Operator:     "EQ",
+						Value:        propertyValue,
+					},
+				},
+			},
+		},
+	}
+
+	if len(properties) > 0 {
+		payload.Properties = properties
+	}
+
+	resp := &hubspotSearchObjectsResponseV3{}
+
+	err := c.sendPostRequest(ctx, endpoint, payload, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.Results, nil
+}
+
 type batchUpdateInput struct {
 	Properties map[string]string `json:"properties"`
 	IdProperty *string           `json:"idProperty,omitempty"`

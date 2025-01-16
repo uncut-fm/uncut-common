@@ -18,6 +18,8 @@ const (
 	batchObjectsCreateBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s/batch/create"
 	batchObjectsUpdateBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s/batch/update"
 
+	objectsSearchBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s/search" // /crm/v3/objects/:object_type/search
+
 	objectCreateBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s"    // /crm/v3/objects/:object_type
 	objectDeleteBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s/%s" // /crm/v3/objects/:object_type/:id
 	objectUpdateBaseAPIUrl = "https://api.hubapi.com/crm/v3/objects/%s/%s" // /crm/v3/objects/:object_type/:id
@@ -41,12 +43,6 @@ func NewClient(log logger.Logger, tp trace.TracerProvider, apiKey string) *Clien
 		apiKey: apiKey,
 		client: tracing.NewHTTPClient(tp),
 	}
-}
-
-type batchReadRequest struct {
-	Properties []string            `json:"properties"`
-	IdProperty *string             `json:"idProperty,omitempty"`
-	Inputs     []map[string]string `json:"inputs"`
 }
 
 func (c *Client) sendPostRequest(ctx context.Context, url string, data interface{}, hubspotResp hubspotResponseInterface) error {
