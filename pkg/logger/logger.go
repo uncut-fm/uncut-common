@@ -33,11 +33,12 @@ type Logger interface {
 	CheckInfoError(err error, i interface{}) error
 	BeforeQuery(context.Context, *pg.QueryEvent) (context.Context, error)
 	AfterQuery(context.Context, *pg.QueryEvent) error
+	GetFunctionName(i interface{}) string
 }
 
 func (l log) CheckError(err error, i interface{}) error {
 	if err != nil && !strings.Contains(err.Error(), "not found") {
-		l.Warn("Function name: "+getFunctionName(i)+" | Error: ", err)
+		l.Warn("Function name: "+l.GetFunctionName(i)+" | Error: ", err)
 	}
 
 	return err
@@ -45,13 +46,13 @@ func (l log) CheckError(err error, i interface{}) error {
 
 func (l log) CheckInfoError(err error, i interface{}) error {
 	if err != nil {
-		l.Info("Function name: "+getFunctionName(i)+" | Error: ", err)
+		l.Info("Function name: "+l.GetFunctionName(i)+" | Error: ", err)
 	}
 
 	return err
 }
 
-func getFunctionName(i interface{}) string {
+func (l log) GetFunctionName(i interface{}) string {
 	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
 }
 

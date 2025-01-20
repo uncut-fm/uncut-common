@@ -19,6 +19,13 @@ import (
 	"time"
 )
 
+const (
+	PLATFORM_POSTGRESQL_TRACER_NAME = "db_platform"
+	AUTH_POSTGRESQL_TRACER_NAME     = "db_auth"
+	MAIN_REDIS_TRACER_NAME          = "redis_main"
+	SECONDARY_REDIS_TRACER_NAME     = "redis_secondary"
+)
+
 var once sync.Once
 
 func InitOtel(serviceName, otlpURL, env string, logger logger.Logger) trace.TracerProvider {
