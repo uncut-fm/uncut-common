@@ -17,9 +17,11 @@ var (
 	BadgesObjectType   HubspotObjectType = "badges"
 	DealsObjectType    HubspotObjectType = "deals"
 
+	EAPBadgeName = "EAP"
+
 	ContactToTagAssociationType   HubspotAssociationType = "user_tags"
-	EAPBadgeName                                         = "EAP"
 	ContactToBadgeAssociationType HubspotAssociationType = "user_badges"
+	ContactToDealAssociationType  HubspotAssociationType = "contact_to_deal"
 
 	DealToContactAssociationTypeID HubpsotAssociationTypeID = 3
 
