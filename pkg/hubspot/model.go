@@ -24,6 +24,8 @@ var (
 	DealToContactAssociationTypeID HubpsotAssociationTypeID = 3
 
 	HubspotDefinedAssociationCategory HubspotAssociationCategory = "HUBSPOT_DEFINED"
+
+	FeaturedArtistSignupUpStageID = "140440140"
 )
 
 type HubspotSimplePublicObjectInput struct {

@@ -27,6 +27,10 @@ func InitPGDriver(dbConfigs config.DBConfigs, tp trace.TracerProvider) (*entsql.
 		semconv.DBSystemPostgreSQL,
 	))
 
+	if err != nil {
+		return nil, err
+	}
+
 	maxConnLifetime, err := time.ParseDuration(dbConfigs.ConnectionMaxLifetime)
 	if err != nil {
 		return nil, err

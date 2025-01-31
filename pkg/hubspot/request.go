@@ -20,3 +20,11 @@ type searchFilter struct {
 type searchFilterGroup struct {
 	Filters []searchFilter `json:"filters"`
 }
+
+func getDealStageFromDealProperties(properties map[string]string) string {
+	return properties["dealstage"]
+}
+
+func IsFeaturedArtistDealProcessed(properties map[string]string) bool {
+	return getDealStageFromDealProperties(properties) == FeaturedArtistSignupUpStageID
+}
