@@ -246,7 +246,7 @@ func (c ExchangerAPI) makeRequest(ctx context.Context, apiURL string, responseSt
 	}
 
 	b := backoff.NewExponentialBackOff()
-	b.MaxElapsedTime = 2 * time.Second
+	b.MaxElapsedTime = 500 * time.Millisecond
 
 	err = backoff.Retry(operation, b)
 
