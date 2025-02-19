@@ -162,6 +162,10 @@ func (c *ExchangerAPI) getTokenEquivalentInUSD(ctx context.Context, tokenQuantit
 	return usdEquivalent, nil
 }
 
+func (c *ExchangerAPI) GetTokenPrice(ctx context.Context, token model.TokenSymbol) float64 {
+	return c.getTokenPrice(ctx, token)
+}
+
 func (c *ExchangerAPI) getTokenPrice(ctx context.Context, token model.TokenSymbol) float64 {
 	if token == model.ArtxTokenSymbol {
 		return model.ArtxUsdRate
@@ -171,7 +175,7 @@ func (c *ExchangerAPI) getTokenPrice(ctx context.Context, token model.TokenSymbo
 	if tokenPrice > 0 {
 		if !isPriceRelevant {
 			go func() {
-				tokenPrice, err := c.getTokenPriceInUSDFromAPI(token)
+				tokenPrice, err := c.getTokenPriceInUSDFromAPI(ctx, token)
 				if c.log.CheckError(err, c.getTokenPrice) != nil {
 					return
 				}
@@ -182,7 +186,7 @@ func (c *ExchangerAPI) getTokenPrice(ctx context.Context, token model.TokenSymbo
 		return tokenPrice
 	}
 
-	tokenPrice, err := c.getTokenPriceInUSDFromAPI(token)
+	tokenPrice, err := c.getTokenPriceInUSDFromAPI(ctx, token)
 	if c.log.CheckError(err, c.getTokenPrice) != nil {
 		return fallbackPricePerToken[token]
 	}
@@ -206,14 +210,14 @@ func calculateExchangeValue(pricePerItem, items float64) float64 {
 	return usdEquivalent
 }
 
-func (c ExchangerAPI) getTokenPriceInUSDFromAPI(token model.TokenSymbol) (float64, error) {
+func (c ExchangerAPI) getTokenPriceInUSDFromAPI(ctx context.Context, token model.TokenSymbol) (float64, error) {
 	apiRequest := getRequest(string(token), "USD")
 
 	responseStruct := struct {
 		USD float64 `json:"USD"`
 	}{}
 
-	err := c.makeRequest(apiRequest, &responseStruct)
+	err := c.makeRequest(ctx, apiRequest, &responseStruct)
 	if err != nil {
 		return 0, err
 	}
@@ -225,13 +229,14 @@ func (c ExchangerAPI) getTokenPriceInUSDFromAPI(token model.TokenSymbol) (float6
 	return responseStruct.USD, c.log.CheckError(err, c.getTokenPriceInUSDFromAPI)
 }
 
-func (c ExchangerAPI) makeRequest(apiURL string, responseStruct interface{}) error {
+func (c ExchangerAPI) makeRequest(ctx context.Context, apiURL string, responseStruct interface{}) error {
 	var err error
 
 	operation := func() error {
 		var resp *resty.Response
 
-		resp, err = c.restyClient.R().EnableTrace().
+		resp, err = c.restyClient.R().
+			SetContext(ctx).
 			Get(apiURL)
 		if err != nil {
 			return c.log.CheckError(err, c.makeRequest)
