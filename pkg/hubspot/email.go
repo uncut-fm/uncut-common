@@ -20,6 +20,9 @@ type EmailMessage struct {
 }
 
 func (c *Client) SendEmail(ctx context.Context, request *NewEmailRequest) error {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.SendEmail))
+	defer span.End()
+
 	resp := &sendEmailResponse{}
 
 	err := c.sendPostRequest(ctx, sendEmailEndpoint, request, resp)

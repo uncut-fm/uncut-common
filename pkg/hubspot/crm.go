@@ -6,6 +6,9 @@ import (
 )
 
 func (c *Client) ListObjects(ctx context.Context, objectType HubspotObjectType, idPropertyField *string, ids, properties []string) ([]HubspotSimplePublicObjectInput, error) {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.ListObjects))
+	defer span.End()
+
 	endpoint := fmt.Sprintf(batchObjectsReadBaseAPIUrl, objectType)
 	payload := batchReadRequest{
 		Properties: properties,
@@ -32,6 +35,9 @@ func (c *Client) ListObjects(ctx context.Context, objectType HubspotObjectType, 
 }
 
 func (c *Client) SearchObjectsByProperty(ctx context.Context, objectType HubspotObjectType, propertyName string, propertyValue string, properties []string) ([]HubspotSimplePublicObjectInput, error) {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.SearchObjectsByProperty))
+	defer span.End()
+
 	endpoint := fmt.Sprintf(objectsSearchBaseAPIUrl, objectType)
 	payload := searchRequest{
 		FilterGroups: []searchFilterGroup{
@@ -69,6 +75,9 @@ type batchUpdateInput struct {
 
 // UpdateByEmail updates a contact in HubSpot by email
 func (c *Client) UpdateContactsByEmailsBatch(ctx context.Context, properties []HubspotSimplePublicObjectInput) error {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.UpdateContactsByEmailsBatch))
+	defer span.End()
+
 	endpoint := fmt.Sprintf(batchObjectsUpdateBaseAPIUrl, ContactsObjectType)
 
 	var inputs []batchUpdateInput
@@ -92,6 +101,9 @@ func (c *Client) UpdateContactsByEmailsBatch(ctx context.Context, properties []H
 }
 
 func (c *Client) CreateProperties(ctx context.Context, newProperties []NewProperty) error {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.CreateProperties))
+	defer span.End()
+
 	endpoint := fmt.Sprintf("%s/contacts/batch/create", propertiesBaseAPIUrl)
 
 	payload := map[string][]NewProperty{
@@ -106,6 +118,9 @@ func (c *Client) CreateProperties(ctx context.Context, newProperties []NewProper
 }
 
 func (c *Client) CreateObjectsBatch(ctx context.Context, objectType HubspotObjectType, objects []HubspotSimplePublicObjectInput) ([]HubspotSimplePublicObjectInput, error) {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.CreateObjectsBatch))
+	defer span.End()
+
 	endpoint := fmt.Sprintf(batchObjectsCreateBaseAPIUrl, string(objectType))
 	payload := map[string][]HubspotSimplePublicObjectInput{
 		"inputs": objects,
@@ -122,6 +137,9 @@ func (c *Client) CreateObjectsBatch(ctx context.Context, objectType HubspotObjec
 }
 
 func (c *Client) DeleteObjectByID(ctx context.Context, objectType HubspotObjectType, id string) error {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.DeleteObjectByID))
+	defer span.End()
+
 	endpoint := fmt.Sprintf(objectDeleteBaseAPIUrl, string(objectType), id)
 
 	err := c.sendDeleteRequest(endpoint)
@@ -130,6 +148,9 @@ func (c *Client) DeleteObjectByID(ctx context.Context, objectType HubspotObjectT
 }
 
 func (c *Client) CreateObject(ctx context.Context, objectType HubspotObjectType, object CreateObjectInput) (HubspotSimplePublicObjectInput, error) {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.CreateObject))
+	defer span.End()
+
 	endpoint := fmt.Sprintf(objectCreateBaseAPIUrl, string(objectType))
 
 	resp := &hubspotObjectResponseV3{}
@@ -143,6 +164,9 @@ func (c *Client) CreateObject(ctx context.Context, objectType HubspotObjectType,
 }
 
 func (c *Client) UpdateObject(ctx context.Context, objectType HubspotObjectType, object UpdateObjectInput) (HubspotSimplePublicObjectInput, error) {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.UpdateObject))
+	defer span.End()
+
 	endpoint := fmt.Sprintf(objectUpdateBaseAPIUrl, string(objectType), object.ObjectID)
 
 	resp := &hubspotObjectResponseV3{}
@@ -156,6 +180,9 @@ func (c *Client) UpdateObject(ctx context.Context, objectType HubspotObjectType,
 }
 
 func (c *Client) ListAssociationsByContactIDs(ctx context.Context, toObjectType HubspotObjectType, contactIDs []string) ([]AssociationPairToArrayObject, error) {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.ListAssociationsByContactIDs))
+	defer span.End()
+
 	endpoint := fmt.Sprintf(batchAssociationsReadBaseAPIUrl, ContactsObjectType, toObjectType)
 
 	type input struct {
@@ -189,6 +216,9 @@ func (c *Client) ListAssociationsByContactIDs(ctx context.Context, toObjectType 
 }
 
 func (c *Client) CreateAssociationsBatch(ctx context.Context, toObjectType HubspotObjectType, associations []AssociationPair) error {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.CreateAssociationsBatch))
+	defer span.End()
+
 	endpoint := fmt.Sprintf(batchAssociationsCreateBaseAPIUrl, ContactsObjectType, toObjectType)
 
 	payload := map[string][]AssociationPair{
@@ -203,6 +233,9 @@ func (c *Client) CreateAssociationsBatch(ctx context.Context, toObjectType Hubsp
 }
 
 func (c *Client) ArchiveAssociationsBatch(ctx context.Context, toObjectType HubspotObjectType, associations []AssociationPair) error {
+	ctx, span := c.tracer.Start(ctx, c.log.GetFunctionName(c.ArchiveAssociationsBatch))
+	defer span.End()
+
 	endpoint := fmt.Sprintf(batchAssociationsArchiveBaseAPIUrl, ContactsObjectType, toObjectType)
 
 	payload := map[string][]AssociationPair{

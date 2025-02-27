@@ -33,6 +33,7 @@ const (
 
 type Client struct {
 	log    logger.Logger
+	tracer trace.Tracer
 	apiKey string
 	client *http.Client
 }
@@ -40,6 +41,7 @@ type Client struct {
 func NewClient(log logger.Logger, tp trace.TracerProvider, apiKey string) *Client {
 	return &Client{
 		log:    log,
+		tracer: tp.Tracer("hubspot"),
 		apiKey: apiKey,
 		client: tracing.NewHTTPClient(tp),
 	}
