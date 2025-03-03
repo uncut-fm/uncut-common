@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -132,4 +133,33 @@ type NftPromotedEventMetadata struct {
 	NftID              int       `json:"nft_id"`
 	CurationStartsDate time.Time `json:"curation_starts_date"`
 	ArtxSpent          int       `json:"artx_spent"`
+}
+
+func GetSubjectUserIDFromEvent(event Event) (int, error) {
+	if event.SubjectID == nil {
+		return 0, nil
+	}
+
+	collectorUserID := event.SubjectID
+
+	return strconv.Atoi(*collectorUserID)
+}
+
+func GetObjectCreatorFromEvent(event Event) (int, error) {
+	metadataMap, ok := event.Metadata.(map[string]interface{})
+	if !ok {
+		return 0, fmt.Errorf("metadata is not a map")
+	}
+
+	nftCreatorID, ok := metadataMap["objectCreatorId"].(string)
+	if !ok {
+		return 0, fmt.Errorf("objectCreatorId is not a string")
+	}
+
+	nftCreatorIDInt, err := strconv.Atoi(nftCreatorID)
+	if err != nil {
+		return 0, fmt.Errorf("objectCreatorId is not an int")
+	}
+
+	return nftCreatorIDInt, nil
 }
