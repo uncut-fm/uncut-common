@@ -181,6 +181,19 @@ func GetUncutNFTUrl(nftID int, showSlug, environment string) string {
 	}
 }
 
+func GetUncutUserUrl(userID int, environment string) string {
+	switch environment {
+	case "dev", "stage":
+		return fmt.Sprintf("https://%s.uncut.network/user/%d", environment, userID)
+	case "test":
+		return fmt.Sprintf("https://qa.uncut.network/user/%d", userID)
+	case "production":
+		return fmt.Sprintf("https://uncut.network/user/%d", userID)
+	default:
+		return ""
+	}
+}
+
 // GetOrdinalSuffix returns the ordinal suffix for an integer.
 func GetOrdinalSuffix(n int) string {
 	switch n % 100 {
