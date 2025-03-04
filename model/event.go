@@ -42,6 +42,7 @@ var (
 	NewFeedConversationCommentEvent  EventType = "NewFeedConversationComment"
 
 	NewPostEvent         EventType = "NewPost"
+	PostUpdatedEvent     EventType = "PostUpdated"
 	PostDeletedEvent     EventType = "PostDeleted"
 	NewBlogPostEvent     EventType = "NewBlogPost"
 	BlogPostDeletedEvent EventType = "BlogPostDeleted"
