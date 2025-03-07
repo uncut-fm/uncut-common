@@ -20,10 +20,13 @@ import (
 )
 
 const (
-	PLATFORM_POSTGRESQL_TRACER_NAME = "db_platform"
-	AUTH_POSTGRESQL_TRACER_NAME     = "db_auth"
-	MAIN_REDIS_TRACER_NAME          = "redis_main"
-	SECONDARY_REDIS_TRACER_NAME     = "redis_secondary"
+	PLATFORM_POSTGRESQL_TRACER_NAME           = "db_platform"
+	AUTH_POSTGRESQL_TRACER_NAME               = "db_auth"
+	MAIN_REDIS_TRACER_NAME                    = "redis_main"
+	SECONDARY_REDIS_TRACER_NAME               = "redis_secondary"
+	EVENTS_PUBLISHER_TRACER_NAME              = "events_publisher"
+	BLOCKCHAIN_REQUESTS_PUBLISHER_TRACER_NAME = "blockchain_requests_publisher"
+	TRANSCODER_REQUESTS_PUBLISHER_TRACER_NAME = "transcoder_requests_publisher"
 )
 
 var once sync.Once
