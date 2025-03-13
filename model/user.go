@@ -1,6 +1,7 @@
 package model
 
 import (
+	"github.com/uncut-fm/uncut-common/pkg/config"
 	"time"
 
 	proto_user "github.com/uncut-fm/uncut-common/pkg/proto/auth/user"
@@ -256,5 +257,24 @@ func ParseProtoUserOrder(protoOrder *proto_user.UserOrder) *UserOrder {
 	return &UserOrder{
 		Field: UserOrderField(protoOrder.Field),
 		Desc:  protoOrder.Desc,
+	}
+}
+
+const (
+	MainProdUserID  = 4294967824
+	MainTestUserID  = 8589934595
+	MainLocalUserID = 8589934603
+)
+
+func GetMainUserIDByEnvironment(env string) int {
+	switch env {
+	case config.ProdEnvironment, config.StageEnvironment:
+		return MainProdUserID
+	case config.TestEnvironment:
+		return MainTestUserID
+	case config.LocalEnvironment, config.DevEnvironment:
+		return MainLocalUserID
+	default:
+		return MainProdUserID
 	}
 }
