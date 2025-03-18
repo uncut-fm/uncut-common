@@ -31,7 +31,7 @@ const (
 
 var once sync.Once
 
-func InitOtel(serviceName, otlpURL, env string, logger logger.Logger) trace.TracerProvider {
+func InitOtel(serviceName, otlpURL, env string, logger logger.Logger, samplingRation float64) trace.TracerProvider {
 	once.Do(func() {
 		otel.SetTextMapPropagator(
 			propagation.NewCompositeTextMapPropagator(
@@ -61,6 +61,7 @@ func InitOtel(serviceName, otlpURL, env string, logger logger.Logger) trace.Trac
 	tp := sdktrace.NewTracerProvider(
 		sdktrace.WithBatcher(exp, sdktrace.WithBatchTimeout(1000*time.Millisecond)),
 		sdktrace.WithResource(res),
+		sdktrace.WithSampler(sdktrace.TraceIDRatioBased(samplingRation)),
 	)
 
 	return tp
