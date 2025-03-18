@@ -173,6 +173,7 @@ type PubSub struct {
 	DiscordEventsSubName   string `yaml:"discord_events_sub_name"`
 	ScoreEventsSubName     string `yaml:"score_events_sub_name"`
 	FeedEventsSubName      string `yaml:"feed_events_sub_name"`
+	ViewEventsSubName      string `yaml:"view_events_sub_name"`
 
 	TranscoderRequestsTopicName string `yaml:"transcoder_requests_topic_name"`
 	TranscoderRequestsSubName   string `yaml:"transcoder_requests_sub_name"`
