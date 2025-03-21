@@ -26,6 +26,7 @@ const (
 	SECONDARY_REDIS_TRACER_NAME               = "redis_secondary"
 	EVENTS_PUBLISHER_TRACER_NAME              = "events_publisher"
 	BLOCKCHAIN_REQUESTS_PUBLISHER_TRACER_NAME = "blockchain_requests_publisher"
+	BLOCKCHAIN_EVENTS_PUBLISHER_TRACER_NAME   = "blockchain_requests_publisher"
 	TRANSCODER_REQUESTS_PUBLISHER_TRACER_NAME = "transcoder_requests_publisher"
 )
 
