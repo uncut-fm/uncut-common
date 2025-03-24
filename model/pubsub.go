@@ -23,7 +23,13 @@ var (
 	NewWaxBlockchainEvent               BlockchainEventType = "NewWaxEvent"
 	NewWaxPurchasedSaleEvent            BlockchainEventType = "NewWaxPurchasedSaleEvent"
 	NewWaxAssetTransferEvent            BlockchainEventType = "NewWaxAssetTransferEvent"
+	SyncWaxNftOwnerEvent                BlockchainEventType = "SyncWaxNftOwnerEvent"
 )
+
+type SyncNftOwnerEventInfo struct {
+	NftID              int    `json:"nft_id"`
+	OwnerWalletAddress string `json:"owner_wallet_address"`
+}
 
 type PurchasedSaleEventInfo struct {
 	SaleID string `json:"saleId"`
