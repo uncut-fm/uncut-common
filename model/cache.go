@@ -1,7 +1,9 @@
 package model
 
 import (
+	"context"
 	"fmt"
+	"github.com/go-redis/redis/v8"
 	"strings"
 )
 
@@ -26,3 +28,27 @@ const (
 	TransactionStatusProcessed
 	TransactionStatusTracked
 )
+
+func ListKeysByPatternFromRedis(ctx context.Context, redisClient *redis.Client, pattern string) ([]string, error) {
+	var cursor uint64
+	var keys []string
+
+	var limit int64 = 20
+
+	for {
+		// Scan returns a slice of keys, a new cursor, and an error.
+		ks, newCursor, err := redisClient.Scan(ctx, cursor, pattern, limit).Result()
+		if err != nil {
+			return keys, err
+		}
+
+		keys = append(keys, ks...)
+		// When the cursor returns to 0, the iteration is complete.
+		if newCursor == 0 {
+			break
+		}
+		cursor = newCursor
+	}
+
+	return keys, nil
+}
