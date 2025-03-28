@@ -45,7 +45,7 @@ func ListKeysByPatternFromRedis(ctx context.Context, tracer trace.Tracer, redisC
 	var cursor uint64
 	var keys []string
 
-	limit := int64(500)
+	limit := int64(1000)
 
 	for {
 		var (
