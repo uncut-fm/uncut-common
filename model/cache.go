@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-redis/redis/v8"
+	"go.opentelemetry.io/otel/trace"
 	"strings"
 )
 
@@ -29,15 +30,31 @@ const (
 	TransactionStatusTracked
 )
 
-func ListKeysByPatternFromRedis(ctx context.Context, redisClient *redis.Client, pattern string) ([]string, error) {
+func ListKeysByPatternFromRedis(ctx context.Context, tracer trace.Tracer, redisClient *redis.Client, pattern string) ([]string, error) {
+	var err error
+
+	ctx, span := tracer.Start(ctx, "ListKeysByPatternFromRedis")
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+		}
+
+		span.End()
+	}()
+
 	var cursor uint64
 	var keys []string
 
 	var limit int64 = 20
 
 	for {
+		var (
+			ks        []string
+			newCursor uint64
+		)
+
 		// Scan returns a slice of keys, a new cursor, and an error.
-		ks, newCursor, err := redisClient.Scan(ctx, cursor, pattern, limit).Result()
+		ks, newCursor, err = redisClient.Scan(ctx, cursor, pattern, limit).Result()
 		if err != nil {
 			return keys, err
 		}
