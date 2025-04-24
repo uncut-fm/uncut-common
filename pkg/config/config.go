@@ -328,6 +328,7 @@ type ServiceUrls struct {
 	NftImportUrl              string `yaml:"nft_import_url"`
 	BlockchainEventsWorkerUrl string `yaml:"blockchain_events_worker_url"`
 	JaegerURL                 string `yaml:"jaeger_url"`
+	StorageCDNUrl             string `json:"storage_cdn_url"`
 }
 
 type OauthProviders struct {
