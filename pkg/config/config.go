@@ -213,6 +213,7 @@ type TranscoderConfigs struct {
 	Headers          map[string]string `yaml:"headers"`
 	Sentry           SentryConfigs     `yaml:"sentry"`
 	AdminToken       string            `yaml:"admin_token"`
+	Redis            RedisConfigs      `yaml:"redis"`
 }
 
 type Web3EventsConfigs struct {
