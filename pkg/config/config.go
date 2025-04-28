@@ -177,6 +177,7 @@ type PubSub struct {
 
 	TranscoderRequestsTopicName string `yaml:"transcoder_requests_topic_name"`
 	TranscoderRequestsSubName   string `yaml:"transcoder_requests_sub_name"`
+	ResizeRequestsSubName       string `yaml:"resize_requests_sub_name"`
 }
 
 type FaucetWallet struct {
