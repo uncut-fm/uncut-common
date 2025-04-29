@@ -214,6 +214,7 @@ type TranscoderConfigs struct {
 	Sentry           SentryConfigs     `yaml:"sentry"`
 	AdminToken       string            `yaml:"admin_token"`
 	Redis            RedisConfigs      `yaml:"redis"`
+	ImagekitID       string            `yaml:"imagekit_id"`
 }
 
 type Web3EventsConfigs struct {
