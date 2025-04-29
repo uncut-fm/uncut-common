@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/vincent-petithory/dataurl"
 	"mime"
+	"net/url"
+	"path"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -21,7 +23,12 @@ const (
 )
 
 func GetPublicFilePath(bucket, fileName string) string {
-	return fmt.Sprintf(publicFileFormat, bucket, fileName)
+	dir, file := path.Split(fileName)
+	escapedFile := url.PathEscape(file)
+
+	escapedFileName := dir + escapedFile
+
+	return fmt.Sprintf(publicFileFormat, bucket, escapedFileName)
 }
 
 func GetMomentsLocationPath(env, fileName string, momentID int) string {
