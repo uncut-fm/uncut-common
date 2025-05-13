@@ -59,6 +59,7 @@ type ManagementConfigs struct {
 	VerificationSecretKey  string              `yaml:"verification_secret_key"`
 	HubspotEmailConfigs    HubspotEmailConfigs `yaml:"hubspot_email_configs"`
 	StripeConfigs          StripeConfigs       `yaml:"stripe_configs"`
+	GeminiAPIKey           string              `yaml:"gemini_api_key"`
 }
 
 type HubspotEmailConfigs struct {
